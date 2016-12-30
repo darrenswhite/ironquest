@@ -1,0 +1,4475 @@
+[
+  {
+	"id": 0,
+	"title": "Cook's Assistant",
+	"rewards": {
+	  "qp": 1,
+	  "COOKING": 300
+	}
+  },
+  {
+	"id": 1,
+	"title": "Demon Slayer",
+	"rewards": {
+	  "qp": 3,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"CONSTITUTION": 1,
+			"DEFENCE": 1,
+			"MAGIC": 1,
+			"RANGED": 1,
+			"STRENGTH": 1
+		  },
+		  "values": [
+			100,
+			100,
+			100
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 2,
+	"title": "The Restless Ghost",
+	"rewards": {
+	  "qp": 1,
+	  "PRAYER": 1125
+	}
+  },
+  {
+	"id": 3,
+	"title": "Gunnar's Ground",
+	"requirements": {
+	  "CRAFTING": 5
+	},
+	"rewards": {
+	  "qp": 5,
+	  "CRAFTING": 425,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 5
+		  },
+		  "values": [
+			200
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 4,
+	"title": "Shield of Arrav",
+	"rewards": {
+	  "qp": 1,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 20
+		  },
+		  "values": [
+			1000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 5,
+	"title": "Ernest the Chicken",
+	"rewards": {
+	  "qp": 4
+	}
+  },
+  {
+	"id": 6,
+	"title": "Vampyre Slayer",
+	"rewards": {
+	  "qp": 3,
+	  "ATTACK": 4825
+	}
+  },
+  {
+	"id": 7,
+	"title": "Imp Catcher",
+	"rewards": {
+	  "qp": 1,
+	  "MAGIC": 875
+	}
+  },
+  {
+	"id": 8,
+	"title": "Stolen Hearts",
+	"rewards": {
+	  "qp": 3,
+	  "CONSTITUTION": 250,
+	  "AGILITY": 250,
+	  "THIEVING": 250,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"CONSTITUTION": 1,
+			"DEFENCE": 1,
+			"MAGIC": 1,
+			"RANGED": 1,
+			"STRENGTH": 1,
+			"PRAYER": 1,
+			"SUMMONING": 1
+		  },
+		  "values": [
+			250
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 9,
+	"title": "Diamond in the Rough",
+	"requirements": {
+	  "quests": [
+		8
+	  ]
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CONSTITUTION": 250,
+	  "AGILITY": 250,
+	  "THIEVING": 250,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"CONSTITUTION": 1,
+			"DEFENCE": 1,
+			"MAGIC": 1,
+			"RANGED": 1,
+			"STRENGTH": 1,
+			"PRAYER": 1,
+			"SUMMONING": 1
+		  },
+		  "values": [
+			250
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 10,
+	"title": "What's Mine is Yours",
+	"requirements": {
+	  "SMITHING": 5
+	},
+	"rewards": {
+	  "qp": 1,
+	  "MINING": 1000,
+	  "SMITHING": 400
+	}
+  },
+  {
+	"id": 11,
+	"title": "The Death of Chivalry",
+	"rewards": {
+	  "qp": 3,
+	  "MAGIC": 250,
+	  "STRENGTH": 250,
+	  "PRAYER": 250,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"CONSTITUTION": 1,
+			"DEFENCE": 1,
+			"MAGIC": 1,
+			"RANGED": 1,
+			"STRENGTH": 1
+		  },
+		  "values": [
+			500
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 12,
+	"title": "The Knight's Sword",
+	"requirements": {
+	  "MINING": 10
+	},
+	"rewards": {
+	  "qp": 1,
+	  "SMITHING": 12725
+	}
+  },
+  {
+	"id": 13,
+	"title": "Goblin Diplomacy",
+	"rewards": {
+	  "qp": 5,
+	  "CRAFTING": 200
+	}
+  },
+  {
+	"id": 14,
+	"title": "Pirate's Treasure",
+	"rewards": {
+	  "qp": 2
+	}
+  },
+  {
+	"id": 15,
+	"title": "Dragon Slayer",
+	"requirements": {
+	  "qp": 33,
+	  "COMBAT": 50,
+	  "MAGIC": 33,
+	  "PRAYER": 37
+	},
+	"rewards": {
+	  "qp": 2,
+	  "STRENGTH": 18650,
+	  "DEFENCE": 18650
+	}
+  },
+  {
+	"id": 16,
+	"title": "Druidic Ritual",
+	"rewards": {
+	  "qp": 4,
+	  "HERBLORE": 250
+	}
+  },
+  {
+	"id": 17,
+	"title": "Lost City",
+	"requirements": {
+	  "CRAFTING": 31,
+	  "WOODCUTTING": 36
+	},
+	"rewards": {
+	  "qp": 3
+	}
+  },
+  {
+	"id": 18,
+	"title": "Witch's House",
+	"rewards": {
+	  "qp": 4,
+	  "CONSTITUTION": 6325
+	}
+  },
+  {
+	"id": 19,
+	"title": "Merlin's Crystal",
+	"rewards": {
+	  "qp": 6,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 20
+		  },
+		  "values": [
+			1000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 20,
+	"title": "Heroes' Quest",
+	"requirements": {
+	  "quests": [
+		4,
+		15,
+		16,
+		17,
+		19
+	  ],
+	  "qp": 56,
+	  "COOKING": 53,
+	  "FISHING": 53,
+	  "HERBLORE": 25,
+	  "DEFENCE": 25,
+	  "MINING": 50
+	},
+	"rewards": {
+	  "qp": 1,
+	  "ATTACK": 3075,
+	  "DEFENCE": 3075,
+	  "STRENGTH": 3075,
+	  "CONSTITUTION": 3075,
+	  "RANGED": 2075,
+	  "FISHING": 2725,
+	  "COOKING": 2825,
+	  "WOODCUTTING": 1575,
+	  "FIREMAKING": 1575,
+	  "SMITHING": 2257,
+	  "MINING": 2575,
+	  "HERBLORE": 1325
+	}
+  },
+  {
+	"id": 21,
+	"title": "Scorpion Catcher",
+	"requirements": {
+	  "PRAYER": 31
+	},
+	"rewards": {
+	  "qp": 1,
+	  "STRENGTH": 6625
+	}
+  },
+  {
+	"id": 22,
+	"title": "Family Crest",
+	"requirements": {
+	  "CRAFTING": 40,
+	  "SMITHING": 40,
+	  "MINING": 40,
+	  "MAGIC": 59
+	},
+	"rewards": {
+	  "qp": 1
+	}
+  },
+  {
+	"id": 23,
+	"title": "Tribal Totem",
+	"requirements": {
+	  "CRAFTING": 21
+	},
+	"rewards": {
+	  "qp": 1,
+	  "THIEVING": 1775
+	}
+  },
+  {
+	"id": 24,
+	"title": "Fishing Contest",
+	"requirements": {
+	  "CRAFTING": 10
+	},
+	"rewards": {
+	  "qp": 1,
+	  "FISHING": 2437
+	}
+  },
+  {
+	"id": 25,
+	"title": "Monk's Friend",
+	"rewards": {
+	  "qp": 1,
+	  "WOODCUTTING": 2000
+	}
+  },
+  {
+	"id": 26,
+	"title": "Temple of Ikov",
+	"requirements": {
+	  "THIEVING": 42,
+	  "RANGED": 40
+	},
+	"rewards": {
+	  "qp": 1,
+	  "RANGED": 10500,
+	  "FLETCHING": 8000
+	}
+  },
+  {
+	"id": 27,
+	"title": "Clock Tower",
+	"rewards": {
+	  "qp": 1
+	}
+  },
+  {
+	"id": 28,
+	"title": "Holy Grail",
+	"requirements": {
+	  "quests": [
+		19
+	  ],
+	  "ATTACK": 30
+	},
+	"rewards": {
+	  "qp": 2,
+	  "PRAYER": 11000,
+	  "DEFENCE": 15300
+	}
+  },
+  {
+	"id": 29,
+	"title": "Tree Gnome Village",
+	"rewards": {
+	  "qp": 2,
+	  "ATTACK": 11450
+	}
+  },
+  {
+	"id": 30,
+	"title": "Fight Arena",
+	"requirements": {
+	  "COMBAT": 40
+	},
+	"rewards": {
+	  "qp": 2,
+	  "ATTACK": 12175,
+	  "THIEVING": 2175
+	}
+  },
+  {
+	"id": 31,
+	"title": "Hazeel Cult",
+	"rewards": {
+	  "qp": 1,
+	  "THIEVING": 1500
+	}
+  },
+  {
+	"id": 32,
+	"title": "Sheep Herder",
+	"rewards": {
+	  "qp": 4
+	}
+  },
+  {
+	"id": 33,
+	"title": "Plague City",
+	"rewards": {
+	  "qp": 1,
+	  "MINING": 2425
+	}
+  },
+  {
+	"id": 34,
+	"title": "Sea Slug",
+	"requirements": {
+	  "FIREMAKING": 30
+	},
+	"rewards": {
+	  "qp": 1,
+	  "FISHING": 7175
+	}
+  },
+  {
+	"id": 35,
+	"title": "Waterfall Quest",
+	"rewards": {
+	  "qp": 1,
+	  "ATTACK": 13750,
+	  "STRENGTH": 13750
+	}
+  },
+  {
+	"id": 36,
+	"title": "Biohazard",
+	"requirements": {
+	  "quests": [
+		33
+	  ]
+	},
+	"rewards": {
+	  "qp": 3,
+	  "THIEVING": 1250
+	}
+  },
+  {
+	"id": 37,
+	"title": "Jungle Potion",
+	"requirements": {
+	  "quests": [
+		16
+	  ],
+	  "HERBLORE": 3
+	},
+	"rewards": {
+	  "qp": 1,
+	  "HERBLORE": 775
+	}
+  },
+  {
+	"id": 38,
+	"title": "The Grand Tree",
+	"requirements": {
+	  "quests": [
+		29
+	  ]
+	},
+	"rewards": {
+	  "qp": 5,
+	  "AGILITY": 7900,
+	  "ATTACK": 18400,
+	  "MAGIC": 2150
+	}
+  },
+  {
+	"id": 39,
+	"title": "Shilo Village",
+	"requirements": {
+	  "quests": [
+		37
+	  ],
+	  "CRAFTING": 20,
+	  "AGILITY": 32
+	},
+	"rewards": {
+	  "qp": 2,
+	  "CRAFTING": 3875
+	}
+  },
+  {
+	"id": 40,
+	"title": "Underground Pass",
+	"requirements": {
+	  "quests": [
+		36
+	  ],
+	  "RANGED": 25,
+	  "MAGIC": 34,
+	  "AGILITY": 50,
+	  "PRAYER": 43,
+	  "THIEVING": 50
+	},
+	"rewards": {
+	  "qp": 5,
+	  "AGILITY": 3000,
+	  "ATTACK": 3000
+	}
+  },
+  {
+	"id": 41,
+	"title": "Observatory Quest",
+	"rewards": {
+	  "qp": 2,
+	  "CRAFTING": 2250
+	}
+  },
+  {
+	"id": 42,
+	"title": "The Tourist Trap",
+	"requirements": {
+	  "FLETCHING": 10,
+	  "SMITHING": 20
+	},
+	"rewards": {
+	  "qp": 2,
+	  "lamps": [
+		{
+		  "requirements": {
+			"AGILITY": 1,
+			"FLETCHING": 1,
+			"SMITHING": 1,
+			"THIEVING": 1
+		  },
+		  "values": [
+			4650,
+			4650
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 43,
+	"title": "The Watchtower",
+	"requirements": {
+	  "HERBLORE": 14,
+	  "MAGIC": 14,
+	  "THIEVING": 15,
+	  "AGILITY": 25,
+	  "MINING": 40
+	},
+	"rewards": {
+	  "qp": 4,
+	  "MAGIC": 15250
+	}
+  },
+  {
+	"id": 44,
+	"title": "Dwarf Cannon",
+	"rewards": {
+	  "qp": 1,
+	  "CRAFTING": 750
+	}
+  },
+  {
+	"id": 45,
+	"title": "Murder Mystery",
+	"rewards": {
+	  "qp": 3,
+	  "CRAFTING": 1406
+	}
+  },
+  {
+	"id": 46,
+	"title": "Dig Site",
+	"requirements": {
+	  "AGILITY": 10,
+	  "HERBLORE": 10,
+	  "THIEVING": 25
+	},
+	"rewards": {
+	  "qp": 2,
+	  "MINING": 15300,
+	  "HERBLORE": 2000
+	}
+  },
+  {
+	"id": 47,
+	"title": "Gertrude's Cat",
+	"rewards": {
+	  "qp": 1,
+	  "COOKING": 1525
+	}
+  },
+  {
+	"id": 48,
+	"title": "Legends' Quest",
+	"requirements": {
+	  "quests": [
+		20,
+		22,
+		35,
+		39,
+		40
+	  ],
+	  "qp": 108,
+	  "AGILITY": 50,
+	  "CRAFTING": 50,
+	  "HERBLORE": 45,
+	  "MAGIC": 56,
+	  "MINING": 52,
+	  "PRAYER": 43,
+	  "SMITHING": 50,
+	  "STRENGTH": 50,
+	  "THIEVING": 50,
+	  "WOODCUTTING": 50
+	},
+	"rewards": {
+	  "qp": 4,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"DEFENCE": 1,
+			"STRENGTH": 1,
+			"CONSTITUTION": 1,
+			"PRAYER": 1,
+			"MAGIC": 1,
+			"WOODCUTTING": 1,
+			"CRAFTING": 1,
+			"SMITHING": 1,
+			"HERBLORE": 1,
+			"AGILITY": 1,
+			"THIEVING": 1
+		  },
+		  "values": [
+			7650,
+			7650,
+			7650,
+			7650
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 49,
+	"title": "Rune Mysteries",
+	"rewards": {
+	  "qp": 1,
+	  "MAGIC": 250,
+	  "RUNECRAFTING": 250
+	}
+  },
+  {
+	"id": 50,
+	"title": "Rune Memories",
+	"requirements": {
+	  "quests": [
+		49
+	  ]
+	},
+	"rewards": {
+	  "qp": 1,
+	  "MAGIC": 300,
+	  "RUNECRAFTING": 300
+	}
+  },
+  {
+	"id": 51,
+	"title": "Big Chompy Bird Hunting",
+	"requirements": {
+	  "COOKING": 30,
+	  "RANGED": 30,
+	  "FLETCHING": 5
+	},
+	"rewards": {
+	  "qp": 2,
+	  "FLETCHING": 262,
+	  "COOKING": 1470,
+	  "RANGED": 735
+	}
+  },
+  {
+	"id": 52,
+	"title": "The Elemental Workshop I",
+	"requirements": {
+	  "MINING": 20,
+	  "SMITHING": 20,
+	  "CRAFTING": 20
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CRAFTING": 5000,
+	  "SMITHING": 5000
+	}
+  },
+  {
+	"id": 53,
+	"title": "Priest in Peril",
+	"rewards": {
+	  "qp": 1,
+	  "PRAYER": 1406
+	}
+  },
+  {
+	"id": 54,
+	"title": "Nature Spirit",
+	"requirements": {
+	  "quests": [
+		2,
+		53
+	  ],
+	  "CRAFTING": 18,
+	  "PRAYER": 10
+	},
+	"rewards": {
+	  "qp": 2,
+	  "CRAFTING": 3000,
+	  "DEFENCE": 2000,
+	  "CONSTITUTION": 2000
+	}
+  },
+  {
+	"id": 55,
+	"title": "Death Plateau",
+	"rewards": {
+	  "qp": 1,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 1
+		  },
+		  "values": [
+			100,
+			100,
+			100
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 56,
+	"title": "Troll Stronghold",
+	"requirements": {
+	  "quests": [
+		55
+	  ],
+	  "AGILITY": 15,
+	  "THIEVING": 30
+	},
+	"rewards": {
+	  "qp": 1,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 30
+		  },
+		  "values": [
+			10000,
+			10000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 57,
+	"title": "Tai Bwo Wannai Trio",
+	"requirements": {
+	  "quests": [
+		37
+	  ],
+	  "AGILITY": 15,
+	  "COOKING": 30,
+	  "FIREMAKING": 30,
+	  "FISHING": 65
+	},
+	"rewards": {
+	  "qp": 2,
+	  "FISHING": 1500
+	}
+  },
+  {
+	"id": 58,
+	"title": "Regicide",
+	"requirements": {
+	  "quests": [
+		40
+	  ],
+	  "AGILITY": 56,
+	  "CRAFTING": 10
+	},
+	"rewards": {
+	  "qp": 3,
+	  "AGILITY": 13750
+	}
+  },
+  {
+	"id": 59,
+	"title": "Eadgar's Ruse",
+	"requirements": {
+	  "quests": [
+		16,
+		56
+	  ],
+	  "AGILITY": 15,
+	  "HERBLORE": 31
+	},
+	"rewards": {
+	  "qp": 1,
+	  "HERBLORE": 11000
+	}
+  },
+  {
+	"id": 60,
+	"title": "Shades of Mort'ton",
+	"requirements": {
+	  "CRAFTING": 20,
+	  "FIREMAKING": 5,
+	  "HERBLORE": 15
+	},
+	"rewards": {
+	  "qp": 3,
+	  "HERBLORE": 2000,
+	  "CRAFTING": 2000
+	}
+  },
+  {
+	"id": 61,
+	"title": "The Fremennik Trials",
+	"requirements": {
+	  "CRAFTING": 40,
+	  "FLETCHING": 25,
+	  "WOODCUTTING": 40
+	},
+	"rewards": {
+	  "qp": 3,
+	  "AGILITY": 2812.4,
+	  "ATTACK": 2812.4,
+	  "CRAFTING": 2812.4,
+	  "DEFENCE": 2812.4,
+	  "FISHING": 2812.4,
+	  "FLETCHING": 2812.4,
+	  "CONSTITUTION": 2812.4,
+	  "STRENGTH": 2812.4,
+	  "THIEVING": 2812.4,
+	  "WOODCUTTING": 2812.4
+	}
+  },
+  {
+	"id": 62,
+	"title": "Horror from the Deep",
+	"requirements": {
+	  "AGILITY": 35,
+	  "PRAYER": 43
+	},
+	"rewards": {
+	  "qp": 2,
+	  "MAGIC": 4662,
+	  "STRENGTH": 4662,
+	  "RANGED": 4662
+	}
+  },
+  {
+	"id": 63,
+	"title": "Throne of Miscellania",
+	"requirements": {
+	  "quests": [
+		20,
+		61
+	  ],
+	  "FARMING": 10
+	},
+	"rewards": {
+	  "qp": 1
+	}
+  },
+  {
+	"id": 64,
+	"title": "Monkey Madness",
+	"requirements": {
+	  "quests": [
+		29,
+		38
+	  ],
+	  "PRAYER": 43,
+	  "THIEVING": 10
+	},
+	"rewards": {
+	  "qp": 3,
+	  "lamps": [
+		{
+		  "exclusive": true,
+		  "requirements": {
+			"ATTACK,DEFENCE": 1,
+			"CONSTITUTION,STRENGTH": 1
+		  },
+		  "values": [
+			35000,
+			20000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 65,
+	"title": "Haunted Mine",
+	"requirements": {
+	  "quests": [
+		54
+	  ],
+	  "AGILITY": 15,
+	  "CRAFTING": 35
+	},
+	"rewards": {
+	  "qp": 2,
+	  "STRENGTH": 22000
+	}
+  },
+  {
+	"id": 66,
+	"title": "Troll Romance",
+	"requirements": {
+	  "quests": [
+		56
+	  ],
+	  "AGILITY": 28
+	},
+	"rewards": {
+	  "qp": 2,
+	  "AGILITY": 8000,
+	  "STRENGTH": 4000
+	}
+  },
+  {
+	"id": 67,
+	"title": "In Search of the Myreque",
+	"requirements": {
+	  "quests": [
+		54
+	  ],
+	  "AGILITY": 25
+	},
+	"rewards": {
+	  "qp": 2,
+	  "ATTACK": 600,
+	  "DEFENCE": 600,
+	  "STRENGTH": 600,
+	  "CONSTITUTION": 600,
+	  "CRAFTING": 600
+	}
+  },
+  {
+	"id": 68,
+	"title": "Creature of Fenkenstrain",
+	"requirements": {
+	  "quests": [
+		53
+	  ],
+	  "CRAFTING": 20,
+	  "THIEVING": 25
+	},
+	"rewards": {
+	  "qp": 2,
+	  "THIEVING": 1000
+	}
+  },
+  {
+	"id": 69,
+	"title": "Roving Elves",
+	"requirements": {
+	  "quests": [
+		35,
+		58
+	  ]
+	},
+	"rewards": {
+	  "qp": 1,
+	  "STRENGTH": 10000
+	}
+  },
+  {
+	"id": 70,
+	"title": "Ghosts Ahoy",
+	"requirements": {
+	  "quests": [
+		2,
+		53
+	  ],
+	  "AGILITY": 25,
+	  "COOKING": 20
+	},
+	"rewards": {
+	  "qp": 2,
+	  "PRAYER": 2400
+	}
+  },
+  {
+	"id": 71,
+	"title": "One Small Favour",
+	"requirements": {
+	  "quests": [
+		39,
+		49
+	  ],
+	  "HERBLORE": 18,
+	  "CRAFTING": 25,
+	  "SMITHING": 30,
+	  "AGILITY": 36
+	},
+	"rewards": {
+	  "qp": 2,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 30
+		  },
+		  "values": [
+			10000,
+			10000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 72,
+	"title": "Mountain Daughter",
+	"requirements": {
+	  "AGILITY": 20
+	},
+	"rewards": {
+	  "qp": 2,
+	  "ATTACK": 1000,
+	  "PRAYER": 2000
+	}
+  },
+  {
+	"id": 73,
+	"title": "Between a Rock...",
+	"requirements": {
+	  "quests": [
+		24,
+		44
+	  ],
+	  "DEFENCE": 30,
+	  "MINING": 40,
+	  "SMITHING": 50
+	},
+	"rewards": {
+	  "qp": 2,
+	  "DEFENCE": 5000,
+	  "MINING": 5000,
+	  "SMITHING": 5000
+	}
+  },
+  {
+	"id": 74,
+	"title": "The Feud",
+	"requirements": {
+	  "THIEVING": 30
+	},
+	"rewards": {
+	  "qp": 1,
+	  "THIEVING": 15000
+	}
+  },
+  {
+	"id": 75,
+	"title": "The Golem",
+	"requirements": {
+	  "quests": [
+		54
+	  ],
+	  "CRAFTING": 20,
+	  "THIEVING": 25
+	},
+	"rewards": {
+	  "qp": 1,
+	  "THIEVING": 1000,
+	  "CRAFTING": 1000
+	}
+  },
+  {
+	"id": 76,
+	"title": "Desert Treasure",
+	"requirements": {
+	  "quests": [
+		26,
+		35,
+		42,
+		46,
+		53,
+		56
+	  ],
+	  "SLAYER": 10,
+	  "FIREMAKING": 50,
+	  "MAGIC": 50,
+	  "THIEVING": 53,
+	  "MINING": 50
+	},
+	"rewards": {
+	  "qp": 3,
+	  "MAGIC": 20000
+	}
+  },
+  {
+	"id": 77,
+	"title": "Icthlarin's Little Helper",
+	"requirements": {
+	  "quests": [
+		2,
+		9,
+		47
+	  ]
+	},
+	"rewards": {
+	  "qp": 2,
+	  "THIEVING": 4500,
+	  "AGILITY": 4000,
+	  "WOODCUTTING": 4000
+	}
+  },
+  {
+	"id": 78,
+	"title": "Tears of Guthix",
+	"requirements": {
+	  "qp": 44,
+	  "FIREMAKING": 49,
+	  "MINING": 20,
+	  "CRAFTING": 49,
+	  "SMITHING": 49
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CRAFTING": 1000
+	}
+  },
+  {
+	"id": 79,
+	"title": "Zogre Flesh Eaters",
+	"requirements": {
+	  "quests": [
+		37,
+		51
+	  ],
+	  "SMITHING": 4,
+	  "HERBLORE": 8,
+	  "STRENGTH": 20,
+	  "RANGED": 30,
+	  "FLETCHING": 30
+	},
+	"rewards": {
+	  "qp": 1,
+	  "FLETCHING": 2000,
+	  "RANGED": 2000,
+	  "HERBLORE": 2000
+	}
+  },
+  {
+	"id": 80,
+	"title": "The Lost Tribe",
+	"requirements": {
+	  "quests": [
+		13
+	  ],
+	  "AGILITY": 13,
+	  "MINING": 17,
+	  "THIEVING": 13
+	},
+	"rewards": {
+	  "qp": 1,
+	  "MINING": 3000
+	}
+  },
+  {
+	"id": 81,
+	"title": "The Giant Dwarf",
+	"requirements": {
+	  "CRAFTING": 12,
+	  "FIREMAKING": 16,
+	  "MAGIC": 33,
+	  "THIEVING": 14
+	},
+	"rewards": {
+	  "qp": 2,
+	  "CRAFTING": 2500,
+	  "MINING": 2500,
+	  "SMITHING": 2500,
+	  "FIREMAKING": 1500,
+	  "MAGIC": 1500,
+	  "THIEVING": 1500
+	}
+  },
+  {
+	"id": 82,
+	"title": "Recruitment Drive",
+	"requirements": {
+	  "quests": [
+		16
+	  ]
+	},
+	"rewards": {
+	  "qp": 1,
+	  "PRAYER": 1000,
+	  "HERBLORE": 1000,
+	  "AGILITY": 1000
+	}
+  },
+  {
+	"id": 83,
+	"title": "Mourning's Ends Part I",
+	"requirements": {
+	  "quests": [
+		32,
+		51,
+		69
+	  ],
+	  "RANGED": 60,
+	  "THIEVING": 50
+	},
+	"rewards": {
+	  "qp": 2,
+	  "CONSTITUTION": 25000,
+	  "THIEVING": 25000
+	}
+  },
+  {
+	"id": 84,
+	"title": "Forgettable Tale of a Drunken Dwarf",
+	"requirements": {
+	  "quests": [
+		24,
+		81
+	  ],
+	  "COOKING": 22,
+	  "FARMING": 17
+	},
+	"rewards": {
+	  "qp": 2,
+	  "FARMING": 5000,
+	  "COOKING": 5000
+	}
+  },
+  {
+	"id": 85,
+	"title": "Garden of Tranquility",
+	"requirements": {
+	  "quests": [
+		68
+	  ],
+	  "FARMING": 25
+	},
+	"rewards": {
+	  "qp": 2,
+	  "FARMING": 5000
+	}
+  },
+  {
+	"id": 86,
+	"title": "A Tail of Two Cats",
+	"requirements": {
+	  "quests": [
+		77
+	  ]
+	},
+	"rewards": {
+	  "qp": 2,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 30
+		  },
+		  "values": [
+			2500,
+			2500
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 87,
+	"title": "Wanted!",
+	"requirements": {
+	  "quests": [
+		53,
+		80,
+		82
+	  ],
+	  "qp": 33
+	},
+	"rewards": {
+	  "qp": 1,
+	  "SLAYER": 5000
+	}
+  },
+  {
+	"id": 88,
+	"title": "Mourning's Ends Part II",
+	"requirements": {
+	  "quests": [
+		83
+	  ]
+	},
+	"rewards": {
+	  "qp": 2,
+	  "AGILITY": 20000
+	}
+  },
+  {
+	"id": 89,
+	"title": "A Rum Deal",
+	"requirements": {
+	  "quests": [
+		53,
+		79
+	  ],
+	  "FARMING": 40,
+	  "CRAFTING": 42,
+	  "PRAYER": 47,
+	  "FISHING": 50,
+	  "SLAYER": 42
+	},
+	"rewards": {
+	  "qp": 2,
+	  "FARMING": 7000,
+	  "FISHING": 7000,
+	  "PRAYER": 7000
+	}
+  },
+  {
+	"id": 90,
+	"title": "Shadow of the Storm",
+	"requirements": {
+	  "quests": [
+		1,
+		75
+	  ],
+	  "CRAFTING": 30
+	},
+	"rewards": {
+	  "qp": 1,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"STRENGTH": 1,
+			"DEFENCE": 1,
+			"RANGED": 1,
+			"MAGIC": 1,
+			"CONSTITUTION": 1
+		  },
+		  "values": [
+			10000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 91,
+	"title": "Making History",
+	"requirements": {
+	  "quests": [
+		2,
+		53
+	  ],
+	  "CRAFTING": 24,
+	  "SMITHING": 40,
+	  "MINING": 40
+	},
+	"rewards": {
+	  "qp": 3,
+	  "CRAFTING": 1000,
+	  "PRAYER": 1000
+	}
+  },
+  {
+	"id": 92,
+	"title": "Rat Catchers",
+	"requirements": {
+	  "quests": [
+		77
+	  ]
+	},
+	"rewards": {
+	  "qp": 2,
+	  "THIEVING": 4500
+	}
+  },
+  {
+	"id": 93,
+	"title": "Spirits of the Elid",
+	"requirements": {
+	  "MAGIC": 33,
+	  "RANGED": 37,
+	  "MINING": 37,
+	  "THIEVING": 37
+	},
+	"rewards": {
+	  "qp": 2,
+	  "PRAYER": 8000,
+	  "THIEVING": 1000,
+	  "MAGIC": 1000
+	}
+  },
+  {
+	"id": 94,
+	"title": "Devious Minds",
+	"requirements": {
+	  "quests": [
+		10,
+		56,
+		87
+	  ],
+	  "RUNECRAFTING": 50,
+	  "FLETCHING": 50,
+	  "SMITHING": 65
+	},
+	"rewards": {
+	  "qp": 1,
+	  "FLETCHING": 5000,
+	  "RUNECRAFTING": 5000,
+	  "SMITHING": 6500
+	}
+  },
+  {
+	"id": 95,
+	"title": "The Hand in the Sand",
+	"requirements": {
+	  "THIEVING": 17,
+	  "CRAFTING": 49
+	},
+	"rewards": {
+	  "qp": 1,
+	  "THIEVING": 1000,
+	  "CRAFTING": 9000
+	}
+  },
+  {
+	"id": 96,
+	"title": "Enakhra's Lament",
+	"requirements": {
+	  "CRAFTING": 50,
+	  "FIREMAKING": 45,
+	  "PRAYER": 43,
+	  "MAGIC": 39,
+	  "MINING": 45
+	},
+	"rewards": {
+	  "qp": 2,
+	  "CRAFTING": 7000,
+	  "MINING": 7000,
+	  "FIREMAKING": 7000,
+	  "MAGIC": 7000
+	}
+  },
+  {
+	"id": 97,
+	"title": "Cabin Fever",
+	"requirements": {
+	  "quests": [
+		14,
+		89
+	  ],
+	  "AGILITY": 42,
+	  "CRAFTING": 45,
+	  "SMITHING": 50,
+	  "RANGED": 40
+	},
+	"rewards": {
+	  "qp": 2,
+	  "SMITHING": 7000,
+	  "CRAFTING": 7000,
+	  "AGILITY": 7000
+	}
+  },
+  {
+	"id": 98,
+	"title": "Fairy Tale I - Growing Pains",
+	"requirements": {
+	  "quests": [
+		17,
+		37,
+		54
+	  ]
+	},
+	"rewards": {
+	  "qp": 2,
+	  "FARMING": 3500,
+	  "ATTACK": 2000,
+	  "MAGIC": 1000
+	}
+  },
+  {
+	"id": 99,
+	"title": "Recipe for Disaster: Starting Out",
+	"requirements": {
+	  "quests": [
+		0
+	  ],
+	  "COOKING": 10
+	},
+	"rewards": {
+	  "qp": 1
+	}
+  },
+  {
+	"id": 100,
+	"title": "Recipe for Disaster: Goblin Generals",
+	"requirements": {
+	  "quests": [
+		13,
+		99
+	  ]
+	},
+	"rewards": {
+	  "qp": 1,
+	  "COOKING": 1000,
+	  "FARMING": 1000,
+	  "CRAFTING": 1000
+	}
+  },
+  {
+	"id": 101,
+	"title": "Recipe for Disaster: Dwarf",
+	"requirements": {
+	  "quests": [
+		24,
+		99
+	  ]
+	},
+	"rewards": {
+	  "qp": 1,
+	  "SLAYER": 1000,
+	  "COOKING": 1000
+	}
+  },
+  {
+	"id": 102,
+	"title": "Recipe for Disaster: Evil Dave",
+	"requirements": {
+	  "quests": [
+		47,
+		90,
+		99
+	  ],
+	  "COOKING": 25
+	},
+	"rewards": {
+	  "qp": 1,
+	  "COOKING": 7000
+	}
+  },
+  {
+	"id": 103,
+	"title": "Recipe for Disaster: Lumbridge Sage",
+	"requirements": {
+	  "quests": [
+		1,
+		18,
+		36,
+		45,
+		51,
+		54,
+		99
+	  ],
+	  "COOKING": 40
+	},
+	"rewards": {
+	  "qp": 1,
+	  "COOKING": 2500,
+	  "MAGIC": 2500
+	}
+  },
+  {
+	"id": 104,
+	"title": "Recipe for Disaster: Pirate Pete",
+	"requirements": {
+	  "quests": [
+		99
+	  ],
+	  "COOKING": 31
+	},
+	"rewards": {
+	  "qp": 1,
+	  "COOKING": 1000,
+	  "CRAFTING": 1000,
+	  "FIREMAKING": 1000,
+	  "SMITHING": 1000
+	}
+  },
+  {
+	"id": 105,
+	"title": "Recipe for Disaster: Skrach",
+	"requirements": {
+	  "quests": [
+		51,
+		99
+	  ],
+	  "COOKING": 41,
+	  "FIREMAKING": 20
+	},
+	"rewards": {
+	  "qp": 1,
+	  "WOODCUTTING": 1500,
+	  "COOKING": 1500,
+	  "CRAFTING": 1500,
+	  "RANGED": 1500
+	}
+  },
+  {
+	"id": 106,
+	"title": "Recipe for Disaster: Sir Amik Varze",
+	"requirements": {
+	  "quests": [
+		17,
+		48,
+		99
+	  ]
+	},
+	"rewards": {
+	  "qp": 1,
+	  "COOKING": 4000,
+	  "CONSTITUTION": 4000
+	}
+  },
+  {
+	"id": 107,
+	"title": "Recipe for Disaster: Awowogei",
+	"requirements": {
+	  "quests": [
+		64,
+		99
+	  ],
+	  "COOKING": 70,
+	  "AGILITY": 48
+	},
+	"rewards": {
+	  "qp": 1,
+	  "COOKING": 10000,
+	  "AGILITY": 10000
+	}
+  },
+  {
+	"id": 108,
+	"title": "Recipe for Disaster",
+	"requirements": {
+	  "quests": [
+		62,
+		76,
+		100,
+		101,
+		102,
+		103,
+		104,
+		105,
+		106,
+		107
+	  ],
+	  "qp": 176
+	},
+	"rewards": {
+	  "qp": 1,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 50
+		  },
+		  "values": [
+			20000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 109,
+	"title": "In Aid of the Myreque",
+	"requirements": {
+	  "quests": [
+		67
+	  ],
+	  "CRAFTING": 25,
+	  "MAGIC": 7,
+	  "MINING": 15
+	},
+	"rewards": {
+	  "qp": 2,
+	  "ATTACK": 2000,
+	  "STRENGTH": 2000,
+	  "CRAFTING": 2000,
+	  "DEFENCE": 2000
+	}
+  },
+  {
+	"id": 110,
+	"title": "A Soul's Bane",
+	"rewards": {
+	  "qp": 1,
+	  "DEFENCE": 500,
+	  "CONSTITUTION": 500
+	}
+  },
+  {
+	"id": 111,
+	"title": "Rag and Bone Man",
+	"rewards": {
+	  "qp": 2,
+	  "COOKING": 500,
+	  "PRAYER": 500
+	}
+  },
+  {
+	"id": 112,
+	"title": "Swan Song",
+	"requirements": {
+	  "quests": [
+		71,
+		85
+	  ],
+	  "qp": 101,
+	  "MAGIC": 66,
+	  "COOKING": 62,
+	  "FISHING": 62,
+	  "SMITHING": 45,
+	  "FIREMAKING": 42,
+	  "CRAFTING": 40
+	},
+	"rewards": {
+	  "qp": 2,
+	  "MAGIC": 15000,
+	  "PRAYER": 10000,
+	  "FISHING": 10000
+	}
+  },
+  {
+	"id": 113,
+	"title": "Royal Trouble",
+	"requirements": {
+	  "quests": [
+		63
+	  ],
+	  "AGILITY": 40
+	},
+	"rewards": {
+	  "qp": 1,
+	  "AGILITY": 5000,
+	  "SLAYER": 5000,
+	  "CONSTITUTION": 5000
+	}
+  },
+  {
+	"id": 114,
+	"title": "Death to the Dorgeshuun",
+	"requirements": {
+	  "quests": [
+		80
+	  ],
+	  "THIEVING": 23,
+	  "AGILITY": 23
+	},
+	"rewards": {
+	  "qp": 1,
+	  "THIEVING": 2000,
+	  "RANGED": 2000
+	}
+  },
+  {
+	"id": 115,
+	"title": "Fairy Tale II - Cure a Queen",
+	"requirements": {
+	  "quests": [
+		98
+	  ],
+	  "THIEVING": 40,
+	  "FARMING": 49,
+	  "HERBLORE": 57
+	},
+	"rewards": {
+	  "qp": 2,
+	  "HERBLORE": 3500,
+	  "THIEVING": 2500,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 30
+		  },
+		  "values": [
+			2500
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 116,
+	"title": "Lunar Diplomacy",
+	"requirements": {
+	  "quests": [
+		17,
+		39,
+		49,
+		61
+	  ],
+	  "CRAFTING": 61,
+	  "DEFENCE": 40,
+	  "FIREMAKING": 49,
+	  "MINING": 60,
+	  "HERBLORE": 5,
+	  "RUNECRAFTING": 14,
+	  "MAGIC": 65,
+	  "WOODCUTTING": 55
+	},
+	"rewards": {
+	  "qp": 2,
+	  "MAGIC": 5000,
+	  "RUNECRAFTING": 5000
+	}
+  },
+  {
+	"id": 117,
+	"title": "The Eyes of Glouphrie",
+	"requirements": {
+	  "quests": [
+		38
+	  ],
+	  "CONSTITUTION": 5,
+	  "MAGIC": 46
+	},
+	"rewards": {
+	  "qp": 2,
+	  "MAGIC": 12000,
+	  "WOODCUTTING": 2500,
+	  "RUNECRAFTING": 6000,
+	  "CONSTRUCTION": 250
+	}
+  },
+  {
+	"id": 118,
+	"title": "The Darkness of Hallowvale",
+	"requirements": {
+	  "quests": [
+		109
+	  ],
+	  "CONSTRUCTION": 5,
+	  "MINING": 20,
+	  "THIEVING": 22,
+	  "AGILITY": 26,
+	  "CRAFTING": 32,
+	  "MAGIC": 33,
+	  "STRENGTH": 40
+	},
+	"rewards": {
+	  "qp": 2,
+	  "AGILITY": 7000,
+	  "THIEVING": 6000,
+	  "CONSTRUCTION": 2000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 30
+		  },
+		  "values": [
+			2000,
+			2000,
+			2000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 119,
+	"title": "Slug Menace",
+	"requirements": {
+	  "quests": [
+		34,
+		87
+	  ],
+	  "CRAFTING": 30,
+	  "RUNECRAFTING": 30,
+	  "SLAYER": 30,
+	  "THIEVING": 30
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CRAFTING": 3500,
+	  "RUNECRAFTING": 3500,
+	  "THIEVING": 3500
+	}
+  },
+  {
+	"id": 120,
+	"title": "The Elemental Workshop II",
+	"requirements": {
+	  "quests": [
+		52
+	  ],
+	  "MAGIC": 20,
+	  "SMITHING": 30
+	},
+	"rewards": {
+	  "qp": 1,
+	  "SMITHING": 7500,
+	  "CRAFTING": 7500
+	}
+  },
+  {
+	"id": 121,
+	"title": "My Arm's Big Adventure",
+	"requirements": {
+	  "quests": [
+		37,
+		59,
+		74
+	  ],
+	  "WOODCUTTING": 10,
+	  "FARMING": 29
+	},
+	"rewards": {
+	  "qp": 1,
+	  "HERBLORE": 10000,
+	  "FARMING": 5000
+	}
+  },
+  {
+	"id": 122,
+	"title": "Enlightened Journey",
+	"requirements": {
+	  "qp": 21,
+	  "FIREMAKING": 20,
+	  "FARMING": 30,
+	  "CRAFTING": 36
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CRAFTING": 2000,
+	  "FARMING": 3000,
+	  "WOODCUTTING": 1500,
+	  "FIREMAKING": 4000
+	}
+  },
+  {
+	"id": 123,
+	"title": "Eagles' Peak",
+	"requirements": {
+	  "HUNTER": 27
+	},
+	"rewards": {
+	  "qp": 2,
+	  "HUNTER": 2500
+	}
+  },
+  {
+	"id": 124,
+	"title": "Animal Magnetism",
+	"requirements": {
+	  "quests": [
+		2,
+		5,
+		53
+	  ],
+	  "SLAYER": 18,
+	  "CRAFTING": 19,
+	  "RANGED": 30,
+	  "WOODCUTTING": 35,
+	  "THIEVING": 15
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CRAFTING": 1000,
+	  "FLETCHING": 1000,
+	  "SLAYER": 1000,
+	  "WOODCUTTING": 2500
+	}
+  },
+  {
+	"id": 125,
+	"title": "Contact!",
+	"requirements": {
+	  "quests": [
+		77
+	  ]
+	},
+	"rewards": {
+	  "qp": 1,
+	  "THIEVING": 7000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"STRENGTH": 1,
+			"DEFENCE": 1,
+			"CONSTITUTION": 1,
+			"RANGED": 1,
+			"MAGIC": 1,
+			"SUMMONING": 30
+		  },
+		  "values": [
+			7000,
+			7000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 126,
+	"title": "Cold War",
+	"requirements": {
+	  "HUNTER": 10,
+	  "CONSTRUCTION": 34,
+	  "CRAFTING": 30,
+	  "AGILITY": 30,
+	  "THIEVING": 15
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CRAFTING": 2000,
+	  "AGILITY": 5000,
+	  "CONSTRUCTION": 1500
+	}
+  },
+  {
+	"id": 127,
+	"title": "Fremennik Isles",
+	"requirements": {
+	  "quests": [
+		61
+	  ],
+	  "CONSTRUCTION": 20,
+	  "WOODCUTTING": 56,
+	  "CRAFTING": 46,
+	  "AGILITY": 40
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CONSTRUCTION": 5000,
+	  "CRAFTING": 5000,
+	  "WOODCUTTING": 10000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"STRENGTH": 1,
+			"DEFENCE": 1,
+			"CONSTITUTION": 1
+		  },
+		  "values": [
+			10000,
+			10000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 128,
+	"title": "Tower of Life",
+	"requirements": {
+	  "CONSTRUCTION": 10
+	},
+	"rewards": {
+	  "qp": 2,
+	  "CONSTRUCTION": 1000,
+	  "THIEVING": 500,
+	  "CRAFTING": 500
+	}
+  },
+  {
+	"id": 129,
+	"title": "Great Brain Robbery",
+	"requirements": {
+	  "quests": [
+		68,
+		97,
+		104
+	  ],
+	  "CRAFTING": 16,
+	  "CONSTRUCTION": 30,
+	  "PRAYER": 50
+	},
+	"rewards": {
+	  "qp": 2,
+	  "PRAYER": 6000,
+	  "CRAFTING": 3000,
+	  "CONSTRUCTION": 2000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 30
+		  },
+		  "values": [
+			5000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 130,
+	"title": "What Lies Below",
+	"requirements": {
+	  "quests": [
+		49
+	  ],
+	  "RUNECRAFTING": 35,
+	  "MINING": 42
+	},
+	"rewards": {
+	  "qp": 1,
+	  "DEFENCE": 2000,
+	  "RUNECRAFTING": 8000
+	}
+  },
+  {
+	"id": 131,
+	"title": "Olaf's Quest",
+	"requirements": {
+	  "quests": [
+		61
+	  ],
+	  "FIREMAKING": 40,
+	  "WOODCUTTING": 50
+	},
+	"rewards": {
+	  "qp": 1,
+	  "DEFENCE": 12000
+	}
+  },
+  {
+	"id": 132,
+	"title": "Another Slice of H.A.M.",
+	"requirements": {
+	  "quests": [
+		46,
+		81,
+		114
+	  ],
+	  "ATTACK": 15,
+	  "PRAYER": 25
+	},
+	"rewards": {
+	  "qp": 1,
+	  "MINING": 3000,
+	  "PRAYER": 3000
+	}
+  },
+  {
+	"id": 133,
+	"title": "Dream Mentor",
+	"requirements": {
+	  "quests": [
+		59,
+		116
+	  ],
+	  "COMBAT": 85
+	},
+	"rewards": {
+	  "qp": 2,
+	  "CONSTITUTION": 15000,
+	  "MAGIC": 10000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"STRENGTH": 1,
+			"RANGED": 1,
+			"MAGIC": 1,
+			"CONSTITUTION": 1,
+			"DEFENCE": 1
+		  },
+		  "values": [
+			15000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 134,
+	"title": "Grim Tales",
+	"requirements": {
+	  "quests": [
+		18
+	  ],
+	  "FARMING": 45,
+	  "HERBLORE": 52,
+	  "THIEVING": 58,
+	  "AGILITY": 59,
+	  "WOODCUTTING": 71
+	},
+	"rewards": {
+	  "qp": 1,
+	  "FARMING": 4000,
+	  "HERBLORE": 5000,
+	  "CONSTITUTION": 5000,
+	  "WOODCUTTING": 14000,
+	  "AGILITY": 6000,
+	  "THIEVING": 6000
+	}
+  },
+  {
+	"id": 135,
+	"title": "King's Ransom",
+	"requirements": {
+	  "quests": [
+		28,
+		45,
+		71
+	  ],
+	  "MAGIC": 45,
+	  "DEFENCE": 65
+	},
+	"rewards": {
+	  "qp": 1,
+	  "DEFENCE": 33000,
+	  "MAGIC": 5000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 50
+		  },
+		  "values": [
+			5000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 136,
+	"title": "The Path of Glouphrie",
+	"requirements": {
+	  "quests": [
+		29,
+		35,
+		117
+	  ],
+	  "STRENGTH": 60,
+	  "THIEVING": 56,
+	  "SLAYER": 56,
+	  "RANGED": 47,
+	  "AGILITY": 45
+	},
+	"rewards": {
+	  "qp": 1,
+	  "STRENGTH": 30000,
+	  "SLAYER": 20000,
+	  "THIEVING": 5000,
+	  "MAGIC": 5000
+	}
+  },
+  {
+	"id": 137,
+	"title": "Back to my Roots",
+	"requirements": {
+	  "quests": [
+		23,
+		71,
+		95,
+		98
+	  ],
+	  "AGILITY": 55,
+	  "FARMING": 53,
+	  "SLAYER": 59,
+	  "WOODCUTTING": 72
+	},
+	"rewards": {
+	  "qp": 1,
+	  "FARMING": 24000,
+	  "WOODCUTTING": 40000,
+	  "SLAYER": 23000,
+	  "AGILITY": 15000
+	}
+  },
+  {
+	"id": 138,
+	"title": "Land of the Goblins",
+	"requirements": {
+	  "quests": [
+		24,
+		132
+	  ],
+	  "PRAYER": 30,
+	  "AGILITY": 36,
+	  "FISHING": 36,
+	  "THIEVING": 36,
+	  "HERBLORE": 37
+	},
+	"rewards": {
+	  "qp": 1,
+	  "AGILITY": 3000,
+	  "HERBLORE": 3000,
+	  "THIEVING": 3000,
+	  "FISHING": 3000,
+	  "STRENGTH": 3000,
+	  "PRAYER": 2000
+	}
+  },
+  {
+	"id": 139,
+	"title": "Dealing with Scabaras",
+	"requirements": {
+	  "quests": [
+		74,
+		79,
+		125
+	  ],
+	  "FIREMAKING": 21,
+	  "AGILITY": 50,
+	  "THIEVING": 60,
+	  "STRENGTH": 60,
+	  "CRAFTING": 60,
+	  "PRAYER": 43
+	},
+	"rewards": {
+	  "qp": 1,
+	  "STRENGTH": 7000,
+	  "THIEVING": 7000,
+	  "AGILITY": 7000,
+	  "PRAYER": 7000
+	}
+  },
+  {
+	"id": 140,
+	"title": "Wolf Whistle",
+	"rewards": {
+	  "qp": 1,
+	  "SUMMONING": 276
+	}
+  },
+  {
+	"id": 141,
+	"title": "As a First Resort...",
+	"requirements": {
+	  "quests": [
+		79
+	  ],
+	  "HUNTER": 48,
+	  "FIREMAKING": 58,
+	  "WOODCUTTING": 58
+	},
+	"rewards": {
+	  "qp": 1,
+	  "FIREMAKING": 15000,
+	  "HUNTER": 15000,
+	  "WOODCUTTING": 15000
+	}
+  },
+  {
+	"id": 142,
+	"title": "Catapult Construction",
+	"requirements": {
+	  "quests": [
+		58
+	  ],
+	  "FLETCHING": 42,
+	  "CONSTRUCTION": 44
+	},
+	"rewards": {
+	  "qp": 2,
+	  "CONSTRUCTION": 15000,
+	  "FLETCHING": 5000
+	}
+  },
+  {
+	"id": 143,
+	"title": "Kennith's Concerns",
+	"requirements": {
+	  "quests": [
+		119
+	  ],
+	  "MINING": 46
+	},
+	"rewards": {
+	  "qp": 1,
+	  "MINING": 12000,
+	  "AGILITY": 5000
+	}
+  },
+  {
+	"id": 144,
+	"title": "Legacy of Seergaze",
+	"requirements": {
+	  "quests": [
+		60,
+		118
+	  ],
+	  "CONSTRUCTION": 20,
+	  "AGILITY": 29,
+	  "SLAYER": 31,
+	  "MINING": 35,
+	  "FIREMAKING": 40,
+	  "CRAFTING": 47,
+	  "MAGIC": 49
+	},
+	"rewards": {
+	  "qp": 2,
+	  "MAGIC": 3000,
+	  "AGILITY": 2000,
+	  "CRAFTING": 4000,
+	  "MINING": 2000,
+	  "CONSTRUCTION": 1000,
+	  "SLAYER": 2000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 35
+		  },
+		  "values": [
+			2500,
+			2500,
+			2500
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 145,
+	"title": "Perils of Ice Mountain",
+	"requirements": {
+	  "CONSTRUCTION": 10,
+	  "FARMING": 10,
+	  "HUNTER": 10,
+	  "THIEVING": 11
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CONSTRUCTION": 500,
+	  "FARMING": 500,
+	  "HUNTER": 500,
+	  "THIEVING": 500
+	}
+  },
+  {
+	"id": 146,
+	"title": "TokTz-Ket-Dill",
+	"requirements": {
+	  "ATTACK": 50,
+	  "CONSTRUCTION": 50,
+	  "CRAFTING": 43,
+	  "MINING": 41,
+	  "STRENGTH": 45
+	},
+	"rewards": {
+	  "qp": 1,
+	  "ATTACK": 5000,
+	  "STRENGTH": 5000,
+	  "CRAFTING": 10000,
+	  "MINING": 15000,
+	  "CONSTRUCTION": 20000
+	}
+  },
+  {
+	"id": 147,
+	"title": "Smoking Kills",
+	"requirements": {
+	  "quests": [
+		77
+	  ],
+	  "SLAYER": 35,
+	  "CRAFTING": 25,
+	  "COMBAT": 90
+	},
+	"rewards": {
+	  "qp": 1,
+	  "SLAYER": 5000
+	}
+  },
+  {
+	"id": 148,
+	"title": "Rocking Out",
+	"requirements": {
+	  "quests": [
+		129
+	  ],
+	  "AGILITY": 60,
+	  "THIEVING": 63,
+	  "CRAFTING": 66,
+	  "SMITHING": 69
+	},
+	"rewards": {
+	  "qp": 2,
+	  "THIEVING": 25000,
+	  "SMITHING": 25000,
+	  "AGILITY": 25000,
+	  "CRAFTING": 25000
+	}
+  },
+  {
+	"id": 149,
+	"title": "Spirit of Summer",
+	"requirements": {
+	  "quests": [
+		2
+	  ],
+	  "SUMMONING": 19,
+	  "FARMING": 26,
+	  "PRAYER": 35,
+	  "CONSTRUCTION": 40
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CONSTRUCTION": 7500,
+	  "PRAYER": 5000,
+	  "FARMING": 2000,
+	  "SUMMONING": 1000
+	}
+  },
+  {
+	"id": 150,
+	"title": "Meeting History",
+	"requirements": {
+	  "quests": [
+		16,
+		91
+	  ]
+	},
+	"rewards": {
+	  "qp": 1,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 25
+		  },
+		  "values": [
+			2500,
+			2500,
+			2500
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 151,
+	"title": "All Fired Up",
+	"requirements": {
+	  "quests": [
+		53
+	  ],
+	  "FIREMAKING": 43
+	},
+	"rewards": {
+	  "qp": 1,
+	  "FIREMAKING": 5500
+	}
+  },
+  {
+	"id": 152,
+	"title": "Summer's End",
+	"requirements": {
+	  "quests": [
+		149
+	  ],
+	  "SUMMONING": 23,
+	  "HUNTER": 35,
+	  "WOODCUTTING": 37,
+	  "MINING": 45,
+	  "FIREMAKING": 47,
+	  "PRAYER": 55
+	},
+	"rewards": {
+	  "qp": 1,
+	  "SUMMONING": 1500,
+	  "HUNTER": 5000,
+	  "MINING": 5000,
+	  "WOODCUTTING": 5000,
+	  "PRAYER": 10000,
+	  "FIREMAKING": 15000
+	}
+  },
+  {
+	"id": 153,
+	"title": "Defender of Varrock",
+	"requirements": {
+	  "quests": [
+		1,
+		4,
+		12,
+		22,
+		26,
+		85,
+		130
+	  ],
+	  "AGILITY": 51,
+	  "HUNTER": 51,
+	  "SMITHING": 54,
+	  "MINING": 59
+	},
+	"rewards": {
+	  "qp": 2,
+	  "HUNTER": 15000,
+	  "SMITHING": 10000,
+	  "MINING": 10000,
+	  "DEFENCE": 10000,
+	  "AGILITY": 2000,
+	  "lamps": [
+		{
+		  "values": [
+			1000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 154,
+	"title": "Swept Away",
+	"rewards": {
+	  "qp": 2
+	}
+  },
+  {
+	"id": 155,
+	"title": "While Guthix Sleeps",
+	"requirements": {
+	  "quests": [
+		48,
+		49,
+		78,
+		79,
+		87,
+		88,
+		95,
+		108,
+		112,
+		133,
+		135,
+		136,
+		140,
+		152,
+		153
+	  ],
+	  "qp": 270,
+	  "SUMMONING": 23,
+	  "HUNTER": 55,
+	  "THIEVING": 60,
+	  "DEFENCE": 65,
+	  "FARMING": 65,
+	  "HERBLORE": 65,
+	  "MAGIC": 75
+	},
+	"rewards": {
+	  "qp": 5,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 65
+		  },
+		  "values": [
+			100000,
+			100000,
+			100000,
+			100000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 156,
+	"title": "Myths of the White Lands",
+	"rewards": {
+	  "qp": 2,
+	  "lamps": [
+		{
+		  "values": [
+			500
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 157,
+	"title": "In Pyre Need",
+	"requirements": {
+	  "FIREMAKING": 55,
+	  "CRAFTING": 52,
+	  "FLETCHING": 53
+	},
+	"rewards": {
+	  "qp": 1,
+	  "FIREMAKING": 14400,
+	  "FLETCHING": 12500,
+	  "CRAFTING": 11556
+	}
+  },
+  {
+	"id": 158,
+	"title": "Chosen Commander",
+	"requirements": {
+	  "quests": [
+		138
+	  ],
+	  "AGILITY": 46,
+	  "STRENGTH": 46,
+	  "THIEVING": 46
+	},
+	"rewards": {
+	  "qp": 3,
+	  "AGILITY": 20000,
+	  "STRENGTH": 20000,
+	  "THIEVING": 20000
+	}
+  },
+  {
+	"id": 159,
+	"title": "Glorious Memories",
+	"requirements": {
+	  "quests": [
+		72,
+		113,
+		127
+	  ],
+	  "MAGIC": 57,
+	  "AGILITY": 50,
+	  "HERBLORE": 43,
+	  "HUNTER": 41
+	},
+	"rewards": {
+	  "qp": 1,
+	  "MAGIC": 10000,
+	  "HERBLORE": 5000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"STRENGTH": 1,
+			"CONSTITUTION": 1,
+			"DEFENCE": 1,
+			"RANGED": 1
+		  },
+		  "values": [
+			5000,
+			5000,
+			5000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 160,
+	"title": "Tale of the Muspah",
+	"requirements": {
+	  "FIREMAKING": 6,
+	  "MINING": 8,
+	  "MAGIC": 10,
+	  "WOODCUTTING": 10,
+	  "CRAFTING": 20
+	},
+	"rewards": {
+	  "qp": 1,
+	  "MAGIC": 1000,
+	  "MINING": 800,
+	  "WOODCUTTING": 800,
+	  "FIREMAKING": 500,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 10
+		  },
+		  "values": [
+			200
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 161,
+	"title": "Missing My Mummy",
+	"requirements": {
+	  "quests": [
+		75,
+		77,
+		85
+	  ],
+	  "CONSTITUTION": 35,
+	  "COOKING": 35,
+	  "CRAFTING": 45,
+	  "MAGIC": 50,
+	  "PRAYER": 45,
+	  "THIEVING": 25
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CONSTITUTION": 7000,
+	  "COOKING": 2100,
+	  "CONSTRUCTION": 2100,
+	  "MAGIC": 5000,
+	  "PRAYER": 6500,
+	  "CRAFTING": 3350,
+	  "THIEVING": 3000
+	}
+  },
+  {
+	"id": 162,
+	"title": "Hunt for Red Raktuber",
+	"requirements": {
+	  "quests": [
+		34,
+		126
+	  ],
+	  "THIEVING": 38,
+	  "CONSTRUCTION": 45,
+	  "HUNTER": 45
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CONSTRUCTION": 3000,
+	  "THIEVING": 2000,
+	  "HUNTER": 1500
+	}
+  },
+  {
+	"id": 163,
+	"title": "Curse of Arrav",
+	"requirements": {
+	  "quests": [
+		60,
+		66,
+		153,
+		160,
+		161
+	  ],
+	  "SLAYER": 37,
+	  "SUMMONING": 41,
+	  "AGILITY": 61,
+	  "RANGED": 64,
+	  "STRENGTH": 64,
+	  "MINING": 64,
+	  "THIEVING": 66
+	},
+	"rewards": {
+	  "qp": 1,
+	  "MINING": 30000,
+	  "THIEVING": 14000,
+	  "RANGED": 9000,
+	  "AGILITY": 9000,
+	  "STRENGTH": 9000,
+	  "SUMMONING": 4000,
+	  "SLAYER": 2500
+	}
+  },
+  {
+	"id": 164,
+	"title": "Fur 'n' Seek",
+	"requirements": {
+	  "quests": [
+		111
+	  ],
+	  "SLAYER": 25,
+	  "COMBAT": 50
+	},
+	"rewards": {
+	  "qp": 2,
+	  "CONSTITUTION": 2500,
+	  "SLAYER": 2500,
+	  "PRAYER": 1500,
+	  "CRAFTING": 500,
+	  "FIREMAKING": 500
+	}
+  },
+  {
+	"id": 165,
+	"title": "Forgiveness of a Chaos Dwarf",
+	"requirements": {
+	  "quests": [
+		73,
+		84
+	  ],
+	  "HUNTER": 61,
+	  "FIREMAKING": 61,
+	  "STRENGTH": 69
+	},
+	"rewards": {
+	  "qp": 2,
+	  "FIREMAKING": 30000,
+	  "HUNTER": 30000,
+	  "STRENGTH": 30000
+	}
+  },
+  {
+	"id": 166,
+	"title": "Within the Light",
+	"requirements": {
+	  "quests": [
+		88
+	  ],
+	  "AGILITY": 69,
+	  "FLETCHING": 70,
+	  "RANGED": 75,
+	  "WOODCUTTING": 75
+	},
+	"rewards": {
+	  "qp": 2,
+	  "AGILITY": 35000,
+	  "FLETCHING": 20000,
+	  "RANGED": 20000,
+	  "WOODCUTTING": 20000
+	}
+  },
+  {
+	"id": 167,
+	"title": "The Temple at Senntisten",
+	"requirements": {
+	  "quests": [
+		76,
+		94,
+		163
+	  ],
+	  "PRAYER": 50
+	},
+	"rewards": {
+	  "qp": 2,
+	  "PRAYER": 10000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 50
+		  },
+		  "values": [
+			23000
+		  ]
+		},
+		{
+		  "requirements": {
+			"ATTACK": 50,
+			"DEFENCE": 50,
+			"STRENGTH": 50,
+			"CONSTITUTION": 50,
+			"PRAYER": 50,
+			"RANGED": 50,
+			"MAGIC": 50,
+			"SUMMONING": 50
+		  },
+		  "values": [
+			20000,
+			20000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 168,
+	"title": "Blood Runs Deep",
+	"requirements": {
+	  "quests": [
+		62,
+		133,
+		159
+	  ],
+	  "ATTACK": 75,
+	  "STRENGTH": 75,
+	  "SLAYER": 65
+	},
+	"rewards": {
+	  "qp": 2,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 75,
+			"DEFENCE": 75,
+			"STRENGTH": 75,
+			"CONSTITUTION": 75,
+			"RANGED": 75,
+			"MAGIC": 75,
+			"PRAYER": 75
+		  },
+		  "values": [
+			150000,
+			150000,
+			150000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 169,
+	"title": "Nomad's Requiem",
+	"requirements": {
+	  "quests": [
+		135
+	  ],
+	  "MAGIC": 75,
+	  "PRAYER": 70,
+	  "MINING": 66,
+	  "HUNTER": 65,
+	  "CONSTRUCTION": 60
+	},
+	"rewards": {
+	  "qp": 3,
+	  "FIREMAKING": 5500
+	}
+  },
+  {
+	"id": 170,
+	"title": "Rune Mechanics",
+	"requirements": {
+	  "quests": [
+		49,
+		140
+	  ],
+	  "MAGIC": 27,
+	  "RUNECRAFTING": 20,
+	  "CONSTRUCTION": 25
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CONSTRUCTION": 900,
+	  "MAGIC": 2300,
+	  "RUNECRAFTING": 1850
+	}
+  },
+  {
+	"id": 171,
+	"title": "The Blood Pact",
+	"rewards": {
+	  "qp": 1,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"STRENGTH": 1,
+			"DEFENCE": 1,
+			"RANGED": 1,
+			"MAGIC": 1
+		  },
+		  "values": [
+			100
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 172,
+	"title": "Buyers and Cellars",
+	"requirements": {
+	  "THIEVING": 5
+	},
+	"rewards": {
+	  "qp": 1,
+	  "THIEVING": 525
+	}
+  },
+  {
+	"id": 173,
+	"title": "Fairy Tale III - Battle at Orks Rift",
+	"requirements": {
+	  "quests": [
+		115
+	  ],
+	  "MAGIC": 59,
+	  "FARMING": 54,
+	  "THIEVING": 51,
+	  "SUMMONING": 37,
+	  "CRAFTING": 36
+	},
+	"rewards": {
+	  "qp": 2,
+	  "FARMING": 11000,
+	  "THIEVING": 11000,
+	  "MAGIC": 11000,
+	  "SUMMONING": 1000,
+	  "CRAFTING": 1000
+	}
+  },
+  {
+	"id": 174,
+	"title": "The Elemental Workshop III",
+	"requirements": {
+	  "quests": [
+		120
+	  ],
+	  "DEFENCE": 33,
+	  "MINING": 20,
+	  "SMITHING": 33
+	},
+	"rewards": {
+	  "qp": 1,
+	  "SMITHING": 2000
+	}
+  },
+  {
+	"id": 175,
+	"title": "Quiet Before the Swarm",
+	"requirements": {
+	  "quests": [
+		7,
+		87
+	  ],
+	  "ATTACK": 35,
+	  "STRENGTH": 42
+	},
+	"rewards": {
+	  "qp": 1,
+	  "ATTACK": 4000,
+	  "STRENGTH": 4900
+	}
+  },
+  {
+	"id": 176,
+	"title": "Love Story",
+	"requirements": {
+	  "quests": [
+		106,
+		112
+	  ],
+	  "MAGIC": 77,
+	  "CONSTRUCTION": 68,
+	  "SMITHING": 68,
+	  "CRAFTING": 67
+	},
+	"rewards": {
+	  "qp": 2,
+	  "CONSTRUCTION": 50000,
+	  "MAGIC": 50000,
+	  "SMITHING": 40000,
+	  "CRAFTING": 40000
+	}
+  },
+  {
+	"id": 177,
+	"title": "A Void Dance",
+	"requirements": {
+	  "quests": [
+		16,
+		140,
+		175
+	  ],
+	  "HUNTER": 46,
+	  "CONSTRUCTION": 47,
+	  "MINING": 47,
+	  "SUMMONING": 48,
+	  "HERBLORE": 49,
+	  "WOODCUTTING": 52,
+	  "THIEVING": 54
+	},
+	"rewards": {
+	  "qp": 1,
+	  "HUNTER": 10000,
+	  "HERBLORE": 10000,
+	  "SUMMONING": 8000,
+	  "WOODCUTTING": 8000,
+	  "THIEVING": 5000,
+	  "CONSTRUCTION": 5000,
+	  "MINING": 5000
+	}
+  },
+  {
+	"id": 178,
+	"title": "The Void Stares Back",
+	"requirements": {
+	  "quests": [
+		177
+	  ],
+	  "MAGIC": 80,
+	  "ATTACK": 78,
+	  "STRENGTH": 78,
+	  "FIREMAKING": 71,
+	  "CONSTRUCTION": 70,
+	  "CRAFTING": 70,
+	  "SMITHING": 70,
+	  "SUMMONING": 55,
+	  "DEFENCE": 25
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CRAFTING": 20000,
+	  "CONSTRUCTION": 20000,
+	  "FIREMAKING": 20000,
+	  "MAGIC": 20000,
+	  "SUMMONING": 20000,
+	  "SMITHING": 20000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 75,
+			"STRENGTH": 75,
+			"DEFENCE": 75,
+			"MAGIC": 75,
+			"RANGED": 75,
+			"PRAYER": 75,
+			"SUMMONING": 75
+		  },
+		  "values": [
+			50000,
+			50000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 179,
+	"title": "Do No Evil",
+	"requirements": {
+	  "quests": [
+		76,
+		85,
+		90,
+		107,
+		124,
+		139,
+		147,
+		161
+	  ],
+	  "RANGED": 50,
+	  "CONSTRUCTION": 64,
+	  "CRAFTING": 68,
+	  "MAGIC": 70,
+	  "THIEVING": 70
+	},
+	"rewards": {
+	  "qp": 1,
+	  "MAGIC": 50000,
+	  "THIEVING": 50000,
+	  "CRAFTING": 40000,
+	  "CONSTRUCTION": 30000
+	}
+  },
+  {
+	"id": 180,
+	"title": "King of the Dwarves",
+	"requirements": {
+	  "quests": [
+		121,
+		165
+	  ],
+	  "MINING": 68,
+	  "SMITHING": 70,
+	  "STRENGTH": 77
+	},
+	"rewards": {
+	  "qp": 2,
+	  "MINING": 45000,
+	  "SMITHING": 50000,
+	  "STRENGTH": 55000
+	}
+  },
+  {
+	"id": 181,
+	"title": "Prisoner of Glouphrie",
+	"requirements": {
+	  "quests": [
+		69,
+		136
+	  ],
+	  "AGILITY": 64,
+	  "CONSTRUCTION": 62,
+	  "RUNECRAFTING": 61,
+	  "THIEVING": 64
+	},
+	"rewards": {
+	  "qp": 1,
+	  "THIEVING": 60000,
+	  "AGILITY": 60000,
+	  "CONSTRUCTION": 50000,
+	  "RUNECRAFTING": 45000
+	}
+  },
+  {
+	"id": 182,
+	"title": "The Elemental Workshop IV",
+	"requirements": {
+	  "quests": [
+		174
+	  ],
+	  "CRAFTING": 41,
+	  "RUNECRAFTING": 39,
+	  "THIEVING": 39,
+	  "DEFENCE": 40,
+	  "SMITHING": 42
+	},
+	"rewards": {
+	  "qp": 2,
+	  "CRAFTING": 9000,
+	  "RUNECRAFTING": 7500
+	}
+  },
+  {
+	"id": 183,
+	"title": "A Clockwork Syringe",
+	"requirements": {
+	  "quests": [
+		148
+	  ],
+	  "DUNGEONEERING": 50,
+	  "SLAYER": 61,
+	  "CONSTRUCTION": 62,
+	  "SUMMONING": 65,
+	  "SMITHING": 74,
+	  "THIEVING": 74,
+	  "DEFENCE": 76
+	},
+	"rewards": {
+	  "qp": 1,
+	  "DEFENCE": 19000,
+	  "SMITHING": 18000,
+	  "THIEVING": 18000,
+	  "SUMMONING": 15000,
+	  "CONSTRUCTION": 11250,
+	  "SLAYER": 11000,
+	  "DUNGEONEERING": 5000
+	}
+  },
+  {
+	"id": 184,
+	"title": "Deadliest Catch",
+	"requirements": {
+	  "quests": [
+		16,
+		128
+	  ],
+	  "HUNTER": 67,
+	  "THIEVING": 70,
+	  "FIREMAKING": 70
+	},
+	"rewards": {
+	  "qp": 1,
+	  "FISHING": 70000,
+	  "HUNTER": 26000,
+	  "THIEVING": 8000
+	}
+  },
+  {
+	"id": 185,
+	"title": "Salt in the Wound",
+	"requirements": {
+	  "quests": [
+		143
+	  ],
+	  "DEFENCE": 60,
+	  "CONSTITUTION": 50,
+	  "HERBLORE": 47,
+	  "SUMMONING": 45,
+	  "DUNGEONEERING": 35
+	},
+	"rewards": {
+	  "qp": 2,
+	  "DEFENCE": 45000,
+	  "CONSTITUTION": 17500,
+	  "HERBLORE": 15000,
+	  "SUMMONING": 12500,
+	  "DUNGEONEERING": 5000
+	}
+  },
+  {
+	"id": 186,
+	"title": "The Branches of Darkmeyer",
+	"requirements": {
+	  "quests": [
+		48,
+		144
+	  ],
+	  "WOODCUTTING": 76,
+	  "FLETCHING": 70,
+	  "MAGIC": 70,
+	  "SLAYER": 67,
+	  "CRAFTING": 64,
+	  "FARMING": 63,
+	  "AGILITY": 63,
+	  "ATTACK": 70,
+	  "RANGED": 70
+	},
+	"rewards": {
+	  "qp": 2,
+	  "AGILITY": 20000,
+	  "WOODCUTTING": 50000,
+	  "FARMING": 20000,
+	  "FLETCHING": 20000,
+	  "SLAYER": 25000,
+	  "MAGIC": 35000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 60
+		  },
+		  "values": [
+			50000,
+			50000,
+			50000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 187,
+	"title": "Ritual of the Mahjarrat",
+	"requirements": {
+	  "quests": [
+		30,
+		31,
+		86,
+		96,
+		119,
+		148,
+		155,
+		167,
+		173
+	  ],
+	  "CRAFTING": 76,
+	  "AGILITY": 77,
+	  "MINING": 76
+	},
+	"rewards": {
+	  "qp": 3,
+	  "AGILITY": 110000,
+	  "CRAFTING": 40000,
+	  "MINING": 40000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 72
+		  },
+		  "values": [
+			80000,
+			80000,
+			80000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 188,
+	"title": "One Piercing Note",
+	"rewards": {
+	  "qp": 2,
+	  "PRAYER": 250
+	}
+  },
+  {
+	"id": 189,
+	"title": "The Firemaker's Curse",
+	"requirements": {
+	  "FIREMAKING": 74,
+	  "CONSTITUTION": 76,
+	  "AGILITY": 64
+	},
+	"rewards": {
+	  "qp": 2,
+	  "FIREMAKING": 80000,
+	  "AGILITY": 30000,
+	  "CONSTITUTION": 76000
+	}
+  },
+  {
+	"id": 190,
+	"title": "Let Them Eat Pie",
+	"rewards": {
+	  "qp": 1,
+	  "COOKING": 100,
+	  "THIEVING": 150
+	}
+  },
+  {
+	"id": 191,
+	"title": "The Elder Kiln",
+	"requirements": {
+	  "MAGIC": 75,
+	  "AGILITY": 60,
+	  "MINING": 41
+	},
+	"rewards": {
+	  "qp": 2,
+	  "MAGIC": 50000,
+	  "AGILITY": 30000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 75,
+			"STRENGTH": 75,
+			"DEFENCE": 75,
+			"MAGIC": 75,
+			"RANGED": 75
+		  },
+		  "values": [
+			100000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 192,
+	"title": "Song from the Depths",
+	"rewards": {
+	  "qp": 1,
+	  "CONSTITUTION": 700
+	}
+  },
+  {
+	"id": 193,
+	"title": "Carnillean Rising",
+	"requirements": {
+	  "quests": [
+		31,
+		171
+	  ],
+	  "qp": 50,
+	  "THIEVING": 33,
+	  "CONSTRUCTION": 31
+	},
+	"rewards": {
+	  "qp": 1,
+	  "THIEVING": 2500,
+	  "CONSTRUCTION": 2500,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 30
+		  },
+		  "values": [
+			1500,
+			1500
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 194,
+	"title": "Some Like It Cold",
+	"requirements": {
+	  "quests": [
+		162
+	  ],
+	  "FISHING": 65,
+	  "CRAFTING": 56,
+	  "CONSTRUCTION": 50,
+	  "THIEVING": 50
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CRAFTING": 40000,
+	  "FISHING": 40000,
+	  "CONSTRUCTION": 10000,
+	  "THIEVING": 10000
+	}
+  },
+  {
+	"id": 195,
+	"title": "The Brink of Extinction",
+	"requirements": {
+	  "quests": [
+		191
+	  ],
+	  "DEFENCE": 80,
+	  "SMITHING": 80,
+	  "MINING": 72
+	},
+	"rewards": {
+	  "qp": 3,
+	  "MINING": 100000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 80,
+			"STRENGTH": 80,
+			"DEFENCE": 80,
+			"RANGED": 80,
+			"MAGIC": 80
+		  },
+		  "values": [
+			275000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 196,
+	"title": "The World Wakes",
+	"requirements": {
+	  "quests": [
+		158,
+		178,
+		186,
+		187,
+		189
+	  ],
+	  "COMBAT": 100
+	},
+	"rewards": {
+	  "qp": 3,
+	  "lamps": [
+		{
+		  "exclusive": true,
+		  "requirements": {
+			"*": 75
+		  },
+		  "values": [
+			100000,
+			100000,
+			100000
+		  ]
+		},
+		{
+		  "requirements": {
+			"ATTACK": 65,
+			"STRENGTH": 65,
+			"DEFENCE": 65,
+			"MAGIC": 65,
+			"RANGED": 65,
+			"PRAYER": 65,
+			"CONSTITUTION": 65,
+			"SUMMONING": 65
+		  },
+		  "values": [
+			50000,
+			50000,
+			50000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 197,
+	"title": "Bringing Home the Bacon",
+	"requirements": {
+	  "FARMING": 14,
+	  "SUMMONING": 14,
+	  "CONSTRUCTION": 14
+	},
+	"rewards": {
+	  "qp": 1,
+	  "FARMING": 350,
+	  "CONSTRUCTION": 350,
+	  "SUMMONING": 350
+	}
+  },
+  {
+	"id": 198,
+	"title": "Birthright of the Dwarves",
+	"requirements": {
+	  "quests": [
+		43,
+		127,
+		180,
+		196
+	  ],
+	  "MINING": 80,
+	  "SMITHING": 82,
+	  "STRENGTH": 85
+	},
+	"rewards": {
+	  "qp": 2,
+	  "MINING": 100000,
+	  "SMITHING": 100000
+	}
+  },
+  {
+	"id": 199,
+	"title": "Missing, Presumed Death",
+	"rewards": {
+	  "qp": 2,
+	  "PRAYER": 500,
+	  "AGILITY": 1000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"STRENGTH": 1,
+			"DEFENCE": 1,
+			"CONSTITUTION": 1,
+			"MAGIC": 1,
+			"RANGED": 1,
+			"SUMMONING": 1,
+			"PRAYER": 1
+		  },
+		  "values": [
+			1500
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 200,
+	"title": "One of a Kind",
+	"requirements": {
+	  "quests": [
+		86,
+		135,
+		196,
+		199
+	  ],
+	  "DIVINATION": 40,
+	  "DUNGEONEERING": 67,
+	  "SUMMONING": 74,
+	  "MAGIC": 81
+	},
+	"rewards": {
+	  "qp": 1,
+	  "MAGIC": 90000,
+	  "SUMMONING": 80000,
+	  "DUNGEONEERING": 45000,
+	  "DIVINATION": 5000
+	}
+  },
+  {
+	"id": 201,
+	"title": "Fate of the Gods",
+	"requirements": {
+	  "quests": [
+		187,
+		189,
+		196,
+		199
+	  ],
+	  "SUMMONING": 67,
+	  "AGILITY": 73,
+	  "DIVINATION": 75,
+	  "SLAYER": 76,
+	  "MAGIC": 79
+	},
+	"rewards": {
+	  "qp": 2,
+	  "MAGIC": 125000,
+	  "DIVINATION": 100000,
+	  "SLAYER": 100000,
+	  "AGILITY": 75000,
+	  "SUMMONING": 50000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 80,
+			"DEFENCE": 80,
+			"STRENGTH": 80,
+			"CONSTITUTION": 80,
+			"MAGIC": 80,
+			"RANGED": 80
+		  },
+		  "values": [
+			75000,
+			75000,
+			75000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 202,
+	"title": "A Shadow over Ashdale",
+	"rewards": {
+	  "qp": 1,
+	  "ATTACK": 300,
+	  "STRENGTH": 300,
+	  "DEFENCE": 300,
+	  "CONSTITUTION": 300
+	}
+  },
+  {
+	"id": 203,
+	"title": "The Mighty Fall",
+	"requirements": {
+	  "quests": [
+		121,
+		130,
+		158,
+		199
+	  ],
+	  "SLAYER": 69,
+	  "DEFENCE": 72,
+	  "CONSTITUTION": 78,
+	  "ATTACK": 79,
+	  "STRENGTH": 79
+	},
+	"rewards": {
+	  "qp": 2,
+	  "ATTACK": 80000,
+	  "STRENGTH": 80000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 69,
+			"STRENGTH": 69,
+			"DEFENCE": 69,
+			"MAGIC": 69,
+			"RANGED": 69,
+			"CONSTITUTION": 69,
+			"PRAYER": 69,
+			"SUMMONING": 69,
+			"SLAYER": 69
+		  },
+		  "values": [
+			50000
+		  ]
+		},
+		{
+		  "requirements": {
+			"ATTACK": 79,
+			"STRENGTH": 79,
+			"DEFENCE": 79,
+			"MAGIC": 79,
+			"RANGED": 79,
+			"CONSTITUTION": 79,
+			"PRAYER": 79,
+			"SUMMONING": 79,
+			"SLAYER": 79
+		  },
+		  "values": [
+			75000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 204,
+	"title": "Plague's End",
+	"requirements": {
+	  "quests": [],
+	  "AGILITY": 75,
+	  "CONSTRUCTION": 75,
+	  "CRAFTING": 75,
+	  "DUNGEONEERING": 75,
+	  "HERBLORE": 75,
+	  "MINING": 75,
+	  "PRAYER": 75,
+	  "RANGED": 75,
+	  "SUMMONING": 75,
+	  "WOODCUTTING": 75
+	},
+	"rewards": {
+	  "qp": 2,
+	  "AGILITY": 50000,
+	  "CONSTITUTION": 50000,
+	  "CRAFTING": 50000,
+	  "DUNGEONEERING": 50000,
+	  "HERBLORE": 50000,
+	  "MINING": 50000,
+	  "PRAYER": 50000,
+	  "RANGED": 50000,
+	  "SUMMONING": 50000,
+	  "WOODCUTTING": 50000
+	}
+  },
+  {
+	"id": 205,
+	"title": "Broken Home",
+	"rewards": {
+	  "qp": 1
+	}
+  },
+  {
+	"id": 206,
+	"title": "Heart of Stone",
+	"requirements": {
+	  "quests": [
+		50,
+		193
+	  ],
+	  "RUNECRAFTING": 25,
+	  "MAGIC": 35
+	},
+	"rewards": {
+	  "qp": 1,
+	  "RUNECRAFTING": 1500,
+	  "MAGIC": 1500,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"STRENGTH": 1,
+			"DEFENCE": 1,
+			"CONSTITUTION": 1,
+			"MAGIC": 1,
+			"RANGED": 1,
+			"SUMMONING": 1,
+			"PRAYER": 1
+		  },
+		  "values": [
+			500,
+			500
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 207,
+	"title": "Dishonour among Thieves",
+	"requirements": {
+	  "quests": [
+		31,
+		199
+	  ],
+	  "AGILITY": 30,
+	  "THIEVING": 30
+	},
+	"rewards": {
+	  "qp": 2,
+	  "THIEVING": 1500,
+	  "AGILITY": 1500,
+	  "DUNGEONEERING": 500,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"STRENGTH": 1,
+			"DEFENCE": 1,
+			"CONSTITUTION": 1,
+			"MAGIC": 1,
+			"RANGED": 1
+		  },
+		  "values": [
+			1500
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 208,
+	"title": "Dimension of Disaster: Coin of the Realm",
+	"rewards": {
+	  "qp": 1
+	}
+  },
+  {
+	"id": 209,
+	"title": "Dimension of Disaster: Shield of Arrav",
+	"requirements": {
+	  "quests": [
+		4,
+		208
+	  ]
+	},
+	"rewards": {
+	  "qp": 1,
+	  "THIEVING": 100
+	}
+  },
+  {
+	"id": 210,
+	"title": "Dimension of Disaster: Demon Slayer",
+	"requirements": {
+	  "quests": [
+		90,
+		208
+	  ]
+	},
+	"rewards": {
+	  "qp": 3,
+	  "CRAFTING": 5000,
+	  "MAGIC": 5000
+	}
+  },
+  {
+	"id": 211,
+	"title": "Dimension of Disaster: Defender of Varrock",
+	"requirements": {
+	  "quests": [
+		153,
+		208
+	  ]
+	},
+	"rewards": {
+	  "qp": 2,
+	  "THIEVING": 10000,
+	  "MAGIC": 10000,
+	  "DEFENCE": 10000,
+	  "CONSTRUCTION": 2000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"STRENGTH": 1,
+			"DEFENCE": 1,
+			"MAGIC": 1,
+			"RANGED": 1,
+			"CONSTITUTION": 1,
+			"PRAYER": 1,
+			"SUMMONING": 1
+		  },
+		  "values": [
+			15000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 212,
+	"title": "Dimension of Disaster: Curse of Arrav",
+	"requirements": {
+	  "quests": [
+		163,
+		209,
+		210,
+		211
+	  ],
+	  "AGILITY": 61,
+	  "STRENGTH": 64,
+	  "RANGED": 64
+	},
+	"rewards": {
+	  "qp": 1,
+	  "THIEVING": 14000,
+	  "RANGED": 9000,
+	  "AGILITY": 9000,
+	  "CRAFTING": 9000,
+	  "FARMING": 4000,
+	  "MAGIC": 2500,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"STRENGTH": 1,
+			"DEFENCE": 1,
+			"MAGIC": 1,
+			"RANGED": 1,
+			"CONSTITUTION": 1,
+			"PRAYER": 1,
+			"SUMMONING": 1
+		  },
+		  "values": [
+			30000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 213,
+	"title": "Dimension of Disaster",
+	"requirements": {
+	  "quests": [
+		212
+	  ]
+	},
+	"rewards": {
+	  "qp": 2
+	}
+  },
+  {
+	"id": 214,
+	"title": "Hero's Welcome",
+	"requirements": {
+	  "quests": [
+		57,
+		116
+	  ],
+	  "DIVINATION": 60,
+	  "MINING": 67,
+	  "SLAYER": 62,
+	  "SMITHING": 67
+	},
+	"rewards": {
+	  "qp": 2,
+	  "SMITHING": 10000,
+	  "MINING": 10000,
+	  "SLAYER": 10000,
+	  "DIVINATION": 10000
+	}
+  },
+  {
+	"id": 215,
+	"title": "The Light Within",
+	"requirements": {
+	  "quests": [
+		150,
+		167,
+		196,
+		201,
+		204
+	  ],
+	  "AGILITY": 80,
+	  "CRAFTING": 89,
+	  "DIVINATION": 80,
+	  "HERBLORE": 80,
+	  "PRAYER": 80,
+	  "SLAYER": 80,
+	  "WOODCUTTING": 80,
+	  "MINING": 81
+	},
+	"rewards": {
+	  "qp": 2,
+	  "AGILITY": 90000,
+	  "CRAFTING": 90000,
+	  "HERBLORE": 90000,
+	  "PRAYER": 90000,
+	  "SLAYER": 90000,
+	  "WOODCUTTING": 90000,
+	  "DIVINATION": 90000
+	}
+  },
+  {
+	"id": 216,
+	"title": "The Lord of Vampyrium",
+	"requirements": {
+	  "quests": [
+		186
+	  ],
+	  "ATTACK": 75,
+	  "DEFENCE": 75,
+	  "STRENGTH": 75,
+	  "CONSTITUTION": 75,
+	  "CONSTRUCTION": 79,
+	  "SLAYER": 78,
+	  "HUNTER": 76
+	},
+	"rewards": {
+	  "qp": 2,
+	  "CONSTRUCTION": 75000,
+	  "SLAYER": 50000,
+	  "HUNTER": 50000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 75
+		  },
+		  "values": [
+			75000,
+			75000,
+			75000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 217,
+	"title": "Call of the Ancestors",
+	"rewards": {
+	  "qp": 1,
+	  "lamps": [
+		{
+		  "requirements": {
+			"MAGIC": 10
+		  },
+		  "values": [
+			1000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 218,
+	"title": "Beneath Cursed Tides",
+	"requirements": {
+	  "ATTACK": 30,
+	  "STRENGTH": 30,
+	  "MAGIC": 30,
+	  "MINING": 30,
+	  "SMITHING": 30,
+	  "WOODCUTTING": 30,
+	  "FIREMAKING": 30,
+	  "COOKING": 30
+	},
+	"rewards": {
+	  "qp": 1,
+	  "COOKING": 5000,
+	  "FISHING": 5000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"STRENGTH": 1,
+			"DEFENCE": 1,
+			"MAGIC": 1,
+			"RANGED": 1,
+			"PRAYER": 1,
+			"SUMMONING": 1,
+			"SLAYER": 1,
+			"HERBLORE": 1
+		  },
+		  "values": [
+			10000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 219,
+	"title": "Nomad's Elegy",
+	"requirements": {
+	  "quests": [
+		63,
+		169,
+		178,
+		203,
+		206,
+		207
+	  ],
+	  "MINING": 75,
+	  "CONSTRUCTION": 75,
+	  "WOODCUTTING": 75
+	},
+	"rewards": {
+	  "qp": 1,
+	  "CONSTRUCTION": 50000,
+	  "MINING": 50000,
+	  "WOODCUTTING": 50000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 1,
+			"STRENGTH": 1,
+			"DEFENCE": 1,
+			"CONSTITUTION": 1,
+			"PRAYER": 1,
+			"MAGIC": 1,
+			"RANGED": 1,
+			"SUMMONING": 1
+		  },
+		  "values": [
+			50000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 220,
+	"title": "River of Blood",
+	"requirements": {
+	  "quests": [
+		151,
+		153,
+		216
+	  ],
+	  "HERBLORE": 80,
+	  "CONSTITUTION": 80,
+	  "ATTACK": 78,
+	  "RANGED": 78,
+	  "MAGIC": 78,
+	  "FIREMAKING": 76,
+	  "FLETCHING": 75,
+	  "MINING": 72
+	},
+	"rewards": {
+	  "qp": 3,
+	  "HERBLORE": 75000,
+	  "FIREMAKING": 50000,
+	  "FLETCHING": 50000,
+	  "MINING": 50000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 75
+		  },
+		  "values": [
+			75000,
+			75000,
+			75000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 221,
+	"title": "Barrows Sister",
+	"name": "Kindred Spirits",
+	"requirements": {
+	  "quests": [
+		199
+	  ],
+	  "AGILITY": 60,
+	  "CRAFTING": 60,
+	  "HERBLORE": 60,
+	  "SMITHING": 60
+	},
+	"rewards": {
+	  "qp": 1,
+	  "HERBLORE": 25000,
+	  "CRAFTING": 25000,
+	  "SMITHING": 25000,
+	  "AGILITY": 25000
+	}
+  },
+  {
+	"id": 222,
+	"title": "Gower Quest",
+	"requirements": {
+	  "qp": 34
+	},
+	"rewards": {
+	  "qp": 1,
+	  "lamps": [
+		{
+		  "requirements": {
+			"ATTACK": 10,
+			"STRENGTH": 10,
+			"DEFENCE": 10,
+			"RANGED": 10,
+			"PRAYER": 10,
+			"MAGIC": 10,
+			"CONSTITUTION": 10,
+			"CRAFTING": 10,
+			"MINING": 10,
+			"SMITHING": 10,
+			"FISHING": 10,
+			"COOKING": 10,
+			"FIREMAKING": 10,
+			"WOODCUTTING": 10,
+			"RUNECRAFTING": 10,
+			"DUNGEONEERING": 10
+		  },
+		  "values": [
+			250
+		  ]
+		},
+		{
+		  "requirements": {
+			"ATTACK": 30,
+			"STRENGTH": 30,
+			"DEFENCE": 30,
+			"RANGED": 30,
+			"PRAYER": 30,
+			"MAGIC": 30,
+			"CONSTITUTION": 30,
+			"CRAFTING": 30,
+			"MINING": 30,
+			"SMITHING": 30,
+			"FISHING": 30,
+			"COOKING": 30,
+			"FIREMAKING": 30,
+			"WOODCUTTING": 30,
+			"RUNECRAFTING": 30,
+			"DUNGEONEERING": 30
+		  },
+		  "values": [
+			1500
+		  ]
+		},
+		{
+		  "requirements": {
+			"ATTACK": 50,
+			"STRENGTH": 50,
+			"DEFENCE": 50,
+			"RANGED": 50,
+			"PRAYER": 50,
+			"MAGIC": 50,
+			"CONSTITUTION": 50,
+			"CRAFTING": 50,
+			"MINING": 50,
+			"SMITHING": 50,
+			"FISHING": 50,
+			"COOKING": 50,
+			"FIREMAKING": 50,
+			"WOODCUTTING": 50,
+			"RUNECRAFTING": 50,
+			"DUNGEONEERING": 50
+		  },
+		  "values": [
+			12000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 223,
+	"title": "Children of Mah",
+	"requirements": {
+	  "quests": [
+		168,
+		187,
+		207,
+		215
+	  ]
+	},
+	"rewards": {
+	  "qp": 2,
+	  "AGILITY": 100000,
+	  "DIVINATION": 100000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 75
+		  },
+		  "values": [
+			100000
+		  ]
+		}
+	  ]
+	}
+  },
+  {
+	"id": 224,
+	"title": "Impressing the Locals",
+	"rewards": {
+	  "qp": 1
+	}
+  },
+  {
+	"id": 225,
+	"title": "Sliske's Endgame",
+	"requirements": {
+	  "quests": [
+		11,
+		200,
+		214,
+		219,
+		221,
+		223
+	  ]
+	},
+	"rewards": {
+	  "qp": 3,
+	  "lamps": [
+		{
+		  "requirements": {
+			"*": 85
+		  },
+		  "values": [
+			250000,
+			250000,
+			250000,
+			250000,
+			250000
+		  ]
+		}
+	  ]
+	}
+  }
+]
