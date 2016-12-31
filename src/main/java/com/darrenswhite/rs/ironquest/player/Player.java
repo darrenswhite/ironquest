@@ -89,9 +89,10 @@ public class Player {
 	/**
 	 * Mark a Quest as completed and process all rewards
 	 *
-	 * @param q The Quest to be completed
+	 * @param q          The Quest to be completed
+	 * @param lampSkills The Skills to be used on Lamps
 	 */
-	public Set<Action> completeQuest(Quest q) {
+	public Set<Action> completeQuest(Quest q, Set<Skill> lampSkills) {
 		// Don't complete quests that are already completed
 		if (isQuestCompleted(q.getId())) {
 			throw new IllegalArgumentException("Quest already completed!");
@@ -119,7 +120,7 @@ public class Player {
 
 			// Get the best skills to use the lamp on based on the
 			// lamps requirements
-			Set<Skill> bestSkills = getBestLampSkills(l, previous);
+			Set<Skill> bestSkills = getBestLampSkills(l, previous, lampSkills);
 
 			log.fine("Chosen lamp skills: " + bestSkills);
 
@@ -165,9 +166,11 @@ public class Player {
 	 *
 	 * @param lamp     The lamp to get the best Skills for
 	 * @param previous The previous Skill choices for the Lamp
+	 * @param force    The Skills to force use if possible
 	 * @return A set of Skills to use a lamp on
 	 */
-	private Set<Skill> getBestLampSkills(Lamp lamp, Set<Set<Skill>> previous) {
+	private Set<Skill> getBestLampSkills(Lamp lamp, Set<Set<Skill>> previous,
+	                                     Set<Skill> force) {
 		// Ensure player has requirements
 		if (!lamp.hasRequirements(this)) {
 			throw new IllegalStateException(
@@ -178,6 +181,10 @@ public class Player {
 		Stream<Map.Entry<Set<Skill>, Integer>> reqStream =
 				lamp.getRequirements().entrySet().stream();
 
+		// Filter the stream based on requirements met
+		reqStream = reqStream.filter(e -> e.getKey().stream().filter(s ->
+				getSkillLevel(s) < e.getValue()).count() == 0);
+
 		// Filter the stream removing previous choices
 		// if the lamp is exclusive
 		if (lamp.isExclusive()) {
@@ -186,12 +193,30 @@ public class Player {
 			reqStream = reqStream.filter(e -> !previous.contains(e.getKey()));
 		}
 
-		// Filter the stream based on requirements met
-		reqStream = reqStream.filter(e -> e.getKey().stream().filter(s ->
-				getSkillLevel(s) < e.getValue()).count() == 0);
+		// Get the skills that meet requirements
+		Set<Set<Skill>> choices = reqStream.map(Map.Entry::getKey)
+				.collect(Collectors.toSet());
+		// Forced Skill choices
+		Set<Set<Skill>> forceChoices = new LinkedHashSet<>();
+
+		// Iterate all forced skill options
+		for (Skill skill : force) {
+			// Get all choices for this forced skill
+			Set<Set<Skill>> validChoice = choices.stream()
+					.filter(c -> c.contains(skill))
+					.collect(Collectors.toSet());
+
+			// Add all the forced choices
+			forceChoices.addAll(validChoice);
+		}
+
+		// Force Skill choice if possible
+		if (forceChoices.size() > 0) {
+			choices = forceChoices;
+		}
 
 		// Map the stream to the skills
-		Stream<Set<Skill>> choicesStream = reqStream.map(Map.Entry::getKey);
+		Stream<Set<Skill>> choicesStream = choices.stream();
 
 		// Get remaining xp requirements
 		Map<Skill, Integer> xpReqs = getRemainingXPRequirements();

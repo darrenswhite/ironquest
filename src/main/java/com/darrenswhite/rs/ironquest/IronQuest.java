@@ -64,6 +64,13 @@ public class IronQuest implements Runnable {
 	private Player player;
 
 	/**
+	 * A Set of Skills to use lamps on. This is empty by default
+	 * and Lamp Skills will be chosen by an algorithm. Use this
+	 * to force a Set of Skills to use for every Lamp.
+	 */
+	private Set<Skill> lampSkills = new LinkedHashSet<>();
+
+	/**
 	 * Creates a new IronQuest instance with the given set of Quest's
 	 *
 	 * @param quests The set of Quest's to use
@@ -326,7 +333,7 @@ public class IronQuest implements Runnable {
 		log.info("Generating actions...");
 
 		// Clear previous actions
-		actions.clear();
+		Platform.runLater(actions::clear);
 		// Clear any previous items from the list
 		open.clear();
 		// Add all quests to the open list
@@ -334,6 +341,8 @@ public class IronQuest implements Runnable {
 
 		// Remove all quests the player has already completed
 		open.removeIf(q -> player.isQuestCompleted(q.getId()));
+
+		log.info("Force lamp skills: " + lampSkills);
 
 		// Loop until all quests completed
 		while (!open.isEmpty()) {
@@ -343,7 +352,7 @@ public class IronQuest implements Runnable {
 			log.info("Best: " + best);
 
 			// Complete the quest
-			Set<Action> newActions = player.completeQuest(best);
+			Set<Action> newActions = player.completeQuest(best, lampSkills);
 
 			newActions.forEach(a -> log.info("Adding action: " +
 					a.getMessage()));
@@ -359,6 +368,17 @@ public class IronQuest implements Runnable {
 			// Remove it from the list
 			open.remove(best);
 		}
+	}
+
+	/**
+	 * A Set of Skills to use lamps on. This is empty by default
+	 * and Lamp Skills will be chosen by an algorithm. Use this
+	 * to force a Set of Skills to use for every Lamp.
+	 *
+	 * @param lampSkills A Set of Skills to use Lamp's on
+	 */
+	public void setForceLampSkills(Set<Skill> lampSkills) {
+		this.lampSkills = lampSkills;
 	}
 
 	/**
