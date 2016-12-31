@@ -63,6 +63,9 @@ public class MainPane extends GridPane {
 		// Username text field
 		TextField textRSN = new TextField();
 
+		// Add tooltip info
+		textRSN.setTooltip(new Tooltip("Enter your RuneScape name to " +
+				"retrieve quest and skill information."));
 		// Add prompt text
 		textRSN.setPromptText("Username");
 
@@ -88,12 +91,19 @@ public class MainPane extends GridPane {
 				(observable, oldValue, newValue) ->
 						lampSkill2.setDisable(newValue == null ||
 								newValue.getSkill() == null));
+		// Add tooltip info
+		lampSkill1.setTooltip(new Tooltip("Force skill lamps to be " +
+				"used on a chosen skill if possible."));
 		// Always fill width
 		lampSkill1.setMaxWidth(Double.MAX_VALUE);
 		HBox.setHgrow(lampSkill1, Priority.ALWAYS);
 
 		// Disable second choice by default
 		lampSkill2.setDisable(true);
+		// Add tooltip info
+		lampSkill2.setTooltip(new Tooltip("Force skill lamps to be " +
+				"used on a chosen skill if possible. Fallback choice if " +
+				"the first cannot be used."));
 		// Always fill width
 		lampSkill2.setMaxWidth(Double.MAX_VALUE);
 		HBox.setHgrow(lampSkill2, Priority.ALWAYS);
@@ -134,6 +144,10 @@ public class MainPane extends GridPane {
 		// Bind the actions to the ListView
 		listActions.itemsProperty().bind(Bindings.createObjectBinding(
 				quest::getActions, quest.getActions()));
+		// Add tooltip info
+		listActions.setTooltip(new Tooltip("The recommended order to " +
+				"complete quests. Shows training information and skill " +
+				"lamp choices."));
 
 		// ListView for current Action information
 		ListView<String> listInfo = new ListView<>();
@@ -141,6 +155,9 @@ public class MainPane extends GridPane {
 		// Bind the information for the current Action to the ListView
 		listInfo.itemsProperty().bind(Bindings.createObjectBinding(
 				() -> info, info));
+		// Add tooltip info
+		listInfo.setTooltip(new Tooltip("Shows player information " +
+				"after completing the selected quest."));
 
 		// The run button
 		Button btnRun = new Button("Run");
