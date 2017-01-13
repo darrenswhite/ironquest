@@ -195,6 +195,9 @@ public class MainPane extends GridPane {
 
 						// Set the lamp skills
 						quest.setForceLampSkills(lampChoices);
+					} else {
+						// Reset force skills
+						quest.setForceLampSkills(new LinkedHashSet<>());
 					}
 
 					// Set player name
