@@ -104,11 +104,23 @@ public class MainFX extends Application {
 	public void start(Stage stage) throws Exception {
 		// Initialize and show main app
 		MainPane pane = new MainPane();
+
+		// Close the pane and save settings
+		stage.setOnCloseRequest(e -> {
+			pane.close();
+			IronQuest.getInstance().save();
+		});
+		// Load settings, initialize the pane, and
+		// run the program
+		stage.setOnShowing(e -> {
+			IronQuest.getInstance().load();
+			pane.init();
+			pane.run();
+		});
+
 		// Create a new scene with the default width & height
 		Scene scene = new Scene(pane, APP_WIDTH, APP_HEIGHT);
 
-		// Exit after the stage is closed
-		stage.setOnCloseRequest(e -> pane.close());
 		// Set the primary stage scene and the default title
 		stage.setScene(scene);
 		stage.setTitle(STAGE_NAME);

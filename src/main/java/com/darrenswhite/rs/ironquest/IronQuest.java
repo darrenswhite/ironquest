@@ -14,9 +14,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * @author Darren White
@@ -213,7 +220,7 @@ public class IronQuest implements Runnable {
 				// Create a new instance
 				instance = new IronQuest(quests);
 			} catch (IOException e) {
-				e.printStackTrace();
+				log.log(Level.SEVERE, "Unable to deserialize JSON: ", e);
 			}
 		}
 
@@ -270,6 +277,15 @@ public class IronQuest implements Runnable {
 	}
 
 	/**
+	 * Gets the Path to store the properties at
+	 *
+	 * @return A Path to store the properties in
+	 */
+	private Path getPropertiesPath() {
+		return Paths.get(".ironquest");
+	}
+
+	/**
 	 * Gets a Quest using its id
 	 *
 	 * @param id The Quest id
@@ -320,6 +336,49 @@ public class IronQuest implements Runnable {
 	 */
 	public Set<Quest> getQuests() {
 		return Collections.unmodifiableSet(quests);
+	}
+
+	/**
+	 * Loads the previously saved state from
+	 * a properties file
+	 */
+	public void load() {
+		Properties prop = new Properties();
+
+		log.info("Loading settings...");
+
+		Path path = getPropertiesPath();
+
+		if (!Files.exists(path)) {
+			return;
+		}
+
+		// Load the properties file
+		try (InputStream in = Files.newInputStream(path)) {
+			prop.load(in);
+		} catch (IOException e) {
+			log.log(Level.SEVERE, "Unable to load properties: ", e);
+			return;
+		}
+
+		// Load the property name
+		setPlayer(prop.getProperty("name"));
+
+		// Get the lamp skills comma delimited string
+		String lampSkillsStr = prop.getProperty("lampSkills", "");
+		// Split the string by commas
+		String[] skillsArr = lampSkillsStr.split(",");
+		Set<Skill> lampSkills = new LinkedHashSet<>();
+
+		// Parse the skill strings array
+		for (String s : skillsArr) {
+			Optional<Skill> skill = Skill.tryGet(s);
+
+			skill.ifPresent(lampSkills::add);
+		}
+
+		// Set the lamp skills set
+		setLampSkills(lampSkills);
 	}
 
 	/**
@@ -380,6 +439,38 @@ public class IronQuest implements Runnable {
 
 			// Remove it from the list
 			open.remove(best);
+		}
+	}
+
+	/**
+	 * Saves the state (player name and lamp skill
+	 * choices) to a properties file
+	 */
+	public void save() {
+		Properties prop = new Properties();
+
+		log.info("Saving settings...");
+
+		// Store player name
+		if (player != null && player.getName().isPresent()) {
+			prop.setProperty("name", player.getName().get());
+		}
+
+		// Join lamp skills by commas
+		String lampSkillsStr = lampSkills.stream()
+				.map(Skill::toString)
+				.collect(Collectors.joining(","));
+
+		// Store lamp skills set
+		if (!lampSkillsStr.isEmpty()) {
+			prop.setProperty("lampSkills", lampSkillsStr);
+		}
+
+		// Store the properties to file
+		try (OutputStream out = Files.newOutputStream(getPropertiesPath())) {
+			prop.store(out, "");
+		} catch (IOException e) {
+			log.log(Level.SEVERE, "Unable to save properties: ", e);
 		}
 	}
 
