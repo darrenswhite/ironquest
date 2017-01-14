@@ -40,7 +40,7 @@ public class IronQuest implements Runnable {
 	 * The JSON file containing quest data
 	 */
 	private static final String FILE_QUESTS_JSON =
-			"src/main/resources/json/quests.json";
+			"resources/json/quests.json";
 
 	/**
 	 * The IronQuest instance
