@@ -254,7 +254,10 @@ public class MainPane extends GridPane {
 				IronQuest quest = IronQuest.getInstance();
 
 				// Set player name
-				quest.setPlayer(textRSN.getText());
+				if (textRSN.getText() != null && !textRSN.getText()
+						.isEmpty()) {
+					quest.setPlayer(textRSN.getText());
+				}
 				// Run the algorithm
 				quest.run();
 

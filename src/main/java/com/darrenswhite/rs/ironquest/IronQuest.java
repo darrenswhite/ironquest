@@ -40,7 +40,7 @@ public class IronQuest implements Runnable {
 	 * The JSON file containing quest data
 	 */
 	private static final String FILE_QUESTS_JSON =
-			"resources/json/quests.json";
+			"src/main/resources/json/quests.json";
 
 	/**
 	 * The IronQuest instance
@@ -282,7 +282,8 @@ public class IronQuest implements Runnable {
 	 * @return A Path to store the properties in
 	 */
 	private Path getPropertiesPath() {
-		return Paths.get(".ironquest");
+		String home = System.getProperty("user.home");
+		return Paths.get(home, ".ironquest");
 	}
 
 	/**
@@ -387,8 +388,8 @@ public class IronQuest implements Runnable {
 	@Override
 	public void run() {
 		// Check player instance
-		if (player != null) {
-			log.info("Using player profile: " + player);
+		if (player != null && player.getName().isPresent()) {
+			log.info("Using player profile: " + player.getName().get());
 
 			// Reset the player from previous runs
 			player.reset();
