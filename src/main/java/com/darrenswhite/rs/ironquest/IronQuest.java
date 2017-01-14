@@ -221,6 +221,15 @@ public class IronQuest implements Runnable {
 	}
 
 	/**
+	 * Gets the Skills to be used on Lamps
+	 *
+	 * @return A Set of Skills
+	 */
+	public Set<Skill> getLampSkills() {
+		return lampSkills;
+	}
+
+	/**
 	 * Gets the maximum Skill requirements for the given Quests
 	 *
 	 * @param quests A collection of Quests
@@ -320,7 +329,7 @@ public class IronQuest implements Runnable {
 	public void run() {
 		// Check player instance
 		if (player != null) {
-			log.info("Using player profile: " + player.getName());
+			log.info("Using player profile: " + player);
 
 			// Reset the player from previous runs
 			player.reset();
@@ -381,7 +390,7 @@ public class IronQuest implements Runnable {
 	 *
 	 * @param lampSkills A Set of Skills to use Lamp's on
 	 */
-	public void setForceLampSkills(Set<Skill> lampSkills) {
+	public void setLampSkills(Set<Skill> lampSkills) {
 		this.lampSkills = lampSkills;
 	}
 

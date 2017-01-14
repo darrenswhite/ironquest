@@ -14,10 +14,9 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.stage.Window;
 
-import java.util.LinkedHashSet;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -52,19 +51,9 @@ public class MainPane extends GridPane {
 	private TextField textRSN;
 
 	/**
-	 * Skills to choose from to override lamp choices
+	 * Button to change force lamp skills
 	 */
-	private ObservableList<SkillWrapper> lampSkills;
-
-	/**
-	 * Force lamp skill - first choice
-	 */
-	private ComboBox<SkillWrapper> lampSkill1;
-
-	/**
-	 * Force lamp skill - second choice
-	 */
-	private ComboBox<SkillWrapper> lampSkill2;
+	private Button btnLampSkills;
 
 	/**
 	 * The run button
@@ -154,41 +143,13 @@ public class MainPane extends GridPane {
 		// Add prompt text
 		textRSN.setPromptText("Username");
 
-		lampSkills = FXCollections.observableArrayList();
-		// Add a "None" option
-		lampSkills.add(new SkillWrapper(null));
-
-		// Add all Skills
-		for (Skill s : Skill.values()) {
-			lampSkills.add(new SkillWrapper(s));
-		}
-
-		lampSkill1 = new ComboBox<>(lampSkills);
-		// Add tooltip info
-		lampSkill1.setTooltip(new Tooltip("Force skill lamps to be " +
-				"used on a chosen skill if possible."));
-		// Always fill width
-		lampSkill1.setMaxWidth(Double.MAX_VALUE);
-		HBox.setHgrow(lampSkill1, Priority.ALWAYS);
-
-		lampSkill2 = new ComboBox<>(lampSkills);
-		// Disable second choice by default
-		lampSkill2.setDisable(true);
-		// Second choice is only enabled if first choice is valid
-		lampSkill2.disableProperty()
-				.bind(Bindings.createBooleanBinding(() -> {
-					SkillWrapper item = lampSkill1.getSelectionModel()
-							.getSelectedItem();
-
-					return item == null || !item.getSkill().isPresent();
-				}, lampSkill1.getSelectionModel().selectedIndexProperty()));
-		// Add tooltip info
-		lampSkill2.setTooltip(new Tooltip("Force skill lamps to be " +
-				"used on a chosen skill if possible. Fallback choice if " +
-				"the first cannot be used."));
-		// Always fill width
-		lampSkill2.setMaxWidth(Double.MAX_VALUE);
-		HBox.setHgrow(lampSkill2, Priority.ALWAYS);
+		btnLampSkills = new Button("Lamp Skills");
+		// Show LampSkillsChoice on click
+		btnLampSkills.setOnAction(this::showLampSkills);
+		// Always fill width/height
+		btnLampSkills.setMaxHeight(Double.MAX_VALUE);
+		btnLampSkills.setMaxWidth(Double.MAX_VALUE);
+		HBox.setHgrow(btnLampSkills, Priority.ALWAYS);
 
 		listActions = new ListView<>();
 		// Change the current action information on selection
@@ -232,11 +193,8 @@ public class MainPane extends GridPane {
 
 		// Add nodes to grid
 		add(textRSN, 0, 0,
-				(int) (columns * 0.5), 1);
-		add(lampSkill1, (int) (columns * 0.5),
-				0, (int) (columns * 0.25), 1);
-		add(lampSkill2, (int) (columns * 0.75), 0,
-				(int) (columns * 0.25), 1);
+				(int) (columns * 0.75), 1);
+		add(btnLampSkills, (int) (columns * 0.75), 0, (int) (columns * 0.25), 1);
 		add(listActions, 0, 1, (int) (columns * 0.5),
 				1);
 		add(listInfo, (int) (columns * 0.5), 1,
@@ -282,33 +240,6 @@ public class MainPane extends GridPane {
 			try {
 				// Get the instance
 				IronQuest quest = IronQuest.getInstance();
-				// Get lamp skill first choice
-				SkillWrapper skill1 = lampSkill1.getSelectionModel()
-						.getSelectedItem();
-
-				// Check a Skill is selected
-				if (skill1 != null && skill1.getSkill().isPresent()) {
-					// Get lamp skill second choice
-					SkillWrapper skill2 = lampSkill2.getSelectionModel()
-							.getSelectedItem();
-					// The Skill choices
-					Set<Skill> lampChoices = new LinkedHashSet<>();
-
-					// Add the first choice
-					lampChoices.add(skill1.getSkill().get());
-
-					// Check if there is a 2nd skill
-					if (skill2 != null && skill2.getSkill().isPresent()) {
-						// Add the second choice
-						lampChoices.add(skill2.getSkill().get());
-					}
-
-					// Set the lamp skills
-					quest.setForceLampSkills(lampChoices);
-				} else {
-					// Reset force skills
-					quest.setForceLampSkills(new LinkedHashSet<>());
-				}
 
 				// Set player name
 				quest.setPlayer(textRSN.getText());
@@ -327,6 +258,19 @@ public class MainPane extends GridPane {
 			// Enable the button again
 			Platform.runLater(() -> btnRun.setDisable(false));
 		});
+	}
+
+	/**
+	 * Shows the stage to choose Skills to use Lamps on
+	 *
+	 * @param e The ActionEvent invoked
+	 */
+	private void showLampSkills(ActionEvent e) {
+		Window owner = getScene().getWindow();
+		LampSkillsChoice skillsChoice = new LampSkillsChoice(owner);
+
+		skillsChoice.sizeToScene();
+		skillsChoice.showAndWait();
 	}
 
 	/**
