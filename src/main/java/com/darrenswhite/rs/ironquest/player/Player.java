@@ -26,7 +26,6 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author Darren White
@@ -36,14 +35,14 @@ public class Player {
 	/**
 	 * URL for Hiscores
 	 */
-	public static final String URL_HISCORES_LITE =
-			"http://services.runescape.com/m=hiscore/index_lite.ws?player=%s";
+	private static final String URL_HISCORES_LITE =
+			"http://services.runescape.com/m=hiscore/index_lite.ws?player=";
 
 	/**
 	 * URL for RuneMetrics quest data
 	 */
-	public static final String URL_RUNE_METRICS_QUESTS =
-			"https://apps.runescape.com/runemetrics/quests?user=%s";
+	private static final String URL_RUNE_METRICS_QUESTS =
+			"https://apps.runescape.com/runemetrics/quests?user=";
 
 	/**
 	 * The logger
@@ -115,7 +114,7 @@ public class Player {
 		Set<Set<Skill>> previous = new HashSet<>();
 
 		// Add xp for all lamps, if possible
-		q.getLampRewards().forEach(l -> {
+		for (Lamp l : q.getLampRewards()) {
 			log.fine("Processing lamp: " + l);
 
 			// Get the best skills to use the lamp on based on the
@@ -132,7 +131,7 @@ public class Player {
 
 			// Add a new LampAction
 			actions.add(new LampAction(this, q, l, bestSkills));
-		});
+		}
 
 		return actions;
 	}
@@ -177,33 +176,26 @@ public class Player {
 					"Unable to use lamp: requirements not met");
 		}
 
+		log.fine("Previous choices: " + previous);
+
 		// Create a stream for the lamp requirements
-		Stream<Map.Entry<Set<Skill>, Integer>> reqStream =
-				lamp.getRequirements().entrySet().stream();
-
 		// Filter the stream based on requirements met
-		reqStream = reqStream.filter(e -> e.getKey().stream().filter(s ->
-				getSkillLevel(s) < e.getValue()).count() == 0);
-
-		// Filter the stream removing previous choices
-		// if the lamp is exclusive
-		if (lamp.isExclusive()) {
-			log.fine("Previous choices: " + previous);
-
-			reqStream = reqStream.filter(e -> !previous.contains(e.getKey()));
-		}
-
 		// Get the skills that meet requirements
-		Set<Set<Skill>> choices = reqStream.map(Map.Entry::getKey)
+		Set<Set<Skill>> choices = lamp.getRequirements().entrySet().stream()
+				.filter(e -> e.getKey().stream().filter(s ->
+						getLevel(s) < e.getValue()).count() == 0)
+				.filter(e -> lamp.isExclusive() &&
+						!previous.contains(e.getKey()))
+				.map(Map.Entry::getKey)
 				.collect(Collectors.toSet());
 		// Forced Skill choices
 		Set<Set<Skill>> forceChoices = new LinkedHashSet<>();
 
 		// Iterate all forced skill options
-		for (Skill skill : force) {
+		for (Skill s : force) {
 			// Get all choices for this forced skill
 			Set<Set<Skill>> validChoice = choices.stream()
-					.filter(c -> c.contains(skill))
+					.filter(c -> c.contains(s))
 					.collect(Collectors.toSet());
 
 			// Add all the forced choices
@@ -215,15 +207,13 @@ public class Player {
 			choices = forceChoices;
 		}
 
-		// Map the stream to the skills
-		Stream<Set<Skill>> choicesStream = choices.stream();
-
 		// Get remaining xp requirements
 		Map<Skill, Integer> xpReqs = getRemainingXPRequirements();
 
+		// Map the stream to the skills
 		// Get the total XP requirements for each set of skill choices
-		Map<Set<Skill>, Integer> xpChoicesReqs = choicesStream.collect(
-				Collectors.toMap(s -> s, s -> s.stream()
+		Map<Set<Skill>, Integer> xpChoicesReqs = choices.stream()
+				.collect(Collectors.toMap(s -> s, s -> s.stream()
 						.mapToInt(sk -> xpReqs.getOrDefault(sk, 0))
 						.sum()));
 
@@ -251,14 +241,14 @@ public class Player {
 	 */
 	public double getCombatLevel() {
 		// Get combat levels
-		int attack = getSkillLevel(Skill.ATTACK);
-		int constitution = getSkillLevel(Skill.CONSTITUTION);
-		int defence = getSkillLevel(Skill.DEFENCE);
-		int magic = getSkillLevel(Skill.MAGIC);
-		int prayer = getSkillLevel(Skill.PRAYER);
-		int range = getSkillLevel(Skill.RANGED);
-		int strength = getSkillLevel(Skill.STRENGTH);
-		int summoning = getSkillLevel(Skill.SUMMONING);
+		int attack = getLevel(Skill.ATTACK);
+		int constitution = getLevel(Skill.CONSTITUTION);
+		int defence = getLevel(Skill.DEFENCE);
+		int magic = getLevel(Skill.MAGIC);
+		int prayer = getLevel(Skill.PRAYER);
+		int range = getLevel(Skill.RANGED);
+		int strength = getLevel(Skill.STRENGTH);
+		int summoning = getLevel(Skill.SUMMONING);
 
 		// Combat equation found here:
 		// http://runescape.wikia.com/wiki/Combat_level
@@ -272,51 +262,14 @@ public class Player {
 	}
 
 	/**
-	 * Gets the Player name
-	 *
-	 * @return The name of the Player
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * Calculates the total number of Quest points
-	 *
-	 * @return The number of Quest points
-	 */
-	public int getQuestPoints() {
-		// Count quests points for all quests
-		return quests.parallelStream().mapToInt(id ->
-				IronQuest.getInstance().getQuest(id).getQuestPoints()).sum();
-	}
-
-	private Map<Skill, Integer> getRemainingXPRequirements() {
-		// Get the maximum requirements for remaining quests
-		Map<Skill, Integer> maxRequirements =
-				IronQuest.getInstance().getMaxRequirements(
-						IronQuest.getInstance().getOpen());
-
-		// Change the maximum requirement levels to XP
-		maxRequirements = maxRequirements.entrySet().stream()
-				.collect(Collectors.toMap(Map.Entry::getKey,
-						e -> e.getKey().getXPAt(e.getValue())));
-
-		// Get the xp required for the maximum requirements
-		return maxRequirements.entrySet().stream()
-				.collect(Collectors.toMap(Map.Entry::getKey,
-						e -> e.getValue() - getSkillXP(e.getKey())));
-	}
-
-	/**
 	 * Gets the level for a Skill
 	 *
 	 * @param s The Skill to get the level for
 	 * @return The Skill level
 	 */
-	public int getSkillLevel(Skill s) {
+	public int getLevel(Skill s) {
 		// Get skill level based on skill xp
-		return s.getLevelAt(getSkillXP(s));
+		return s.getLevelAt(getXP(s));
 	}
 
 	/**
@@ -324,7 +277,7 @@ public class Player {
 	 *
 	 * @return A Map of Skills with levels
 	 */
-	public Map<Skill, Integer> getSkillLevels() {
+	public Map<Skill, Integer> getLevels() {
 		// Map Skill XP to levels adding them to a new LinkedHashMap
 		return skillXPs.entrySet().stream()
 				.collect(Collectors.toMap(Map.Entry::getKey,
@@ -336,12 +289,68 @@ public class Player {
 	}
 
 	/**
+	 * Gets the Player name
+	 *
+	 * @return The name of the Player
+	 */
+	public Optional<String> getName() {
+		return Optional.ofNullable(name);
+	}
+
+	/**
+	 * Calculates the total number of Quest points
+	 *
+	 * @return The number of Quest points
+	 */
+	public int getQuestPoints() {
+		// Count quests points for all quests
+		return quests.stream()
+				.mapToInt(id -> IronQuest.getInstance()
+						.getQuest(id)
+						.getQuestPoints())
+				.sum();
+	}
+
+	/**
+	 * Get the remaining skill XP requirements to complete all quests
+	 *
+	 * @return A map of skill xp values to complete remaining quests
+	 */
+	private Map<Skill, Integer> getRemainingXPRequirements() {
+		IronQuest quest = IronQuest.getInstance();
+		// Get the maximum requirements for remaining quests
+		Map<Skill, Integer> maxRequirements = quest.getMaxRequirements(
+				quest.getOpen());
+
+		// Change the maximum requirement levels to XP
+		maxRequirements = maxRequirements.entrySet().stream()
+				.collect(Collectors.toMap(Map.Entry::getKey,
+						e -> e.getKey().getXPAt(e.getValue())));
+
+		// Get the xp required for the maximum requirements
+		return maxRequirements.entrySet().stream()
+				.collect(Collectors.toMap(Map.Entry::getKey,
+						e -> e.getValue() - getXP(e.getKey())));
+	}
+
+	/**
+	 * Gets the total skill level
+	 *
+	 * @return The total skill level
+	 */
+	public int getTotalLevel() {
+		return getLevels().values().stream()
+				.mapToInt(Integer::intValue)
+				.sum();
+	}
+
+	/**
 	 * Gets the XP for a Skill
 	 *
 	 * @param s The Skill to get the XP for
 	 * @return The Skill XP
 	 */
-	public int getSkillXP(Skill s) {
+	public int getXP(Skill s) {
 		// Get current xp for skill
 		return skillXPs.get(s);
 	}
@@ -351,7 +360,7 @@ public class Player {
 	 *
 	 * @return The Skill XPs
 	 */
-	public Map<Skill, Integer> getSkillXPs() {
+	public Map<Skill, Integer> getXPs() {
 		return Collections.unmodifiableMap(skillXPs);
 	}
 
@@ -387,23 +396,31 @@ public class Player {
 		}
 	}
 
+	/**
+	 * Loads the Player's skill XP from the RuneScape Hiscores
+	 */
 	private void loadHiscores() {
+		// CSV format
 		CSVFormat format = CSVFormat.DEFAULT.withDelimiter(',');
 
 		String url;
 
 		try {
-			url = String.format(URL_HISCORES_LITE,
-					URLEncoder.encode(name, "UTF-8"));
+			// Encode the name into the URL
+			url = URL_HISCORES_LITE +
+					URLEncoder.encode(name, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			log.log(Level.SEVERE, "Unsupported encoding: ", e);
 			return;
 		}
 
+		// Open a new InputStream for the URL
 		try (InputStream in = new URL(url).openStream()) {
+			// Parse the CSV data
 			CSVParser parser = format.parse(new InputStreamReader(in));
 			List<CSVRecord> records = parser.getRecords();
 
+			// Parse the Skill XP values
 			for (int i = 0; i < Skill.values().length; i++) {
 				Optional<Skill> skill = Skill.tryGet(i);
 				CSVRecord r = records.get(i);
@@ -417,25 +434,33 @@ public class Player {
 		}
 	}
 
+	/**
+	 * Loads the Player's Quest data from RuneMetrics
+	 */
 	private void loadQuests() {
+		// Quest data is in JSON
 		Gson gson = new Gson();
 		String url;
 
 		try {
-			url = String.format(URL_RUNE_METRICS_QUESTS,
-					URLEncoder.encode(name, "UTF-8"));
+			// Encode name into the URL
+			url = URL_RUNE_METRICS_QUESTS +
+					URLEncoder.encode(name, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			log.log(Level.SEVERE, "Unsupported encoding: ", e);
 			return;
 		}
 
+		// Open a new InputStream for the URL
 		try (InputStream in = new URL(url).openStream()) {
+			// Parse the JSON data
 			JsonParser parser = new JsonParser();
 			JsonObject jsonObject =
 					parser.parse(new InputStreamReader(in)).getAsJsonObject();
 			JsonArray questsArray =
 					jsonObject.getAsJsonArray("quests");
 
+			// Parse the Quests
 			LinkedHashSet<RuneMetricsQuest> rmQuests =
 					gson.fromJson(questsArray,
 							new TypeToken<LinkedHashSet<RuneMetricsQuest>>() {
@@ -444,10 +469,12 @@ public class Player {
 			IronQuest instance = IronQuest.getInstance();
 			Set<String> invalid = new LinkedHashSet<>();
 
+			// Add all completed quests to the completed quest set
 			for (RuneMetricsQuest rmq : rmQuests) {
 				try {
 					if (rmq.getStatus() == RuneMetricsQuest.Status.COMPLETED) {
-						quests.add(instance.getQuest(rmq.getTitle()).getId());
+						quests.add(instance.getQuest(rmq.getTitle())
+								.getId());
 					}
 				} catch (IllegalArgumentException e) {
 					log.warning("Unable to find quest with name: " +
@@ -464,7 +491,9 @@ public class Player {
 	 * Resets this Player
 	 */
 	public void reset() {
+		// Clear completed quests
 		quests.clear();
+		// Load data
 		load();
 	}
 }
