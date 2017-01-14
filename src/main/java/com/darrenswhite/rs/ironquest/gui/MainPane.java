@@ -19,11 +19,19 @@ import javafx.stage.Window;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Darren White
  */
 public class MainPane extends GridPane {
+
+	/**
+	 * The logger
+	 */
+	private static final Logger log =
+			Logger.getLogger(IronQuest.class.getName());
 
 	/**
 	 * Executor for running IronQuest
@@ -59,13 +67,6 @@ public class MainPane extends GridPane {
 	 * The run button
 	 */
 	private Button btnRun;
-
-	/**
-	 * Creates a new MainPane
-	 */
-	public MainPane() {
-		init();
-	}
 
 	private void actionClick(MouseEvent e) {
 		// Get selected Action
@@ -127,7 +128,7 @@ public class MainPane extends GridPane {
 	/**
 	 * Initializes this pane and its components
 	 */
-	private void init() {
+	public void init() {
 		// Create a new instance
 		IronQuest quest = IronQuest.getInstance();
 
@@ -137,6 +138,10 @@ public class MainPane extends GridPane {
 		setVgap(10);
 
 		textRSN = new TextField();
+		// Set the username if already set
+		quest.getPlayer()
+				.ifPresent(p -> p.getName()
+						.ifPresent(n -> textRSN.setText(n)));
 		// Add tooltip info
 		textRSN.setTooltip(new Tooltip("Enter your RuneScape name to " +
 				"retrieve quest and skill information."));
@@ -227,6 +232,13 @@ public class MainPane extends GridPane {
 	}
 
 	/**
+	 * Simulate the run button - runs the main algorithm
+	 */
+	public void run() {
+		run(null);
+	}
+
+	/**
 	 * Event executed when the run button is clicked
 	 *
 	 * @param e The ActionEvent invoked
@@ -252,7 +264,7 @@ public class MainPane extends GridPane {
 					listActions.getSelectionModel().select(0);
 				});
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				log.log(Level.SEVERE, "Unable to run: ", e);
 			}
 
 			// Enable the button again
