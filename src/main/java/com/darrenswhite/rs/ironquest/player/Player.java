@@ -184,7 +184,7 @@ public class Player {
 		Set<Set<Skill>> choices = lamp.getRequirements().entrySet().stream()
 				.filter(e -> e.getKey().stream().filter(s ->
 						getLevel(s) < e.getValue()).count() == 0)
-				.filter(e -> lamp.isExclusive() &&
+				.filter(e -> !lamp.isExclusive() ||
 						!previous.contains(e.getKey()))
 				.map(Map.Entry::getKey)
 				.collect(Collectors.toSet());
@@ -201,6 +201,9 @@ public class Player {
 			// Add all the forced choices
 			forceChoices.addAll(validChoice);
 		}
+
+		log.fine("Skill choices: " + choices);
+		log.fine("Force choices: " + forceChoices);
 
 		// Force Skill choice if possible
 		if (forceChoices.size() > 0) {
@@ -495,5 +498,12 @@ public class Player {
 		quests.clear();
 		// Load data
 		load();
+	}
+
+	@Override
+	public String toString() {
+		return "Player{" +
+				"name='" + name + '\'' +
+				'}';
 	}
 }

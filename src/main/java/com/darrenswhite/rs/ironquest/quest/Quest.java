@@ -277,7 +277,7 @@ public class Quest {
 	 */
 	public boolean hasSkillRequirements(Player p) {
 		return skillRequirements.entrySet().stream()
-				.filter(s -> playerHasLevelRequirement(p, s))
+				.filter(s -> !playerHasLevelRequirement(p, s))
 				.count() == 0;
 	}
 
@@ -289,7 +289,7 @@ public class Quest {
 	 */
 	private boolean playerHasLevelRequirement(Player p,
 	                                          Map.Entry<Skill, Integer> e) {
-		return p.getLevel(e.getKey()) < e.getValue();
+		return p.getLevel(e.getKey()) >= e.getValue();
 	}
 
 	@Override

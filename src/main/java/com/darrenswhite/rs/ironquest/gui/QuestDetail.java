@@ -35,7 +35,7 @@ public class QuestDetail extends Stage {
 	/**
 	 * The title of the window
 	 */
-	private static final String APP_NAME = "Quest Details";
+	private static final String STAGE_NAME = "Quest Details";
 
 	private static final String URL_RUNE_WIKI =
 			"http://runescape.wikia.com/wiki/";
@@ -44,6 +44,26 @@ public class QuestDetail extends Stage {
 	 * The Quest to show detailed information
 	 */
 	private final Quest quest;
+
+	/**
+	 * The GridPane which contains all components
+	 */
+	private GridPane grid;
+
+	/**
+	 * ScrollPane which wraps the GridPane
+	 */
+	private ScrollPane scroll;
+
+	/**
+	 * The Scene for this Stage
+	 */
+	private Scene scene;
+
+	/**
+	 * The Quest name
+	 */
+	private Label lblName;
 
 	/**
 	 * Creates a new QuestDetail Stage
@@ -64,33 +84,29 @@ public class QuestDetail extends Stage {
 		// No need for the task details to be resizable
 		setResizable(false);
 		// Set the title of the window
-		setTitle(APP_NAME);
+		setTitle(STAGE_NAME);
 
 		init();
 	}
 
 	private void init() {
-		// Create the grid that we are going to
-		// put all the component onto
-		GridPane grid = new GridPane();
-		// Use this to contain everything so it fits on the screen
-		ScrollPane scroll = new ScrollPane(grid);
-		// Create the scene
-		Scene scene = new Scene(scroll);
-
-		// Set the maximum size that the scrollpane should be
-		scroll.setMaxSize(500, 500);
-		// Don't display horizontal scrollbar as we don't need it
-		scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-
+		grid = new GridPane();
 		// Set padding & gaps to 10px
 		grid.setPadding(new Insets(10));
 		grid.setHgap(10);
 		grid.setVgap(10);
 
-		// The Quest name
-		Label lblName = new Label(quest.getDisplayName());
+		// Wrap GridPane in ScrollPane
+		scroll = new ScrollPane(grid);
+		// Set the maximum size that the scrollpane should be
+		scroll.setMaxSize(500, 500);
+		// Don't display horizontal scrollbar as we don't need it
+		scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
+		// Create a new Scene containing the ScrollPane
+		scene = new Scene(scroll);
+
+		lblName = new Label(quest.getDisplayName());
 		// Open RS wiki page on double click
 		lblName.setOnMouseClicked(this::openQuestUrl);
 		// Center the name label

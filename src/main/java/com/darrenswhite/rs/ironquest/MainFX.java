@@ -22,7 +22,7 @@ public class MainFX extends Application {
 	/**
 	 * The title of the application window
 	 */
-	public static final String APP_NAME = "Ramus' Quest Planner";
+	public static final String STAGE_NAME = "Ramus' Quest Planner";
 
 	/**
 	 * The main window width
@@ -111,7 +111,7 @@ public class MainFX extends Application {
 		stage.setOnCloseRequest(e -> pane.close());
 		// Set the primary stage scene and the default title
 		stage.setScene(scene);
-		stage.setTitle(APP_NAME);
+		stage.setTitle(STAGE_NAME);
 		// Show main overview window
 		stage.show();
 	}
