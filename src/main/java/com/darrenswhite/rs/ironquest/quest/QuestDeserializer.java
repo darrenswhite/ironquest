@@ -157,7 +157,8 @@ public class QuestDeserializer implements JsonDeserializer<Quest> {
 
 			if (skill.isPresent()) {
 				// Add the Skill XP reward
-				skillRewards.put(skill.get(), e.getValue().getAsInt());
+				skillRewards.put(skill.get(), e.getValue()
+						.getAsInt());
 			} else if (key.equalsIgnoreCase(KEY_REWARDS_LAMPS)) {
 				// Lamps are arrays
 				JsonArray lamps = (JsonArray) value;

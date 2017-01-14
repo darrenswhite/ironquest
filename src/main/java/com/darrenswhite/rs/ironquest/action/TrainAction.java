@@ -3,6 +3,8 @@ package com.darrenswhite.rs.ironquest.action;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 
+import java.util.Objects;
+
 /**
  * @author Darren White
  */
@@ -33,7 +35,7 @@ public class TrainAction extends Action {
 	 */
 	public TrainAction(Player player, Skill skill, int startXP, int endXP) {
 		super(player);
-		this.skill = skill;
+		this.skill = Objects.requireNonNull(skill);
 		this.startXP = startXP;
 		this.endXP = endXP;
 	}
@@ -49,8 +51,11 @@ public class TrainAction extends Action {
 
 	@Override
 	public String getMessage() {
-		return "Train " + skill + " to level " + skill.getLevelAt(endXP) +
-				", requiring " + Skill.formatXP(endXP - startXP) + " xp";
+		int endLvl = skill.getLevelAt(endXP);
+		String diffXp = Skill.formatXP(endXP - startXP);
+
+		return "Train " + skill + " to level " + endLvl +
+				", requiring " + diffXp + " xp";
 	}
 
 	/**

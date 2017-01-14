@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 /**
  * @author Darren White
@@ -76,7 +75,35 @@ public class IronQuest implements Runnable {
 	 * @param quests The set of Quest's to use
 	 */
 	private IronQuest(Set<Quest> quests) {
-		this.quests = quests;
+		this.quests = Objects.requireNonNull(quests);
+	}
+
+	/**
+	 * Adds a new TrainAction for a skill to a required level
+	 *
+	 * @param s      The Skill to train
+	 * @param reqLvl The required level
+	 */
+	private void addTrainAction(Skill s, Integer reqLvl) {
+		int reqXP = s.getXPAt(reqLvl);
+		int currXp = player.getXP(s);
+		int diffXp = reqXP - currXp;
+
+		// Add Skill XP
+		player.addSkillXP(s, diffXp);
+
+		// Create a new TrainAction
+		Action action = new TrainAction(player, s, currXp, reqXP);
+
+		log.info("Adding action: " + action.getMessage());
+
+		// Add the new action
+		// Run on FX thread
+		if (Platform.isFxApplicationThread()) {
+			actions.addAll(action);
+		} else {
+			Platform.runLater(() -> actions.add(action));
+		}
 	}
 
 	/**
@@ -106,18 +133,15 @@ public class IronQuest implements Runnable {
 	 */
 	private Quest getBestQuest() {
 		// Create a new stream from the open list
-		Stream<Quest> questStream = open.stream();
-
 		// Filter the stream to contain Quest's which the player has all
 		// requirements for and all Lamp requirements
-		questStream = questStream.filter(q -> q.hasRequirements(player) &&
-				q.getLampRewards().stream()
-						.filter(l -> !l.hasRequirements(player))
-						.count() == 0);
-
 		// Get the maximum Quest by comparing priority
-		Optional<Quest> best = questStream.max(Comparator.comparingInt(q ->
-				q.getPriority(player)));
+		Optional<Quest> best = open.stream()
+				.filter(q -> q.hasRequirements(player) &&
+						q.getLampRewards().stream()
+								.filter(l -> !l.hasRequirements(player))
+								.count() == 0)
+				.max(Comparator.comparingInt(q -> q.getPriority(player)));
 
 		// Return the best quest if there is one
 		if (best.isPresent()) {
@@ -125,22 +149,21 @@ public class IronQuest implements Runnable {
 		}
 
 		// Create a new stream from the open list
-		questStream = open.stream();
-
 		// Filter the stream to contain Quest's which the player has all
 		// requirements (including Lamp requirements but excluding skills)
-		questStream = questStream.filter(q ->
-				q.hasOtherRequirements(player) &&
+		// Get the minimum Quest by comparing total remaining
+		// skill requirements
+		Optional<Quest> closest = open.stream()
+				.filter(q -> q.hasOtherRequirements(player) &&
 						q.hasQuestRequirements(player) &&
 						q.getLampRewards().stream()
 								.filter(l -> !l.hasRequirements(player))
-								.count() == 0);
-
-		// Get the minimum Quest by comparing total remaining skill
-		// requirements
-		Optional<Quest> closest = questStream.min(Comparator.comparingInt(q ->
-				q.getRemainingSkillRequirements(player).values()
-						.stream().mapToInt(Integer::intValue).sum()));
+								.count() == 0)
+				.min(Comparator.comparingInt(q ->
+						q.getRemainingSkillRequirements(player)
+								.values().stream()
+								.mapToInt(Integer::intValue)
+								.sum()));
 
 		// Quest list must be empty or requirements are invalid
 		if (!closest.isPresent()) {
@@ -152,26 +175,7 @@ public class IronQuest implements Runnable {
 
 		// Notify user which skills have to be trained
 		closestQuest.getRemainingSkillRequirements(player)
-				.forEach((s, reqLvl) -> {
-					int reqXP = s.getXPAt(reqLvl);
-					int currXp = player.getSkillXP(s);
-					int diffXp = reqXP - currXp;
-					// Create a new TrainAction
-					Action action = new TrainAction(player, s, currXp, reqXP);
-
-					log.info("Adding action: " + action.getMessage());
-
-					// Add the new action
-					// Run on FX thread
-					if (Platform.isFxApplicationThread()) {
-						actions.addAll(action);
-					} else {
-						Platform.runLater(() -> actions.add(action));
-					}
-
-					// Add Skill XP
-					player.addSkillXP(s, diffXp);
-				});
+				.forEach(this::addTrainAction);
 
 		return closestQuest;
 	}
@@ -227,16 +231,12 @@ public class IronQuest implements Runnable {
 
 		for (Quest q : quests) {
 			// Create a stream for the skill requirements
-			Stream<Map.Entry<Skill, Integer>> skillStream =
-					q.getSkillRequirements().entrySet().stream();
-
 			// Filter by maximum requirements
-			skillStream = skillStream.filter(e -> e.getValue() >
-					requirements.getOrDefault(e.getKey(), 0));
-
 			// Add the higher requirements
-			skillStream.forEach(e -> requirements.put(e.getKey(),
-					e.getValue()));
+			q.getSkillRequirements().entrySet().stream()
+					.filter(e -> e.getValue() >
+							requirements.getOrDefault(e.getKey(), 0))
+					.forEach(e -> requirements.put(e.getKey(), e.getValue()));
 		}
 
 		return requirements;
@@ -256,8 +256,8 @@ public class IronQuest implements Runnable {
 	 *
 	 * @return The player instance
 	 */
-	public Player getPlayer() {
-		return player;
+	public Optional<Player> getPlayer() {
+		return Optional.ofNullable(player);
 	}
 
 	/**
@@ -268,7 +268,8 @@ public class IronQuest implements Runnable {
 	 */
 	public Quest getQuest(int id) {
 		// Filter quests by the id
-		Optional<Quest> quest = quests.stream().filter(q -> q.getId() == id)
+		Optional<Quest> quest = quests.stream()
+				.filter(q -> q.getId() == id)
 				.findAny();
 
 		// Quest doesn't exist
@@ -288,8 +289,11 @@ public class IronQuest implements Runnable {
 	 */
 	public Quest getQuest(String title) {
 		// Filter quests by the title
-		Optional<Quest> quest = quests.stream().filter(q ->
-				q.getTitle().equalsIgnoreCase(title)).findAny();
+		Optional<Quest> quest = quests.stream()
+				.filter(q ->
+						q.getTitle()
+								.equalsIgnoreCase(title))
+				.findAny();
 
 		// Quest doesn't exist
 		if (!quest.isPresent()) {
@@ -315,7 +319,12 @@ public class IronQuest implements Runnable {
 	@Override
 	public void run() {
 		// Check player instance
-		if (player == null) {
+		if (player != null) {
+			log.info("Using player profile: " + player.getName());
+
+			// Reset the player from previous runs
+			player.reset();
+		} else {
 			log.warning("No player profile set, using default");
 
 			// Use a player with no name
@@ -323,11 +332,6 @@ public class IronQuest implements Runnable {
 
 			// Load the default player
 			player.load();
-		} else {
-			log.info("Using player profile: " + player.getName());
-
-			// Reset the player from previous runs
-			player.reset();
 		}
 
 		log.info("Generating actions...");

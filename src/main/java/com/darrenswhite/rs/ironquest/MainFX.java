@@ -54,7 +54,8 @@ public class MainFX extends Application {
 		if (in == null) {
 			try {
 				in = Paths.get(path).toUri().toURL();
-			} catch (MalformedURLException ignored) {
+			} catch (MalformedURLException ex) {
+				log.log(Level.SEVERE, "Unable to find resource: ", ex);
 			}
 		}
 

@@ -6,10 +6,10 @@ import com.darrenswhite.rs.ironquest.player.Skill;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author Darren White
@@ -66,7 +66,7 @@ public class Quest {
 	 *
 	 * @param id                The Quest unique id
 	 * @param title             The Quest title
-	 * @param displayName       The Quest display name
+	 * @param displayName       The Quest display name (title is used if null)
 	 * @param skillRequirements The skill requirement levels
 	 * @param questRequirements Quest ids requirements
 	 * @param otherRequirements Other requirement the Player must meet
@@ -81,14 +81,14 @@ public class Quest {
 	             int questPoints, Map<Skill, Integer> skillRewards,
 	             Set<Lamp> lampRewards) {
 		this.id = id;
-		this.title = title;
-		this.displayName = displayName;
-		this.skillRequirements = skillRequirements;
-		this.questRequirements = questRequirements;
-		this.otherRequirements = otherRequirements;
+		this.title = Objects.requireNonNull(title);
+		this.displayName = displayName != null ? displayName : title;
+		this.skillRequirements = Objects.requireNonNull(skillRequirements);
+		this.questRequirements = Objects.requireNonNull(questRequirements);
+		this.otherRequirements = Objects.requireNonNull(otherRequirements);
 		this.questPoints = questPoints;
-		this.skillRewards = skillRewards;
-		this.lampRewards = lampRewards;
+		this.skillRewards = Objects.requireNonNull(skillRewards);
+		this.lampRewards = Objects.requireNonNull(lampRewards);
 	}
 
 	/**
@@ -128,7 +128,8 @@ public class Quest {
 	public int getPriority(Player p) {
 		// Get the total remaining skill requirements
 		int reqs = getRemainingSkillRequirements(p).values().stream()
-				.mapToInt(Integer::intValue).sum();
+				.mapToInt(Integer::intValue)
+				.sum();
 		// Get the total rewards and scale down by a factor of 100
 		int rwds = (getTotalLampRewards() + getTotalSkillRewards()) / 100;
 
@@ -153,41 +154,33 @@ public class Quest {
 	 */
 	public Map<Skill, Integer> getRemainingSkillRequirements(Player p) {
 		// Create a new Stream for the Skill requirements
-		Stream<Map.Entry<Skill, Integer>> skillStream =
-				skillRequirements.entrySet().stream();
-
 		// Filter by removing requirements already met
-		skillStream = skillStream.filter(e ->
-				p.getSkillLevel(e.getKey()) < e.getValue());
-
 		// Collect the results in a Map
-		Map<Skill, Integer> remaining = skillStream.collect(
-				Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+		Map<Skill, Integer> remaining = skillRequirements.entrySet().stream()
+				.filter(s -> !playerHasLevelRequirement(p, s))
+				.collect(Collectors.toMap(Map.Entry::getKey,
+						Map.Entry::getValue));
 
 		// Create a new Stream for the Quest requirements
-		Stream<Integer> questIdsStream = questRequirements.stream();
-
 		// Filter by removing Quest's already completed
-		questIdsStream = questIdsStream.filter(id -> !p.isQuestCompleted(id));
-
 		// Map Quest ids to Quest objects
-		Stream<Quest> questStream = questIdsStream.map(id ->
-				IronQuest.getInstance().getQuest(id));
-
 		// Add all Quest skill requirements
-		questStream.forEach(q -> {
-			// Get remaining skill requirements
-			Map<Skill, Integer> qRemaining =
-					q.getRemainingSkillRequirements(p);
+		questRequirements.stream()
+				.filter(id -> !p.isQuestCompleted(id))
+				.map(id -> IronQuest.getInstance().getQuest(id))
+				.forEach(q -> {
+					// Get remaining skill requirements
+					Map<Skill, Integer> qRemaining =
+							q.getRemainingSkillRequirements(p);
 
-			// Add them to the remaining map
-			// if they are larger or not present
-			qRemaining.forEach((s, lvl) -> {
-				if (lvl > remaining.getOrDefault(s, 0)) {
-					remaining.put(s, lvl);
-				}
-			});
-		});
+					// Add them to the remaining map
+					// if they are larger or not present
+					qRemaining.forEach((s, lvl) -> {
+						if (lvl > remaining.getOrDefault(s, 0)) {
+							remaining.put(s, lvl);
+						}
+					});
+				});
 
 		return remaining;
 	}
@@ -225,7 +218,9 @@ public class Quest {
 	 * @return The total Lamp reward values
 	 */
 	private int getTotalLampRewards() {
-		return lampRewards.stream().mapToInt(Lamp::getValue).sum();
+		return lampRewards.stream()
+				.mapToInt(Lamp::getValue)
+				.sum();
 	}
 
 	/**
@@ -235,7 +230,8 @@ public class Quest {
 	 */
 	private int getTotalSkillRewards() {
 		return skillRewards.values().stream()
-				.mapToInt(Integer::intValue).sum();
+				.mapToInt(Integer::intValue)
+				.sum();
 	}
 
 	/**
@@ -245,8 +241,9 @@ public class Quest {
 	 * @return If the Player meets all other requirements
 	 */
 	public boolean hasOtherRequirements(Player p) {
-		return otherRequirements.stream().filter(pr ->
-				!pr.test(p)).count() == 0;
+		return otherRequirements.stream()
+				.filter(pr -> !pr.test(p))
+				.count() == 0;
 	}
 
 	/**
@@ -256,8 +253,9 @@ public class Quest {
 	 * @return If the Player meets all Quest requirements
 	 */
 	public boolean hasQuestRequirements(Player p) {
-		return questRequirements.stream().filter(q ->
-				!p.isQuestCompleted(q)).count() == 0;
+		return questRequirements.stream()
+				.filter(q -> !p.isQuestCompleted(q))
+				.count() == 0;
 	}
 
 	/**
@@ -278,8 +276,20 @@ public class Quest {
 	 * @return If the Player meets all Skill requirements
 	 */
 	public boolean hasSkillRequirements(Player p) {
-		return skillRequirements.entrySet().stream().filter(e ->
-				p.getSkillLevel(e.getKey()) < e.getValue()).count() == 0;
+		return skillRequirements.entrySet().stream()
+				.filter(s -> playerHasLevelRequirement(p, s))
+				.count() == 0;
+	}
+
+	/**
+	 * Checks if the player has the level required for a Skill
+	 *
+	 * @param e The Skill requirement to be met
+	 * @return True if the requirement is met
+	 */
+	private boolean playerHasLevelRequirement(Player p,
+	                                          Map.Entry<Skill, Integer> e) {
+		return p.getLevel(e.getKey()) < e.getValue();
 	}
 
 	@Override

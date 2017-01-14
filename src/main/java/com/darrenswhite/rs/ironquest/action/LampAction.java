@@ -5,6 +5,7 @@ import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Lamp;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -38,9 +39,9 @@ public class LampAction extends Action {
 	public LampAction(Player player, Quest quest, Lamp lamp,
 	                  Set<Skill> skills) {
 		super(player);
-		this.quest = quest;
-		this.lamp = lamp;
-		this.skills = skills;
+		this.quest = Objects.requireNonNull(quest);
+		this.lamp = Objects.requireNonNull(lamp);
+		this.skills = Objects.requireNonNull(skills);
 	}
 
 	/**
@@ -54,8 +55,8 @@ public class LampAction extends Action {
 
 	@Override
 	public String getMessage() {
-		return "Use " + Skill.formatXP(lamp.getValue()) + " xp lamp on " +
-				skills;
+		String xp = Skill.formatXP(lamp.getValue());
+		return "Use " + xp + " xp lamp on " + skills;
 	}
 
 	/**

@@ -1,11 +1,22 @@
 package com.darrenswhite.rs.ironquest.action;
 
 import com.darrenswhite.rs.ironquest.player.Player;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+
+import java.util.Objects;
+import java.util.logging.Logger;
 
 /**
  * @author Darren White
  */
 public abstract class Action {
+
+	/**
+	 * The logger
+	 */
+	private static final Logger log =
+			Logger.getLogger(Action.class.getName());
 
 	/**
 	 * The instance of the Player
@@ -19,7 +30,7 @@ public abstract class Action {
 	 * @param player The Player instance
 	 */
 	public Action(Player player) {
-		this.player = player.copy();
+		this.player = Objects.requireNonNull(player).copy();
 	}
 
 	/**
@@ -36,6 +47,16 @@ public abstract class Action {
 	 */
 	public Player getPlayer() {
 		return player;
+	}
+
+	/**
+	 * The action to perform when the Action is clicked
+	 *
+	 * @param scene The scene this event originated from
+	 * @param e     The event which occurred
+	 */
+	public void onClick(Scene scene, MouseEvent e) {
+		log.fine("Action click: " + e);
 	}
 
 	@Override

@@ -9,7 +9,6 @@ import com.google.gson.JsonObject;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author Darren White
@@ -71,7 +70,7 @@ public class Lamp {
 	 */
 	public Lamp(Map<Set<Skill>, Integer> requirements, int value,
 	            boolean exclusive) {
-		this.requirements = requirements;
+		this.requirements = Objects.requireNonNull(requirements);
 		this.value = value;
 		this.exclusive = exclusive;
 	}
@@ -186,13 +185,10 @@ public class Lamp {
 		}
 
 		// Create a stream for the requirements
-		Stream<Map.Entry<Set<Skill>, Integer>> reqStream =
-				requirements.entrySet().stream();
-
 		// Ensure requirements are met for at least one set of skills
-		return reqStream
+		return requirements.entrySet().stream()
 				.filter(e -> e.getKey().stream()
-						.filter(s -> p.getSkillLevel(s) < e.getValue())
+						.filter(s -> p.getLevel(s) < e.getValue())
 						.count() == 0)
 				.count() > 0;
 	}
