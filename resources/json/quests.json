@@ -3863,7 +3863,11 @@
 	"id": 204,
 	"title": "Plague's End",
 	"requirements": {
-	  "quests": [],
+	  "quests": [
+		91,
+		142,
+		166
+	  ],
 	  "AGILITY": 75,
 	  "CONSTRUCTION": 75,
 	  "CRAFTING": 75,
