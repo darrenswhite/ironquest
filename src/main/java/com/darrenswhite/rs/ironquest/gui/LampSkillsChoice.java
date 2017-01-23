@@ -7,6 +7,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
@@ -60,6 +61,8 @@ public class LampSkillsChoice extends Stage {
 	 */
 	private ObservableList<Skill> skills;
 
+	private Label lblSkills;
+
 	/**
 	 * Creates a new LampSkillsChoice Stage
 	 *
@@ -107,11 +110,15 @@ public class LampSkillsChoice extends Stage {
 		// Add change listener to update Skill Lamp choices
 		listSkills.getSelectionModel().getSelectedItems()
 				.addListener(this::updateLampSkills);
+
+		lblSkills = new Label();
+
+		grid.add(lblSkills, 0, 0);
+		// Add components to the grid
+		grid.add(listSkills, 0, 1);
+
 		// Select current Lamp Skills
 		selectSkills();
-
-		// Add components to the grid
-		grid.add(listSkills, 0, 0);
 
 		// Set the scene
 		sizeToScene();
@@ -127,6 +134,8 @@ public class LampSkillsChoice extends Stage {
 		for (Skill s : skills) {
 			listSkills.getSelectionModel().select(s);
 		}
+
+		updateSkillsLabel(skills);
 	}
 
 	/**
@@ -165,7 +174,32 @@ public class LampSkillsChoice extends Stage {
 			}
 		}
 
+		updateSkillsLabel(skills);
+
 		// Update the Lamp Skills Set
 		IronQuest.getInstance().setLampSkills(skills);
+	}
+
+	/**
+	 * Updates the Skills label
+	 *
+	 * @param skills The Set of Skills currently selected
+	 */
+	private void updateSkillsLabel(Set<Skill> skills) {
+		StringBuilder sb = new StringBuilder();
+		int index = 1;
+
+		for (Skill skill : skills) {
+			sb.append(index++)
+					.append(". ")
+					.append(skill.toString())
+					.append('\n');
+		}
+
+		if (sb.length() > 0) {
+			sb.deleteCharAt(sb.length() - 1);
+		}
+
+		lblSkills.setText(sb.toString());
 	}
 }
