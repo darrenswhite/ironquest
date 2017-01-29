@@ -1,5 +1,12 @@
 [
   {
+	"id": -1,
+	"title": "Unstable Foundations",
+	"rewards": {
+	  "qp": 1
+	}
+  },
+  {
 	"id": 0,
 	"title": "Cook's Assistant",
 	"rewards": {

@@ -88,44 +88,6 @@ public class MainPane extends GridPane {
 	}
 
 	/**
-	 * Update the info list with the current action information
-	 *
-	 * @param observable The {@code ObservableValue} which value changed
-	 * @param oldValue   The old value
-	 * @param newValue   The new value
-	 */
-	private void getInfo(ObservableValue<? extends Action> observable,
-	                     Action oldValue,
-	                     Action newValue) {
-		if (newValue == null) {
-			return;
-		}
-
-		// Clear old information
-		info.clear();
-
-		// Get the Player for this Action
-		Player p = newValue.getPlayer();
-
-		// Combat level
-		double cmb = p.getCombatLevel();
-		info.add("Combat level: " + cmb);
-
-		// Total quest points
-		int qp = p.getQuestPoints();
-		info.add("Quest points: " + qp);
-
-		// Total skill level
-		int totalLvl = p.getTotalLevel();
-		info.add("Total level: " + totalLvl);
-
-		// Skill levels/xp
-		p.getXPs()
-				.forEach((s, xp) -> info.add(s + ": " + s.getLevelAt(xp) +
-						" (" + Skill.formatXP(xp) + " xp)"));
-	}
-
-	/**
 	 * Initializes this pane and its components
 	 */
 	public void init() {
@@ -161,7 +123,7 @@ public class MainPane extends GridPane {
 		listActions.setOnMouseClicked(this::actionClick);
 		// Show information for selected Action
 		listActions.getSelectionModel().selectedItemProperty()
-				.addListener(this::getInfo);
+				.addListener(this::updateInfo);
 		// Only one Action can be selected at a time
 		listActions.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		// Bind the actions to the ListView
@@ -257,17 +219,34 @@ public class MainPane extends GridPane {
 				if (textRSN.getText() != null && !textRSN.getText()
 						.isEmpty()) {
 					quest.setPlayer(textRSN.getText());
+				} else {
+					quest.setPlayer(null);
 				}
+
 				// Run the algorithm
 				quest.run();
 
 				Platform.runLater(() -> {
-					// Focus the action list and select the first action
+					// Focus the action list
 					listActions.requestFocus();
+
+					// Update the player info if no actions are present
+					quest.getPlayer().ifPresent(p -> {
+						Action action = new Action(p) {
+
+							@Override
+							public String getMessage() {
+								return null;
+							}
+						};
+						updateInfo(null, null, action);
+					});
+
+					// Select the first action
 					listActions.getSelectionModel().select(0);
 				});
 			} catch (Exception ex) {
-				log.log(Level.SEVERE, "Unable to run: ", e);
+				log.log(Level.SEVERE, "Unable to run: ", ex);
 			}
 
 			// Enable the button again
@@ -286,6 +265,44 @@ public class MainPane extends GridPane {
 
 		skillsChoice.sizeToScene();
 		skillsChoice.showAndWait();
+	}
+
+	/**
+	 * Update the info list with the current action information
+	 *
+	 * @param observable The {@code ObservableValue} which value changed
+	 * @param oldValue   The old value
+	 * @param newValue   The new value
+	 */
+	private void updateInfo(ObservableValue<? extends Action> observable,
+	                        Action oldValue,
+	                        Action newValue) {
+		if (newValue == null) {
+			return;
+		}
+
+		// Clear old information
+		info.clear();
+
+		// Get the Player for this Action
+		Player p = newValue.getPlayer();
+
+		// Combat level
+		double cmb = p.getCombatLevel();
+		info.add("Combat level: " + cmb);
+
+		// Total quest points
+		int qp = p.getQuestPoints();
+		info.add("Quest points: " + qp);
+
+		// Total skill level
+		int totalLvl = p.getTotalLevel();
+		info.add("Total level: " + totalLvl);
+
+		// Skill levels/xp
+		p.getXPs()
+				.forEach((s, xp) -> info.add(s + ": " + s.getLevelAt(xp) +
+						" (" + Skill.formatXP(xp) + " xp)"));
 	}
 
 	/**

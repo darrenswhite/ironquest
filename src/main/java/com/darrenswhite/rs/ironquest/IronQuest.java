@@ -6,6 +6,7 @@ import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.QuestDeserializer;
+import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -88,11 +89,11 @@ public class IronQuest implements Runnable {
 	/**
 	 * Adds a new TrainAction for a skill to a required level
 	 *
-	 * @param s      The Skill to train
-	 * @param reqLvl The required level
+	 * @param req The SkillRequirement
 	 */
-	private void addTrainAction(Skill s, Integer reqLvl) {
-		int reqXP = s.getXPAt(reqLvl);
+	private void addTrainAction(SkillRequirement req) {
+		Skill s = req.getSkill();
+		int reqXP = s.getXPAt(req.getLevel());
 		int currXp = player.getXP(s);
 		int diffXp = reqXP - currXp;
 
@@ -167,9 +168,8 @@ public class IronQuest implements Runnable {
 								.filter(l -> !l.hasRequirements(player))
 								.count() == 0)
 				.min(Comparator.comparingInt(q ->
-						q.getRemainingSkillRequirements(player)
-								.values().stream()
-								.mapToInt(Integer::intValue)
+						q.getRemainingSkillRequirements(player).stream()
+								.mapToInt(SkillRequirement::getLevel)
 								.sum()));
 
 		// Quest list must be empty or requirements are invalid
@@ -242,17 +242,28 @@ public class IronQuest implements Runnable {
 	 * @param quests A collection of Quests
 	 * @return The Skill level requirements
 	 */
-	public Map<Skill, Integer> getMaxRequirements(Collection<Quest> quests) {
-		Map<Skill, Integer> requirements = new HashMap<>();
+	public Set<SkillRequirement> getMaxRequirements(Collection<Quest> quests) {
+		Set<SkillRequirement> requirements = new HashSet<>();
 
 		for (Quest q : quests) {
-			// Create a stream for the skill requirements
-			// Filter by maximum requirements
-			// Add the higher requirements
-			q.getSkillRequirements().entrySet().stream()
-					.filter(e -> e.getValue() >
-							requirements.getOrDefault(e.getKey(), 0))
-					.forEach(e -> requirements.put(e.getKey(), e.getValue()));
+			// Add the Quests' SkillRequirements
+			q.getSkillRequirements()
+					.forEach(r -> {
+						// Add them to the requirements set
+						// if they are larger or not present
+						Optional<SkillRequirement> curr = requirements.stream()
+								.filter(sr -> sr.getSkill() == r.getSkill())
+								.findAny();
+
+						if (curr.isPresent()) {
+							if (r.getLevel() > curr.get().getLevel()) {
+								requirements.remove(curr.get());
+								requirements.add(r);
+							}
+						} else {
+							requirements.add(r);
+						}
+					});
 		}
 
 		return requirements;
@@ -414,6 +425,21 @@ public class IronQuest implements Runnable {
 
 		// Remove all quests the player has already completed
 		open.removeIf(q -> player.isQuestCompleted(q.getId()));
+
+		Iterator<Quest> it = open.iterator();
+
+		// Process placeholder quest with ids less than 0
+		// For example, Unstable Foundations
+		while (it.hasNext()) {
+			Quest q = it.next();
+
+			if (q.getId() < 0) {
+				log.info("Processing placeholder quest: " + q);
+
+				player.completeQuest(q, lampSkills);
+				it.remove();
+			}
+		}
 
 		log.info("Force lamp skills: " + lampSkills);
 

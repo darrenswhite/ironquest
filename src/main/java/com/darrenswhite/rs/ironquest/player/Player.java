@@ -7,6 +7,7 @@ import com.darrenswhite.rs.ironquest.action.QuestAction;
 import com.darrenswhite.rs.ironquest.quest.Lamp;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.RuneMetricsQuest;
+import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -81,8 +82,12 @@ public class Player {
 	 * @param xp The amount of xp to add
 	 */
 	public void addSkillXP(Skill s, int xp) {
-		// Add xp to a skill
-		skillXPs.put(s, skillXPs.getOrDefault(s, 0) + xp);
+		int newXp = skillXPs.getOrDefault(s, 0) + xp;
+
+		if (newXp >= 0) {
+			// Add xp to a skill
+			skillXPs.put(s, newXp);
+		}
 	}
 
 	/**
@@ -321,19 +326,21 @@ public class Player {
 	 */
 	private Map<Skill, Integer> getRemainingXPRequirements() {
 		IronQuest quest = IronQuest.getInstance();
+		// Store remaining xp requirements in a Map
+		Map<Skill, Integer> remaining = new HashMap<>();
 		// Get the maximum requirements for remaining quests
-		Map<Skill, Integer> maxRequirements = quest.getMaxRequirements(
+		Set<SkillRequirement> maxRequirements = quest.getMaxRequirements(
 				quest.getOpen());
 
-		// Change the maximum requirement levels to XP
-		maxRequirements = maxRequirements.entrySet().stream()
-				.collect(Collectors.toMap(Map.Entry::getKey,
-						e -> e.getKey().getXPAt(e.getValue())));
+		// Get the remaining xp requirements for each Skill
+		maxRequirements.forEach(r -> {
+			Skill s = r.getSkill();
+			int lvl = r.getLevel();
 
-		// Get the xp required for the maximum requirements
-		return maxRequirements.entrySet().stream()
-				.collect(Collectors.toMap(Map.Entry::getKey,
-						e -> e.getValue() - getXP(e.getKey())));
+			remaining.put(s, s.getXPAt(lvl) - getXP(s));
+		});
+
+		return remaining;
 	}
 
 	/**
@@ -424,12 +431,12 @@ public class Player {
 			List<CSVRecord> records = parser.getRecords();
 
 			// Parse the Skill XP values
-			for (int i = 0; i < Skill.values().length; i++) {
+			for (int i = 1; i < Skill.values().length + 1; i++) {
 				Optional<Skill> skill = Skill.tryGet(i);
 				CSVRecord r = records.get(i);
 
 				skill.ifPresent(s -> skillXPs.put(s,
-						Math.max(0, Integer.parseInt(r.get(2)))));
+						(int) Math.max(0, Double.parseDouble(r.get(2)))));
 			}
 		} catch (IOException e) {
 			log.log(Level.SEVERE,
@@ -476,12 +483,10 @@ public class Player {
 			for (RuneMetricsQuest rmq : rmQuests) {
 				try {
 					if (rmq.getStatus() == RuneMetricsQuest.Status.COMPLETED) {
-						quests.add(instance.getQuest(rmq.getTitle())
-								.getId());
+						quests.add(instance.getQuest(rmq.getTitle()).getId());
 					}
 				} catch (IllegalArgumentException e) {
-					log.warning("Unable to find quest with name: " +
-							rmq.getTitle());
+					log.warning("Unable to find quest: " + rmq);
 				}
 			}
 		} catch (IOException e) {

@@ -16,14 +16,14 @@ public enum Skill {
 	CRAFTING(13, Type.ARTISAN, false),
 	DEFENCE(2, Type.COMBAT, false),
 	DIVINATION(26, Type.GATHERING, true),
-	DUNGEONEERING(25, Type.SUPPORT, false),
+	DUNGEONEERING(25, Type.SUPPORT, false, 120),
 	FARMING(20, Type.GATHERING, true),
 	FIREMAKING(12, Type.ARTISAN, false),
 	FISHING(11, Type.GATHERING, false),
 	FLETCHING(10, Type.ARTISAN, true),
 	HERBLORE(16, Type.ARTISAN, true),
 	HUNTER(22, Type.GATHERING, true),
-	INVENTION(27, Type.ELITE, true),
+	INVENTION(27, Type.ELITE, true, 120),
 	MAGIC(7, Type.COMBAT, false),
 	MINING(15, Type.GATHERING, false),
 	PRAYER(6, Type.COMBAT, false),
@@ -59,7 +59,7 @@ public enum Skill {
 	/**
 	 * Elite skill xp table up to 120
 	 */
-	public static final int[] XP_TABLE_ELITE = {0, 830, 1261, 1202, 1280,
+	public static final int[] XP_TABLE_ELITE = {0, 0, 830, 1261, 1202, 1280,
 			1226, 1280, 1287, 1200, 11275, 11205, 11272, 11256, 21246, 21234,
 			31220, 31209, 41209, 51235, 61209, 71290, 91211, 101221, 121273,
 			141225, 161242, 181293, 211251, 241296, 271213, 311211, 351247,
@@ -81,12 +81,12 @@ public enum Skill {
 	/**
 	 * The maximum XP for any Skill
 	 */
-	public static final double MAX_XP = 200000000.0;
+	public static final int MAX_XP = Integer.MAX_VALUE;
 
 	/**
 	 * The shorthand XP formats
 	 */
-	private static final char[] XP_FORMATS = {'k', 'm'};
+	private static final char[] XP_FORMATS = {'k', 'm', 'b'};
 
 	/**
 	 * The Skill id
@@ -104,15 +104,34 @@ public enum Skill {
 	private final boolean members;
 
 	/**
+	 * The maximum level for this Skill
+	 */
+	private final int maxLevel;
+
+	/**
 	 * Creates a new Skill
 	 *
+	 * @param id      The Skill id
 	 * @param type    The Skill type
-	 * @param members if the skill is members or free
+	 * @param members If the skill is members or free
 	 */
 	Skill(int id, Type type, boolean members) {
+		this(id, type, members, 99);
+	}
+
+	/**
+	 * Creates a new Skill
+	 *
+	 * @param id       The Skill id
+	 * @param type     The Skill type
+	 * @param members  If the skill is members or free
+	 * @param maxLevel The maximum level for the Skill
+	 */
+	Skill(int id, Type type, boolean members, int maxLevel) {
 		this.id = id;
 		this.type = Objects.requireNonNull(type);
 		this.members = members;
+		this.maxLevel = maxLevel;
 	}
 
 	/**
@@ -174,9 +193,12 @@ public enum Skill {
 			table = XP_TABLE_ELITE;
 		}
 
+		// Force max skill level
+		int max = Math.min(maxLevel, table.length - 1);
+
 		// Start from the end of the xp table,
 		// iterate backwards until the level is reached
-		for (int i = table.length - 1; i > 0; i--) {
+		for (int i = max; i > 0; i--) {
 			if (xp >= table[i]) {
 				return i;
 			}
