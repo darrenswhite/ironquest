@@ -37,6 +37,16 @@ public class SkillRequirement extends Requirement {
 
 	@Override
 	public String toString() {
-		return level + " " + skill;
+		StringBuilder sb = new StringBuilder();
+		sb.append(level);
+		sb.append(' ');
+		sb.append(skill);
+		if (isIronman()) {
+			sb.append(" (Ironman)");
+		}
+		if (isRecommended()) {
+			sb.append(" (Recommended)");
+		}
+		return sb.toString();
 	}
 }
