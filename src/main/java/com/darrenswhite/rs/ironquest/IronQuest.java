@@ -404,6 +404,14 @@ public class IronQuest implements Runnable {
 		// Load the property name
 		setPlayer(prop.getProperty("name"));
 
+		// Load ironman mode
+		setIronman(Boolean.parseBoolean(prop.getProperty("ironman",
+				"false")));
+
+		// Load recommended mode
+		setRecommended(Boolean.parseBoolean(prop.getProperty("recommended",
+				"false")));
+
 		// Get the lamp skills comma delimited string
 		String lampSkillsStr = prop.getProperty("lampSkills", "");
 		// Split the string by commas
@@ -520,6 +528,12 @@ public class IronQuest implements Runnable {
 		if (!lampSkillsStr.isEmpty()) {
 			prop.setProperty("lampSkills", lampSkillsStr);
 		}
+
+		// Store ironman mode
+		prop.setProperty("ironman", Boolean.toString(ironman));
+
+		// Store recommended mode
+		prop.setProperty("recommended", Boolean.toString(recommended));
 
 		// Store the properties to file
 		try (OutputStream out = Files.newOutputStream(getPropertiesPath())) {
