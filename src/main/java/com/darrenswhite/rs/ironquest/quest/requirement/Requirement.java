@@ -49,17 +49,9 @@ public abstract class Requirement {
 	}
 
 	public boolean test(Player p, boolean ironman, boolean recommended) {
-		if (isIronman()) {
-			if (!ironman) {
-				return true;
-			}
-		}
-		if (isRecommended()) {
-			if (!recommended) {
-				return true;
-			}
-		}
-		return test(p);
+		return (isIronman() && !ironman)
+				|| (isRecommended() && !recommended)
+				|| test(p);
 	}
 
 	public abstract boolean test(Player p);
