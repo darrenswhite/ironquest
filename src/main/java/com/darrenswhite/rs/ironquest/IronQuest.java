@@ -549,7 +549,6 @@ public class IronQuest implements Runnable {
 	 * @param ironman true to enable ironman mode
 	 */
 	public void setIronman(boolean ironman) {
-		System.out.println(ironman);
 		this.ironman = ironman;
 	}
 

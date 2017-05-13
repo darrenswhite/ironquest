@@ -129,6 +129,8 @@ public class MainPane extends GridPane {
 		HBox.setHgrow(btnLampSkills, Priority.ALWAYS);
 
 		btnIronman = new ToggleButton("Ironman");
+		// Set current state
+		btnIronman.setSelected(IronQuest.getInstance().isIronman());
 		// Toggle ironman mode
 		btnIronman.setOnAction(e -> IronQuest.getInstance()
 				.setIronman(btnIronman.isSelected()));
@@ -138,6 +140,8 @@ public class MainPane extends GridPane {
 		HBox.setHgrow(btnIronman, Priority.ALWAYS);
 
 		btnRecommended = new ToggleButton("Recommended");
+		// Set current state
+		btnRecommended.setSelected(IronQuest.getInstance().isRecommended());
 		// Toggle recommended mode
 		btnRecommended.setOnAction(e -> IronQuest.getInstance()
 				.setRecommended(btnRecommended.isSelected()));

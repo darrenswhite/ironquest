@@ -22,7 +22,7 @@ public class MainFX extends Application {
 	/**
 	 * The title of the application window
 	 */
-	public static final String STAGE_NAME = "Ramus' Quest Planner";
+	public static final String STAGE_NAME = "Project IronQuest by Ramus";
 
 	/**
 	 * The main window width
