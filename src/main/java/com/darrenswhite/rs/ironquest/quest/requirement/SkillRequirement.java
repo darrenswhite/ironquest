@@ -34,4 +34,9 @@ public class SkillRequirement extends Requirement {
 	public boolean test(Player p) {
 		return p.getLevel(skill) >= level;
 	}
+
+	@Override
+	public String toString() {
+		return level + " " + skill;
+	}
 }

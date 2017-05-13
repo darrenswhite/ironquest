@@ -133,7 +133,7 @@ public class Quest {
 	 *
 	 * @return The Quest requirements
 	 */
-	private Set<QuestRequirement> getQuestRequirements() {
+	public Set<QuestRequirement> getQuestRequirements() {
 		return requirements.stream()
 				.filter(r -> r instanceof QuestRequirement)
 				.map(r -> (QuestRequirement) r)
