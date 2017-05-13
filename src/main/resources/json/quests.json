@@ -4131,12 +4131,14 @@
 		204
 	  ],
 	  "AGILITY": 80,
-	  "CRAFTING": 89,
 	  "DIVINATION": 80,
 	  "HERBLORE": 80,
 	  "PRAYER": 80,
 	  "SLAYER": 80,
-	  "WOODCUTTING": 80,
+	  "WOODCUTTING": 80
+	},
+	"ironman": {
+	  "CRAFTING": 89,
 	  "MINING": 81
 	},
 	"rewards": {
