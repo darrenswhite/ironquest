@@ -107,9 +107,10 @@ public class Quest {
 	 * @param p The Player instance
 	 * @return The priority of this Quest
 	 */
-	public int getPriority(Player p) {
+	public int getPriority(Player p, boolean ironman, boolean recommended) {
 		// Get the total remaining skill requirements
-		int reqs = getRemainingSkillRequirements(p).stream()
+		int reqs = getRemainingSkillRequirements(p, ironman, recommended)
+				.stream()
 				.mapToInt(SkillRequirement::getLevel)
 				.sum();
 		// Get the total rewards and scale down by a factor of 100
@@ -146,12 +147,14 @@ public class Quest {
 	 * @param p The Player instance
 	 * @return The remaining skill level requirements
 	 */
-	public Set<SkillRequirement> getRemainingSkillRequirements(Player p) {
+	public Set<SkillRequirement> getRemainingSkillRequirements(Player p,
+	                                                           boolean ironman,
+	                                                           boolean recommended) {
 		// Create a new Stream for the Skill requirements
 		// Filter by removing requirements already met
 		// Collect the results in a Map
 		Set<SkillRequirement> remaining = getSkillRequirements().stream()
-				.filter(r -> !r.test(p))
+				.filter(r -> !r.test(p, ironman, recommended))
 				.collect(Collectors.toSet());
 
 		// Create a new Stream for the Quest requirements
@@ -159,12 +162,12 @@ public class Quest {
 		// Map Quest ids to Quest objects
 		// Add all Quest skill requirements
 		getQuestRequirements().stream()
-				.filter(r -> !r.test(p))
+				.filter(r -> !r.test(p, ironman, recommended))
 				.map(r -> IronQuest.getInstance().getQuest(r.getId()))
 				.forEach(q -> {
 					// Get remaining skill requirements
 					Set<SkillRequirement> qRemaining =
-							q.getRemainingSkillRequirements(p);
+							q.getRemainingSkillRequirements(p, ironman, recommended);
 
 					// Add them to the remaining map
 					// if they are larger or not present

@@ -147,7 +147,7 @@ public class IronQuest implements Runnable {
 	 * requirements.
 	 *
 	 * @return The best Quest to be completed
-	 * @see Quest#getPriority(Player)
+	 * @see Quest#getPriority(Player, boolean, boolean)
 	 */
 	private Quest getBestQuest() {
 		// Create a new stream from the open list
@@ -159,7 +159,7 @@ public class IronQuest implements Runnable {
 						q.getLampRewards().stream()
 								.filter(l -> !l.hasRequirements(player))
 								.count() == 0)
-				.max(Comparator.comparingInt(q -> q.getPriority(player)));
+				.max(Comparator.comparingInt(q -> q.getPriority(player, ironman, recommended)));
 
 		// Return the best quest if there is one
 		if (best.isPresent()) {
@@ -174,11 +174,13 @@ public class IronQuest implements Runnable {
 		Optional<Quest> closest = open.stream()
 				.filter(q -> q.hasOtherRequirements(player, ironman, recommended) &&
 						q.hasQuestRequirements(player, ironman, recommended) &&
-						q.getLampRewards().stream()
+						q.getLampRewards()
+								.stream()
 								.filter(l -> !l.hasRequirements(player))
 								.count() == 0)
 				.min(Comparator.comparingInt(q ->
-						q.getRemainingSkillRequirements(player).stream()
+						q.getRemainingSkillRequirements(player, ironman, recommended)
+								.stream()
 								.mapToInt(SkillRequirement::getLevel)
 								.sum()));
 
@@ -191,7 +193,7 @@ public class IronQuest implements Runnable {
 		Quest closestQuest = closest.get();
 
 		// Notify user which skills have to be trained
-		closestQuest.getRemainingSkillRequirements(player)
+		closestQuest.getRemainingSkillRequirements(player, ironman, recommended)
 				.forEach(this::addTrainAction);
 
 		return closestQuest;

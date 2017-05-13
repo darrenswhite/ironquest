@@ -54,5 +54,5 @@ public abstract class Requirement {
 				|| test(p);
 	}
 
-	public abstract boolean test(Player p);
+	protected abstract boolean test(Player p);
 }

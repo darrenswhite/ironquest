@@ -31,7 +31,7 @@ public class SkillRequirement extends Requirement {
 	}
 
 	@Override
-	public boolean test(Player p) {
+	protected boolean test(Player p) {
 		return p.getLevel(skill) >= level;
 	}
 
