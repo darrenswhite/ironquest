@@ -4482,5 +4482,33 @@
 		}
 	  ]
 	}
+  },
+  {
+	"id": 226,
+	"title": "Back to the Freezer",
+	"requirements": {
+	  "quests": [
+		5,
+		194
+	  ],
+	  "SLAYER": 37,
+	  "RUNECRAFTING": 45,
+	  "DIVINATION": 50
+	},
+	"rewards": {
+	  "qp": 1,
+	  "DIVINATION": 25000,
+	  "RUNECRAFTING": 25000,
+	  "SLAYER": 15000,
+	  "AGILITY": 15000,
+	  "INVENTION": 10000,
+	  "lamps": [
+		{
+		  "values": [
+			500
+		  ]
+		}
+	  ]
+	}
   }
 ]
