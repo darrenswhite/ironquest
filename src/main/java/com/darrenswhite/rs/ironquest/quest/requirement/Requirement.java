@@ -48,5 +48,11 @@ public abstract class Requirement {
 		this.recommended = recommended;
 	}
 
+	public boolean test(Player p, boolean ironman, boolean recommended) {
+		return (isIronman() && !ironman) ||
+				(isRecommended() && !recommended) ||
+				!test(p);
+	}
+
 	public abstract boolean test(Player p);
 }

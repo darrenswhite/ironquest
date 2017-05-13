@@ -78,6 +78,16 @@ public class IronQuest implements Runnable {
 	private Set<Skill> lampSkills = new LinkedHashSet<>();
 
 	/**
+	 * Ironman mode
+	 */
+	private boolean ironman;
+
+	/**
+	 * Recommended mode
+	 */
+	private boolean recommended;
+
+	/**
 	 * Creates a new IronQuest instance with the given set of Quest's
 	 *
 	 * @param quests The set of Quest's to use
@@ -145,7 +155,7 @@ public class IronQuest implements Runnable {
 		// requirements for and all Lamp requirements
 		// Get the maximum Quest by comparing priority
 		Optional<Quest> best = open.stream()
-				.filter(q -> q.hasRequirements(player) &&
+				.filter(q -> q.hasRequirements(player, ironman, recommended) &&
 						q.getLampRewards().stream()
 								.filter(l -> !l.hasRequirements(player))
 								.count() == 0)
@@ -162,8 +172,8 @@ public class IronQuest implements Runnable {
 		// Get the minimum Quest by comparing total remaining
 		// skill requirements
 		Optional<Quest> closest = open.stream()
-				.filter(q -> q.hasOtherRequirements(player) &&
-						q.hasQuestRequirements(player) &&
+				.filter(q -> q.hasOtherRequirements(player, ironman, recommended) &&
+						q.hasQuestRequirements(player, ironman, recommended) &&
 						q.getLampRewards().stream()
 								.filter(l -> !l.hasRequirements(player))
 								.count() == 0)
@@ -351,6 +361,24 @@ public class IronQuest implements Runnable {
 	}
 
 	/**
+	 * Test if currently in ironman mode
+	 *
+	 * @return true if ironman mode is enabled
+	 */
+	public boolean isIronman() {
+		return ironman;
+	}
+
+	/**
+	 * Test if currently in recommended mode
+	 *
+	 * @return true if recommended mode is enabled
+	 */
+	public boolean isRecommended() {
+		return recommended;
+	}
+
+	/**
 	 * Loads the previously saved state from
 	 * a properties file
 	 */
@@ -502,6 +530,16 @@ public class IronQuest implements Runnable {
 	}
 
 	/**
+	 * Set ironman mode
+	 *
+	 * @param ironman true to enable ironman mode
+	 */
+	public void setIronman(boolean ironman) {
+		System.out.println(ironman);
+		this.ironman = ironman;
+	}
+
+	/**
 	 * A Set of Skills to use lamps on. This is empty by default
 	 * and Lamp Skills will be chosen by an algorithm. Use this
 	 * to force a Set of Skills to use for every Lamp.
@@ -519,5 +557,14 @@ public class IronQuest implements Runnable {
 	 */
 	public void setPlayer(String name) {
 		player = new Player(name);
+	}
+
+	/**
+	 * Set recommended mode
+	 *
+	 * @param recommended true to enable recommended mode
+	 */
+	public void setRecommended(boolean recommended) {
+		this.recommended = recommended;
 	}
 }

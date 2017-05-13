@@ -242,47 +242,62 @@ public class Quest {
 	/**
 	 * Checks if the Player meets all 'other' requirements
 	 *
-	 * @param p The Player instance
+	 * @param p           The Player instance
+	 * @param ironman     Test ironman mode
+	 * @param recommended Test recommended mode
 	 * @return If the Player meets all other requirements
 	 */
-	public boolean hasOtherRequirements(Player p) {
+	public boolean hasOtherRequirements(Player p, boolean ironman,
+	                                    boolean recommended) {
 		return requirements.stream()
 				.filter(r -> r.getClass().equals(Requirement.class))
-				.filter(r -> !r.test(p))
+				.filter(r -> !r.test(p, ironman, recommended))
 				.count() == 0;
 	}
 
 	/**
 	 * Checks if the Player meets all Quest requirements
 	 *
-	 * @param p The Player instance
+	 * @param p           The Player instance
+	 * @param ironman     Test ironman mode
+	 * @param recommended Test recommended mode
 	 * @return If the Player meets all Quest requirements
 	 */
-	public boolean hasQuestRequirements(Player p) {
+	public boolean hasQuestRequirements(Player p, boolean ironman,
+	                                    boolean recommended) {
 		return getQuestRequirements().stream()
-				.filter(r -> !r.test(p))
+				.filter(r -> !r.test(p, ironman, recommended))
 				.count() == 0;
 	}
 
 	/**
 	 * Checks if the Player meets all requirements
 	 *
-	 * @param p The Player instance
+	 * @param p           The Player instance
+	 * @param ironman     Test ironman mode
+	 * @param recommended Test recommended mode
 	 * @return If the Player meets all requirements
 	 */
-	public boolean hasRequirements(Player p) {
-		return requirements.stream().filter(r -> !r.test(p)).count() == 0;
+	public boolean hasRequirements(Player p, boolean ironman,
+	                               boolean recommended) {
+		return requirements
+				.stream()
+				.filter(r -> r.test(p, ironman, recommended))
+				.count() == 0;
 	}
 
 	/**
 	 * Checks if the Player meets all Skill requirements
 	 *
-	 * @param p The Player instance
+	 * @param p           The Player instance
+	 * @param ironman     Test ironman mode
+	 * @param recommended Test recommended mode
 	 * @return If the Player meets all Skill requirements
 	 */
-	public boolean hasSkillRequirements(Player p) {
+	public boolean hasSkillRequirements(Player p, boolean ironman,
+	                                    boolean recommended) {
 		return getSkillRequirements().stream()
-				.filter(r -> !r.test(p))
+				.filter(r -> !r.test(p, ironman, recommended))
 				.count() == 0;
 	}
 

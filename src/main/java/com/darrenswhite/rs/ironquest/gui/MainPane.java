@@ -64,6 +64,16 @@ public class MainPane extends GridPane {
 	private Button btnLampSkills;
 
 	/**
+	 * Button to toggle ironman mode
+	 */
+	private ToggleButton btnIronman;
+
+	/**
+	 * Button to toggle recommended mode
+	 */
+	private ToggleButton btnRecommended;
+
+	/**
 	 * The run button
 	 */
 	private Button btnRun;
@@ -118,6 +128,24 @@ public class MainPane extends GridPane {
 		btnLampSkills.setMaxWidth(Double.MAX_VALUE);
 		HBox.setHgrow(btnLampSkills, Priority.ALWAYS);
 
+		btnIronman = new ToggleButton("Ironman");
+		// Toggle ironman mode
+		btnIronman.setOnAction(e -> IronQuest.getInstance()
+				.setIronman(btnIronman.isSelected()));
+		// Always fill width/height
+		btnIronman.setMaxHeight(Double.MAX_VALUE);
+		btnIronman.setMaxWidth(Double.MAX_VALUE);
+		HBox.setHgrow(btnIronman, Priority.ALWAYS);
+
+		btnRecommended = new ToggleButton("Recommended");
+		// Toggle recommended mode
+		btnRecommended.setOnAction(e -> IronQuest.getInstance()
+				.setRecommended(btnRecommended.isSelected()));
+		// Always fill width/height
+		btnRecommended.setMaxHeight(Double.MAX_VALUE);
+		btnRecommended.setMaxWidth(Double.MAX_VALUE);
+		HBox.setHgrow(btnRecommended, Priority.ALWAYS);
+
 		listActions = new ListView<>();
 		// Change the current action information on selection
 		listActions.setOnMouseClicked(this::actionClick);
@@ -156,12 +184,14 @@ public class MainPane extends GridPane {
 		HBox.setHgrow(btnRun, Priority.ALWAYS);
 
 		// Max rows & columns
-		int columns = 8, rows = 3;
+		int columns = 10, rows = 3;
 
 		// Add nodes to grid
 		add(textRSN, 0, 0,
-				(int) (columns * 0.75), 1);
-		add(btnLampSkills, (int) (columns * 0.75), 0, (int) (columns * 0.25), 1);
+				(int) (columns * 0.4), 1);
+		add(btnLampSkills, (int) (columns * 0.4), 0, (int) (columns * 0.2), 1);
+		add(btnIronman, (int) (columns * 0.6), 0, (int) (columns * 0.2), 1);
+		add(btnRecommended, (int) (columns * 0.8), 0, (int) (columns * 0.2), 1);
 		add(listActions, 0, 1, (int) (columns * 0.5),
 				1);
 		add(listInfo, (int) (columns * 0.5), 1,
