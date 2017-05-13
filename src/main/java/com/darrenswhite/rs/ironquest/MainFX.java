@@ -22,7 +22,7 @@ public class MainFX extends Application {
 	/**
 	 * The title of the application window
 	 */
-	public static final String APP_NAME = "Ramus' Quest Planner";
+	public static final String STAGE_NAME = "Project IronQuest by Ramus";
 
 	/**
 	 * The main window width
@@ -54,7 +54,8 @@ public class MainFX extends Application {
 		if (in == null) {
 			try {
 				in = Paths.get(path).toUri().toURL();
-			} catch (MalformedURLException ignored) {
+			} catch (MalformedURLException ex) {
+				log.log(Level.SEVERE, "Unable to find resource: ", ex);
 			}
 		}
 
@@ -103,14 +104,26 @@ public class MainFX extends Application {
 	public void start(Stage stage) throws Exception {
 		// Initialize and show main app
 		MainPane pane = new MainPane();
+
+		// Close the pane and save settings
+		stage.setOnCloseRequest(e -> {
+			pane.close();
+			IronQuest.getInstance().save();
+		});
+		// Load settings, initialize the pane, and
+		// run the program
+		stage.setOnShowing(e -> {
+			IronQuest.getInstance().load();
+			pane.init();
+			pane.run();
+		});
+
 		// Create a new scene with the default width & height
 		Scene scene = new Scene(pane, APP_WIDTH, APP_HEIGHT);
 
-		// Exit after the stage is closed
-		stage.setOnCloseRequest(e -> pane.close());
 		// Set the primary stage scene and the default title
 		stage.setScene(scene);
-		stage.setTitle(APP_NAME);
+		stage.setTitle(STAGE_NAME);
 		// Show main overview window
 		stage.show();
 	}

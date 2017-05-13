@@ -1,5 +1,7 @@
 package com.darrenswhite.rs.ironquest.quest;
 
+import java.util.Objects;
+
 /**
  * @author Darren White
  */
@@ -15,8 +17,8 @@ public class RuneMetricsQuest {
 	public RuneMetricsQuest(String title, Status status, int difficulty,
 	                        boolean members, int questPoints,
 	                        boolean userEligible) {
-		this.title = title;
-		this.status = status;
+		this.title = Objects.requireNonNull(title);
+		this.status = Objects.requireNonNull(status);
 		this.difficulty = difficulty;
 		this.members = members;
 		this.questPoints = questPoints;

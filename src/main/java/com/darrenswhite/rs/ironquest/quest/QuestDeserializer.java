@@ -1,12 +1,13 @@
 package com.darrenswhite.rs.ironquest.quest;
 
-import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
+import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
+import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
+import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 /**
@@ -39,6 +40,16 @@ public class QuestDeserializer implements JsonDeserializer<Quest> {
 	 * The requirements key
 	 */
 	private static final String KEY_REQUIREMENTS = "requirements";
+
+	/**
+	 * The ironman requirements key
+	 */
+	private static final String KEY_REQUIREMENTS_IRONMAN = "ironman";
+
+	/**
+	 * The recommended requirements key
+	 */
+	private static final String KEY_REQUIREMENTS_RECOMMENDED = "recommended";
 
 	/**
 	 * The combat level requirements key
@@ -86,6 +97,12 @@ public class QuestDeserializer implements JsonDeserializer<Quest> {
 		// Get the requirements object
 		JsonObject requirementsObject =
 				quest.getAsJsonObject(KEY_REQUIREMENTS);
+		// Get the requirements object
+		JsonObject ironmanRequirementsObject =
+				quest.getAsJsonObject(KEY_REQUIREMENTS_IRONMAN);
+		// Get the requirements object
+		JsonObject recommendedRequirementsObject =
+				quest.getAsJsonObject(KEY_REQUIREMENTS_RECOMMENDED);
 		// Get the rewards object
 		JsonObject rewardsObject = quest.getAsJsonObject(KEY_REWARDS);
 
@@ -97,54 +114,32 @@ public class QuestDeserializer implements JsonDeserializer<Quest> {
 			displayName = quest.get(KEY_DISPLAY_NAME).getAsString();
 		}
 
-		Map<Skill, Integer> skillRequirements = new HashMap<>();
-		Set<Integer> questRequirements = new HashSet<>();
-		Set<Predicate<Player>> otherRequirements = new HashSet<>();
+		Set<Requirement> requirements = new HashSet<>();
 		int questPoints = 0;
 		Map<Skill, Integer> skillRewards = new HashMap<>();
 		Set<Lamp> lampRewards = new HashSet<>();
 
 		// Requirements may not be present
 		if (requirementsObject != null) {
-			// Parse all requirements
-			for (Map.Entry<String, JsonElement> e :
-					requirementsObject.entrySet()) {
-				String key = e.getKey();
-				JsonElement value = e.getValue();
+			requirements.addAll(parseRequirements(requirementsObject));
+		}
 
-				// Get the Skill if any
-				Optional<Skill> skill = Skill.tryGet(key);
+		if (ironmanRequirementsObject != null) {
+			Set<Requirement> ironman =
+					parseRequirements(ironmanRequirementsObject);
 
-				if (skill.isPresent()) {
-					// Add the Skill level requirement
-					skillRequirements.put(skill.get(), value.getAsInt());
-				} else if (key.equalsIgnoreCase(KEY_REQUIREMENTS_QUESTS)) {
-					// Quest requirements are array of ids
-					JsonArray questIds = (JsonArray) value;
+			ironman.forEach(r -> r.setIronman(true));
 
-					// Add the quest ids
-					questIds.forEach(q ->
-							questRequirements.add(q.getAsInt()));
-				} else {
-					// Other requirements
-					switch (key) {
-						// Quest points requirement
-						case KEY_REQUIREMENTS_QP:
-							otherRequirements.add(p -> p.getQuestPoints() >=
-									value.getAsInt());
-							break;
-						// Combat level requirement
-						case KEY_REQUIREMENTS_COMBAT:
-							otherRequirements.add(p -> p.getCombatLevel() >=
-									value.getAsInt());
-							break;
-						// Invalid requirement
-						default:
-							throw new IllegalArgumentException(
-									"Unknown requirement: " + key);
-					}
-				}
-			}
+			requirements.addAll(ironman);
+		}
+
+		if (recommendedRequirementsObject != null) {
+			Set<Requirement> recommended =
+					parseRequirements(recommendedRequirementsObject);
+
+			recommended.forEach(r -> r.setRecommended(true));
+
+			requirements.addAll(recommended);
 		}
 
 		// Parse all rewards
@@ -157,7 +152,8 @@ public class QuestDeserializer implements JsonDeserializer<Quest> {
 
 			if (skill.isPresent()) {
 				// Add the Skill XP reward
-				skillRewards.put(skill.get(), e.getValue().getAsInt());
+				skillRewards.put(skill.get(), e.getValue()
+						.getAsInt());
 			} else if (key.equalsIgnoreCase(KEY_REWARDS_LAMPS)) {
 				// Lamps are arrays
 				JsonArray lamps = (JsonArray) value;
@@ -171,12 +167,59 @@ public class QuestDeserializer implements JsonDeserializer<Quest> {
 		}
 
 		// Create the new Quest
-		Quest q = new Quest(id, title, displayName, skillRequirements,
-				questRequirements, otherRequirements, questPoints,
+		Quest q = new Quest(id, title, displayName, requirements, questPoints,
 				skillRewards, lampRewards);
 
 		log.fine("Deserialized quest: " + q.toString());
 
 		return q;
+	}
+
+	private Set<Requirement> parseRequirements(JsonObject requirementsObject) {
+		Set<Requirement> requirements = new HashSet<>();
+
+		// Parse all requirements
+		for (Map.Entry<String, JsonElement> e :
+				requirementsObject.entrySet()) {
+			String key = e.getKey();
+			JsonElement value = e.getValue();
+
+			// Get the Skill if any
+			Optional<Skill> skill = Skill.tryGet(key);
+
+			if (skill.isPresent()) {
+				// Add the Skill level requirement
+				requirements.add(new SkillRequirement(skill.get(),
+						value.getAsInt()));
+			} else if (key.equalsIgnoreCase(KEY_REQUIREMENTS_QUESTS)) {
+				// Quest requirements are array of ids
+				JsonArray questIds = (JsonArray) value;
+
+				// Add the quest ids
+				questIds.forEach(q ->
+						requirements.add(
+								new QuestRequirement(q.getAsInt())));
+			} else {
+				// Other requirements
+				switch (key) {
+					// Quest points requirement
+					case KEY_REQUIREMENTS_QP:
+						requirements.add(Requirement.from(p ->
+								p.getQuestPoints() >= value.getAsInt()));
+						break;
+					// Combat level requirement
+					case KEY_REQUIREMENTS_COMBAT:
+						requirements.add(Requirement.from(p ->
+								p.getCombatLevel() >= value.getAsInt()));
+						break;
+					// Invalid requirement
+					default:
+						throw new IllegalArgumentException(
+								"Unknown requirement: " + key);
+				}
+			}
+		}
+
+		return requirements;
 	}
 }

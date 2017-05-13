@@ -5,6 +5,8 @@ import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Lamp;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 
+import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -38,9 +40,9 @@ public class LampAction extends Action {
 	public LampAction(Player player, Quest quest, Lamp lamp,
 	                  Set<Skill> skills) {
 		super(player);
-		this.quest = quest;
-		this.lamp = lamp;
-		this.skills = skills;
+		this.quest = Objects.requireNonNull(quest);
+		this.lamp = Objects.requireNonNull(lamp);
+		this.skills = Objects.requireNonNull(skills);
 	}
 
 	/**
@@ -54,8 +56,33 @@ public class LampAction extends Action {
 
 	@Override
 	public String getMessage() {
-		return "Use " + Skill.formatXP(lamp.getValue()) + " xp lamp on " +
-				skills;
+		StringBuilder message = new StringBuilder();
+		String xp = Skill.formatXP(lamp.getValue());
+
+		message.append("Use ").append(xp).append(" xp lamp on ");
+
+		Iterator<Skill> it = skills.iterator();
+
+		// Add the first skill
+		if (it.hasNext()) {
+			message.append(it.next());
+		}
+
+		// Append remaining skills separated by
+		// a comma (or `and` for the last Skill)
+		while (it.hasNext()) {
+			Skill s = it.next();
+
+			if (it.hasNext()) {
+				message.append(", ");
+			} else {
+				message.append(" and ");
+			}
+
+			message.append(s);
+		}
+
+		return message.toString();
 	}
 
 	/**

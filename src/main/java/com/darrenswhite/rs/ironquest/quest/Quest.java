@@ -3,13 +3,12 @@ package com.darrenswhite.rs.ironquest.quest;
 import com.darrenswhite.rs.ironquest.IronQuest;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
+import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
+import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
+import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Predicate;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author Darren White
@@ -32,19 +31,9 @@ public class Quest {
 	private final String displayName;
 
 	/**
-	 * The skill requirement levels
+	 * The quest Requirements
 	 */
-	private final Map<Skill, Integer> skillRequirements;
-
-	/**
-	 * Quest ids requirements
-	 */
-	private final Set<Integer> questRequirements;
-
-	/**
-	 * Other requirement the Player must meet
-	 */
-	private final Set<Predicate<Player>> otherRequirements;
+	private final Set<Requirement> requirements;
 
 	/**
 	 * Skill XP rewards
@@ -64,31 +53,24 @@ public class Quest {
 	/**
 	 * Creates a new Quest instance
 	 *
-	 * @param id                The Quest unique id
-	 * @param title             The Quest title
-	 * @param displayName       The Quest display name
-	 * @param skillRequirements The skill requirement levels
-	 * @param questRequirements Quest ids requirements
-	 * @param otherRequirements Other requirement the Player must meet
-	 * @param questPoints       Skill XP rewards
-	 * @param skillRewards      Lamp rewards
-	 * @param lampRewards       Quest points reward
+	 * @param id           The Quest unique id
+	 * @param title        The Quest title
+	 * @param displayName  The Quest display name (title is used if null)
+	 * @param requirements The Quest Requirements
+	 * @param questPoints  Skill XP rewards
+	 * @param skillRewards Lamp rewards
+	 * @param lampRewards  Quest points reward
 	 */
 	public Quest(int id, String title, String displayName,
-	             Map<Skill, Integer> skillRequirements,
-	             Set<Integer> questRequirements,
-	             Set<Predicate<Player>> otherRequirements,
-	             int questPoints, Map<Skill, Integer> skillRewards,
-	             Set<Lamp> lampRewards) {
+	             Set<Requirement> requirements, int questPoints,
+	             Map<Skill, Integer> skillRewards, Set<Lamp> lampRewards) {
 		this.id = id;
-		this.title = title;
-		this.displayName = displayName;
-		this.skillRequirements = skillRequirements;
-		this.questRequirements = questRequirements;
-		this.otherRequirements = otherRequirements;
+		this.title = Objects.requireNonNull(title);
+		this.displayName = displayName != null ? displayName : title;
+		this.requirements = Objects.requireNonNull(requirements);
 		this.questPoints = questPoints;
-		this.skillRewards = skillRewards;
-		this.lampRewards = lampRewards;
+		this.skillRewards = Objects.requireNonNull(skillRewards);
+		this.lampRewards = Objects.requireNonNull(lampRewards);
 	}
 
 	/**
@@ -122,13 +104,17 @@ public class Quest {
 	 * Calculates the priority for this Quest based on skill requirements
 	 * and rewards
 	 *
-	 * @param p The Player instance
+	 * @param p           The Player instance
+	 * @param ironman     Test ironman mode
+	 * @param recommended Test recommended mode
 	 * @return The priority of this Quest
 	 */
-	public int getPriority(Player p) {
+	public int getPriority(Player p, boolean ironman, boolean recommended) {
 		// Get the total remaining skill requirements
-		int reqs = getRemainingSkillRequirements(p).values().stream()
-				.mapToInt(Integer::intValue).sum();
+		int reqs = getRemainingSkillRequirements(p, ironman, recommended)
+				.stream()
+				.mapToInt(SkillRequirement::getLevel)
+				.sum();
 		// Get the total rewards and scale down by a factor of 100
 		int rwds = (getTotalLampRewards() + getTotalSkillRewards()) / 100;
 
@@ -146,48 +132,64 @@ public class Quest {
 	}
 
 	/**
+	 * Gets the Quest requirements
+	 *
+	 * @return The Quest requirements
+	 */
+	public Set<QuestRequirement> getQuestRequirements() {
+		return requirements.stream()
+				.filter(r -> r instanceof QuestRequirement)
+				.map(r -> (QuestRequirement) r)
+				.collect(Collectors.toSet());
+	}
+
+	/**
 	 * Gets the remaining skill level requirements for this Quest
 	 *
-	 * @param p The Player instance
+	 * @param p           The Player instance
+	 * @param ironman     Test ironman mode
+	 * @param recommended Test recommended mode
 	 * @return The remaining skill level requirements
 	 */
-	public Map<Skill, Integer> getRemainingSkillRequirements(Player p) {
+	public Set<SkillRequirement> getRemainingSkillRequirements(Player p,
+	                                                           boolean ironman,
+	                                                           boolean recommended) {
 		// Create a new Stream for the Skill requirements
-		Stream<Map.Entry<Skill, Integer>> skillStream =
-				skillRequirements.entrySet().stream();
-
 		// Filter by removing requirements already met
-		skillStream = skillStream.filter(e ->
-				p.getSkillLevel(e.getKey()) < e.getValue());
-
 		// Collect the results in a Map
-		Map<Skill, Integer> remaining = skillStream.collect(
-				Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+		Set<SkillRequirement> remaining = getSkillRequirements().stream()
+				.filter(r -> !r.test(p, ironman, recommended))
+				.collect(Collectors.toSet());
 
 		// Create a new Stream for the Quest requirements
-		Stream<Integer> questIdsStream = questRequirements.stream();
-
 		// Filter by removing Quest's already completed
-		questIdsStream = questIdsStream.filter(id -> !p.isQuestCompleted(id));
-
 		// Map Quest ids to Quest objects
-		Stream<Quest> questStream = questIdsStream.map(id ->
-				IronQuest.getInstance().getQuest(id));
-
 		// Add all Quest skill requirements
-		questStream.forEach(q -> {
-			// Get remaining skill requirements
-			Map<Skill, Integer> qRemaining =
-					q.getRemainingSkillRequirements(p);
+		getQuestRequirements().stream()
+				.filter(r -> !r.test(p, ironman, recommended))
+				.map(r -> IronQuest.getInstance().getQuest(r.getId()))
+				.forEach(q -> {
+					// Get remaining skill requirements
+					Set<SkillRequirement> qRemaining =
+							q.getRemainingSkillRequirements(p, ironman, recommended);
 
-			// Add them to the remaining map
-			// if they are larger or not present
-			qRemaining.forEach((s, lvl) -> {
-				if (lvl > remaining.getOrDefault(s, 0)) {
-					remaining.put(s, lvl);
-				}
-			});
-		});
+					// Add them to the remaining map
+					// if they are larger or not present
+					qRemaining.forEach(qr -> {
+						Optional<SkillRequirement> req = remaining.stream()
+								.filter(r -> r.getSkill() == qr.getSkill())
+								.findAny();
+
+						if (req.isPresent()) {
+							if (qr.getLevel() > req.get().getLevel()) {
+								remaining.remove(req.get());
+								remaining.add(qr);
+							}
+						} else {
+							remaining.add(qr);
+						}
+					});
+				});
 
 		return remaining;
 	}
@@ -197,8 +199,11 @@ public class Quest {
 	 *
 	 * @return The Skill level requirements
 	 */
-	public Map<Skill, Integer> getSkillRequirements() {
-		return Collections.unmodifiableMap(skillRequirements);
+	public Set<SkillRequirement> getSkillRequirements() {
+		return requirements.stream()
+				.filter(r -> r instanceof SkillRequirement)
+				.map(r -> (SkillRequirement) r)
+				.collect(Collectors.toSet());
 	}
 
 	/**
@@ -225,7 +230,9 @@ public class Quest {
 	 * @return The total Lamp reward values
 	 */
 	private int getTotalLampRewards() {
-		return lampRewards.stream().mapToInt(Lamp::getValue).sum();
+		return lampRewards.stream()
+				.mapToInt(Lamp::getValue)
+				.sum();
 	}
 
 	/**
@@ -235,51 +242,70 @@ public class Quest {
 	 */
 	private int getTotalSkillRewards() {
 		return skillRewards.values().stream()
-				.mapToInt(Integer::intValue).sum();
+				.mapToInt(Integer::intValue)
+				.sum();
 	}
 
 	/**
 	 * Checks if the Player meets all 'other' requirements
 	 *
-	 * @param p The Player instance
+	 * @param p           The Player instance
+	 * @param ironman     Test ironman mode
+	 * @param recommended Test recommended mode
 	 * @return If the Player meets all other requirements
 	 */
-	public boolean hasOtherRequirements(Player p) {
-		return otherRequirements.stream().filter(pr ->
-				!pr.test(p)).count() == 0;
+	public boolean hasOtherRequirements(Player p, boolean ironman,
+	                                    boolean recommended) {
+		return requirements.stream()
+				.filter(r -> r.getClass().equals(Requirement.class))
+				.filter(r -> !r.test(p, ironman, recommended))
+				.count() == 0;
 	}
 
 	/**
 	 * Checks if the Player meets all Quest requirements
 	 *
-	 * @param p The Player instance
+	 * @param p           The Player instance
+	 * @param ironman     Test ironman mode
+	 * @param recommended Test recommended mode
 	 * @return If the Player meets all Quest requirements
 	 */
-	public boolean hasQuestRequirements(Player p) {
-		return questRequirements.stream().filter(q ->
-				!p.isQuestCompleted(q)).count() == 0;
+	public boolean hasQuestRequirements(Player p, boolean ironman,
+	                                    boolean recommended) {
+		return getQuestRequirements().stream()
+				.filter(r -> !r.test(p, ironman, recommended))
+				.count() == 0;
 	}
 
 	/**
 	 * Checks if the Player meets all requirements
 	 *
-	 * @param p The Player instance
+	 * @param p           The Player instance
+	 * @param ironman     Test ironman mode
+	 * @param recommended Test recommended mode
 	 * @return If the Player meets all requirements
 	 */
-	public boolean hasRequirements(Player p) {
-		return hasSkillRequirements(p) && hasQuestRequirements(p) &&
-				hasOtherRequirements(p);
+	public boolean hasRequirements(Player p, boolean ironman,
+	                               boolean recommended) {
+		return requirements
+				.stream()
+				.filter(r -> r.test(p, ironman, recommended))
+				.count() == 0;
 	}
 
 	/**
 	 * Checks if the Player meets all Skill requirements
 	 *
-	 * @param p The Player instance
+	 * @param p           The Player instance
+	 * @param ironman     Test ironman mode
+	 * @param recommended Test recommended mode
 	 * @return If the Player meets all Skill requirements
 	 */
-	public boolean hasSkillRequirements(Player p) {
-		return skillRequirements.entrySet().stream().filter(e ->
-				p.getSkillLevel(e.getKey()) < e.getValue()).count() == 0;
+	public boolean hasSkillRequirements(Player p, boolean ironman,
+	                                    boolean recommended) {
+		return getSkillRequirements().stream()
+				.filter(r -> !r.test(p, ironman, recommended))
+				.count() == 0;
 	}
 
 	@Override
@@ -288,9 +314,7 @@ public class Quest {
 				"id=" + id +
 				", title='" + title + '\'' +
 				", displayName='" + displayName + '\'' +
-				", skillRequirements=" + skillRequirements +
-				", questRequirements=" + questRequirements +
-				", otherRequirements=" + otherRequirements +
+				", requirements=" + requirements +
 				", skillRewards=" + skillRewards +
 				", lampRewards=" + lampRewards +
 				'}';

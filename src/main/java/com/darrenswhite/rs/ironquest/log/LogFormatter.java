@@ -21,10 +21,12 @@ public class LogFormatter extends Formatter {
 	public String format(LogRecord record) {
 		StringBuilder result = new StringBuilder();
 
+		// Format the log record
 		result.append("[").append(record.getLevel().getName()).append("] ");
 		result.append(new Date(record.getMillis())).append(": ");
 		result.append(record.getLoggerName()).append(": ");
-		result.append(record.getMessage()).append(throwableToString(record.getThrown()));
+		result.append(record.getMessage())
+				.append(throwableToString(record.getThrown()));
 		result.append(LogFormatter.LINE_SEPARATOR);
 
 		return result.toString();
@@ -46,11 +48,13 @@ public class LogFormatter extends Formatter {
 			return "";
 		}
 
-		StringWriter exception = new StringWriter();
-		PrintWriter pw = new PrintWriter(exception);
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
 
+		// Print the stacktrace to the writer
+		// to get a string representation
 		t.printStackTrace(pw);
 
-		return exception.toString();
+		return sw.toString();
 	}
 }
