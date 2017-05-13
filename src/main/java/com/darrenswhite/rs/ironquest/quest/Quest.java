@@ -289,7 +289,7 @@ public class Quest {
 	                               boolean recommended) {
 		return requirements
 				.stream()
-				.filter(r -> r.test(p, ironman, recommended))
+				.filter(r -> !r.test(p, ironman, recommended))
 				.count() == 0;
 	}
 
