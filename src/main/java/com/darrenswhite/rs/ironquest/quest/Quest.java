@@ -104,7 +104,9 @@ public class Quest {
 	 * Calculates the priority for this Quest based on skill requirements
 	 * and rewards
 	 *
-	 * @param p The Player instance
+	 * @param p           The Player instance
+	 * @param ironman     Test ironman mode
+	 * @param recommended Test recommended mode
 	 * @return The priority of this Quest
 	 */
 	public int getPriority(Player p, boolean ironman, boolean recommended) {
@@ -144,7 +146,9 @@ public class Quest {
 	/**
 	 * Gets the remaining skill level requirements for this Quest
 	 *
-	 * @param p The Player instance
+	 * @param p           The Player instance
+	 * @param ironman     Test ironman mode
+	 * @param recommended Test recommended mode
 	 * @return The remaining skill level requirements
 	 */
 	public Set<SkillRequirement> getRemainingSkillRequirements(Player p,
