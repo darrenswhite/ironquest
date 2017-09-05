@@ -4518,83 +4518,83 @@
 	"title": "The Jack of Spades",
 	"requirements": {
 	  "quests": [
-	    9
+		9
 	  ]
 	},
 	"rewards": {
-    "qp": 1,
-    "AGILITY": 500,
-    "CONSTRUCTION": 500,
-    "DUNGEONEERING": 500,
-    "THIEVING": 500
-  } 
+	  "qp": 1,
+	  "AGILITY": 500,
+	  "CONSTRUCTION": 500,
+	  "DUNGEONEERING": 500,
+	  "THIEVING": 500
+	}
   },
   {
-  "id": 228,
-  "title": "Crocodile Tears",
-  "requirements": {
-    "quests": [
-    227,
-    93,
-    161,
-    139
-    ],
-    "HUNTER": 73,
-    "FISHING": 72,
-    "WOODCUTTING": 47,
-    "AGILITY": 30
-  },
-  "rewards": {
-    "qp": 1,
-    "FISHING": 35000,
-    "HUNTER": 35000,
-    "AGILITY": 15000,
-    "WOODCUTTING": 15000,
-    "lamps": [
-    {
-      "requirements": {
-      "CONSTITUTION": 80
-      },
-      "values": [
-      20000
-      ]
-    }
-    ]
-  }
-  },
-  {
-  "id": 229,
-  "title": "Our Man in the North",
-  "requirements": {
-    "quests": [
-      179,
-      228
-      ]
-  },
-  "rewards": {
-    "qp": 1,
-    "lamps": [
-    {
-      "requirements": {
-      "STRENGTH": 80
-      },
-      "values": [
-      20000
-      ]
-    }
-    ]
-  }
+	"id": 228,
+	"title": "Crocodile Tears",
+	"requirements": {
+	  "quests": [
+		227,
+		93,
+		161,
+		139
+	  ],
+	  "HUNTER": 73,
+	  "FISHING": 72,
+	  "WOODCUTTING": 47,
+	  "AGILITY": 30
+	},
+	"rewards": {
+	  "qp": 1,
+	  "FISHING": 35000,
+	  "HUNTER": 35000,
+	  "AGILITY": 15000,
+	  "WOODCUTTING": 15000,
+	  "lamps": [
+		{
+		  "requirements": {
+			"CONSTITUTION": 80
+		  },
+		  "values": [
+			20000
+		  ]
+		}
+	  ]
+	}
   },
   {
-  "id": 230,
-  "title": "'Phite Club",
-  "requirements": {
-    "quests": [
-      229
-      ]
+	"id": 229,
+	"title": "Our Man in the North",
+	"requirements": {
+	  "quests": [
+		179,
+		228
+	  ]
+	},
+	"rewards": {
+	  "qp": 1,
+	  "lamps": [
+		{
+		  "requirements": {
+			"STRENGTH": 80
+		  },
+		  "values": [
+			20000
+		  ]
+		}
+	  ]
+	}
   },
-  "rewards": {
-    "qp": 1
-  }
+  {
+	"id": 230,
+	"title": "'Phite Club",
+	"requirements": {
+	  "quests": [
+		229
+	  ]
+	},
+	"rewards": {
+	  "qp": 1
+	}
   }
 ]
