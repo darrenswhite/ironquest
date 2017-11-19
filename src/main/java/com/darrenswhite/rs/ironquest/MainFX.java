@@ -22,7 +22,7 @@ public class MainFX extends Application {
 	/**
 	 * The title of the application window
 	 */
-	public static final String STAGE_NAME = "Project IronQuest by Ramus";
+	private static final String STAGE_NAME = "Project IronQuest by Ramus";
 
 	/**
 	 * The main window width
@@ -37,8 +37,7 @@ public class MainFX extends Application {
 	/**
 	 * The logger
 	 */
-	private static final Logger log =
-			Logger.getLogger(Main.class.getName());
+	private static final Logger log = Logger.getLogger(Main.class.getName());
 
 	/**
 	 * Get the resource at the path
@@ -46,7 +45,7 @@ public class MainFX extends Application {
 	 * @param path The relative path for the resource
 	 * @return The absolute URL for the resource
 	 */
-	public static URL getResource(String path) {
+	static URL getResource(String path) {
 		// Try and find the resource locally (relative in the JAR file)
 		URL in = MainFX.class.getResource('/' + path);
 
@@ -77,7 +76,7 @@ public class MainFX extends Application {
 	/**
 	 * Setup logging
 	 */
-	private static void setupLogger(Level level) {
+	static void setupLogger(Level level) {
 		// Get the root logger
 		Logger root = Logger.getLogger("");
 		// Create a new ConsoleHandler

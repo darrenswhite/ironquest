@@ -187,8 +187,8 @@ public class MainPane extends GridPane {
 		btnRun.setMaxWidth(Double.MAX_VALUE);
 		HBox.setHgrow(btnRun, Priority.ALWAYS);
 
-		// Max rows & columns
-		int columns = 10, rows = 3;
+		// Max columns
+		int columns = 10;
 
 		// Add nodes to grid
 		add(textRSN, 0, 0,

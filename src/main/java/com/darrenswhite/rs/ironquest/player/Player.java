@@ -477,7 +477,6 @@ public class Player {
 							}.getType());
 
 			IronQuest instance = IronQuest.getInstance();
-			Set<String> invalid = new LinkedHashSet<>();
 
 			// Add all completed quests to the completed quest set
 			for (RuneMetricsQuest rmq : rmQuests) {

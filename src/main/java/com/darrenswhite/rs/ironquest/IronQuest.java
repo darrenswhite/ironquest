@@ -97,6 +97,66 @@ public class IronQuest implements Runnable {
 	}
 
 	/**
+	 * Get the current instance, creating a new one if there is no instance
+	 *
+	 * @return The current instance
+	 */
+	public static IronQuest getInstance() {
+		// Get the instance, creating a new one if it doesn't exist yet
+		if (instance == null) {
+			// Create a gson builder to read quest data
+			GsonBuilder gsonBuilder = new GsonBuilder();
+
+			// Used to deserialize quests
+			gsonBuilder.registerTypeAdapter(Quest.class,
+					new QuestDeserializer());
+
+			// Create the gson object
+			Gson gson = gsonBuilder.create();
+
+			log.info("Trying to read quests from file: " +
+					FILE_QUESTS_JSON);
+
+			// Read the quests from file
+			try (InputStreamReader in = new InputStreamReader(
+					MainFX.getResource(FILE_QUESTS_JSON).openStream())) {
+				// Store the json in a set of Quests
+				log.info("Deserializing JSON...");
+				Set<Quest> quests = gson.fromJson(in,
+						new TypeToken<LinkedHashSet<Quest>>() {
+						}.getType());
+
+				// Create a new instance
+				instance = new IronQuest(quests);
+			} catch (IOException e) {
+				log.log(Level.SEVERE, "Unable to deserialize JSON: ", e);
+			}
+		}
+
+		return instance;
+	}
+
+	public static void amalgamateRequirements(Set<SkillRequirement> remaining,
+	                                          Set<SkillRequirement> qRemaining) {
+		// Add them to the remaining map
+		// if they are larger or not present
+		qRemaining.forEach(qr -> {
+			Optional<SkillRequirement> req = remaining.stream()
+					.filter(r -> r.getSkill() == qr.getSkill())
+					.findAny();
+
+			if (req.isPresent()) {
+				if (qr.getLevel() > req.get().getLevel()) {
+					remaining.remove(req.get());
+					remaining.add(qr);
+				}
+			} else {
+				remaining.add(qr);
+			}
+		});
+	}
+
+	/**
 	 * Adds a new TrainAction for a skill to a required level
 	 *
 	 * @param req The SkillRequirement
@@ -200,52 +260,23 @@ public class IronQuest implements Runnable {
 	}
 
 	/**
-	 * Get the current instance, creating a new one if there is no instance
-	 *
-	 * @return The current instance
-	 */
-	public static IronQuest getInstance() {
-		// Get the instance, creating a new one if it doesn't exist yet
-		if (instance == null) {
-			// Create a gson builder to read quest data
-			GsonBuilder gsonBuilder = new GsonBuilder();
-
-			// Used to deserialize quests
-			gsonBuilder.registerTypeAdapter(Quest.class,
-					new QuestDeserializer());
-
-			// Create the gson object
-			Gson gson = gsonBuilder.create();
-
-			log.info("Trying to read quests from file: " +
-					FILE_QUESTS_JSON);
-
-			// Read the quests from file
-			try (InputStreamReader in = new InputStreamReader(
-					MainFX.getResource(FILE_QUESTS_JSON).openStream())) {
-				// Store the json in a set of Quests
-				log.info("Deserializing JSON...");
-				Set<Quest> quests = gson.fromJson(in,
-						new TypeToken<LinkedHashSet<Quest>>() {
-						}.getType());
-
-				// Create a new instance
-				instance = new IronQuest(quests);
-			} catch (IOException e) {
-				log.log(Level.SEVERE, "Unable to deserialize JSON: ", e);
-			}
-		}
-
-		return instance;
-	}
-
-	/**
 	 * Gets the Skills to be used on Lamps
 	 *
 	 * @return A Set of Skills
 	 */
 	public Set<Skill> getLampSkills() {
 		return lampSkills;
+	}
+
+	/**
+	 * A Set of Skills to use lamps on. This is empty by default
+	 * and Lamp Skills will be chosen by an algorithm. Use this
+	 * to force a Set of Skills to use for every Lamp.
+	 *
+	 * @param lampSkills A Set of Skills to use Lamp's on
+	 */
+	public void setLampSkills(Set<Skill> lampSkills) {
+		this.lampSkills = lampSkills;
 	}
 
 	/**
@@ -259,23 +290,7 @@ public class IronQuest implements Runnable {
 
 		for (Quest q : quests) {
 			// Add the Quests' SkillRequirements
-			q.getSkillRequirements()
-					.forEach(r -> {
-						// Add them to the requirements set
-						// if they are larger or not present
-						Optional<SkillRequirement> curr = requirements.stream()
-								.filter(sr -> sr.getSkill() == r.getSkill())
-								.findAny();
-
-						if (curr.isPresent()) {
-							if (r.getLevel() > curr.get().getLevel()) {
-								requirements.remove(curr.get());
-								requirements.add(r);
-							}
-						} else {
-							requirements.add(r);
-						}
-					});
+			amalgamateRequirements(requirements, q.getSkillRequirements());
 		}
 
 		return requirements;
@@ -297,6 +312,15 @@ public class IronQuest implements Runnable {
 	 */
 	public Optional<Player> getPlayer() {
 		return Optional.ofNullable(player);
+	}
+
+	/**
+	 * Creates a new Player with the given name
+	 *
+	 * @param name The Player name
+	 */
+	public void setPlayer(String name) {
+		player = new Player(name);
 	}
 
 	/**
@@ -372,12 +396,30 @@ public class IronQuest implements Runnable {
 	}
 
 	/**
+	 * Set ironman mode
+	 *
+	 * @param ironman true to enable ironman mode
+	 */
+	public void setIronman(boolean ironman) {
+		this.ironman = ironman;
+	}
+
+	/**
 	 * Test if currently in recommended mode
 	 *
 	 * @return true if recommended mode is enabled
 	 */
 	public boolean isRecommended() {
 		return recommended;
+	}
+
+	/**
+	 * Set recommended mode
+	 *
+	 * @param recommended true to enable recommended mode
+	 */
+	public void setRecommended(boolean recommended) {
+		this.recommended = recommended;
 	}
 
 	/**
@@ -543,43 +585,5 @@ public class IronQuest implements Runnable {
 		} catch (IOException e) {
 			log.log(Level.SEVERE, "Unable to save properties: ", e);
 		}
-	}
-
-	/**
-	 * Set ironman mode
-	 *
-	 * @param ironman true to enable ironman mode
-	 */
-	public void setIronman(boolean ironman) {
-		this.ironman = ironman;
-	}
-
-	/**
-	 * A Set of Skills to use lamps on. This is empty by default
-	 * and Lamp Skills will be chosen by an algorithm. Use this
-	 * to force a Set of Skills to use for every Lamp.
-	 *
-	 * @param lampSkills A Set of Skills to use Lamp's on
-	 */
-	public void setLampSkills(Set<Skill> lampSkills) {
-		this.lampSkills = lampSkills;
-	}
-
-	/**
-	 * Creates a new Player with the given name
-	 *
-	 * @param name The Player name
-	 */
-	public void setPlayer(String name) {
-		player = new Player(name);
-	}
-
-	/**
-	 * Set recommended mode
-	 *
-	 * @param recommended true to enable recommended mode
-	 */
-	public void setRecommended(boolean recommended) {
-		this.recommended = recommended;
 	}
 }

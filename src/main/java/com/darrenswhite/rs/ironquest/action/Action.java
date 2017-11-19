@@ -15,8 +15,7 @@ public abstract class Action {
 	/**
 	 * The logger
 	 */
-	private static final Logger log =
-			Logger.getLogger(Action.class.getName());
+	private static final Logger log = Logger.getLogger(Action.class.getName());
 
 	/**
 	 * The instance of the Player

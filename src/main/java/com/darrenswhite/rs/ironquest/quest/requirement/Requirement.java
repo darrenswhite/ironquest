@@ -36,12 +36,12 @@ public abstract class Requirement {
 		return ironman;
 	}
 
-	public boolean isRecommended() {
-		return recommended;
-	}
-
 	public void setIronman(boolean ironman) {
 		this.ironman = ironman;
+	}
+
+	public boolean isRecommended() {
+		return recommended;
 	}
 
 	public void setRecommended(boolean recommended) {

@@ -7,7 +7,10 @@ import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -173,22 +176,7 @@ public class Quest {
 					Set<SkillRequirement> qRemaining =
 							q.getRemainingSkillRequirements(p, ironman, recommended);
 
-					// Add them to the remaining map
-					// if they are larger or not present
-					qRemaining.forEach(qr -> {
-						Optional<SkillRequirement> req = remaining.stream()
-								.filter(r -> r.getSkill() == qr.getSkill())
-								.findAny();
-
-						if (req.isPresent()) {
-							if (qr.getLevel() > req.get().getLevel()) {
-								remaining.remove(req.get());
-								remaining.add(qr);
-							}
-						} else {
-							remaining.add(qr);
-						}
-					});
+					IronQuest.amalgamateRequirements(remaining, qRemaining);
 				});
 
 		return remaining;

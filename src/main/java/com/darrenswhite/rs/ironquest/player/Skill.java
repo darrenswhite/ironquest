@@ -176,6 +176,40 @@ public enum Skill {
 	}
 
 	/**
+	 * Gets a Skill with the given name
+	 *
+	 * @param name The Skill name
+	 * @return The Skill with the name
+	 */
+	public static Optional<Skill> tryGet(String name) {
+		// Use optionals to get the Skill
+		for (Skill s : values()) {
+			if (name.equalsIgnoreCase(s.name())) {
+				return Optional.of(s);
+			}
+		}
+
+		return Optional.empty();
+	}
+
+	/**
+	 * Gets a Skill with the given id
+	 *
+	 * @param id The Skill id
+	 * @return The Skill with the id
+	 */
+	public static Optional<Skill> tryGet(int id) {
+		// Use optionals to get the Skill
+		for (Skill s : values()) {
+			if (id == s.id) {
+				return Optional.of(s);
+			}
+		}
+
+		return Optional.empty();
+	}
+
+	/**
 	 * Gets a Skill level at the given XP
 	 *
 	 * @param xp The XP to get the level at
@@ -245,40 +279,6 @@ public enum Skill {
 				.replace('_', ' ');
 
 		return first + remaining;
-	}
-
-	/**
-	 * Gets a Skill with the given name
-	 *
-	 * @param name The Skill name
-	 * @return The Skill with the name
-	 */
-	public static Optional<Skill> tryGet(String name) {
-		// Use optionals to get the Skill
-		for (Skill s : values()) {
-			if (name.equalsIgnoreCase(s.name())) {
-				return Optional.of(s);
-			}
-		}
-
-		return Optional.empty();
-	}
-
-	/**
-	 * Gets a Skill with the given id
-	 *
-	 * @param id The Skill id
-	 * @return The Skill with the id
-	 */
-	public static Optional<Skill> tryGet(int id) {
-		// Use optionals to get the Skill
-		for (Skill s : values()) {
-			if (id == s.id) {
-				return Optional.of(s);
-			}
-		}
-
-		return Optional.empty();
 	}
 
 	/**
