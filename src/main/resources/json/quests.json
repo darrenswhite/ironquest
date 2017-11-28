@@ -4596,5 +4596,25 @@
 	"rewards": {
 	  "qp": 1
 	}
+  },
+  {
+  "id": 231,
+  "title": "Evil Dave's Big Day Out",
+  "requirements": {
+	"quests": [
+	  102
+	  ],
+	  "AGILITY": 30,
+	  "COOKING": 30,
+	  "HERBLORE": 30,
+	  "MAGIC": 30
+  },
+  "rewards": {
+    "qp": 2,
+    "MAGIC": 50000,
+    "HERBLORE": 20000,
+    "AGILITY": 20000,
+    "COOKING": 20000
+  }
   }
 ]
