@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="MainFX" type="Application" factoryName="Application" singleton="true" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="com.darrenswhite.rs.ironquest.MainFX" />
-    <module name="IronQuest" />
+    <module name="ironquest" />
     <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/src/main" />
     <extension name="coverage">
       <pattern>

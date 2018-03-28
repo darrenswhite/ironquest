@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="javafx" build-on-make="true" name="IronQuest">
-    <output-path>$PROJECT_DIR$/out/artifacts/IronQuest</output-path>
+  <artifact type="javafx" build-on-make="true" name="ironquest">
+    <output-path>$PROJECT_DIR$/out/artifacts/ironquest</output-path>
     <properties id="javafx-properties">
       <options>
         <option name="appClass" value="com.darrenswhite.rs.ironquest.MainFX" />
@@ -12,8 +12,8 @@
       </options>
     </properties>
     <root id="root">
-      <element id="archive" name="IronQuest.jar">
-        <element id="module-output" name="IronQuest" />
+      <element id="archive" name="ironquest.jar">
+        <element id="module-output" name="ironquest" />
         <element id="directory" name="resources">
           <element id="directory" name="json">
             <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources/json" />
