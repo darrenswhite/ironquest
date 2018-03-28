@@ -3,6 +3,7 @@ package com.darrenswhite.rs.ironquest.gui;
 import com.darrenswhite.rs.ironquest.IronQuest;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
+import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -12,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -92,6 +95,16 @@ public class QuestDetail extends Stage {
 	private Label lstQuestReqs;
 
 	/**
+	 * The other requirements label
+	 */
+	private Label lblOtherReqs;
+
+	/**
+	 * The list of other requirements
+	 */
+	private Label lstOtherReqs;
+
+	/**
 	 * The quest points label
 	 */
 	private Label lblQuestPoints;
@@ -163,6 +176,9 @@ public class QuestDetail extends Stage {
 		scene = new Scene(scroll);
 
 		lblName = new Label(quest.getDisplayName());
+		// Make title bold
+		lblName.setFont(Font.font(null, FontWeight.BOLD,
+				Font.getDefault().getSize()));
 		// Open RS wiki page on double click
 		lblName.setOnMouseClicked(this::openQuestUrl);
 		// Center the name label
@@ -203,6 +219,23 @@ public class QuestDetail extends Stage {
 			questReqs = "None";
 		}
 		lstQuestReqs = new Label(questReqs);
+
+		lblOtherReqs = new Label("Other requirements");
+		// Align to the top
+		GridPane.setValignment(lblQuestReqs, VPos.TOP);
+
+		// Get skill requirements as strings
+		Set<String> otherReqStrings = quest.getOtherRequirements()
+				.stream()
+				.map(Requirement::toString)
+				.collect(Collectors.toSet());
+		// Join strings with newline character
+		String otherReqs = String.join("\n", otherReqStrings);
+		// Placeholder in there are no skill requirements
+		if (quest.getOtherRequirements().size() == 0) {
+			otherReqs = "None";
+		}
+		lstOtherReqs = new Label(otherReqs);
 
 		lblQuestPoints = new Label("Quest points");
 		lblQuestPointsValue = new Label(Integer.toString(quest.getQuestPoints()));
@@ -249,12 +282,14 @@ public class QuestDetail extends Stage {
 		grid.add(lstSkillReqs, 1, 1);
 		grid.add(lblQuestReqs, 0, 2);
 		grid.add(lstQuestReqs, 1, 2);
-		grid.add(lblQuestPoints, 0, 3);
-		grid.add(lblQuestPointsValue, 1, 3);
-		grid.add(lblSkillRewards, 0, 4);
-		grid.add(lstSkillRewards, 1, 4);
-		grid.add(lblLampRewards, 0, 5);
-		grid.add(lstLampRewards, 1, 5);
+		grid.add(lblOtherReqs, 0, 3);
+		grid.add(lstOtherReqs, 1, 3);
+		grid.add(lblQuestPoints, 0, 4);
+		grid.add(lblQuestPointsValue, 1, 4);
+		grid.add(lblSkillRewards, 0, 5);
+		grid.add(lstSkillRewards, 1, 5);
+		grid.add(lblLampRewards, 0, 6);
+		grid.add(lstLampRewards, 1, 6);
 
 		// Set the scene
 		sizeToScene();

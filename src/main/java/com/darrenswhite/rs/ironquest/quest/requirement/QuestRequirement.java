@@ -23,6 +23,11 @@ public class QuestRequirement extends Requirement {
 	}
 
 	@Override
+	public boolean isOther() {
+		return false;
+	}
+
+	@Override
 	protected boolean test(Player p) {
 		return p.isQuestCompleted(id);
 	}

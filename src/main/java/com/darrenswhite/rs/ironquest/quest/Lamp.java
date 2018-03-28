@@ -97,7 +97,6 @@ public class Lamp {
 		boolean exclusive = lampObj.has(KEY_EXCLUSIVE) &&
 				lampObj.get(KEY_EXCLUSIVE).getAsBoolean();
 		Map<Set<Skill>, Integer> requirements = new HashMap<>();
-		int value;
 
 		// Not all Lamp's have requirements
 		if (requirementsObject != null) {
@@ -187,10 +186,8 @@ public class Lamp {
 		// Create a stream for the requirements
 		// Ensure requirements are met for at least one set of skills
 		return requirements.entrySet().stream()
-				.filter(e -> e.getKey().stream()
-						.filter(s -> p.getLevel(s) < e.getValue())
-						.count() == 0)
-				.count() > 0;
+				.anyMatch(e -> e.getKey().stream()
+						.noneMatch(s -> p.getLevel(s) < e.getValue()));
 	}
 
 	/**

@@ -1,9 +1,7 @@
 package com.darrenswhite.rs.ironquest.quest;
 
 import com.darrenswhite.rs.ironquest.player.Skill;
-import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
-import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
-import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
+import com.darrenswhite.rs.ironquest.quest.requirement.*;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
@@ -204,13 +202,11 @@ public class QuestDeserializer implements JsonDeserializer<Quest> {
 				switch (key) {
 					// Quest points requirement
 					case KEY_REQUIREMENTS_QP:
-						requirements.add(Requirement.from(p ->
-								p.getQuestPoints() >= value.getAsInt()));
+						requirements.add(new QuestPointsRequirement(value.getAsInt()));
 						break;
 					// Combat level requirement
 					case KEY_REQUIREMENTS_COMBAT:
-						requirements.add(Requirement.from(p ->
-								p.getCombatLevel() >= value.getAsInt()));
+						requirements.add(new CombatRequirement(value.getAsInt()));
 						break;
 					// Invalid requirement
 					default:

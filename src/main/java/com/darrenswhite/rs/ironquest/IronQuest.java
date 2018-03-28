@@ -217,8 +217,7 @@ public class IronQuest implements Runnable {
 		Optional<Quest> best = open.stream()
 				.filter(q -> q.hasRequirements(player, ironman, recommended) &&
 						q.getLampRewards().stream()
-								.filter(l -> !l.hasRequirements(player))
-								.count() == 0)
+								.allMatch(l -> l.hasRequirements(player)))
 				.max(Comparator.comparingInt(q -> q.getPriority(player, ironman, recommended)));
 
 		// Return the best quest if there is one
@@ -234,10 +233,8 @@ public class IronQuest implements Runnable {
 		Optional<Quest> closest = open.stream()
 				.filter(q -> q.hasOtherRequirements(player, ironman, recommended) &&
 						q.hasQuestRequirements(player, ironman, recommended) &&
-						q.getLampRewards()
-								.stream()
-								.filter(l -> !l.hasRequirements(player))
-								.count() == 0)
+						q.getLampRewards().stream()
+								.allMatch(l -> l.hasRequirements(player)))
 				.min(Comparator.comparingInt(q ->
 						q.getRemainingSkillRequirements(player, ironman, recommended)
 								.stream()

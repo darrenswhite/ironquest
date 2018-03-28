@@ -187,8 +187,8 @@ public class Player {
 		// Filter the stream based on requirements met
 		// Get the skills that meet requirements
 		Set<Set<Skill>> choices = lamp.getRequirements().entrySet().stream()
-				.filter(e -> e.getKey().stream().filter(s ->
-						getLevel(s) < e.getValue()).count() == 0)
+				.filter(e -> e.getKey().stream().noneMatch(s ->
+						getLevel(s) < e.getValue()))
 				.filter(e -> !lamp.isExclusive() ||
 						!previous.contains(e.getKey()))
 				.map(Map.Entry::getKey)

@@ -103,6 +103,12 @@ public class Quest {
 		return Collections.unmodifiableSet(lampRewards);
 	}
 
+	public Set<Requirement> getOtherRequirements() {
+		return requirements.stream()
+				.filter(Requirement::isOther)
+				.collect(Collectors.toSet());
+	}
+
 	/**
 	 * Calculates the priority for this Quest based on skill requirements
 	 * and rewards
@@ -244,10 +250,8 @@ public class Quest {
 	 */
 	public boolean hasOtherRequirements(Player p, boolean ironman,
 	                                    boolean recommended) {
-		return requirements.stream()
-				.filter(r -> r.getClass().equals(Requirement.class))
-				.filter(r -> !r.test(p, ironman, recommended))
-				.count() == 0;
+		return getOtherRequirements().stream()
+				.allMatch(r -> r.test(p, ironman, recommended));
 	}
 
 	/**
@@ -261,8 +265,7 @@ public class Quest {
 	public boolean hasQuestRequirements(Player p, boolean ironman,
 	                                    boolean recommended) {
 		return getQuestRequirements().stream()
-				.filter(r -> !r.test(p, ironman, recommended))
-				.count() == 0;
+				.allMatch(r -> r.test(p, ironman, recommended));
 	}
 
 	/**
@@ -275,10 +278,8 @@ public class Quest {
 	 */
 	public boolean hasRequirements(Player p, boolean ironman,
 	                               boolean recommended) {
-		return requirements
-				.stream()
-				.filter(r -> !r.test(p, ironman, recommended))
-				.count() == 0;
+		return requirements.stream()
+				.allMatch(r -> r.test(p, ironman, recommended));
 	}
 
 	/**
@@ -292,8 +293,7 @@ public class Quest {
 	public boolean hasSkillRequirements(Player p, boolean ironman,
 	                                    boolean recommended) {
 		return getSkillRequirements().stream()
-				.filter(r -> !r.test(p, ironman, recommended))
-				.count() == 0;
+				.allMatch(r -> r.test(p, ironman, recommended));
 	}
 
 	@Override

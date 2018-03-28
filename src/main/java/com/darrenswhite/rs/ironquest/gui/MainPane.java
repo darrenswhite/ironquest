@@ -338,38 +338,4 @@ public class MainPane extends GridPane {
 				.forEach((s, xp) -> info.add(s + ": " + s.getLevelAt(xp) +
 						" (" + Skill.formatXP(xp) + " xp)"));
 	}
-
-	/**
-	 * Skill wrapper for ComboBox - to allow null values
-	 */
-	private static class SkillWrapper {
-
-		/**
-		 * The Skill option
-		 */
-		private final Skill skill;
-
-		/**
-		 * Wraps a Skill to be used for a ComboBox
-		 *
-		 * @param skill The Skill to wrap
-		 */
-		private SkillWrapper(Skill skill) {
-			this.skill = skill;
-		}
-
-		/**
-		 * Gets this Skill
-		 *
-		 * @return A Skill
-		 */
-		public Optional<Skill> getSkill() {
-			return Optional.ofNullable(skill);
-		}
-
-		@Override
-		public String toString() {
-			return skill != null ? skill.toString() : "";
-		}
-	}
 }
