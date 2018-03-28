@@ -1,5 +1,6 @@
 package com.darrenswhite.rs.ironquest.quest.requirement;
 
+import com.darrenswhite.rs.ironquest.IronQuest;
 import com.darrenswhite.rs.ironquest.player.Player;
 
 /**
@@ -30,5 +31,20 @@ public class QuestRequirement extends Requirement {
     @Override
     protected boolean test(Player p) {
         return p.isQuestCompleted(id);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(IronQuest.getInstance()
+                .getQuest(getId())
+                .getDisplayName());
+        if (isIronman()) {
+            sb.append(" (Ironman)");
+        }
+        if (isRecommended()) {
+            sb.append(" (Recommended)");
+        }
+        return sb.toString();
     }
 }

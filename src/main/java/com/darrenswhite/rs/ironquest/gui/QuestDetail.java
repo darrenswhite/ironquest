@@ -1,8 +1,8 @@
 package com.darrenswhite.rs.ironquest.gui;
 
-import com.darrenswhite.rs.ironquest.IronQuest;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
+import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import javafx.geometry.HPos;
@@ -208,9 +208,7 @@ public class QuestDetail extends Stage {
         // Get quest requirements as strings
         Set<String> questReqStrings = quest.getQuestRequirements()
                 .stream()
-                .map(qr -> IronQuest.getInstance()
-                        .getQuest(qr.getId())
-                        .getDisplayName())
+                .map(QuestRequirement::toString)
                 .collect(Collectors.toSet());
         // Join strings with newline character
         String questReqs = String.join("\n", questReqStrings);

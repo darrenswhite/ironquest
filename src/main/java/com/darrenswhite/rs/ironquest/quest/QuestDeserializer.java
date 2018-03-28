@@ -168,7 +168,7 @@ public class QuestDeserializer implements JsonDeserializer<Quest> {
         Quest q = new Quest(id, title, displayName, requirements, questPoints,
                 skillRewards, lampRewards);
 
-        log.fine("Deserialized quest: " + q.toString());
+        log.fine("Deserialized quest: " + q.getDisplayName());
 
         return q;
     }
