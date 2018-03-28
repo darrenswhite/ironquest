@@ -1,5 +1,4 @@
-.idea
+**/.idea/workspace.xml
 .ironquest
-*.iml
 out/
 target/

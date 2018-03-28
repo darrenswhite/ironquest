@@ -1,0 +1,27 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" build-on-make="true" name="IronQuest">
+    <output-path>$PROJECT_DIR$/out/artifacts/IronQuest</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="com.darrenswhite.rs.ironquest.MainFX" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="IronQuest.jar">
+        <element id="module-output" name="IronQuest" />
+        <element id="directory" name="resources">
+          <element id="directory" name="json">
+            <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources/json" />
+          </element>
+        </element>
+        <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-csv/1.4/commons-csv-1.4.jar" path-in-jar="/" />
+      </element>
+    </root>
+  </artifact>
+</component>
