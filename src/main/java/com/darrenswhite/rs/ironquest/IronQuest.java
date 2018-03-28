@@ -360,9 +360,8 @@ public class IronQuest implements Runnable {
     public Quest getQuest(String title) {
         // Filter quests by the title
         Optional<Quest> quest = quests.stream()
-                .filter(q ->
-                        q.getTitle()
-                                .equalsIgnoreCase(title))
+                .filter(q -> q.getTitle().equalsIgnoreCase(title) ||
+                        q.getDisplayName().equalsIgnoreCase(title))
                 .findAny();
 
         // Quest doesn't exist
