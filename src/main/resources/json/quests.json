@@ -4131,6 +4131,7 @@
         204
       ],
       "AGILITY": 80,
+      "CRAFTING": 80,
       "DIVINATION": 80,
       "HERBLORE": 80,
       "PRAYER": 80,
@@ -4138,6 +4139,9 @@
       "WOODCUTTING": 80
     },
     "ironman": {
+      "quests": [
+        141
+      ],
       "CRAFTING": 89,
       "MINING": 81
     },
