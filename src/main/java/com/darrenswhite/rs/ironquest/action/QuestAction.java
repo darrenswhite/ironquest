@@ -13,47 +13,47 @@ import java.util.Objects;
  */
 public class QuestAction extends Action {
 
-	/**
-	 * The Quest object
-	 */
-	private final Quest quest;
+    /**
+     * The Quest object
+     */
+    private final Quest quest;
 
-	/**
-	 * Creates a new QuestAction
-	 *
-	 * @param player The Player
-	 * @param quest  The Quest
-	 */
-	public QuestAction(Player player, Quest quest) {
-		super(player);
-		this.quest = Objects.requireNonNull(quest);
-	}
+    /**
+     * Creates a new QuestAction
+     *
+     * @param player The Player
+     * @param quest  The Quest
+     */
+    public QuestAction(Player player, Quest quest) {
+        super(player);
+        this.quest = Objects.requireNonNull(quest);
+    }
 
-	@Override
-	public String getMessage() {
-		return quest.getDisplayName();
-	}
+    @Override
+    public String getMessage() {
+        return quest.getDisplayName();
+    }
 
-	/**
-	 * Gets the Quest object
-	 *
-	 * @return A Quest
-	 */
-	public Quest getQuest() {
-		return quest;
-	}
+    /**
+     * Gets the Quest object
+     *
+     * @return A Quest
+     */
+    public Quest getQuest() {
+        return quest;
+    }
 
-	@Override
-	public void onClick(Scene scene, MouseEvent e) {
-		super.onClick(scene, e);
+    @Override
+    public void onClick(Scene scene, MouseEvent e) {
+        super.onClick(scene, e);
 
-		if (e.getClickCount() != 2) {
-			return;
-		}
+        if (e.getClickCount() != 2) {
+            return;
+        }
 
-		QuestDetail questDetail = new QuestDetail(scene.getWindow(), quest);
+        QuestDetail questDetail = new QuestDetail(scene.getWindow(), quest);
 
-		questDetail.sizeToScene();
-		questDetail.showAndWait();
-	}
+        questDetail.sizeToScene();
+        questDetail.showAndWait();
+    }
 }

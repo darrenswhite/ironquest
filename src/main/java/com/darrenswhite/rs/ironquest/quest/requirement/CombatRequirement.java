@@ -14,7 +14,7 @@ public class CombatRequirement extends Requirement {
     }
 
     public CombatRequirement(boolean ironman, boolean recommended,
-                                int level) {
+                             int level) {
         super(ironman, recommended);
         this.level = level;
     }
