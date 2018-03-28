@@ -112,14 +112,14 @@ public class Lamp {
                     // Chosen skill has to meet required level
                     case LAMP_ANY_SKILL:
                         for (Skill s : Skill.values()) {
-                            requirements.put(new HashSet<>() {{
+                            requirements.put(new HashSet<Skill>() {{
                                 add(s);
                             }}, reqLvl);
                         }
                         break;
                     // All skills must meet required level
                     case LAMP_ALL_SKILLS:
-                        requirements.put(new HashSet<>() {{
+                        requirements.put(new HashSet<Skill>() {{
                             Collections.addAll(this, Skill.values());
                         }}, reqLvl);
                         break;
@@ -136,7 +136,7 @@ public class Lamp {
         } else {
             // Add all Skill with level 1 requirement
             for (Skill s : Skill.values()) {
-                requirements.put(new HashSet<>() {{
+                requirements.put(new HashSet<Skill>() {{
                     add(s);
                 }}, 1);
             }
