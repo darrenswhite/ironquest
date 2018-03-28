@@ -4593,6 +4593,13 @@
         229
       ]
     },
+    "recommended": {
+      "MAGIC": 85,
+      "RANGED": 85,
+      "DEFENCE": 85,
+      "SUMMONING": 67,
+      "PRAYER": 43
+    },
     "rewards": {
       "qp": 1
     }
@@ -4615,6 +4622,30 @@
       "HERBLORE": 20000,
       "AGILITY": 20000,
       "COOKING": 20000
+    }
+  },
+  {
+    "id": 232,
+    "title": "Pieces of Hate",
+    "requirements": {
+      "quests": [
+        47,
+        183
+      ],
+      "CONSTRUCTION": 81,
+      "FIREMAKING": 82,
+      "AGILITY": 83,
+      "THIEVING": 85
+    },
+    "recommended": {
+      "COMBAT": 110
+    },
+    "rewards": {
+      "qp": 2,
+      "AGILITY": 50000,
+      "CONSTRUCTION": 50000,
+      "FIREMAKING": 50000,
+      "THIEVING": 50000
     }
   }
 ]
