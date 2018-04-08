@@ -96,7 +96,16 @@
     "title": "Vampyre Slayer",
     "rewards": {
       "qp": 3,
-      "ATTACK": 4825
+      "lamps": [
+        {
+          "requirements": {
+            "ATTACK": 10
+          },
+          "values": [
+            4825
+          ]
+        }
+      ]
     }
   },
   {
@@ -211,7 +220,16 @@
     },
     "rewards": {
       "qp": 1,
-      "SMITHING": 12725
+      "lamps": [
+        {
+          "requirements": {
+            "SMITHING": 28
+          },
+          "values": [
+            12725
+          ]
+        }
+      ]
     }
   },
   {
@@ -219,7 +237,16 @@
     "title": "Goblin Diplomacy",
     "rewards": {
       "qp": 5,
-      "CRAFTING": 200
+      "lamps": [
+        {
+          "requirements": {
+            "CRAFTING": 1
+          },
+          "values": [
+            200
+          ]
+        }
+      ]
     }
   },
   {
@@ -240,8 +267,24 @@
     },
     "rewards": {
       "qp": 2,
-      "STRENGTH": 18650,
-      "DEFENCE": 18650
+      "lamps": [
+        {
+          "requirements": {
+            "STRENGTH": 50
+          },
+          "values": [
+            18650
+          ]
+        },
+        {
+          "requirements": {
+            "DEFENCE": 50
+          },
+          "values": [
+            18650
+          ]
+        }
+      ]
     }
   },
   {
@@ -633,7 +676,16 @@
     "title": "Gertrude's Cat",
     "rewards": {
       "qp": 1,
-      "COOKING": 1525
+      "lamps": [
+        {
+          "requirements": {
+            "COOKING": 11
+          },
+          "values": [
+            1525
+          ]
+        }
+      ]
     }
   },
   {
@@ -744,7 +796,16 @@
     "title": "Priest in Peril",
     "rewards": {
       "qp": 1,
-      "PRAYER": 1406
+      "lamps": [
+        {
+          "requirements": {
+            "PRAYER": 10
+          },
+          "values": [
+            1406
+          ]
+        }
+      ]
     }
   },
   {
@@ -760,9 +821,32 @@
     },
     "rewards": {
       "qp": 2,
-      "CRAFTING": 3000,
-      "DEFENCE": 2000,
-      "CONSTITUTION": 2000
+      "lamps": [
+        {
+          "requirements": {
+            "CRAFTING": 4
+          },
+          "values": [
+            3000
+          ]
+        },
+        {
+          "requirements": {
+            "DEFENCE": 3
+          },
+          "values": [
+            2000
+          ]
+        },
+        {
+          "requirements": {
+            "CONSTITUTION": 3
+          },
+          "values": [
+            2000
+          ]
+        }
+      ]
     }
   },
   {
@@ -961,7 +1045,16 @@
     },
     "rewards": {
       "qp": 2,
-      "STRENGTH": 22000
+      "lamps": [
+        {
+          "requirements": {
+            "STRENGTH": 35
+          },
+          "values": [
+            22000
+          ]
+        }
+      ]
     }
   },
   {
@@ -990,11 +1083,48 @@
     },
     "rewards": {
       "qp": 2,
-      "ATTACK": 600,
-      "DEFENCE": 600,
-      "STRENGTH": 600,
-      "CONSTITUTION": 600,
-      "CRAFTING": 600
+      "lamps": [
+        {
+          "requirements": {
+            "ATTACK": 4
+          },
+          "values": [
+            600
+          ]
+        },
+        {
+          "requirements": {
+            "DEFENCE": 4
+          },
+          "values": [
+            600
+          ]
+        },
+        {
+          "requirements": {
+            "STRENGTH": 4
+          },
+          "values": [
+            600
+          ]
+        },
+        {
+          "requirements": {
+            "CONSTITUTION": 4
+          },
+          "values": [
+            600
+          ]
+        },
+        {
+          "requirements": {
+            "CRAFTING": 4
+          },
+          "values": [
+            600
+          ]
+        }
+      ]
     }
   },
   {
@@ -1249,9 +1379,32 @@
     },
     "rewards": {
       "qp": 1,
-      "PRAYER": 1000,
-      "HERBLORE": 1000,
-      "AGILITY": 1000
+      "lamps": [
+        {
+          "requirements": {
+            "PRAYER": 8
+          },
+          "values": [
+            1000
+          ]
+        },
+        {
+          "requirements": {
+            "HERBLORE": 8
+          },
+          "values": [
+            1000
+          ]
+        },
+        {
+          "requirements": {
+            "AGILITY": 8
+          },
+          "values": [
+            1000
+          ]
+        }
+      ]
     }
   },
   {
@@ -1735,10 +1888,40 @@
     },
     "rewards": {
       "qp": 2,
-      "ATTACK": 2000,
-      "STRENGTH": 2000,
-      "CRAFTING": 2000,
-      "DEFENCE": 2000
+      "lamps": [
+        {
+          "requirements": {
+            "ATTACK": 12
+          },
+          "values": [
+            2000
+          ]
+        },
+        {
+          "requirements": {
+            "STRENGTH": 12
+          },
+          "values": [
+            2000
+          ]
+        },
+        {
+          "requirements": {
+            "CRAFTING": 12
+          },
+          "values": [
+            2000
+          ]
+        },
+        {
+          "requirements": {
+            "DEFENCE": 12
+          },
+          "values": [
+            2000
+          ]
+        }
+      ]
     }
   },
   {
@@ -1746,8 +1929,24 @@
     "title": "A Soul's Bane",
     "rewards": {
       "qp": 1,
-      "DEFENCE": 500,
-      "CONSTITUTION": 500
+      "lamps": [
+        {
+          "requirements": {
+            "DEFENCE": 4
+          },
+          "values": [
+            500
+          ]
+        },
+        {
+          "requirements": {
+            "CONSTITUTION": 4
+          },
+          "values": [
+            500
+          ]
+        }
+      ]
     }
   },
   {
