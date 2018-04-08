@@ -41,7 +41,7 @@ public class MainPane extends GridPane {
     /**
      * ListView for all Actions
      */
-    private ListView<Action> listActions;
+    private ListView<Action> lstActions;
 
     /**
      * List to hold current action information
@@ -51,12 +51,12 @@ public class MainPane extends GridPane {
     /**
      * ListView for current Action information
      */
-    private ListView<String> listInfo;
+    private ListView<String> lstInfo;
 
     /**
      * Username text field
      */
-    private TextField textRSN;
+    private TextField txtRSN;
 
     /**
      * Button to change force lamp skills
@@ -85,7 +85,7 @@ public class MainPane extends GridPane {
 
     private void actionClick(MouseEvent e) {
         // Get selected Action
-        Action act = listActions.getSelectionModel().getSelectedItem();
+        Action act = lstActions.getSelectionModel().getSelectedItem();
 
         if (act != null) {
             // Each Action can have different events for click
@@ -114,16 +114,16 @@ public class MainPane extends GridPane {
         setHgap(10);
         setVgap(10);
 
-        textRSN = new TextField();
+        txtRSN = new TextField();
         // Set the username if already set
         quest.getPlayer()
                 .ifPresent(p -> p.getName()
-                        .ifPresent(n -> textRSN.setText(n)));
+                        .ifPresent(n -> txtRSN.setText(n)));
         // Add tooltip info
-        textRSN.setTooltip(new Tooltip("Enter your RuneScape name to " +
+        txtRSN.setTooltip(new Tooltip("Enter your RuneScape name to " +
                 "retrieve quest and skill information."));
         // Add prompt text
-        textRSN.setPromptText("Username");
+        txtRSN.setPromptText("Username");
 
         txtSearch = new TextField();
         // Add tooltip info
@@ -164,29 +164,29 @@ public class MainPane extends GridPane {
         btnRecommended.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(btnRecommended, Priority.ALWAYS);
 
-        listActions = new ListView<>();
+        lstActions = new ListView<>();
         // Change the current action information on selection
-        listActions.setOnMouseClicked(this::actionClick);
+        lstActions.setOnMouseClicked(this::actionClick);
         // Show information for selected Action
-        listActions.getSelectionModel().selectedItemProperty()
+        lstActions.getSelectionModel().selectedItemProperty()
                 .addListener(this::updateInfo);
         // Only one Action can be selected at a time
-        listActions.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        lstActions.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         // Bind the actions to the ListView
-        listActions.itemsProperty().bind(Bindings.createObjectBinding(
+        lstActions.itemsProperty().bind(Bindings.createObjectBinding(
                 quest::getActions, quest.getActions()));
         // Add tooltip info
-        listActions.setTooltip(new Tooltip("The recommended order to " +
+        lstActions.setTooltip(new Tooltip("The recommended order to " +
                 "complete quests. Shows training information and skill " +
                 "lamp choices."));
 
-        listInfo = new ListView<>();
+        lstInfo = new ListView<>();
         info = FXCollections.observableArrayList();
         // Bind the information for the current Action to the ListView
-        listInfo.itemsProperty().bind(
+        lstInfo.itemsProperty().bind(
                 Bindings.createObjectBinding(() -> info, info));
         // Add tooltip info
-        listInfo.setTooltip(new Tooltip("Shows player information " +
+        lstInfo.setTooltip(new Tooltip("Shows player information " +
                 "after completing the selected quest."));
 
         btnRun = new Button("Run");
@@ -205,14 +205,14 @@ public class MainPane extends GridPane {
         int columns = 10;
 
         // Add nodes to grid
-        add(textRSN, 0, 0, (int) (columns * 0.2), 1);
+        add(txtRSN, 0, 0, (int) (columns * 0.2), 1);
         add(txtSearch, (int) (columns * 0.2), 0, (int) (columns * 0.2), 1);
         add(btnLampSkills, (int) (columns * 0.4), 0, (int) (columns * 0.2), 1);
         add(btnIronman, (int) (columns * 0.6), 0, (int) (columns * 0.2), 1);
         add(btnRecommended, (int) (columns * 0.8), 0, (int) (columns * 0.2), 1);
-        add(listActions, 0, 1, (int) (columns * 0.5),
+        add(lstActions, 0, 1, (int) (columns * 0.5),
                 1);
-        add(listInfo, (int) (columns * 0.5), 1,
+        add(lstInfo, (int) (columns * 0.5), 1,
                 (int) (columns * 0.5), 1);
         add(btnRun, 0, 2,
                 columns, 1);
@@ -238,7 +238,7 @@ public class MainPane extends GridPane {
         getRowConstraints().addAll(rc0, rc1, rc2);
 
         // Start focus on action list
-        Platform.runLater(listActions::requestFocus);
+        Platform.runLater(lstActions::requestFocus);
     }
 
     /**
@@ -264,9 +264,9 @@ public class MainPane extends GridPane {
                 IronQuest quest = IronQuest.getInstance();
 
                 // Set player name
-                if (textRSN.getText() != null && !textRSN.getText()
+                if (txtRSN.getText() != null && !txtRSN.getText()
                         .isEmpty()) {
-                    quest.setPlayer(textRSN.getText());
+                    quest.setPlayer(txtRSN.getText());
                 } else {
                     quest.setPlayer(null);
                 }
@@ -276,7 +276,7 @@ public class MainPane extends GridPane {
 
                 Platform.runLater(() -> {
                     // Focus the action list
-                    listActions.requestFocus();
+                    lstActions.requestFocus();
 
                     // Update the player info if no actions are present
                     quest.getPlayer().ifPresent(p -> {
@@ -291,7 +291,7 @@ public class MainPane extends GridPane {
                     });
 
                     // Select the first action
-                    listActions.getSelectionModel().select(0);
+                    lstActions.getSelectionModel().select(0);
                 });
             } catch (Exception ex) {
                 log.log(Level.SEVERE, "Unable to run: ", ex);
@@ -310,13 +310,13 @@ public class MainPane extends GridPane {
 
         query = query.trim().toLowerCase();
 
-        for (Action a : listActions.getItems()) {
+        for (Action a : lstActions.getItems()) {
             String msg = a.getMessage().toLowerCase();
             if (msg.contains(query) || msg.startsWith(query) ||
                     msg.endsWith(query) || msg.equalsIgnoreCase(query)) {
                 // Select & highlight the action
-                listActions.getSelectionModel().select(a);
-                listActions.scrollTo(a);
+                lstActions.getSelectionModel().select(a);
+                lstActions.scrollTo(a);
                 break;
             }
         }
