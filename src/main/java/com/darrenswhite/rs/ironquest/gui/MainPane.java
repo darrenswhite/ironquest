@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Window;
@@ -77,6 +78,11 @@ public class MainPane extends GridPane {
      */
     private Button btnRun;
 
+    /**
+     * Search text for finding quest position
+     */
+    private TextField txtSearch;
+
     private void actionClick(MouseEvent e) {
         // Get selected Action
         Action act = listActions.getSelectionModel().getSelectedItem();
@@ -118,6 +124,15 @@ public class MainPane extends GridPane {
                 "retrieve quest and skill information."));
         // Add prompt text
         textRSN.setPromptText("Username");
+
+        txtSearch = new TextField();
+        // Add tooltip info
+        txtSearch.setTooltip(new Tooltip("Search for quests to find " +
+                "when they will be completed"));
+        // Add prompt text
+        txtSearch.setPromptText("Search for quests");
+        // Filter quests on keyboard event
+        txtSearch.setOnKeyReleased(this::selectAction);
 
         btnLampSkills = new Button("Lamp Skills");
         // Show LampSkillsChoice on click
@@ -190,8 +205,8 @@ public class MainPane extends GridPane {
         int columns = 10;
 
         // Add nodes to grid
-        add(textRSN, 0, 0,
-                (int) (columns * 0.4), 1);
+        add(textRSN, 0, 0, (int) (columns * 0.2), 1);
+        add(txtSearch, (int) (columns * 0.2), 0, (int) (columns * 0.2), 1);
         add(btnLampSkills, (int) (columns * 0.4), 0, (int) (columns * 0.2), 1);
         add(btnIronman, (int) (columns * 0.6), 0, (int) (columns * 0.2), 1);
         add(btnRecommended, (int) (columns * 0.8), 0, (int) (columns * 0.2), 1);
@@ -285,6 +300,26 @@ public class MainPane extends GridPane {
             // Enable the button again
             Platform.runLater(() -> btnRun.setDisable(false));
         });
+    }
+
+    private void selectAction(KeyEvent e) {
+        String query = txtSearch.getText();
+        if (query == null || query.trim().isEmpty()) {
+            return;
+        }
+
+        query = query.trim().toLowerCase();
+
+        for (Action a : listActions.getItems()) {
+            String msg = a.getMessage().toLowerCase();
+            if (msg.contains(query) || msg.startsWith(query) ||
+                    msg.endsWith(query) || msg.equalsIgnoreCase(query)) {
+                // Select & highlight the action
+                listActions.getSelectionModel().select(a);
+                listActions.scrollTo(a);
+                break;
+            }
+        }
     }
 
     /**
