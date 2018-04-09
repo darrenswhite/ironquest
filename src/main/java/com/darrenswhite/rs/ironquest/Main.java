@@ -24,7 +24,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // Setup logging
-        MainFX.setupLogger(Level.INFO);
+        MainFX.setupLogger(Level.ALL);
 
         // Initialize JavaFX toolkit
         new JFXPanel();

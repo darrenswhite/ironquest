@@ -2,6 +2,7 @@
   {
     "id": -1,
     "title": "Unstable Foundations",
+    "members": false,
     "rewards": {
       "qp": 1
     }
@@ -9,6 +10,7 @@
   {
     "id": 0,
     "title": "Cook's Assistant",
+    "members": false,
     "rewards": {
       "qp": 1,
       "COOKING": 300
@@ -17,6 +19,7 @@
   {
     "id": 1,
     "title": "Demon Slayer",
+    "members": false,
     "rewards": {
       "qp": 3,
       "lamps": [
@@ -41,6 +44,7 @@
   {
     "id": 2,
     "title": "The Restless Ghost",
+    "members": false,
     "rewards": {
       "qp": 1,
       "PRAYER": 1125
@@ -49,6 +53,7 @@
   {
     "id": 3,
     "title": "Gunnar's Ground",
+    "members": false,
     "requirements": {
       "CRAFTING": 5
     },
@@ -70,6 +75,7 @@
   {
     "id": 4,
     "title": "Shield of Arrav",
+    "members": false,
     "rewards": {
       "qp": 1,
       "lamps": [
@@ -87,6 +93,7 @@
   {
     "id": 5,
     "title": "Ernest the Chicken",
+    "members": false,
     "rewards": {
       "qp": 4
     }
@@ -94,6 +101,7 @@
   {
     "id": 6,
     "title": "Vampyre Slayer",
+    "members": false,
     "rewards": {
       "qp": 3,
       "lamps": [
@@ -111,6 +119,7 @@
   {
     "id": 7,
     "title": "Imp Catcher",
+    "members": false,
     "rewards": {
       "qp": 1,
       "MAGIC": 875
@@ -119,6 +128,7 @@
   {
     "id": 8,
     "title": "Stolen Hearts",
+    "members": false,
     "rewards": {
       "qp": 3,
       "CONSTITUTION": 250,
@@ -146,6 +156,7 @@
   {
     "id": 9,
     "title": "Diamond in the Rough",
+    "members": true,
     "requirements": {
       "quests": [
         8
@@ -178,6 +189,7 @@
   {
     "id": 10,
     "title": "What's Mine is Yours",
+    "members": false,
     "requirements": {
       "SMITHING": 5
     },
@@ -190,6 +202,7 @@
   {
     "id": 11,
     "title": "The Death of Chivalry",
+    "members": false,
     "rewards": {
       "qp": 3,
       "MAGIC": 250,
@@ -215,6 +228,7 @@
   {
     "id": 12,
     "title": "The Knight's Sword",
+    "members": false,
     "requirements": {
       "MINING": 10
     },
@@ -235,6 +249,7 @@
   {
     "id": 13,
     "title": "Goblin Diplomacy",
+    "members": false,
     "rewards": {
       "qp": 5,
       "lamps": [
@@ -252,6 +267,7 @@
   {
     "id": 14,
     "title": "Pirate's Treasure",
+    "members": false,
     "rewards": {
       "qp": 2
     }
@@ -259,6 +275,7 @@
   {
     "id": 15,
     "title": "Dragon Slayer",
+    "members": false,
     "requirements": {
       "qp": 33,
       "COMBAT": 50,
@@ -290,6 +307,7 @@
   {
     "id": 16,
     "title": "Druidic Ritual",
+    "members": false,
     "rewards": {
       "qp": 4,
       "HERBLORE": 250
@@ -298,6 +316,7 @@
   {
     "id": 17,
     "title": "Lost City",
+    "members": true,
     "requirements": {
       "CRAFTING": 31,
       "WOODCUTTING": 36
@@ -309,6 +328,7 @@
   {
     "id": 18,
     "title": "Witch's House",
+    "members": false,
     "rewards": {
       "qp": 4,
       "CONSTITUTION": 6325
@@ -317,6 +337,7 @@
   {
     "id": 19,
     "title": "Merlin's Crystal",
+    "members": true,
     "rewards": {
       "qp": 6,
       "lamps": [
@@ -334,6 +355,7 @@
   {
     "id": 20,
     "title": "Heroes' Quest",
+    "members": true,
     "requirements": {
       "quests": [
         4,
@@ -368,6 +390,7 @@
   {
     "id": 21,
     "title": "Scorpion Catcher",
+    "members": true,
     "requirements": {
       "PRAYER": 31
     },
@@ -379,6 +402,7 @@
   {
     "id": 22,
     "title": "Family Crest",
+    "members": true,
     "requirements": {
       "CRAFTING": 40,
       "SMITHING": 40,
@@ -392,6 +416,7 @@
   {
     "id": 23,
     "title": "Tribal Totem",
+    "members": true,
     "requirements": {
       "CRAFTING": 21
     },
@@ -403,6 +428,7 @@
   {
     "id": 24,
     "title": "Fishing Contest",
+    "members": true,
     "requirements": {
       "CRAFTING": 10
     },
@@ -414,6 +440,7 @@
   {
     "id": 25,
     "title": "Monk's Friend",
+    "members": true,
     "rewards": {
       "qp": 1,
       "WOODCUTTING": 2000
@@ -422,6 +449,7 @@
   {
     "id": 26,
     "title": "Temple of Ikov",
+    "members": true,
     "requirements": {
       "THIEVING": 42,
       "RANGED": 40
@@ -435,6 +463,7 @@
   {
     "id": 27,
     "title": "Clock Tower",
+    "members": true,
     "rewards": {
       "qp": 1
     }
@@ -442,6 +471,7 @@
   {
     "id": 28,
     "title": "Holy Grail",
+    "members": true,
     "requirements": {
       "quests": [
         19
@@ -457,6 +487,7 @@
   {
     "id": 29,
     "title": "Tree Gnome Village",
+    "members": true,
     "rewards": {
       "qp": 2,
       "ATTACK": 11450
@@ -465,6 +496,7 @@
   {
     "id": 30,
     "title": "Fight Arena",
+    "members": true,
     "requirements": {
       "COMBAT": 40
     },
@@ -477,6 +509,7 @@
   {
     "id": 31,
     "title": "Hazeel Cult",
+    "members": true,
     "rewards": {
       "qp": 1,
       "THIEVING": 1500
@@ -485,6 +518,7 @@
   {
     "id": 32,
     "title": "Sheep Herder",
+    "members": true,
     "rewards": {
       "qp": 4
     }
@@ -492,6 +526,7 @@
   {
     "id": 33,
     "title": "Plague City",
+    "members": true,
     "rewards": {
       "qp": 1,
       "MINING": 2425
@@ -500,6 +535,7 @@
   {
     "id": 34,
     "title": "Sea Slug",
+    "members": true,
     "requirements": {
       "FIREMAKING": 30
     },
@@ -511,6 +547,7 @@
   {
     "id": 35,
     "title": "Waterfall Quest",
+    "members": true,
     "rewards": {
       "qp": 1,
       "ATTACK": 13750,
@@ -520,6 +557,7 @@
   {
     "id": 36,
     "title": "Biohazard",
+    "members": true,
     "requirements": {
       "quests": [
         33
@@ -533,6 +571,7 @@
   {
     "id": 37,
     "title": "Jungle Potion",
+    "members": true,
     "requirements": {
       "quests": [
         16
@@ -547,6 +586,7 @@
   {
     "id": 38,
     "title": "The Grand Tree",
+    "members": true,
     "requirements": {
       "quests": [
         29
@@ -562,6 +602,7 @@
   {
     "id": 39,
     "title": "Shilo Village",
+    "members": true,
     "requirements": {
       "quests": [
         37
@@ -577,6 +618,7 @@
   {
     "id": 40,
     "title": "Underground Pass",
+    "members": true,
     "requirements": {
       "quests": [
         36
@@ -596,6 +638,7 @@
   {
     "id": 41,
     "title": "Observatory Quest",
+    "members": true,
     "rewards": {
       "qp": 2,
       "CRAFTING": 2250
@@ -604,6 +647,7 @@
   {
     "id": 42,
     "title": "The Tourist Trap",
+    "members": true,
     "requirements": {
       "FLETCHING": 10,
       "SMITHING": 20
@@ -629,6 +673,7 @@
   {
     "id": 43,
     "title": "The Watchtower",
+    "members": true,
     "requirements": {
       "HERBLORE": 14,
       "MAGIC": 14,
@@ -644,6 +689,7 @@
   {
     "id": 44,
     "title": "Dwarf Cannon",
+    "members": true,
     "rewards": {
       "qp": 1,
       "CRAFTING": 750
@@ -652,6 +698,7 @@
   {
     "id": 45,
     "title": "Murder Mystery",
+    "members": true,
     "rewards": {
       "qp": 3,
       "CRAFTING": 1406
@@ -660,6 +707,7 @@
   {
     "id": 46,
     "title": "Dig Site",
+    "members": true,
     "requirements": {
       "AGILITY": 10,
       "HERBLORE": 10,
@@ -674,6 +722,7 @@
   {
     "id": 47,
     "title": "Gertrude's Cat",
+    "members": false,
     "rewards": {
       "qp": 1,
       "lamps": [
@@ -691,6 +740,7 @@
   {
     "id": 48,
     "title": "Legends' Quest",
+    "members": true,
     "requirements": {
       "quests": [
         20,
@@ -742,6 +792,7 @@
   {
     "id": 49,
     "title": "Rune Mysteries",
+    "members": false,
     "rewards": {
       "qp": 1,
       "MAGIC": 250,
@@ -751,6 +802,7 @@
   {
     "id": 50,
     "title": "Rune Memories",
+    "members": true,
     "requirements": {
       "quests": [
         49
@@ -765,6 +817,7 @@
   {
     "id": 51,
     "title": "Big Chompy Bird Hunting",
+    "members": true,
     "requirements": {
       "COOKING": 30,
       "RANGED": 30,
@@ -780,6 +833,7 @@
   {
     "id": 52,
     "title": "The Elemental Workshop I",
+    "members": true,
     "requirements": {
       "MINING": 20,
       "SMITHING": 20,
@@ -794,6 +848,7 @@
   {
     "id": 53,
     "title": "Priest in Peril",
+    "members": false,
     "rewards": {
       "qp": 1,
       "lamps": [
@@ -811,6 +866,7 @@
   {
     "id": 54,
     "title": "Nature Spirit",
+    "members": true,
     "requirements": {
       "quests": [
         2,
@@ -852,6 +908,7 @@
   {
     "id": 55,
     "title": "Death Plateau",
+    "members": false,
     "rewards": {
       "qp": 1,
       "lamps": [
@@ -871,6 +928,7 @@
   {
     "id": 56,
     "title": "Troll Stronghold",
+    "members": true,
     "requirements": {
       "quests": [
         55
@@ -896,6 +954,7 @@
   {
     "id": 57,
     "title": "Tai Bwo Wannai Trio",
+    "members": true,
     "requirements": {
       "quests": [
         37
@@ -913,6 +972,7 @@
   {
     "id": 58,
     "title": "Regicide",
+    "members": true,
     "requirements": {
       "quests": [
         40
@@ -928,6 +988,7 @@
   {
     "id": 59,
     "title": "Eadgar's Ruse",
+    "members": true,
     "requirements": {
       "quests": [
         16,
@@ -944,6 +1005,7 @@
   {
     "id": 60,
     "title": "Shades of Mort'ton",
+    "members": true,
     "requirements": {
       "CRAFTING": 20,
       "FIREMAKING": 5,
@@ -958,6 +1020,7 @@
   {
     "id": 61,
     "title": "The Fremennik Trials",
+    "members": true,
     "requirements": {
       "CRAFTING": 40,
       "FLETCHING": 25,
@@ -980,6 +1043,7 @@
   {
     "id": 62,
     "title": "Horror from the Deep",
+    "members": true,
     "requirements": {
       "AGILITY": 35,
       "PRAYER": 43
@@ -994,6 +1058,7 @@
   {
     "id": 63,
     "title": "Throne of Miscellania",
+    "members": true,
     "requirements": {
       "quests": [
         20,
@@ -1008,6 +1073,7 @@
   {
     "id": 64,
     "title": "Monkey Madness",
+    "members": true,
     "requirements": {
       "quests": [
         29,
@@ -1036,6 +1102,7 @@
   {
     "id": 65,
     "title": "Haunted Mine",
+    "members": true,
     "requirements": {
       "quests": [
         54
@@ -1060,6 +1127,7 @@
   {
     "id": 66,
     "title": "Troll Romance",
+    "members": true,
     "requirements": {
       "quests": [
         56
@@ -1075,6 +1143,7 @@
   {
     "id": 67,
     "title": "In Search of the Myreque",
+    "members": true,
     "requirements": {
       "quests": [
         54
@@ -1130,6 +1199,7 @@
   {
     "id": 68,
     "title": "Creature of Fenkenstrain",
+    "members": true,
     "requirements": {
       "quests": [
         53
@@ -1145,6 +1215,7 @@
   {
     "id": 69,
     "title": "Roving Elves",
+    "members": true,
     "requirements": {
       "quests": [
         35,
@@ -1159,6 +1230,7 @@
   {
     "id": 70,
     "title": "Ghosts Ahoy",
+    "members": true,
     "requirements": {
       "quests": [
         2,
@@ -1175,6 +1247,7 @@
   {
     "id": 71,
     "title": "One Small Favour",
+    "members": true,
     "requirements": {
       "quests": [
         39,
@@ -1203,6 +1276,7 @@
   {
     "id": 72,
     "title": "Mountain Daughter",
+    "members": true,
     "requirements": {
       "AGILITY": 20
     },
@@ -1215,6 +1289,7 @@
   {
     "id": 73,
     "title": "Between a Rock...",
+    "members": true,
     "requirements": {
       "quests": [
         24,
@@ -1234,6 +1309,7 @@
   {
     "id": 74,
     "title": "The Feud",
+    "members": true,
     "requirements": {
       "THIEVING": 30
     },
@@ -1245,6 +1321,7 @@
   {
     "id": 75,
     "title": "The Golem",
+    "members": true,
     "requirements": {
       "quests": [
         54
@@ -1261,6 +1338,7 @@
   {
     "id": 76,
     "title": "Desert Treasure",
+    "members": true,
     "requirements": {
       "quests": [
         26,
@@ -1284,6 +1362,7 @@
   {
     "id": 77,
     "title": "Icthlarin's Little Helper",
+    "members": true,
     "requirements": {
       "quests": [
         2,
@@ -1301,6 +1380,7 @@
   {
     "id": 78,
     "title": "Tears of Guthix",
+    "members": true,
     "requirements": {
       "qp": 44,
       "FIREMAKING": 49,
@@ -1316,6 +1396,7 @@
   {
     "id": 79,
     "title": "Zogre Flesh Eaters",
+    "members": true,
     "requirements": {
       "quests": [
         37,
@@ -1337,6 +1418,7 @@
   {
     "id": 80,
     "title": "The Lost Tribe",
+    "members": true,
     "requirements": {
       "quests": [
         13
@@ -1353,6 +1435,7 @@
   {
     "id": 81,
     "title": "The Giant Dwarf",
+    "members": true,
     "requirements": {
       "CRAFTING": 12,
       "FIREMAKING": 16,
@@ -1372,6 +1455,7 @@
   {
     "id": 82,
     "title": "Recruitment Drive",
+    "members": true,
     "requirements": {
       "quests": [
         16
@@ -1410,6 +1494,7 @@
   {
     "id": 83,
     "title": "Mourning's End Part I",
+    "members": true,
     "requirements": {
       "quests": [
         32,
@@ -1428,6 +1513,7 @@
   {
     "id": 84,
     "title": "Forgettable Tale of a Drunken Dwarf",
+    "members": true,
     "requirements": {
       "quests": [
         24,
@@ -1445,6 +1531,7 @@
   {
     "id": 85,
     "title": "Garden of Tranquility",
+    "members": true,
     "requirements": {
       "quests": [
         68
@@ -1459,6 +1546,7 @@
   {
     "id": 86,
     "title": "A Tail of Two Cats",
+    "members": true,
     "requirements": {
       "quests": [
         77
@@ -1482,6 +1570,7 @@
   {
     "id": 87,
     "title": "Wanted!",
+    "members": true,
     "requirements": {
       "quests": [
         53,
@@ -1498,6 +1587,7 @@
   {
     "id": 88,
     "title": "Mourning's End Part II",
+    "members": true,
     "requirements": {
       "quests": [
         83
@@ -1511,6 +1601,7 @@
   {
     "id": 89,
     "title": "A Rum Deal",
+    "members": true,
     "requirements": {
       "quests": [
         53,
@@ -1532,6 +1623,7 @@
   {
     "id": 90,
     "title": "Shadow of the Storm",
+    "members": true,
     "requirements": {
       "quests": [
         1,
@@ -1561,6 +1653,7 @@
   {
     "id": 91,
     "title": "Making History",
+    "members": true,
     "requirements": {
       "quests": [
         2,
@@ -1579,6 +1672,7 @@
   {
     "id": 92,
     "title": "Rat Catchers",
+    "members": true,
     "requirements": {
       "quests": [
         77
@@ -1592,6 +1686,7 @@
   {
     "id": 93,
     "title": "Spirits of the Elid",
+    "members": true,
     "requirements": {
       "MAGIC": 33,
       "RANGED": 37,
@@ -1608,6 +1703,7 @@
   {
     "id": 94,
     "title": "Devious Minds",
+    "members": true,
     "requirements": {
       "quests": [
         10,
@@ -1628,6 +1724,7 @@
   {
     "id": 95,
     "title": "The Hand in the Sand",
+    "members": true,
     "requirements": {
       "THIEVING": 17,
       "CRAFTING": 49
@@ -1641,6 +1738,7 @@
   {
     "id": 96,
     "title": "Enakhra's Lament",
+    "members": true,
     "requirements": {
       "CRAFTING": 50,
       "FIREMAKING": 45,
@@ -1659,6 +1757,7 @@
   {
     "id": 97,
     "title": "Cabin Fever",
+    "members": true,
     "requirements": {
       "quests": [
         14,
@@ -1679,6 +1778,7 @@
   {
     "id": 98,
     "title": "Fairy Tale I - Growing Pains",
+    "members": true,
     "requirements": {
       "quests": [
         17,
@@ -1696,6 +1796,7 @@
   {
     "id": 99,
     "title": "Recipe for Disaster: Starting Out",
+    "members": true,
     "requirements": {
       "quests": [
         0
@@ -1709,6 +1810,7 @@
   {
     "id": 100,
     "title": "Recipe for Disaster: Goblin Generals",
+    "members": true,
     "requirements": {
       "quests": [
         13,
@@ -1725,6 +1827,7 @@
   {
     "id": 101,
     "title": "Recipe for Disaster: Dwarf",
+    "members": true,
     "requirements": {
       "quests": [
         24,
@@ -1740,6 +1843,7 @@
   {
     "id": 102,
     "title": "Recipe for Disaster: Evil Dave",
+    "members": true,
     "requirements": {
       "quests": [
         47,
@@ -1756,6 +1860,7 @@
   {
     "id": 103,
     "title": "Recipe for Disaster: Lumbridge Sage",
+    "members": true,
     "requirements": {
       "quests": [
         1,
@@ -1777,6 +1882,7 @@
   {
     "id": 104,
     "title": "Recipe for Disaster: Pirate Pete",
+    "members": true,
     "requirements": {
       "quests": [
         99
@@ -1794,6 +1900,7 @@
   {
     "id": 105,
     "title": "Recipe for Disaster: Skrach",
+    "members": true,
     "requirements": {
       "quests": [
         51,
@@ -1813,6 +1920,7 @@
   {
     "id": 106,
     "title": "Recipe for Disaster: Sir Amik Varze",
+    "members": true,
     "requirements": {
       "quests": [
         17,
@@ -1829,6 +1937,7 @@
   {
     "id": 107,
     "title": "Recipe for Disaster: Awowogei",
+    "members": true,
     "requirements": {
       "quests": [
         64,
@@ -1846,6 +1955,7 @@
   {
     "id": 108,
     "title": "Recipe for Disaster",
+    "members": true,
     "requirements": {
       "quests": [
         62,
@@ -1878,6 +1988,7 @@
   {
     "id": 109,
     "title": "In Aid of the Myreque",
+    "members": true,
     "requirements": {
       "quests": [
         67
@@ -1927,6 +2038,7 @@
   {
     "id": 110,
     "title": "A Soul's Bane",
+    "members": false,
     "rewards": {
       "qp": 1,
       "lamps": [
@@ -1952,6 +2064,7 @@
   {
     "id": 111,
     "title": "Rag and Bone Man",
+    "members": true,
     "rewards": {
       "qp": 2,
       "COOKING": 500,
@@ -1961,6 +2074,7 @@
   {
     "id": 112,
     "title": "Swan Song",
+    "members": true,
     "requirements": {
       "quests": [
         71,
@@ -1984,6 +2098,7 @@
   {
     "id": 113,
     "title": "Royal Trouble",
+    "members": true,
     "requirements": {
       "quests": [
         63
@@ -2000,6 +2115,7 @@
   {
     "id": 114,
     "title": "Death to the Dorgeshuun",
+    "members": true,
     "requirements": {
       "quests": [
         80
@@ -2016,6 +2132,7 @@
   {
     "id": 115,
     "title": "Fairy Tale II - Cure a Queen",
+    "members": true,
     "requirements": {
       "quests": [
         98
@@ -2043,6 +2160,7 @@
   {
     "id": 116,
     "title": "Lunar Diplomacy",
+    "members": true,
     "requirements": {
       "quests": [
         17,
@@ -2068,6 +2186,7 @@
   {
     "id": 117,
     "title": "The Eyes of Glouphrie",
+    "members": true,
     "requirements": {
       "quests": [
         38
@@ -2086,6 +2205,7 @@
   {
     "id": 118,
     "title": "The Darkness of Hallowvale",
+    "members": true,
     "requirements": {
       "quests": [
         109
@@ -2120,6 +2240,7 @@
   {
     "id": 119,
     "title": "Slug Menace",
+    "members": true,
     "requirements": {
       "quests": [
         34,
@@ -2140,6 +2261,7 @@
   {
     "id": 120,
     "title": "The Elemental Workshop II",
+    "members": true,
     "requirements": {
       "quests": [
         52
@@ -2156,6 +2278,7 @@
   {
     "id": 121,
     "title": "My Arm's Big Adventure",
+    "members": true,
     "requirements": {
       "quests": [
         37,
@@ -2174,6 +2297,7 @@
   {
     "id": 122,
     "title": "Enlightened Journey",
+    "members": true,
     "requirements": {
       "qp": 21,
       "FIREMAKING": 20,
@@ -2191,6 +2315,7 @@
   {
     "id": 123,
     "title": "Eagles' Peak",
+    "members": true,
     "requirements": {
       "HUNTER": 27
     },
@@ -2202,6 +2327,7 @@
   {
     "id": 124,
     "title": "Animal Magnetism",
+    "members": true,
     "requirements": {
       "quests": [
         2,
@@ -2225,6 +2351,7 @@
   {
     "id": 125,
     "title": "Contact!",
+    "members": true,
     "requirements": {
       "quests": [
         77
@@ -2255,6 +2382,7 @@
   {
     "id": 126,
     "title": "Cold War",
+    "members": true,
     "requirements": {
       "HUNTER": 10,
       "CONSTRUCTION": 34,
@@ -2272,6 +2400,7 @@
   {
     "id": 127,
     "title": "Fremennik Isles",
+    "members": true,
     "requirements": {
       "quests": [
         61
@@ -2305,6 +2434,7 @@
   {
     "id": 128,
     "title": "Tower of Life",
+    "members": true,
     "requirements": {
       "CONSTRUCTION": 10
     },
@@ -2318,6 +2448,7 @@
   {
     "id": 129,
     "title": "Great Brain Robbery",
+    "members": true,
     "requirements": {
       "quests": [
         68,
@@ -2348,6 +2479,7 @@
   {
     "id": 130,
     "title": "What Lies Below",
+    "members": true,
     "requirements": {
       "quests": [
         49
@@ -2364,6 +2496,7 @@
   {
     "id": 131,
     "title": "Olaf's Quest",
+    "members": true,
     "requirements": {
       "quests": [
         61
@@ -2379,6 +2512,7 @@
   {
     "id": 132,
     "title": "Another Slice of H.A.M.",
+    "members": true,
     "requirements": {
       "quests": [
         46,
@@ -2397,6 +2531,7 @@
   {
     "id": 133,
     "title": "Dream Mentor",
+    "members": true,
     "requirements": {
       "quests": [
         59,
@@ -2427,6 +2562,7 @@
   {
     "id": 134,
     "title": "Grim Tales",
+    "members": true,
     "requirements": {
       "quests": [
         18
@@ -2450,6 +2586,7 @@
   {
     "id": 135,
     "title": "King's Ransom",
+    "members": true,
     "requirements": {
       "quests": [
         28,
@@ -2478,6 +2615,7 @@
   {
     "id": 136,
     "title": "The Path of Glouphrie",
+    "members": true,
     "requirements": {
       "quests": [
         29,
@@ -2501,6 +2639,7 @@
   {
     "id": 137,
     "title": "Back to my Roots",
+    "members": true,
     "requirements": {
       "quests": [
         23,
@@ -2524,6 +2663,7 @@
   {
     "id": 138,
     "title": "Land of the Goblins",
+    "members": true,
     "requirements": {
       "quests": [
         24,
@@ -2548,6 +2688,7 @@
   {
     "id": 139,
     "title": "Dealing with Scabaras",
+    "members": true,
     "requirements": {
       "quests": [
         74,
@@ -2572,6 +2713,7 @@
   {
     "id": 140,
     "title": "Wolf Whistle",
+    "members": false,
     "rewards": {
       "qp": 1,
       "SUMMONING": 276
@@ -2580,6 +2722,7 @@
   {
     "id": 141,
     "title": "As a First Resort...",
+    "members": true,
     "requirements": {
       "quests": [
         79
@@ -2598,6 +2741,7 @@
   {
     "id": 142,
     "title": "Catapult Construction",
+    "members": true,
     "requirements": {
       "quests": [
         58
@@ -2614,6 +2758,7 @@
   {
     "id": 143,
     "title": "Kennith's Concerns",
+    "members": true,
     "requirements": {
       "quests": [
         119
@@ -2629,6 +2774,7 @@
   {
     "id": 144,
     "title": "Legacy of Seergaze",
+    "members": true,
     "requirements": {
       "quests": [
         60,
@@ -2667,6 +2813,7 @@
   {
     "id": 145,
     "title": "Perils of Ice Mountain",
+    "members": true,
     "requirements": {
       "CONSTRUCTION": 10,
       "FARMING": 10,
@@ -2684,6 +2831,7 @@
   {
     "id": 146,
     "title": "TokTz-Ket-Dill",
+    "members": true,
     "requirements": {
       "ATTACK": 50,
       "CONSTRUCTION": 50,
@@ -2703,6 +2851,7 @@
   {
     "id": 147,
     "title": "Smoking Kills",
+    "members": true,
     "requirements": {
       "quests": [
         77
@@ -2719,6 +2868,7 @@
   {
     "id": 148,
     "title": "Rocking Out",
+    "members": true,
     "requirements": {
       "quests": [
         129
@@ -2739,6 +2889,7 @@
   {
     "id": 149,
     "title": "Spirit of Summer",
+    "members": true,
     "requirements": {
       "quests": [
         2
@@ -2759,6 +2910,7 @@
   {
     "id": 150,
     "title": "Meeting History",
+    "members": true,
     "requirements": {
       "quests": [
         16,
@@ -2784,6 +2936,7 @@
   {
     "id": 151,
     "title": "All Fired Up",
+    "members": true,
     "requirements": {
       "quests": [
         53
@@ -2798,6 +2951,7 @@
   {
     "id": 152,
     "title": "Summer's End",
+    "members": true,
     "requirements": {
       "quests": [
         149
@@ -2822,6 +2976,7 @@
   {
     "id": 153,
     "title": "Defender of Varrock",
+    "members": true,
     "requirements": {
       "quests": [
         1,
@@ -2856,6 +3011,7 @@
   {
     "id": 154,
     "title": "Swept Away",
+    "members": false,
     "rewards": {
       "qp": 2
     }
@@ -2863,6 +3019,7 @@
   {
     "id": 155,
     "title": "While Guthix Sleeps",
+    "members": true,
     "requirements": {
       "quests": [
         48,
@@ -2910,6 +3067,7 @@
   {
     "id": 156,
     "title": "Myths of the White Lands",
+    "members": false,
     "rewards": {
       "qp": 2,
       "lamps": [
@@ -2924,6 +3082,7 @@
   {
     "id": 157,
     "title": "In Pyre Need",
+    "members": true,
     "requirements": {
       "FIREMAKING": 55,
       "CRAFTING": 52,
@@ -2939,6 +3098,7 @@
   {
     "id": 158,
     "title": "Chosen Commander",
+    "members": true,
     "requirements": {
       "quests": [
         138
@@ -2957,6 +3117,7 @@
   {
     "id": 159,
     "title": "Glorious Memories",
+    "members": true,
     "requirements": {
       "quests": [
         72,
@@ -2993,6 +3154,7 @@
   {
     "id": 160,
     "title": "Tale of the Muspah",
+    "members": true,
     "requirements": {
       "FIREMAKING": 6,
       "MINING": 8,
@@ -3021,6 +3183,7 @@
   {
     "id": 161,
     "title": "Missing My Mummy",
+    "members": true,
     "requirements": {
       "quests": [
         75,
@@ -3048,6 +3211,7 @@
   {
     "id": 162,
     "title": "Hunt for Red Raktuber",
+    "members": true,
     "requirements": {
       "quests": [
         34,
@@ -3067,6 +3231,7 @@
   {
     "id": 163,
     "title": "Curse of Arrav",
+    "members": true,
     "requirements": {
       "quests": [
         60,
@@ -3097,6 +3262,7 @@
   {
     "id": 164,
     "title": "Fur 'n' Seek",
+    "members": true,
     "requirements": {
       "quests": [
         111
@@ -3116,6 +3282,7 @@
   {
     "id": 165,
     "title": "Forgiveness of a Chaos Dwarf",
+    "members": true,
     "requirements": {
       "quests": [
         73,
@@ -3135,6 +3302,7 @@
   {
     "id": 166,
     "title": "Within the Light",
+    "members": true,
     "requirements": {
       "quests": [
         88
@@ -3155,6 +3323,7 @@
   {
     "id": 167,
     "title": "The Temple at Senntisten",
+    "members": true,
     "requirements": {
       "quests": [
         76,
@@ -3197,6 +3366,7 @@
   {
     "id": 168,
     "title": "Blood Runs Deep",
+    "members": true,
     "requirements": {
       "quests": [
         62,
@@ -3232,6 +3402,7 @@
   {
     "id": 169,
     "title": "Nomad's Requiem",
+    "members": true,
     "requirements": {
       "quests": [
         135
@@ -3250,6 +3421,7 @@
   {
     "id": 170,
     "title": "Rune Mechanics",
+    "members": true,
     "requirements": {
       "quests": [
         49,
@@ -3269,6 +3441,7 @@
   {
     "id": 171,
     "title": "The Blood Pact",
+    "members": false,
     "rewards": {
       "qp": 1,
       "lamps": [
@@ -3290,6 +3463,7 @@
   {
     "id": 172,
     "title": "Buyers and Cellars",
+    "members": true,
     "requirements": {
       "THIEVING": 5
     },
@@ -3301,6 +3475,7 @@
   {
     "id": 173,
     "title": "Fairy Tale III - Battle at Orks Rift",
+    "members": true,
     "requirements": {
       "quests": [
         115
@@ -3323,6 +3498,7 @@
   {
     "id": 174,
     "title": "The Elemental Workshop III",
+    "members": true,
     "requirements": {
       "quests": [
         120
@@ -3339,6 +3515,7 @@
   {
     "id": 175,
     "title": "Quiet Before the Swarm",
+    "members": true,
     "requirements": {
       "quests": [
         7,
@@ -3356,6 +3533,7 @@
   {
     "id": 176,
     "title": "Love Story",
+    "members": true,
     "requirements": {
       "quests": [
         106,
@@ -3377,6 +3555,7 @@
   {
     "id": 177,
     "title": "A Void Dance",
+    "members": true,
     "requirements": {
       "quests": [
         16,
@@ -3405,6 +3584,7 @@
   {
     "id": 178,
     "title": "The Void Stares Back",
+    "members": true,
     "requirements": {
       "quests": [
         177
@@ -3449,6 +3629,7 @@
   {
     "id": 179,
     "title": "Do No Evil",
+    "members": true,
     "requirements": {
       "quests": [
         76,
@@ -3477,6 +3658,7 @@
   {
     "id": 180,
     "title": "King of the Dwarves",
+    "members": true,
     "requirements": {
       "quests": [
         121,
@@ -3496,6 +3678,7 @@
   {
     "id": 181,
     "title": "Prisoner of Glouphrie",
+    "members": true,
     "requirements": {
       "quests": [
         69,
@@ -3517,6 +3700,7 @@
   {
     "id": 182,
     "title": "The Elemental Workshop IV",
+    "members": true,
     "requirements": {
       "quests": [
         174
@@ -3536,6 +3720,7 @@
   {
     "id": 183,
     "title": "A Clockwork Syringe",
+    "members": true,
     "requirements": {
       "quests": [
         148
@@ -3562,6 +3747,7 @@
   {
     "id": 184,
     "title": "Deadliest Catch",
+    "members": true,
     "requirements": {
       "quests": [
         16,
@@ -3581,6 +3767,7 @@
   {
     "id": 185,
     "title": "Salt in the Wound",
+    "members": true,
     "requirements": {
       "quests": [
         143
@@ -3603,6 +3790,7 @@
   {
     "id": 186,
     "title": "The Branches of Darkmeyer",
+    "members": true,
     "requirements": {
       "quests": [
         48,
@@ -3643,6 +3831,7 @@
   {
     "id": 187,
     "title": "Ritual of the Mahjarrat",
+    "members": true,
     "requirements": {
       "quests": [
         30,
@@ -3681,6 +3870,7 @@
   {
     "id": 188,
     "title": "One Piercing Note",
+    "members": false,
     "rewards": {
       "qp": 2,
       "PRAYER": 250
@@ -3689,6 +3879,7 @@
   {
     "id": 189,
     "title": "The Firemaker's Curse",
+    "members": true,
     "requirements": {
       "FIREMAKING": 74,
       "CONSTITUTION": 76,
@@ -3704,6 +3895,7 @@
   {
     "id": 190,
     "title": "Let Them Eat Pie",
+    "members": true,
     "rewards": {
       "qp": 1,
       "COOKING": 100,
@@ -3713,6 +3905,7 @@
   {
     "id": 191,
     "title": "The Elder Kiln",
+    "members": true,
     "requirements": {
       "MAGIC": 75,
       "AGILITY": 60,
@@ -3741,6 +3934,7 @@
   {
     "id": 192,
     "title": "Song from the Depths",
+    "members": false,
     "rewards": {
       "qp": 1,
       "CONSTITUTION": 700
@@ -3749,6 +3943,7 @@
   {
     "id": 193,
     "title": "Carnillean Rising",
+    "members": true,
     "requirements": {
       "quests": [
         31,
@@ -3778,6 +3973,7 @@
   {
     "id": 194,
     "title": "Some Like It Cold",
+    "members": true,
     "requirements": {
       "quests": [
         162
@@ -3798,6 +3994,7 @@
   {
     "id": 195,
     "title": "The Brink of Extinction",
+    "members": true,
     "requirements": {
       "quests": [
         191
@@ -3828,6 +4025,7 @@
   {
     "id": 196,
     "title": "The World Wakes",
+    "members": true,
     "requirements": {
       "quests": [
         158,
@@ -3875,6 +4073,7 @@
   {
     "id": 197,
     "title": "Bringing Home the Bacon",
+    "members": true,
     "requirements": {
       "FARMING": 14,
       "SUMMONING": 14,
@@ -3890,6 +4089,7 @@
   {
     "id": 198,
     "title": "Birthright of the Dwarves",
+    "members": true,
     "requirements": {
       "quests": [
         43,
@@ -3910,6 +4110,7 @@
   {
     "id": 199,
     "title": "Missing, Presumed Death",
+    "members": false,
     "rewards": {
       "qp": 2,
       "PRAYER": 500,
@@ -3936,6 +4137,7 @@
   {
     "id": 200,
     "title": "One of a Kind",
+    "members": true,
     "requirements": {
       "quests": [
         86,
@@ -3959,6 +4161,7 @@
   {
     "id": 201,
     "title": "Fate of the Gods",
+    "members": true,
     "requirements": {
       "quests": [
         187,
@@ -4001,6 +4204,7 @@
   {
     "id": 202,
     "title": "A Shadow over Ashdale",
+    "members": false,
     "rewards": {
       "qp": 1,
       "ATTACK": 300,
@@ -4012,6 +4216,7 @@
   {
     "id": 203,
     "title": "The Mighty Fall",
+    "members": true,
     "requirements": {
       "quests": [
         121,
@@ -4068,6 +4273,7 @@
   {
     "id": 204,
     "title": "Plague's End",
+    "members": true,
     "requirements": {
       "quests": [
         91,
@@ -4102,6 +4308,7 @@
   {
     "id": 205,
     "title": "Broken Home",
+    "members": false,
     "rewards": {
       "qp": 1
     }
@@ -4109,6 +4316,7 @@
   {
     "id": 206,
     "title": "Heart of Stone",
+    "members": true,
     "requirements": {
       "quests": [
         50,
@@ -4144,6 +4352,7 @@
   {
     "id": 207,
     "title": "Dishonour among Thieves",
+    "members": true,
     "requirements": {
       "quests": [
         31,
@@ -4177,6 +4386,7 @@
   {
     "id": 208,
     "title": "Dimension of Disaster: Coin of the Realm",
+    "members": true,
     "rewards": {
       "qp": 1
     }
@@ -4184,6 +4394,7 @@
   {
     "id": 209,
     "title": "Dimension of Disaster: Shield of Arrav",
+    "members": true,
     "requirements": {
       "quests": [
         4,
@@ -4198,6 +4409,7 @@
   {
     "id": 210,
     "title": "Dimension of Disaster: Demon Slayer",
+    "members": true,
     "requirements": {
       "quests": [
         90,
@@ -4213,6 +4425,7 @@
   {
     "id": 211,
     "title": "Dimension of Disaster: Defender of Varrock",
+    "members": true,
     "requirements": {
       "quests": [
         153,
@@ -4247,6 +4460,7 @@
   {
     "id": 212,
     "title": "Dimension of Disaster: Curse of Arrav",
+    "members": true,
     "requirements": {
       "quests": [
         163,
@@ -4288,6 +4502,7 @@
   {
     "id": 213,
     "title": "Dimension of Disaster",
+    "members": true,
     "requirements": {
       "quests": [
         212
@@ -4300,6 +4515,7 @@
   {
     "id": 214,
     "title": "Hero's Welcome",
+    "members": true,
     "requirements": {
       "quests": [
         57,
@@ -4321,6 +4537,7 @@
   {
     "id": 215,
     "title": "The Light Within",
+    "members": true,
     "requirements": {
       "quests": [
         150,
@@ -4358,6 +4575,7 @@
   {
     "id": 216,
     "title": "The Lord of Vampyrium",
+    "members": true,
     "requirements": {
       "quests": [
         186
@@ -4392,6 +4610,7 @@
   {
     "id": 217,
     "title": "Call of the Ancestors",
+    "members": true,
     "rewards": {
       "qp": 1,
       "lamps": [
@@ -4409,6 +4628,7 @@
   {
     "id": 218,
     "title": "Beneath Cursed Tides",
+    "members": true,
     "requirements": {
       "ATTACK": 30,
       "STRENGTH": 30,
@@ -4446,6 +4666,7 @@
   {
     "id": 219,
     "title": "Nomad's Elegy",
+    "members": true,
     "requirements": {
       "quests": [
         63,
@@ -4486,6 +4707,7 @@
   {
     "id": 220,
     "title": "River of Blood",
+    "members": true,
     "requirements": {
       "quests": [
         151,
@@ -4525,6 +4747,7 @@
     "id": 221,
     "title": "Barrows Sister",
     "name": "Kindred Spirits",
+    "members": true,
     "requirements": {
       "quests": [
         199
@@ -4545,6 +4768,7 @@
   {
     "id": 222,
     "title": "Gower Quest",
+    "members": true,
     "requirements": {
       "qp": 34
     },
@@ -4626,6 +4850,7 @@
   {
     "id": 223,
     "title": "Children of Mah",
+    "members": true,
     "requirements": {
       "quests": [
         168,
@@ -4653,6 +4878,7 @@
   {
     "id": 224,
     "title": "Impressing the Locals",
+    "members": true,
     "rewards": {
       "qp": 1
     }
@@ -4660,6 +4886,7 @@
   {
     "id": 225,
     "title": "Sliske's Endgame",
+    "members": true,
     "requirements": {
       "quests": [
         11,
@@ -4691,6 +4918,7 @@
   {
     "id": 226,
     "title": "Back to the Freezer",
+    "members": true,
     "requirements": {
       "quests": [
         5,
@@ -4719,6 +4947,7 @@
   {
     "id": 227,
     "title": "The Jack of Spades",
+    "members": true,
     "requirements": {
       "quests": [
         9
@@ -4735,6 +4964,7 @@
   {
     "id": 228,
     "title": "Crocodile Tears",
+    "members": true,
     "requirements": {
       "quests": [
         227,
@@ -4768,6 +4998,7 @@
   {
     "id": 229,
     "title": "Our Man in the North",
+    "members": true,
     "requirements": {
       "quests": [
         179,
@@ -4791,6 +5022,7 @@
   {
     "id": 230,
     "title": "'Phite Club",
+    "members": true,
     "requirements": {
       "quests": [
         229
@@ -4810,6 +5042,7 @@
   {
     "id": 231,
     "title": "Evil Dave's Big Day Out",
+    "members": true,
     "requirements": {
       "quests": [
         102
@@ -4830,6 +5063,7 @@
   {
     "id": 232,
     "title": "Pieces of Hate",
+    "members": true,
     "requirements": {
       "quests": [
         47,

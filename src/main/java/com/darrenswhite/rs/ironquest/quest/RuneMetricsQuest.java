@@ -62,7 +62,6 @@ public class RuneMetricsQuest {
     }
 
     public enum Status {
-
         COMPLETED,
         NOT_STARTED,
         STARTED
