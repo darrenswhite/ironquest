@@ -4935,11 +4935,18 @@
       "RUNECRAFTING": 25000,
       "SLAYER": 15000,
       "AGILITY": 15000,
-      "INVENTION": 10000,
       "lamps": [
         {
           "values": [
             500
+          ]
+        },
+        {
+          "requirements": {
+            "INVENTION": 2
+          },
+          "values": [
+            10000
           ]
         }
       ]
