@@ -140,6 +140,9 @@ public class MainPane extends GridPane {
         txtSearch.setOnKeyReleased(this::selectAction);
 
         btnLampSkills = new Button("Lamp Skills");
+        // Add tooltip info
+        btnLampSkills.setTooltip(new Tooltip("Choose which skills lamps " +
+                "should be used on (must run again)"));
         // Show LampSkillsChoice on click
         btnLampSkills.setOnAction(this::showLampSkills);
         // Always fill width/height
@@ -148,6 +151,9 @@ public class MainPane extends GridPane {
         HBox.setHgrow(btnLampSkills, Priority.ALWAYS);
 
         btnIronman = new ToggleButton("Ironman");
+        // Add tooltip info
+        btnIronman.setTooltip(new Tooltip("Toggle ironman requirements " +
+                "for quests (must run again)"));
         // Set current state
         btnIronman.setSelected(IronQuest.getInstance().isIronman());
         // Toggle ironman mode
@@ -159,6 +165,9 @@ public class MainPane extends GridPane {
         HBox.setHgrow(btnIronman, Priority.ALWAYS);
 
         btnRecommended = new ToggleButton("Recommended");
+        // Add tooltip info
+        btnRecommended.setTooltip(new Tooltip("Toggle recommended " +
+                "requirements for quests (must run again)"));
         // Set current state
         btnRecommended.setSelected(IronQuest.getInstance().isRecommended());
         // Toggle recommended mode
@@ -171,6 +180,8 @@ public class MainPane extends GridPane {
 
         cmbMembers = new ComboBox<>(
                 FXCollections.observableArrayList(MembersSelection.values()));
+        // Add tooltip info
+        cmbMembers.setTooltip(new Tooltip("Filter free/members quests"));
         // Set selected value
         if (quest.isFree() && quest.isMembers()) {
             cmbMembers.getSelectionModel().select(MembersSelection.BOTH);
