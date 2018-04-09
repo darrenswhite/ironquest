@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
@@ -274,10 +275,38 @@ public class QuestDetail extends Stage {
         GridPane.setValignment(lblLampRewards, VPos.TOP);
 
         // Get lamp rewards as strings
-        // TODO add lamp requirements
         Set<String> lampRewardStrings = quest.getLampRewards()
                 .stream()
-                .map(l -> Skill.formatXP(l.getValue()))
+                .map(l -> {
+                    StringBuilder sb = new StringBuilder();
+                    Map<Set<Skill>, Integer> reqs = l.getRequirements();
+                    boolean sameLevel = reqs.values().stream()
+                            .distinct().limit(2).count() <= 1;
+
+                    sb.append(Skill.formatXP(l.getValue()))
+                            .append(" xp in one of:");
+
+                    if (reqs.size() == Skill.values().length && sameLevel) {
+                        sb.append("\n\tAny skill with level ")
+                                .append(reqs.values().iterator().next());
+                    } else {
+                        for (Map.Entry<Set<Skill>, Integer> entry : reqs.entrySet()) {
+                            Set<Skill> skills = entry.getKey();
+                            int level = entry.getValue();
+                            if (skills.size() == Skill.values().length) {
+                                // TODO Handle all skills
+                            } else {
+                                sb.append("\n\t")
+                                        .append(String.join(", ",
+                                                skills.stream()
+                                                        .map(Skill::toString)
+                                                        .collect(Collectors.toSet())))
+                                        .append(": ").append(level);
+                            }
+                        }
+                    }
+                    return sb.toString();
+                })
                 .collect(Collectors.toSet());
         // Join strings with newline character
         String lampRewards = String.join("\n", lampRewardStrings);
