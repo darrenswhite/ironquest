@@ -68,7 +68,7 @@ public class MainFX extends Application {
      */
     public static void main(String[] args) {
         // Setup logging
-        setupLogger(Level.INFO);
+        setupLogger(Level.ALL);
         // Launch the application
         launch(args);
     }
