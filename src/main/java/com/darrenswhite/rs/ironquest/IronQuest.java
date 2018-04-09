@@ -225,12 +225,7 @@ public class IronQuest implements Runnable {
         // requirements for and all Lamp requirements
         // Get the maximum Quest by comparing priority
         Optional<Quest> best = open.stream()
-                .filter(q -> (members && free) ||
-                        (q.isMembers() == members &&
-                                !q.isMembers() == free))
-                .filter(q -> q.hasRequirements(player, ironman, recommended) &&
-                        q.getLampRewards().stream()
-                                .allMatch(l -> l.hasRequirements(player)))
+                .filter(q -> q.hasRequirements(player, ironman, recommended))
                 .max(Comparator.comparingInt(q -> q.getPriority(player, ironman, recommended)));
 
         // Return the best quest if there is one
@@ -244,13 +239,8 @@ public class IronQuest implements Runnable {
         // Get the minimum Quest by comparing total remaining
         // skill requirements
         Optional<Quest> closest = open.stream()
-                .filter(q -> (members && free) ||
-                        (q.isMembers() == members &&
-                                !q.isMembers() == free))
                 .filter(q -> q.hasOtherRequirements(player, ironman, recommended) &&
-                        q.hasQuestRequirements(player, ironman, recommended) &&
-                        q.getLampRewards().stream()
-                                .allMatch(l -> l.hasRequirements(player)))
+                        q.hasQuestRequirements(player, ironman, recommended))
                 .min(Comparator.comparingInt(q ->
                         q.getRemainingSkillRequirements(player, ironman, recommended)
                                 .stream()
@@ -259,7 +249,7 @@ public class IronQuest implements Runnable {
 
         // Quest list must be empty or requirements are invalid
         if (!closest.isPresent()) {
-            throw new IllegalStateException("Unable to find best quest");
+            throw new IllegalStateException("Unable to find best quest: " + open);
         }
 
         // Get the closest quest
@@ -561,6 +551,14 @@ public class IronQuest implements Runnable {
 
         // Remove all quests the player has already completed
         open.removeIf(q -> player.isQuestCompleted(q.getId()));
+
+        // Filter member/free
+        if (!members) {
+            open.removeIf(Quest::isMembers);
+        }
+        if (!free) {
+            open.removeIf(q -> !q.isMembers());
+        }
 
         Iterator<Quest> it = open.iterator();
 

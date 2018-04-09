@@ -122,6 +122,13 @@ public class Player {
         for (Lamp l : q.getLampRewards()) {
             log.fine("Processing lamp: " + l);
 
+            if (!l.hasRequirements(this)) {
+                log.warning("Unable to use lamp: requirements not met");
+                actions.add(new LampAction(this, q, l,
+                        Collections.emptySet(), true));
+                continue;
+            }
+
             // Get the best skills to use the lamp on based on the
             // lamps requirements
             Set<Skill> bestSkills = getBestLampSkills(l, previous, lampSkills);
@@ -135,7 +142,7 @@ public class Player {
             bestSkills.forEach(s -> addSkillXP(s, l.getValue()));
 
             // Add a new LampAction
-            actions.add(new LampAction(this, q, l, bestSkills));
+            actions.add(new LampAction(this, q, l, bestSkills, false));
         }
 
         return actions;

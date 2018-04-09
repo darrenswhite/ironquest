@@ -30,19 +30,27 @@ public class LampAction extends Action {
     private final Set<Skill> skills;
 
     /**
+     * If the lamp should be used in the future
+     */
+    private final boolean future;
+
+    /**
      * Creates a new LampAction
      *
      * @param player The Player
      * @param quest  The Quest which the Lamp belongs to
      * @param lamp   The Lamp
      * @param skills The chosen set of Skills
+     * @param future If the Player doesn't have the requirements use the lamp
+     *               in the future
      */
     public LampAction(Player player, Quest quest, Lamp lamp,
-                      Set<Skill> skills) {
+                      Set<Skill> skills, boolean future) {
         super(player);
         this.quest = Objects.requireNonNull(quest);
         this.lamp = Objects.requireNonNull(lamp);
         this.skills = Objects.requireNonNull(skills);
+        this.future = future;
     }
 
     /**
@@ -59,12 +67,13 @@ public class LampAction extends Action {
         StringBuilder message = new StringBuilder();
         String xp = Skill.formatXP(lamp.getValue());
 
-        message.append("Use ").append(xp).append(" xp lamp on ");
+        message.append("Use ").append(xp).append(" xp lamp");
 
         Iterator<Skill> it = skills.iterator();
 
         // Add the first skill
         if (it.hasNext()) {
+            message.append(" on ");
             message.append(it.next());
         }
 
@@ -80,6 +89,10 @@ public class LampAction extends Action {
             }
 
             message.append(s);
+        }
+
+        if (future) {
+            message.append(" (when requirements are met)");
         }
 
         return message.toString();

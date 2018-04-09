@@ -132,7 +132,7 @@ public class Quest {
                 .mapToInt(SkillRequirement::getLevel)
                 .sum();
         // Get the total rewards and scale down by a factor of 100
-        int rwds = (getTotalLampRewards() + getTotalSkillRewards()) / 100;
+        int rwds = (getTotalLampRewards(p) + getTotalSkillRewards()) / 100;
 
         // Priority is low requirements and high rewards
         return rwds - reqs;
@@ -226,12 +226,14 @@ public class Quest {
     }
 
     /**
-     * Gets the total Lamp rewards
+     * Gets the total Lamp rewards that the Player has the requirements for
      *
+     * @param p The Player instance
      * @return The total Lamp reward values
      */
-    private int getTotalLampRewards() {
+    private int getTotalLampRewards(Player p) {
         return lampRewards.stream()
+                .filter(l -> l.hasRequirements(p))
                 .mapToInt(Lamp::getValue)
                 .sum();
     }

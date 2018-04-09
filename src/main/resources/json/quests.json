@@ -277,7 +277,9 @@
     "title": "Dragon Slayer",
     "members": false,
     "requirements": {
-      "qp": 33,
+      "qp": 33
+    },
+    "recommended": {
       "COMBAT": 50,
       "MAGIC": 33,
       "PRAYER": 37
