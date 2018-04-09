@@ -35,6 +35,11 @@ public class QuestDeserializer implements JsonDeserializer<Quest> {
     private static final String KEY_DISPLAY_NAME = "name";
 
     /**
+     * The members/free key
+     */
+    private static final String KEY_MEMBERS = "members";
+
+    /**
      * The requirements key
      */
     private static final String KEY_REQUIREMENTS = "requirements";
@@ -92,6 +97,8 @@ public class QuestDeserializer implements JsonDeserializer<Quest> {
         int id = quest.get(KEY_ID).getAsInt();
         // Get the title
         String title = quest.get(KEY_TITLE).getAsString();
+        // Get members/free boolean
+        boolean members = quest.get(KEY_MEMBERS).getAsBoolean();
         // Get the requirements object
         JsonObject requirementsObject =
                 quest.getAsJsonObject(KEY_REQUIREMENTS);
@@ -165,8 +172,8 @@ public class QuestDeserializer implements JsonDeserializer<Quest> {
         }
 
         // Create the new Quest
-        Quest q = new Quest(id, title, displayName, requirements, questPoints,
-                skillRewards, lampRewards);
+        Quest q = new Quest(id, title, displayName, members, requirements,
+                questPoints, skillRewards, lampRewards);
 
         log.fine("Deserialized quest: " + q.getDisplayName());
 

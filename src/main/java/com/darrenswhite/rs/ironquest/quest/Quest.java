@@ -34,6 +34,11 @@ public class Quest {
     private final String displayName;
 
     /**
+     * If the quest is members or free
+     */
+    private final boolean members;
+
+    /**
      * The quest Requirements
      */
     private final Set<Requirement> requirements;
@@ -59,17 +64,19 @@ public class Quest {
      * @param id           The Quest unique id
      * @param title        The Quest title
      * @param displayName  The Quest display name (title is used if null)
+     * @param members      If the quest is free or members
      * @param requirements The Quest Requirements
      * @param questPoints  Skill XP rewards
      * @param skillRewards Lamp rewards
      * @param lampRewards  Quest points reward
      */
-    public Quest(int id, String title, String displayName,
+    public Quest(int id, String title, String displayName, boolean members,
                  Set<Requirement> requirements, int questPoints,
                  Map<Skill, Integer> skillRewards, Set<Lamp> lampRewards) {
         this.id = id;
         this.title = Objects.requireNonNull(title);
         this.displayName = displayName != null ? displayName : title;
+        this.members = members;
         this.requirements = Objects.requireNonNull(requirements);
         this.questPoints = questPoints;
         this.skillRewards = Objects.requireNonNull(skillRewards);
@@ -294,6 +301,15 @@ public class Quest {
                                         boolean recommended) {
         return getSkillRequirements().stream()
                 .allMatch(r -> r.test(p, ironman, recommended));
+    }
+
+    /**
+     * Test if this quest is free or members
+     *
+     * @return true if the quest is members
+     */
+    public boolean isMembers() {
+        return members;
     }
 
     @Override
