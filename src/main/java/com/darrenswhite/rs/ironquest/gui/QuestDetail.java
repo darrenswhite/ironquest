@@ -75,6 +75,16 @@ public class QuestDetail extends Stage {
     private Label lblName;
 
     /**
+     * The members/free label
+     */
+    private Label lblMembers;
+
+    /**
+     * The members/free value
+     */
+    private Label lblMembersValue;
+
+    /**
      * The skill requirements label
      */
     private Label lblSkillReqs;
@@ -184,6 +194,9 @@ public class QuestDetail extends Stage {
         // Center the name label
         GridPane.setHalignment(lblName, HPos.CENTER);
 
+        lblMembers = new Label("Members");
+        lblMembersValue = new Label(quest.isMembers() ? "Yes" : "No");
+
         lblSkillReqs = new Label("Skill requirements");
         // Align to the top
         GridPane.setValignment(lblSkillReqs, VPos.TOP);
@@ -276,18 +289,20 @@ public class QuestDetail extends Stage {
 
         // Add components to the grid
         grid.add(lblName, 0, 0, 2, 1);
-        grid.add(lblSkillReqs, 0, 1);
-        grid.add(lstSkillReqs, 1, 1);
-        grid.add(lblQuestReqs, 0, 2);
-        grid.add(lstQuestReqs, 1, 2);
-        grid.add(lblOtherReqs, 0, 3);
-        grid.add(lstOtherReqs, 1, 3);
-        grid.add(lblQuestPoints, 0, 4);
-        grid.add(lblQuestPointsValue, 1, 4);
-        grid.add(lblSkillRewards, 0, 5);
-        grid.add(lstSkillRewards, 1, 5);
-        grid.add(lblLampRewards, 0, 6);
-        grid.add(lstLampRewards, 1, 6);
+        grid.add(lblMembers, 0, 1);
+        grid.add(lblMembersValue, 1, 1);
+        grid.add(lblSkillReqs, 0, 2);
+        grid.add(lstSkillReqs, 1, 2);
+        grid.add(lblQuestReqs, 0, 3);
+        grid.add(lstQuestReqs, 1, 3);
+        grid.add(lblOtherReqs, 0, 4);
+        grid.add(lstOtherReqs, 1, 4);
+        grid.add(lblQuestPoints, 0, 5);
+        grid.add(lblQuestPointsValue, 1, 5);
+        grid.add(lblSkillRewards, 0, 6);
+        grid.add(lstSkillRewards, 1, 6);
+        grid.add(lblLampRewards, 0, 7);
+        grid.add(lstLampRewards, 1, 7);
 
         // Set the scene
         sizeToScene();
