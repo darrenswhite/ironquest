@@ -225,7 +225,9 @@ public class IronQuest implements Runnable {
         // requirements for and all Lamp requirements
         // Get the maximum Quest by comparing priority
         Optional<Quest> best = open.stream()
-                .filter(q -> q.hasRequirements(player, ironman, recommended) &&
+                .filter(q -> q.isMembers() == members &&
+                        !q.isMembers() == free &&
+                        q.hasRequirements(player, ironman, recommended) &&
                         q.getLampRewards().stream()
                                 .allMatch(l -> l.hasRequirements(player)))
                 .max(Comparator.comparingInt(q -> q.getPriority(player, ironman, recommended)));
@@ -241,7 +243,9 @@ public class IronQuest implements Runnable {
         // Get the minimum Quest by comparing total remaining
         // skill requirements
         Optional<Quest> closest = open.stream()
-                .filter(q -> q.hasOtherRequirements(player, ironman, recommended) &&
+                .filter(q -> q.isMembers() == members &&
+                        !q.isMembers() == free &&
+                        q.hasOtherRequirements(player, ironman, recommended) &&
                         q.hasQuestRequirements(player, ironman, recommended) &&
                         q.getLampRewards().stream()
                                 .allMatch(l -> l.hasRequirements(player)))
