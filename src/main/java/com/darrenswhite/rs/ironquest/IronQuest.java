@@ -8,6 +8,7 @@ import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Lamp;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.QuestDeserializer;
+import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -567,7 +568,21 @@ public class IronQuest implements Runnable {
             open.removeIf(Quest::isMembers);
         }
         if (!free) {
-            open.removeIf(q -> !q.isMembers());
+            open.removeIf(q -> {
+                if (q.isMembers()) {
+                    return false;
+                }
+                for (Quest quest : open) {
+                    if (quest.isMembers()) {
+                        for (QuestRequirement qr : quest.getQuestRequirements()) {
+                            if (qr.getId() == q.getId()) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                return true;
+            });
         }
 
         // Process placeholder quest with ids less than 0
