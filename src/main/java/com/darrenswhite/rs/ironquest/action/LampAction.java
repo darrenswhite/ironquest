@@ -67,7 +67,10 @@ public class LampAction extends Action {
         StringBuilder message = new StringBuilder();
         String xp = Skill.formatXP(lamp.getValue());
 
-        message.append("Use ").append(xp).append(" xp lamp");
+        message.append(quest.getDisplayName())
+                .append(": Use ")
+                .append(xp)
+                .append(" xp lamp");
 
         Iterator<Skill> it = skills.iterator();
 
@@ -114,5 +117,14 @@ public class LampAction extends Action {
      */
     public Set<Skill> getSkills() {
         return skills;
+    }
+
+    /**
+     * Test if this Lamp should be used when requirements are met
+     *
+     * @return true if the lamp should be used in the future
+     */
+    public boolean isFuture() {
+        return future;
     }
 }

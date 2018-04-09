@@ -1,9 +1,11 @@
 package com.darrenswhite.rs.ironquest;
 
 import com.darrenswhite.rs.ironquest.action.Action;
+import com.darrenswhite.rs.ironquest.action.LampAction;
 import com.darrenswhite.rs.ironquest.action.TrainAction;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
+import com.darrenswhite.rs.ironquest.quest.Lamp;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.QuestDeserializer;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
@@ -52,6 +54,11 @@ public class IronQuest implements Runnable {
      * The list of Quest's to be completed
      */
     private final List<Quest> open = new ArrayList<>();
+
+    /**
+     * The list of lamps that should be used when requirements are met
+     */
+    private final Map<Lamp, Quest> futureLamps = new HashMap<>();
 
     /**
      * The set of all Quest's
@@ -542,6 +549,9 @@ public class IronQuest implements Runnable {
 
         log.info("Generating actions...");
 
+        // Clear previous lamp skills
+        quests.forEach(q -> q.setPreviousLampSkills(new HashSet<>()));
+
         // Clear previous actions
         Platform.runLater(actions::clear);
         // Clear any previous items from the list
@@ -560,22 +570,21 @@ public class IronQuest implements Runnable {
             open.removeIf(q -> !q.isMembers());
         }
 
-        Iterator<Quest> it = open.iterator();
-
         // Process placeholder quest with ids less than 0
         // For example, Unstable Foundations
-        while (it.hasNext()) {
+        for (Iterator<Quest> it = open.iterator(); it.hasNext(); ) {
             Quest q = it.next();
-
             if (q.getId() < 0) {
                 log.info("Processing placeholder quest: " + q);
-
                 player.completeQuest(q, lampSkills);
                 it.remove();
             }
         }
 
         log.info("Force lamp skills: " + lampSkills);
+
+        // Clear any previous future lamps
+        futureLamps.clear();
 
         // Loop until all quests completed
         while (!open.isEmpty()) {
@@ -586,6 +595,29 @@ public class IronQuest implements Runnable {
 
             // Complete the quest
             Set<Action> newActions = player.completeQuest(best, lampSkills);
+
+            // Keep track of future lamps
+            for (Iterator<Action> it = newActions.iterator(); it.hasNext(); ) {
+                Action a = it.next();
+                if (a instanceof LampAction) {
+                    LampAction la = (LampAction) a;
+                    if (la.isFuture()) {
+                        futureLamps.put(la.getLamp(), la.getQuest());
+                        it.remove();
+                    }
+                }
+            }
+
+            // Check future lamps
+            for (Iterator<Map.Entry<Lamp, Quest>> it = futureLamps.entrySet().iterator(); it.hasNext(); ) {
+                Map.Entry<Lamp, Quest> entry = it.next();
+                Lamp lamp = entry.getKey();
+                Quest quest = entry.getValue();
+                if (lamp.hasRequirements(player)) {
+                    newActions.add(player.useQuestLamp(quest, lamp, lampSkills));
+                    it.remove();
+                }
+            }
 
             newActions.forEach(a -> log.info("Adding action: " +
                     a.getMessage()));
@@ -600,6 +632,21 @@ public class IronQuest implements Runnable {
 
             // Remove it from the list
             open.remove(best);
+        }
+
+        // Show all future lamps
+        for (Iterator<Map.Entry<Lamp, Quest>> it = futureLamps.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<Lamp, Quest> entry = it.next();
+            Lamp lamp = entry.getKey();
+            Quest quest = entry.getValue();
+            LampAction action = player.useQuestLamp(quest, lamp, lampSkills);
+            log.info("Adding action: " + action.getMessage());
+            if (Platform.isFxApplicationThread()) {
+                actions.add(action);
+            } else {
+                Platform.runLater(() -> actions.add(action));
+            }
+            it.remove();
         }
     }
 

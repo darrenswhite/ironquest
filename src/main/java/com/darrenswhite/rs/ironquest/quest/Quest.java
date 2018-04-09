@@ -7,10 +7,7 @@ import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -57,6 +54,11 @@ public class Quest {
      * Quest points reward
      */
     private final int questPoints;
+
+    /**
+     * Multiple sets of previously used skills on lamps
+     */
+    private Set<Set<Skill>> previousLampSkills = new HashSet<>();
 
     /**
      * Creates a new Quest instance
@@ -114,6 +116,24 @@ public class Quest {
         return requirements.stream()
                 .filter(Requirement::isOther)
                 .collect(Collectors.toSet());
+    }
+
+    /**
+     * Get previously used skills in lamps. Used for exclusive Lamps
+     *
+     * @return Multiple sets of previously used skills
+     */
+    public Set<Set<Skill>> getPreviousLampSkills() {
+        return previousLampSkills;
+    }
+
+    /**
+     * Set previously used skills in lamps. Used for exclusive Lamps
+     *
+     * @param previousLampSkills Multiple sets of previously used skills
+     */
+    public void setPreviousLampSkills(Set<Set<Skill>> previousLampSkills) {
+        this.previousLampSkills = previousLampSkills;
     }
 
     /**

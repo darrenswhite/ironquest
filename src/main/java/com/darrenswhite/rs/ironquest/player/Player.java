@@ -95,6 +95,7 @@ public class Player {
      *
      * @param q          The Quest to be completed
      * @param lampSkills The Skills to be used on Lamps
+     * @return A Set of Actions
      */
     public Set<Action> completeQuest(Quest q, Set<Skill> lampSkills) {
         // Don't complete quests that are already completed
@@ -115,34 +116,9 @@ public class Player {
         // Add a new QuestAction
         actions.add(new QuestAction(this, q));
 
-        // Keep track of previous skill choices
-        Set<Set<Skill>> previous = new HashSet<>();
-
         // Add xp for all lamps, if possible
         for (Lamp l : q.getLampRewards()) {
-            log.fine("Processing lamp: " + l);
-
-            if (!l.hasRequirements(this)) {
-                log.warning("Unable to use lamp: requirements not met");
-                actions.add(new LampAction(this, q, l,
-                        Collections.emptySet(), true));
-                continue;
-            }
-
-            // Get the best skills to use the lamp on based on the
-            // lamps requirements
-            Set<Skill> bestSkills = getBestLampSkills(l, previous, lampSkills);
-
-            log.fine("Chosen lamp skills: " + bestSkills);
-
-            // Keep track of previous choices
-            previous.add(bestSkills);
-
-            // Add the XP to each Skill
-            bestSkills.forEach(s -> addSkillXP(s, l.getValue()));
-
-            // Add a new LampAction
-            actions.add(new LampAction(this, q, l, bestSkills, false));
+            actions.add(useQuestLamp(q, l, lampSkills));
         }
 
         return actions;
@@ -240,7 +216,8 @@ public class Player {
         // This shouldn't happen
         if (!choice.isPresent()) {
             throw new IllegalStateException(
-                    "Unable to use lamp: no suitable lamp found");
+                    "Unable to use lamp: no suitable skill found: lamp=" +
+                            lamp + ",previous=" + previous + ",force=" + force);
         }
 
         return choice.get().getKey();
@@ -516,5 +493,43 @@ public class Player {
         return "Player{" +
                 "name='" + name + '\'' +
                 '}';
+    }
+
+    /**
+     * Use a Quest Lamp reward
+     *
+     * @param q          The Quest from which the Lamp was obtained from
+     * @param l          The Lamp to use
+     * @param lampSkills The Skills to be used on Lamps
+     * @return A LampAction
+     */
+    public LampAction useQuestLamp(Quest q, Lamp l, Set<Skill> lampSkills) {
+        log.fine("Processing lamp: " + l);
+
+        if (!l.hasRequirements(this)) {
+            log.warning("Unable to use lamp: requirements not met");
+            // The lamp cannot be used so set it to be used in the future
+            // when requirements are met
+            return new LampAction(this, q, l, Collections.emptySet(), true);
+        }
+
+        // Keep track of previous skill choices
+        Set<Set<Skill>> previous = q.getPreviousLampSkills();
+
+        // Get the best skills to use the lamp on based on the
+        // lamps requirements
+        Set<Skill> bestSkills = getBestLampSkills(l, previous, lampSkills);
+
+        log.fine("Chosen lamp skills: " + bestSkills);
+
+        // Keep track of previous choices
+        previous.add(bestSkills);
+        q.setPreviousLampSkills(previous);
+
+        // Add the XP to each Skill
+        bestSkills.forEach(s -> addSkillXP(s, l.getValue()));
+
+        // Return the new LampAction
+        return new LampAction(this, q, l, bestSkills, false);
     }
 }
