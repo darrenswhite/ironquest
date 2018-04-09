@@ -6,7 +6,7 @@
 
     <groupId>IronQuest</groupId>
     <artifactId>IronQuest</artifactId>
-    <version>1.09</version>
+    <version>1.10</version>
     <build>
         <plugins>
             <plugin>
