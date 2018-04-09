@@ -583,9 +583,6 @@ public class IronQuest implements Runnable {
 
         log.info("Force lamp skills: " + lampSkills);
 
-        // Clear any previous future lamps
-        futureLamps.clear();
-
         // Loop until all quests completed
         while (!open.isEmpty()) {
             // Get the best quest
@@ -635,19 +632,18 @@ public class IronQuest implements Runnable {
         }
 
         // Show all future lamps
-        for (Iterator<Map.Entry<Lamp, Quest>> it = futureLamps.entrySet().iterator(); it.hasNext(); ) {
-            Map.Entry<Lamp, Quest> entry = it.next();
-            Lamp lamp = entry.getKey();
-            Quest quest = entry.getValue();
-            LampAction action = player.useQuestLamp(quest, lamp, lampSkills);
+        for (Map.Entry<Lamp, Quest> entry : futureLamps.entrySet()) {
+            LampAction action = player.useQuestLamp(entry.getValue(), entry.getKey(), lampSkills);
             log.info("Adding action: " + action.getMessage());
             if (Platform.isFxApplicationThread()) {
                 actions.add(action);
             } else {
                 Platform.runLater(() -> actions.add(action));
             }
-            it.remove();
         }
+
+        // Clear any future lamps
+        futureLamps.clear();
     }
 
     /**
