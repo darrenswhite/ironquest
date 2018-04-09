@@ -187,7 +187,16 @@ public class Lamp {
         // Ensure requirements are met for at least one set of skills
         return requirements.entrySet().stream()
                 .anyMatch(e -> e.getKey().stream()
-                        .noneMatch(s -> p.getLevel(s) < e.getValue()));
+                        .anyMatch(s -> {
+                            if (s == Skill.INVENTION) {
+                                if (p.getLevel(Skill.CRAFTING) < 80 ||
+                                        p.getLevel(Skill.DIVINATION) < 80 ||
+                                        p.getLevel(Skill.SMITHING) < 80) {
+                                    return false;
+                                }
+                            }
+                            return p.getLevel(s) >= e.getValue();
+                        }));
     }
 
     /**

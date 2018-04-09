@@ -4943,7 +4943,7 @@
         },
         {
           "requirements": {
-            "INVENTION": 2
+            "INVENTION": 1
           },
           "values": [
             10000
