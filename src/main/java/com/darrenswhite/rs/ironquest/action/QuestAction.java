@@ -46,14 +46,6 @@ public class QuestAction extends Action {
     @Override
     public void onClick(Scene scene, MouseEvent e) {
         super.onClick(scene, e);
-
-        if (e.getClickCount() != 2) {
-            return;
-        }
-
-        QuestDetail questDetail = new QuestDetail(scene.getWindow(), quest);
-
-        questDetail.sizeToScene();
-        questDetail.showAndWait();
+        QuestDetail.shouldDisplay(scene, e, quest);
     }
 }

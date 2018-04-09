@@ -334,4 +334,19 @@ public class QuestDetail extends Stage {
             log.log(Level.SEVERE, "Unable to open quest URL: ", ex);
         }
     }
+
+    /**
+     * Try and open a new QuestDetail dialog
+     *
+     * @param scene The scene the MouseEvent originated from
+     * @param e     The MouseEvent which occurred
+     * @param quest The Quest to display
+     */
+    public static void shouldDisplay(Scene scene, MouseEvent e, Quest quest) {
+        if (e.getClickCount() == 2) {
+            QuestDetail questDetail = new QuestDetail(scene.getWindow(), quest);
+            questDetail.sizeToScene();
+            questDetail.showAndWait();
+        }
+    }
 }

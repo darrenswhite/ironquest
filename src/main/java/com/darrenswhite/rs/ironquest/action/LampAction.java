@@ -1,9 +1,12 @@
 package com.darrenswhite.rs.ironquest.action;
 
+import com.darrenswhite.rs.ironquest.gui.QuestDetail;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Lamp;
 import com.darrenswhite.rs.ironquest.quest.Quest;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 
 import java.util.Iterator;
 import java.util.Objects;
@@ -126,5 +129,11 @@ public class LampAction extends Action {
      */
     public boolean isFuture() {
         return future;
+    }
+
+    @Override
+    public void onClick(Scene scene, MouseEvent e) {
+        super.onClick(scene, e);
+        QuestDetail.shouldDisplay(scene, e, quest);
     }
 }

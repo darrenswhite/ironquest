@@ -51,8 +51,8 @@ public abstract class Action {
     /**
      * The action to perform when the Action is clicked
      *
-     * @param scene The scene this event originated from
-     * @param e     The event which occurred
+     * @param scene The scene the MouseEvent originated from
+     * @param e     The MouseEvent which occurred
      */
     public void onClick(Scene scene, MouseEvent e) {
         log.fine("Action click: " + e);
