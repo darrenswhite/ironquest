@@ -88,6 +88,16 @@ public class IronQuest implements Runnable {
     private boolean recommended;
 
     /**
+     * Show members quests
+     */
+    private boolean members;
+
+    /**
+     * Show free quests
+     */
+    private boolean free;
+
+    /**
      * Creates a new IronQuest instance with the given set of Quest's
      *
      * @param quests The set of Quest's to use
@@ -419,6 +429,42 @@ public class IronQuest implements Runnable {
     }
 
     /**
+     * Test if members quests are being used
+     *
+     * @return true if members quests are being used
+     */
+    public boolean isMembers() {
+        return members;
+    }
+
+    /**
+     * Set to use members quests
+     *
+     * @param members true to use members quests
+     */
+    public void setMembers(boolean members) {
+        this.members = members;
+    }
+
+    /**
+     * Test if free quests are being used
+     *
+     * @return true if free quests are being used
+     */
+    public boolean isFree() {
+        return free;
+    }
+
+    /**
+     * Set to use free quests
+     *
+     * @param free true to use free quests
+     */
+    public void setFree(boolean free) {
+        this.free = free;
+    }
+
+    /**
      * Loads the previously saved state from
      * a properties file
      */
@@ -451,6 +497,14 @@ public class IronQuest implements Runnable {
         // Load recommended mode
         setRecommended(Boolean.parseBoolean(prop.getProperty("recommended",
                 "false")));
+
+        // Load members mode
+        setMembers(Boolean.parseBoolean(prop.getProperty("members",
+                "true")));
+
+        // Load free mode
+        setFree(Boolean.parseBoolean(prop.getProperty("free",
+                "true")));
 
         // Get the lamp skills comma delimited string
         String lampSkillsStr = prop.getProperty("lampSkills", "");
@@ -574,6 +628,12 @@ public class IronQuest implements Runnable {
 
         // Store recommended mode
         prop.setProperty("recommended", Boolean.toString(recommended));
+
+        // Store members mode
+        prop.setProperty("members", Boolean.toString(members));
+
+        // Store free mode
+        prop.setProperty("free", Boolean.toString(free));
 
         // Store the properties to file
         try (OutputStream out = Files.newOutputStream(getPropertiesPath())) {

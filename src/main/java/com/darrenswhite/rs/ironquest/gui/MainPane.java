@@ -74,6 +74,11 @@ public class MainPane extends GridPane {
     private ToggleButton btnRecommended;
 
     /**
+     * Button to toggle members/free quests
+     */
+    private ComboBox<MembersSelection> cmbMembers;
+
+    /**
      * The run button
      */
     private Button btnRun;
@@ -164,6 +169,23 @@ public class MainPane extends GridPane {
         btnRecommended.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(btnRecommended, Priority.ALWAYS);
 
+        cmbMembers = new ComboBox<>(
+                FXCollections.observableArrayList(MembersSelection.values()));
+        // Set selected value
+        if (quest.isFree() && quest.isMembers()) {
+            cmbMembers.getSelectionModel().select(MembersSelection.BOTH);
+        } else if (quest.isFree()) {
+            cmbMembers.getSelectionModel().select(MembersSelection.FREE);
+        } else if (quest.isMembers()) {
+            cmbMembers.getSelectionModel().select(MembersSelection.MEMBERS);
+        }
+        // Toggle recommended mode
+        cmbMembers.setOnAction(this::setMembersFree);
+        // Always fill width/height
+        cmbMembers.setMaxHeight(Double.MAX_VALUE);
+        cmbMembers.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(cmbMembers, Priority.ALWAYS);
+
         lstActions = new ListView<>();
         // Change the current action information on selection
         lstActions.setOnMouseClicked(this::actionClick);
@@ -205,16 +227,21 @@ public class MainPane extends GridPane {
         int columns = 10;
 
         // Add nodes to grid
-        add(txtRSN, 0, 0, (int) (columns * 0.2), 1);
-        add(txtSearch, (int) (columns * 0.2), 0, (int) (columns * 0.2), 1);
-        add(btnLampSkills, (int) (columns * 0.4), 0, (int) (columns * 0.2), 1);
-        add(btnIronman, (int) (columns * 0.6), 0, (int) (columns * 0.2), 1);
-        add(btnRecommended, (int) (columns * 0.8), 0, (int) (columns * 0.2), 1);
-        add(lstActions, 0, 1, (int) (columns * 0.5),
+        add(txtRSN, 0, 0, (int) (columns * 0.4), 1);
+        add(txtSearch, 0, 1, (int) (columns * 0.4), 1);
+
+        add(btnIronman, (int) (columns * 0.4), 0, (int) (columns * 0.3), 1);
+        add(btnRecommended, (int) (columns * 0.4), 1, (int) (columns * 0.3), 1);
+
+        add(btnLampSkills, (int) (columns * 0.7), 0, (int) (columns * 0.3), 1);
+        add(cmbMembers, (int) (columns * 0.7), 1, (int) (columns * 0.3), 1);
+
+        add(lstActions, 0, 2, (int) (columns * 0.5),
                 1);
-        add(lstInfo, (int) (columns * 0.5), 1,
+        add(lstInfo, (int) (columns * 0.5), 2,
                 (int) (columns * 0.5), 1);
-        add(btnRun, 0, 2,
+
+        add(btnRun, 0, 3,
                 columns, 1);
 
         // Resize columns evenly
@@ -230,12 +257,13 @@ public class MainPane extends GridPane {
         RowConstraints rc0 = new RowConstraints();
         RowConstraints rc1 = new RowConstraints();
         RowConstraints rc2 = new RowConstraints();
+        RowConstraints rc3 = new RowConstraints();
 
         // Middle row to fill height
-        rc1.setFillHeight(true);
-        rc1.setVgrow(Priority.ALWAYS);
+        rc2.setFillHeight(true);
+        rc2.setVgrow(Priority.ALWAYS);
 
-        getRowConstraints().addAll(rc0, rc1, rc2);
+        getRowConstraints().addAll(rc0, rc1, rc2, rc3);
 
         // Start focus on action list
         Platform.runLater(lstActions::requestFocus);
@@ -322,6 +350,26 @@ public class MainPane extends GridPane {
         }
     }
 
+    private void setMembersFree(ActionEvent e) {
+        IronQuest quest = IronQuest.getInstance();
+        MembersSelection selection = cmbMembers.getSelectionModel()
+                .getSelectedItem();
+        switch (selection) {
+            case BOTH:
+                quest.setFree(true);
+                quest.setMembers(true);
+                break;
+            case FREE:
+                quest.setFree(true);
+                quest.setMembers(false);
+                break;
+            case MEMBERS:
+                quest.setFree(false);
+                quest.setMembers(true);
+                break;
+        }
+    }
+
     /**
      * Shows the stage to choose Skills to use Lamps on
      *
@@ -371,5 +419,17 @@ public class MainPane extends GridPane {
         p.getXPs()
                 .forEach((s, xp) -> info.add(s + ": " + s.getLevelAt(xp) +
                         " (" + Skill.formatXP(xp) + " xp)"));
+    }
+
+    private enum MembersSelection {
+        BOTH,
+        FREE,
+        MEMBERS;
+
+        @Override
+        public String toString() {
+            String str = super.toString();
+            return str.toUpperCase().charAt(0) + str.toLowerCase().substring(1);
+        }
     }
 }
