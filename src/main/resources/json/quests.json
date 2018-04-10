@@ -1467,7 +1467,7 @@
       "lamps": [
         {
           "requirements": {
-            "PRAYER": 8
+            "PRAYER": 1
           },
           "values": [
             1000
@@ -1475,7 +1475,7 @@
         },
         {
           "requirements": {
-            "HERBLORE": 8
+            "HERBLORE": 1
           },
           "values": [
             1000
@@ -1483,7 +1483,7 @@
         },
         {
           "requirements": {
-            "AGILITY": 8
+            "AGILITY": 1
           },
           "values": [
             1000
@@ -2816,14 +2816,12 @@
     "title": "Perils of Ice Mountain",
     "members": true,
     "requirements": {
-      "CONSTRUCTION": 10,
-      "FARMING": 10,
-      "HUNTER": 10,
-      "THIEVING": 11
+      "FARMING": 5,
+      "HUNTER": 5,
+      "THIEVING": 5
     },
     "rewards": {
       "qp": 1,
-      "CONSTRUCTION": 500,
       "FARMING": 500,
       "HUNTER": 500,
       "THIEVING": 500
