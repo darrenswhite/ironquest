@@ -3936,7 +3936,16 @@
     "members": false,
     "rewards": {
       "qp": 1,
-      "CONSTITUTION": 700
+      "lamps": [
+        {
+          "requirements": {
+            "CONSTITUTION": 1
+          },
+          "values": [
+            700
+          ]
+        }
+      ]
     }
   },
   {
