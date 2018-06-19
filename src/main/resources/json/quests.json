@@ -595,7 +595,37 @@
     },
     "rewards": {
       "qp": 5,
-      "AGILITY": 7900,
+      "lamps": [
+        {
+          "requirements": {
+            "AGILITY": 1
+          },
+          "values": [
+            7900
+          ]
+        },
+        {
+          "requirements": {
+            "ATTACK": 1,
+            "DEFENCE": 1,
+            "STRENGTH": 1,
+            "CONSTITUTION": 1,
+            "RANGED": 1,
+            "MAGIC": 1
+          },
+          "values": [
+            18400
+          ]
+        },
+        {
+          "requirements": {
+            "MAGIC": 1
+          },
+          "values": [
+            2150
+          ]
+        }
+      ],
       "ATTACK": 18400,
       "MAGIC": 2150
     }
@@ -642,7 +672,16 @@
     "members": true,
     "rewards": {
       "qp": 2,
-      "CRAFTING": 2250
+      "lamps": [
+        {
+          "requirements": {
+            "CRAFTING": 1
+          },
+          "values": [
+            2250
+          ]
+        }
+      ]
     }
   },
   {
@@ -2104,13 +2143,40 @@
       "quests": [
         63
       ],
-      "AGILITY": 40
+      "AGILITY": 40,
+      "SLAYER": 40
+    },
+    "recommended": {
+      "PRAYER": 43
     },
     "rewards": {
       "qp": 1,
-      "AGILITY": 5000,
-      "SLAYER": 5000,
-      "CONSTITUTION": 5000
+      "lamps": [
+        {
+          "requirements": {
+            "AGILITY": 1
+          },
+          "values": [
+            5000
+          ]
+        },
+        {
+          "requirements": {
+            "SLAYER": 1
+          },
+          "values": [
+            5000
+          ]
+        },
+        {
+          "requirements": {
+            "CONSTITUTION": 1
+          },
+          "values": [
+            5000
+          ]
+        }
+      ]
     }
   },
   {
@@ -2126,8 +2192,29 @@
     },
     "rewards": {
       "qp": 1,
-      "THIEVING": 2000,
-      "RANGED": 2000
+      "lamps": [
+        {
+          "requirements": {
+            "THIEVING": 1
+          },
+          "values": [
+            2000
+          ]
+        },
+        {
+          "requirements": {
+            "ATTACK": 1,
+            "DEFENCE": 1,
+            "STRENGTH": 1,
+            "CONSTITUTION": 1,
+            "RANGED": 1,
+            "MAGIC": 1
+          },
+          "values": [
+            2000
+          ]
+        }
+      ]
     }
   },
   {
