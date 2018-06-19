@@ -190,12 +190,19 @@ public class Quest {
     public Set<SkillRequirement> getRemainingSkillRequirements(Player p,
                                                                boolean ironman,
                                                                boolean recommended) {
+        // Use empty hashset first to squash duplicate requirements
+        // This happens when there is a normal requirements and another
+        // requirement for recommended or ironman
+        // Using amalgamateRequirements will use the highest requirement
+        Set<SkillRequirement> remaining = new HashSet<>();
+
         // Create a new Stream for the Skill requirements
         // Filter by removing requirements already met
         // Collect the results in a Map
-        Set<SkillRequirement> remaining = getSkillRequirements().stream()
+        IronQuest.amalgamateRequirements(remaining, getSkillRequirements()
+                .stream()
                 .filter(r -> !r.test(p, ironman, recommended))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toSet()));
 
         // Create a new Stream for the Quest requirements
         // Filter by removing Quest's already completed
