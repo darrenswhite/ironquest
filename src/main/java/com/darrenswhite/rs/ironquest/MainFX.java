@@ -6,9 +6,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -47,18 +45,10 @@ public class MainFX extends Application {
      */
     static URL getResource(String path) {
         // Try and find the resource locally (relative in the JAR file)
-        URL in = MainFX.class.getResource('/' + path);
-
-        // Not found so we get the resource relative to the working directory
-        if (in == null) {
-            try {
-                in = Paths.get(path).toUri().toURL();
-            } catch (MalformedURLException ex) {
-                log.log(Level.SEVERE, "Unable to find resource: ", ex);
-            }
+        if (!path.startsWith("/")) {
+            path = '/' + path;
         }
-
-        return in;
+        return MainFX.class.getResource(path);
     }
 
     /**

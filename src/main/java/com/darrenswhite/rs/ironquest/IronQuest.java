@@ -43,8 +43,7 @@ public class IronQuest implements Runnable {
     /**
      * The JSON file containing quest data
      */
-    private static final String FILE_QUESTS_JSON =
-            "resources/json/quests.json";
+    private static final String FILE_QUESTS_JSON = "/json/quests.json";
 
     /**
      * The IronQuest instance
@@ -472,7 +471,7 @@ public class IronQuest implements Runnable {
      * Loads the previously saved state from
      * a properties file
      */
-    public void load() {
+    void load() {
         Properties prop = new Properties();
 
         log.info("Loading settings...");
@@ -665,7 +664,7 @@ public class IronQuest implements Runnable {
      * Saves the state (player name and lamp skill
      * choices) to a properties file
      */
-    public void save() {
+    void save() {
         Properties prop = new Properties();
 
         log.info("Saving settings...");
