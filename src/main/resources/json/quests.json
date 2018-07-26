@@ -107,7 +107,12 @@
       "lamps": [
         {
           "requirements": {
-            "ATTACK": 10
+            "ATTACK": 1,
+            "DEFENCE": 1,
+            "STRENGTH": 1,
+            "CONSTITUTION": 1,
+            "RANGED": 1,
+            "MAGIC": 1
           },
           "values": [
             4825
@@ -237,7 +242,7 @@
       "lamps": [
         {
           "requirements": {
-            "SMITHING": 28
+            "SMITHING": 1
           },
           "values": [
             12725
@@ -288,7 +293,7 @@
       "lamps": [
         {
           "requirements": {
-            "STRENGTH": 50
+            "STRENGTH": 1
           },
           "values": [
             18650
@@ -296,7 +301,7 @@
         },
         {
           "requirements": {
-            "DEFENCE": 50
+            "DEFENCE": 1
           },
           "values": [
             18650
@@ -768,7 +773,7 @@
       "lamps": [
         {
           "requirements": {
-            "COOKING": 11
+            "COOKING": 1
           },
           "values": [
             1525
@@ -894,7 +899,7 @@
       "lamps": [
         {
           "requirements": {
-            "PRAYER": 10
+            "PRAYER": 1
           },
           "values": [
             1406
@@ -920,7 +925,7 @@
       "lamps": [
         {
           "requirements": {
-            "CRAFTING": 4
+            "CRAFTING": 1
           },
           "values": [
             3000
@@ -928,7 +933,7 @@
         },
         {
           "requirements": {
-            "DEFENCE": 3
+            "DEFENCE": 1
           },
           "values": [
             2000
@@ -936,7 +941,7 @@
         },
         {
           "requirements": {
-            "CONSTITUTION": 3
+            "CONSTITUTION": 1
           },
           "values": [
             2000
@@ -1155,7 +1160,7 @@
       "lamps": [
         {
           "requirements": {
-            "STRENGTH": 35
+            "STRENGTH": 1
           },
           "values": [
             22000
@@ -2042,7 +2047,7 @@
       "lamps": [
         {
           "requirements": {
-            "ATTACK": 12
+            "ATTACK": 1
           },
           "values": [
             2000
@@ -2050,7 +2055,7 @@
         },
         {
           "requirements": {
-            "STRENGTH": 12
+            "STRENGTH": 1
           },
           "values": [
             2000
@@ -2058,7 +2063,7 @@
         },
         {
           "requirements": {
-            "CRAFTING": 12
+            "CRAFTING": 1
           },
           "values": [
             2000
@@ -2066,7 +2071,7 @@
         },
         {
           "requirements": {
-            "DEFENCE": 12
+            "DEFENCE": 1
           },
           "values": [
             2000
@@ -2084,7 +2089,7 @@
       "lamps": [
         {
           "requirements": {
-            "DEFENCE": 4
+            "DEFENCE": 1
           },
           "values": [
             500
@@ -2092,7 +2097,7 @@
         },
         {
           "requirements": {
-            "CONSTITUTION": 4
+            "CONSTITUTION": 1
           },
           "values": [
             500
