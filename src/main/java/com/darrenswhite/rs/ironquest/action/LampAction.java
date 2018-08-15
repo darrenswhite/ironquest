@@ -5,135 +5,129 @@ import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Lamp;
 import com.darrenswhite.rs.ironquest.quest.Quest;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
-
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author Darren White
  */
 public class LampAction extends Action {
 
-    /**
-     * The Quest that the Lamp belongs to
-     */
-    private final Quest quest;
+  /**
+   * The Quest that the Lamp belongs to
+   */
+  private final Quest quest;
 
-    /**
-     * The Lamp object
-     */
-    private final Lamp lamp;
+  /**
+   * The Lamp object
+   */
+  private final Lamp lamp;
 
-    /**
-     * The Skills chosen for the Lamp
-     */
-    private final Set<Skill> skills;
+  /**
+   * The Skills chosen for the Lamp
+   */
+  private final Set<Skill> skills;
 
-    /**
-     * If the lamp should be used in the future
-     */
-    private final boolean future;
+  /**
+   * If the lamp should be used in the future
+   */
+  private final boolean future;
 
-    /**
-     * Creates a new LampAction
-     *
-     * @param player The Player
-     * @param quest  The Quest which the Lamp belongs to
-     * @param lamp   The Lamp
-     * @param skills The chosen set of Skills
-     * @param future If the Player doesn't have the requirements use the lamp
-     *               in the future
-     */
-    public LampAction(Player player, Quest quest, Lamp lamp,
-                      Set<Skill> skills, boolean future) {
-        super(player);
-        this.quest = Objects.requireNonNull(quest);
-        this.lamp = Objects.requireNonNull(lamp);
-        this.skills = Objects.requireNonNull(skills);
-        this.future = future;
+  /**
+   * Creates a new LampAction
+   *
+   * @param player The Player
+   * @param quest The Quest which the Lamp belongs to
+   * @param lamp The Lamp
+   * @param skills The chosen set of Skills
+   * @param future If the Player doesn't have the requirements use the lamp in the future
+   */
+  public LampAction(Player player, Quest quest, Lamp lamp, Set<Skill> skills, boolean future) {
+    super(player);
+    this.quest = Objects.requireNonNull(quest);
+    this.lamp = Objects.requireNonNull(lamp);
+    this.skills = Objects.requireNonNull(skills);
+    this.future = future;
+  }
+
+  /**
+   * Gets the Lamp
+   *
+   * @return A Lamp
+   */
+  public Lamp getLamp() {
+    return lamp;
+  }
+
+  @Override
+  public String getMessage() {
+    StringBuilder message = new StringBuilder();
+    String xp = Skill.formatXP(lamp.getValue());
+
+    message.append(quest.getDisplayName()).append(": Use ").append(xp).append(" xp lamp");
+
+    Iterator<Skill> it = skills.iterator();
+
+    // Add the first skill
+    if (it.hasNext()) {
+      message.append(" on ");
+      message.append(it.next());
     }
 
-    /**
-     * Gets the Lamp
-     *
-     * @return A Lamp
-     */
-    public Lamp getLamp() {
-        return lamp;
+    // Append remaining skills separated by
+    // a comma (or `and` for the last Skill)
+    while (it.hasNext()) {
+      Skill s = it.next();
+
+      if (it.hasNext()) {
+        message.append(", ");
+      } else {
+        message.append(" and ");
+      }
+
+      message.append(s);
     }
 
-    @Override
-    public String getMessage() {
-        StringBuilder message = new StringBuilder();
-        String xp = Skill.formatXP(lamp.getValue());
-
-        message.append(quest.getDisplayName())
-                .append(": Use ")
-                .append(xp)
-                .append(" xp lamp");
-
-        Iterator<Skill> it = skills.iterator();
-
-        // Add the first skill
-        if (it.hasNext()) {
-            message.append(" on ");
-            message.append(it.next());
-        }
-
-        // Append remaining skills separated by
-        // a comma (or `and` for the last Skill)
-        while (it.hasNext()) {
-            Skill s = it.next();
-
-            if (it.hasNext()) {
-                message.append(", ");
-            } else {
-                message.append(" and ");
-            }
-
-            message.append(s);
-        }
-
-        if (future) {
-            message.append(" (when requirements are met)");
-        }
-
-        return message.toString();
+    if (future) {
+      message.append(" (when requirements are met)");
     }
 
-    /**
-     * Gets the Quest which the Lamp belongs to
-     *
-     * @return A Quest
-     */
-    public Quest getQuest() {
-        return quest;
-    }
+    return message.toString();
+  }
 
-    /**
-     * Gets the Skills chosen for the Lamp
-     *
-     * @return A Set of Skills
-     */
-    public Set<Skill> getSkills() {
-        return skills;
-    }
+  /**
+   * Gets the Quest which the Lamp belongs to
+   *
+   * @return A Quest
+   */
+  public Quest getQuest() {
+    return quest;
+  }
 
-    /**
-     * Test if this Lamp should be used when requirements are met
-     *
-     * @return true if the lamp should be used in the future
-     */
-    public boolean isFuture() {
-        return future;
-    }
+  /**
+   * Gets the Skills chosen for the Lamp
+   *
+   * @return A Set of Skills
+   */
+  public Set<Skill> getSkills() {
+    return skills;
+  }
 
-    @Override
-    public void onClick(Scene scene, MouseEvent e) {
-        super.onClick(scene, e);
-        QuestDetail.shouldDisplay(scene, e, quest);
-    }
+  /**
+   * Test if this Lamp should be used when requirements are met
+   *
+   * @return true if the lamp should be used in the future
+   */
+  public boolean isFuture() {
+    return future;
+  }
+
+  @Override
+  public void onClick(Scene scene, MouseEvent e) {
+    super.onClick(scene, e);
+    QuestDetail.shouldDisplay(scene, e, quest);
+  }
 }

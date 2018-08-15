@@ -1,4 +1,19 @@
+# User-specific stuff:
 **/.idea/workspace.xml
-.ironquest
-out/
-target/
+.idea/**/tasks.xml
+.idea/dictionaries
+
+# IntelliJ
+/out/
+
+# Sensitive or high-churn files:
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.xml
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+
+# Sonarlint plugin
+.idea/sonarlint
