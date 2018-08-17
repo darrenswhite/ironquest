@@ -245,7 +245,8 @@ public class Player {
 
     max *= 13.0 / 10.0;
 
-    return (max + defence + constitution + 0.5 * prayer + 0.5 * summoning) / 4.0;
+    return (max + defence + constitution + Math.floorDiv(prayer, 2) + Math.floorDiv(summoning, 2))
+        / 4.0;
   }
 
   /**

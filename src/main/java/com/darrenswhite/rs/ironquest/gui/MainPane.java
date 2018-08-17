@@ -277,7 +277,7 @@ public class MainPane extends GridPane {
   /**
    * Event executed when the run button is clicked
    */
-  private void run() {
+  public void run() {
     // Disable the button so it can only run one at a time
     btnRun.setDisable(true);
 
