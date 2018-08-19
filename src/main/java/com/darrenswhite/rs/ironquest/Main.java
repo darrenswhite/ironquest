@@ -32,7 +32,7 @@ public class Main {
     if (args.length == 1) {
       String name = args[0];
 
-      LOG.debug("Setting player name as: {0}", name);
+      LOG.debug("Setting player name as: {}", name);
 
       quest.setPlayer(name);
     }

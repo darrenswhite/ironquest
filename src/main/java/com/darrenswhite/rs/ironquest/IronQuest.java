@@ -141,7 +141,7 @@ public class IronQuest implements Runnable {
       // Create the gson object
       Gson gson = gsonBuilder.create();
 
-      LOG.info("Trying to read quests from file: {0}", FILE_QUESTS_JSON);
+      LOG.info("Trying to read quests from file: {}", FILE_QUESTS_JSON);
 
       // Read the quests from file
       try (InputStreamReader in = new InputStreamReader(
@@ -594,20 +594,20 @@ public class IronQuest implements Runnable {
     for (Iterator<Quest> it = open.iterator(); it.hasNext(); ) {
       Quest q = it.next();
       if (q.getId() < 0) {
-        LOG.info("Processing placeholder quest: {0}", q);
+        LOG.info("Processing placeholder quest: {}", q);
         player.completeQuest(q, lampSkills);
         it.remove();
       }
     }
 
-    LOG.info("Force lamp skills: {0}", lampSkills);
+    LOG.info("Force lamp skills: {}", lampSkills);
 
     // Loop until all quests completed
     while (!open.isEmpty()) {
       // Get the best quest
       Quest best = getBestQuest();
 
-      LOG.info("Best: {0}", best);
+      LOG.info("Best: {}", best);
 
       // Complete the quest
       Set<Action> newActions = player.completeQuest(best, lampSkills);

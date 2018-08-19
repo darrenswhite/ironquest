@@ -54,7 +54,7 @@ public abstract class Action {
    * @param e The MouseEvent which occurred
    */
   public void onClick(Scene scene, MouseEvent e) {
-    LOG.debug("Action click: {0}", e);
+    LOG.debug("Action click: {}", e);
   }
 
   @Override

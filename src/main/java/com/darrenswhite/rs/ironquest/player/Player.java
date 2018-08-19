@@ -110,7 +110,7 @@ public class Player {
 
     Set<Action> actions = new LinkedHashSet<>();
 
-    LOG.debug("Completing quest: {0}", q.getId());
+    LOG.debug("Completing quest: {}", q.getId());
 
     // Add the quest id to the completed list
     quests.add(q.getId());
@@ -168,7 +168,7 @@ public class Player {
           "Unable to use lamp: requirements not met");
     }
 
-    LOG.debug("Previous choices: {0}", previous);
+    LOG.debug("Previous choices: {}", previous);
 
     // Create a stream for the lamp requirements
     // Filter the stream based on requirements met
@@ -190,8 +190,8 @@ public class Player {
       forceChoices.addAll(validChoice);
     }
 
-    LOG.debug("Skill choices: {0}", choices);
-    LOG.debug("Force choices: {0}", forceChoices);
+    LOG.debug("Skill choices: {}", choices);
+    LOG.debug("Force choices: {}", forceChoices);
 
     // Force Skill choice if possible
     if (!forceChoices.isEmpty()) {
@@ -448,7 +448,7 @@ public class Player {
             quests.add(instance.getQuest(rmq.getTitle()).getId());
           }
         } catch (IllegalArgumentException e) {
-          LOG.warn("Unable to find quest: {0}", rmq);
+          LOG.warn("Unable to find quest: {}", rmq);
         }
       }
     } catch (IOException e) {
@@ -482,10 +482,10 @@ public class Player {
    * @return A LampAction
    */
   public LampAction useQuestLamp(Quest q, Lamp l, Set<Skill> lampSkills) {
-    LOG.debug("Processing lamp: {0}", l);
+    LOG.debug("Processing lamp: {}", l);
 
     if (!l.hasRequirements(this)) {
-      LOG.warn("Unable to use lamp: requirements not met: {0}", l);
+      LOG.warn("Unable to use lamp: requirements not met: {}", l);
       // The lamp cannot be used so set it to be used in the future
       // when requirements are met
       return new LampAction(this, q, l, Collections.emptySet(), true);
@@ -498,7 +498,7 @@ public class Player {
     // lamps requirements
     Set<Skill> bestSkills = getBestLampSkills(l, previous, lampSkills);
 
-    LOG.debug("Chosen lamp skills: {0}", bestSkills);
+    LOG.debug("Chosen lamp skills: {}", bestSkills);
 
     // Keep track of previous choices
     previous.add(bestSkills);

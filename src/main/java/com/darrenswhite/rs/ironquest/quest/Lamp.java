@@ -85,7 +85,7 @@ public class Lamp {
    * @return A new Lamp object
    */
   public static Set<Lamp> fromJson(JsonElement json) {
-    LOG.debug("Deserializing JSON: {0}", json);
+    LOG.debug("Deserializing JSON: {}", json);
 
     // Get the lamp object
     JsonObject lampObj = json.getAsJsonObject();
@@ -147,7 +147,7 @@ public class Lamp {
     // Create a new Lamp object for each value
     valuesArray.forEach(v -> lamps.add(new Lamp(requirements, v.getAsInt(), exclusive)));
 
-    LOG.debug("Deserialized lamps: {0}", lamps);
+    LOG.debug("Deserialized lamps: {}", lamps);
 
     return lamps;
   }

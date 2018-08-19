@@ -97,7 +97,7 @@ public class QuestDeserializer implements JsonDeserializer<Quest> {
 
   @Override
   public Quest deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
-    LOG.debug("Deserializing JSON: {0}", json);
+    LOG.debug("Deserializing JSON: {}", json);
 
     // Quest are objects
     JsonObject quest = json.getAsJsonObject();
@@ -178,7 +178,7 @@ public class QuestDeserializer implements JsonDeserializer<Quest> {
     Quest q = new Quest(id, title, displayName, members, requirements, questPoints, skillRewards,
         lampRewards);
 
-    LOG.debug("Deserialized quest: {0}", q.getDisplayName());
+    LOG.debug("Deserialized quest: {}", q.getDisplayName());
 
     return q;
   }
