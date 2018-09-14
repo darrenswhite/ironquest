@@ -483,20 +483,17 @@ public class IronQuest implements Runnable {
 
     File file = getPropertiesPath();
 
-    if (!file.exists()) {
-      return;
-    }
-
-    // Load the properties file
-    try (InputStream in = new FileInputStream(file)) {
-      prop.load(in);
-    } catch (IOException e) {
-      LOG.error("Unable to load properties", e);
-      return;
+    if (file.exists()) {
+      // Load the properties file
+      try (InputStream in = new FileInputStream(file)) {
+        prop.load(in);
+      } catch (IOException e) {
+        LOG.warn("Unable to load properties file", e);
+      }
     }
 
     // Load the property name
-    setPlayer(prop.getProperty("name"));
+    setPlayer(prop.getProperty("name", null));
 
     // Load ironman mode
     setIronman(Boolean.parseBoolean(prop.getProperty("ironman",

@@ -44,7 +44,7 @@ public class Player {
   /**
    * URL for Hiscores
    */
-  private static final String URL_HISCORES_LITE = "http://services.runescape.com/m=hiscore/index_lite.ws?player=";
+  private static final String URL_HISCORES_LITE = "https://services.runescape.com/m=hiscore/index_lite.ws?player=";
 
   /**
    * URL for RuneMetrics quest data
