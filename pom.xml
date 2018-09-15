@@ -6,7 +6,7 @@
 
   <groupId>com.darrenswhite</groupId>
   <artifactId>ironquest</artifactId>
-  <version>1.15</version>
+  <version>1.15.1</version>
 
   <build>
     <plugins>
