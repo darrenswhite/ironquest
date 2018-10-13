@@ -7,6 +7,7 @@ import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Lamp;
 import com.darrenswhite.rs.ironquest.quest.Quest;
+import com.darrenswhite.rs.ironquest.quest.Quest.UserPriority;
 import com.darrenswhite.rs.ironquest.quest.QuestDeserializer;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
@@ -474,6 +475,38 @@ public class IronQuest implements Runnable {
   }
 
   /**
+   * Sets the saved user priority for each quest
+   *
+   * @param priorities String of priorities in the form of id->priority
+   */
+  private void setQuestPriorities(String priorities) {
+
+    // No priorities saved
+    if (priorities == null || priorities.isEmpty()) {
+      return;
+    }
+
+    try {
+      String[] savedSettings = priorities.split(",");
+
+      for (String temp : savedSettings) {
+
+        String[] setting = temp.split("->");
+
+        int id = Integer.parseInt(setting[0]);
+        UserPriority priority = UserPriority.valueOf(setting[1]);
+
+        getQuest(id).setUserPriority(priority);
+
+        LOG.info("Setting priority of quest: {} to {}", id, priority);
+
+      }
+    } catch (Exception e) {
+      LOG.error("Unable to load user priority settings", e);
+    }
+  }
+
+  /**
    * Loads the previously saved state from a properties file
    */
   void load() {
@@ -526,6 +559,8 @@ public class IronQuest implements Runnable {
 
     // Set the lamp skills set
     setLampSkills(lampSkills);
+
+    setQuestPriorities(prop.getProperty("priorities"));
   }
 
   /**
@@ -697,6 +732,14 @@ public class IronQuest implements Runnable {
 
     // Store free mode
     prop.setProperty("free", Boolean.toString(free));
+
+    // Get all quests that have a different priority from the default NORMAL
+    String questsToSave = quests.stream()
+        .filter(q -> q.getUserPriority() != UserPriority.NORMAL)
+        .map(q -> q.getId() + "->" + q.getUserPriority().toString())
+        .collect(Collectors.joining(","));
+
+    prop.setProperty("priorities", questsToSave);
 
     // Store the properties to file
     try (OutputStream out = new FileOutputStream(getPropertiesPath())) {
