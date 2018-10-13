@@ -64,6 +64,11 @@ public class Quest {
   private Set<Set<Skill>> previousLampSkills = new HashSet<>();
 
   /**
+   * Quest completion priority
+   */
+  private UserPriority userPriority;
+
+  /**
    * Creates a new Quest instance
    *
    * @param id The Quest unique id
@@ -86,6 +91,7 @@ public class Quest {
     this.questPoints = questPoints;
     this.skillRewards = Objects.requireNonNull(skillRewards);
     this.lampRewards = Objects.requireNonNull(lampRewards);
+    this.userPriority = UserPriority.NORMAL;
   }
 
   /**
@@ -146,6 +152,15 @@ public class Quest {
    * @return The priority of this Quest
    */
   public int getPriority(Player p, boolean ironman, boolean recommended) {
+
+    if (userPriority == UserPriority.LOW) {
+      return Integer.MIN_VALUE;
+    }
+
+    if (userPriority == UserPriority.HIGH) {
+      return Integer.MAX_VALUE;
+    }
+
     // Get the total remaining skill requirements
     int reqs = getRemainingSkillRequirements(p, ironman, recommended).stream()
         .mapToInt(SkillRequirement::getLevel).sum();
@@ -260,6 +275,24 @@ public class Quest {
   }
 
   /**
+   * Gets the quest's completion priority
+   *
+   * @return The quest's completion priority
+   */
+  public UserPriority getUserPriority() {
+    return userPriority;
+  }
+
+  /**
+   * Sets the quest's completion priority
+   *
+   * @param userPriority The priority level
+   */
+  public void setUserPriority(UserPriority userPriority) {
+    this.userPriority = userPriority;
+  }
+
+  /**
    * Checks if the Player meets all 'other' requirements
    *
    * @param p The Player instance
@@ -326,5 +359,11 @@ public class Quest {
         ", skillRewards=" + skillRewards +
         ", lampRewards=" + lampRewards +
         '}';
+  }
+
+  public enum UserPriority {
+    HIGH,
+    NORMAL,
+    LOW
   }
 }
