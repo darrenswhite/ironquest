@@ -190,6 +190,24 @@ public class Quest {
   }
 
   /**
+   * Gets the remaining Quests to complete for this quest
+   *
+   * @param player The player to check for
+   * @return The remaining Quests
+   */
+  public Set<Quest> getRemainingQuestRequirements(Player player) {
+    IronQuest ironQuest = IronQuest.getInstance();
+
+    // Given the Quest IDs for the Quest Requirements,
+    // filter out completed quests and then return a Set
+    // of Quest objects mapped from the Quest ID
+    return getQuestRequirements().stream()
+        .filter(q -> !player.isQuestCompleted(q.getId()))
+        .map(q -> ironQuest.getQuest(q.getId()))
+        .collect(Collectors.toSet());
+  }
+
+  /**
    * Gets the remaining skill level requirements for this Quest
    *
    * @param p The Player instance
@@ -362,6 +380,7 @@ public class Quest {
   }
 
   public enum UserPriority {
+    MAX,
     HIGH,
     NORMAL,
     LOW
