@@ -382,6 +382,11 @@ public class QuestDetail extends Stage {
     }
   }
 
+  /**
+   * Sets the UserPriority of a quest
+   *
+   * @param quest The quest to change
+   */
   private void setQuestUserPriority(Quest quest) {
 
     Quest.UserPriority newPriority  = cmbPriority.getSelectionModel().getSelectedItem();

@@ -235,6 +235,26 @@ public class IronQuest implements Runnable {
    * @see Quest#getPriority(Player, boolean, boolean)
    */
   private Quest getBestQuest() {
+
+    // Find the first quest, if exists, with a priority of MAX
+    // We will prioritize completing this quest as fast as possible
+    Quest mustComplete = open.stream()
+        .filter(q -> q.getUserPriority() == UserPriority.MAX)
+        .findFirst()
+        .orElse(null);
+
+    if (mustComplete != null) {
+
+      LOG.info("Prioritizing Quest: {}", mustComplete.toString());
+
+      // Has all requirements, complete the quest
+      if (mustComplete.hasRequirements(player, ironman, recommended)) {
+        return mustComplete;
+      }
+
+      return getBestQuest(mustComplete.getRemainingQuestRequirements(player));
+    }
+
     // Create a new stream from the open list
     // Filter the stream to contain Quest's which the player has all
     // requirements for and all Lamp requirements
@@ -275,6 +295,67 @@ public class IronQuest implements Runnable {
         .forEach(this::addTrainAction);
 
     return closestQuest;
+  }
+
+  /**
+   * Gets the 'best' Quest to be completed given a subset of Quests. Uses a similar algorithm as the
+   * {@link #getBestQuest()} (int, int) getBestQuest} method.
+   *
+   * @param quests The list of quests to use
+   * @return The best Quest, if any
+   */
+  private Quest getBestQuest(Set<Quest> quests) {
+    // Create a new stream from the open list
+    // Filter the stream to contain Quest's which the player has all
+    // requirements for and all Lamp requirements
+    // Get the maximum Quest by comparing priority
+    Optional<Quest> best = quests.stream()
+        .filter(q -> q.hasRequirements(player, ironman, recommended))
+        .max(Comparator.comparingInt(q -> q.getPriority(player, ironman, recommended)));
+
+    // Return the best quest if there is one
+    if (best.isPresent()) {
+      return best.get();
+    }
+
+    // Create a new stream from the open list
+    // Filter the stream to contain Quest's which the player has all
+    // requirements (including Lamp requirements but excluding skills)
+    // Get the minimum Quest by comparing total remaining
+    // skill requirements
+    Optional<Quest> closest = quests.stream()
+        .filter(q -> q.hasOtherRequirements(player, ironman, recommended) &&
+            q.hasQuestRequirements(player, ironman, recommended))
+        .min(Comparator.comparingInt(q ->
+            q.getRemainingSkillRequirements(player, ironman, recommended)
+                .stream()
+                .mapToInt(SkillRequirement::getLevel)
+                .sum()));
+
+    if (closest.isPresent()) {
+      // Get the closest quest
+      Quest closestQuest = closest.get();
+
+      // Notify user which skills have to be trained
+      closestQuest.getRemainingSkillRequirements(player, ironman, recommended)
+          .forEach(this::addTrainAction);
+
+      return closestQuest;
+    }
+
+    // All Quests in the Set must have further Quest requirements
+    // Gather all of those quests and run this algorithm again with those quests
+    Set<Quest> questsToComplete = quests.stream()
+        .flatMap(q -> q.getRemainingQuestRequirements(player).stream())
+        .collect(Collectors.toSet());
+
+    // Something went wrong, can't find best quest,
+    // and all quests have the required Quest requirements
+    if (questsToComplete.size() == 0) {
+      throw new IllegalStateException("Unable to find best quest: " + quests);
+    }
+
+    return getBestQuest(questsToComplete);
   }
 
   /**
