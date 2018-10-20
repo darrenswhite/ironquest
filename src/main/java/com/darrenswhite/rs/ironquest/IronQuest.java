@@ -252,7 +252,23 @@ public class IronQuest implements Runnable {
         return mustComplete;
       }
 
-      return getBestQuest(mustComplete.getRemainingQuestRequirements(player));
+      if (mustComplete.hasQuestRequirements(player, ironman, recommended)
+          && mustComplete.hasOtherRequirements(player, ironman, recommended)) {
+
+        mustComplete.getRemainingSkillRequirements(player, ironman, recommended)
+            .forEach(this::addTrainAction);
+      }
+
+      // Get the best quest from remaining required quests
+      Quest nextBest = getBestQuest(mustComplete.getRemainingQuestRequirements(player));
+
+      // If nextBest is null, we're missing some Other requirements for the
+      // prioritized quest. This means that we'll continue with the regular algorithm
+      // until we have all the requirements
+      if (nextBest != null) {
+        return nextBest;
+      }
+
     }
 
     // Create a new stream from the open list
@@ -302,7 +318,7 @@ public class IronQuest implements Runnable {
    * {@link #getBestQuest()} (int, int) getBestQuest} method.
    *
    * @param quests The list of quests to use
-   * @return The best Quest, if any
+   * @return The best Quest, or null if none found
    */
   private Quest getBestQuest(Set<Quest> quests) {
     // Create a new stream from the open list
@@ -343,16 +359,16 @@ public class IronQuest implements Runnable {
       return closestQuest;
     }
 
-    // All Quests in the Set must have further Quest requirements
+    // All Quests in the Set most likely have further Quest requirements
     // Gather all of those quests and run this algorithm again with those quests
     Set<Quest> questsToComplete = quests.stream()
         .flatMap(q -> q.getRemainingQuestRequirements(player).stream())
         .collect(Collectors.toSet());
 
-    // Something went wrong, can't find best quest,
-    // and all quests have the required Quest requirements
+    // No further quest requirements need to be met
+    // Some missing requirements must have been found (ex. Quest Points)
     if (questsToComplete.size() == 0) {
-      throw new IllegalStateException("Unable to find best quest: " + quests);
+      return null;
     }
 
     return getBestQuest(questsToComplete);
