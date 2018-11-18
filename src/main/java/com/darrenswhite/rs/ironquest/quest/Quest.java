@@ -64,6 +64,11 @@ public class Quest {
   private Set<Set<Skill>> previousLampSkills = new HashSet<>();
 
   /**
+   * Quest completion priority
+   */
+  private UserPriority userPriority;
+
+  /**
    * Creates a new Quest instance
    *
    * @param id The Quest unique id
@@ -86,6 +91,7 @@ public class Quest {
     this.questPoints = questPoints;
     this.skillRewards = Objects.requireNonNull(skillRewards);
     this.lampRewards = Objects.requireNonNull(lampRewards);
+    this.userPriority = UserPriority.NORMAL;
   }
 
   /**
@@ -146,6 +152,15 @@ public class Quest {
    * @return The priority of this Quest
    */
   public int getPriority(Player p, boolean ironman, boolean recommended) {
+
+    if (userPriority == UserPriority.LOW) {
+      return Integer.MIN_VALUE;
+    }
+
+    if (userPriority == UserPriority.HIGH) {
+      return Integer.MAX_VALUE;
+    }
+
     // Get the total remaining skill requirements
     int reqs = getRemainingSkillRequirements(p, ironman, recommended).stream()
         .mapToInt(SkillRequirement::getLevel).sum();
@@ -172,6 +187,24 @@ public class Quest {
   public Set<QuestRequirement> getQuestRequirements() {
     return requirements.stream().filter(r -> r instanceof QuestRequirement)
         .map(r -> (QuestRequirement) r).collect(Collectors.toSet());
+  }
+
+  /**
+   * Gets the remaining Quests to complete for this quest
+   *
+   * @param player The player to check for
+   * @return The remaining Quests
+   */
+  public Set<Quest> getRemainingQuestRequirements(Player player) {
+    IronQuest ironQuest = IronQuest.getInstance();
+
+    // Given the Quest IDs for the Quest Requirements,
+    // filter out completed quests and then return a Set
+    // of Quest objects mapped from the Quest ID
+    return getQuestRequirements().stream()
+        .filter(q -> !player.isQuestCompleted(q.getId()))
+        .map(q -> ironQuest.getQuest(q.getId()))
+        .collect(Collectors.toSet());
   }
 
   /**
@@ -260,6 +293,24 @@ public class Quest {
   }
 
   /**
+   * Gets the quest's completion priority
+   *
+   * @return The quest's completion priority
+   */
+  public UserPriority getUserPriority() {
+    return userPriority;
+  }
+
+  /**
+   * Sets the quest's completion priority
+   *
+   * @param userPriority The priority level
+   */
+  public void setUserPriority(UserPriority userPriority) {
+    this.userPriority = userPriority;
+  }
+
+  /**
    * Checks if the Player meets all 'other' requirements
    *
    * @param p The Player instance
@@ -326,5 +377,12 @@ public class Quest {
         ", skillRewards=" + skillRewards +
         ", lampRewards=" + lampRewards +
         '}';
+  }
+
+  public enum UserPriority {
+    MAX,
+    HIGH,
+    NORMAL,
+    LOW
   }
 }

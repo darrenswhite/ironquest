@@ -4,6 +4,8 @@ import com.darrenswhite.rs.ironquest.IronQuest;
 import com.darrenswhite.rs.ironquest.action.Action;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
+import com.darrenswhite.rs.ironquest.quest.Quest.UserPriority;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javafx.application.Platform;
@@ -11,7 +13,10 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -92,6 +97,11 @@ public class MainPane extends GridPane {
    * Search text for finding quest position
    */
   private TextField txtSearch;
+
+  /**
+   * Resets all user-set quest priorities to NORMAL
+   */
+  private Button btnResetQuestPriorities;
 
   private void actionClick(MouseEvent e) {
     // Get selected Action
@@ -231,6 +241,27 @@ public class MainPane extends GridPane {
     btnRun.setMaxWidth(Double.MAX_VALUE);
     HBox.setHgrow(btnRun, Priority.ALWAYS);
 
+    btnResetQuestPriorities = new Button("Reset Custom Priorities");
+    btnResetQuestPriorities
+        .setTooltip(new Tooltip(("Resets all user-set quest priorities to NORMAL")));
+
+    btnResetQuestPriorities.setOnAction(e -> {
+
+      Alert alert = new Alert(AlertType.CONFIRMATION);
+      alert.setTitle("Confirmation Dialog");
+      alert.setHeaderText("This button will reset all custom quest priorities to NORMAL");
+      alert.setContentText("Are you sure you want to reset ALL priorities?");
+
+      Optional<ButtonType> result = alert.showAndWait();
+      if (result.isPresent() && result.get() == ButtonType.OK) {
+        resetQuestPriorities();
+      }
+    });
+
+    btnResetQuestPriorities.setMaxHeight(Double.MAX_VALUE);
+    btnResetQuestPriorities.setMaxWidth(Double.MAX_VALUE);
+    HBox.setHgrow(btnResetQuestPriorities, Priority.ALWAYS);
+
     // Max columns
     int columns = 10;
 
@@ -238,11 +269,13 @@ public class MainPane extends GridPane {
     add(txtRSN, 0, 0, (int) (columns * 0.4), 1);
     add(txtSearch, 0, 1, (int) (columns * 0.4), 1);
 
-    add(btnIronman, (int) (columns * 0.4), 0, (int) (columns * 0.3), 1);
+    add(btnIronman, (int) (columns * 0.4), 0, (int) (columns * 0.2), 1);
     add(btnRecommended, (int) (columns * 0.4), 1, (int) (columns * 0.3), 1);
 
-    add(btnLampSkills, (int) (columns * 0.7), 0, (int) (columns * 0.3), 1);
+    add(btnLampSkills, (int) (columns * 0.6), 0, (int) (columns * 0.2), 1);
     add(cmbMembers, (int) (columns * 0.7), 1, (int) (columns * 0.3), 1);
+
+    add(btnResetQuestPriorities, (int) (columns * 0.8), 0, (int) (columns * 0.2), 1);
 
     add(lstActions, 0, 2, (int) (columns * 0.5), 1);
     add(lstInfo, (int) (columns * 0.5), 2, (int) (columns * 0.5), 1);
@@ -250,7 +283,9 @@ public class MainPane extends GridPane {
     add(btnRun, 0, 3, columns, 1);
 
     // Resize columns evenly
-    for (int i = 0; i < columns; i++) {
+    for (
+        int i = 0;
+        i < columns; i++) {
       ColumnConstraints cc = new ColumnConstraints();
 
       cc.setPercentWidth(100.0 / columns);
@@ -343,6 +378,11 @@ public class MainPane extends GridPane {
         break;
       }
     }
+  }
+
+  private void resetQuestPriorities() {
+    IronQuest quest = IronQuest.getInstance();
+    quest.getQuests().forEach(q -> q.setUserPriority(UserPriority.NORMAL));
   }
 
   private void setMembersFree() {

@@ -2,6 +2,7 @@ package com.darrenswhite.rs.ironquest.gui;
 
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
+import com.darrenswhite.rs.ironquest.quest.Quest.UserPriority;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
@@ -14,12 +15,15 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javafx.collections.FXCollections;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -143,6 +147,16 @@ public class QuestDetail extends Stage {
   private Label lstLampRewards;
 
   /**
+   * The user priority label
+   */
+  private Label lblUserPriority;
+
+  /**
+   * The user priority dropdown box
+   */
+  private ComboBox<Quest.UserPriority> cmbPriority;
+
+  /**
    * Creates a new QuestDetail Stage
    *
    * @param owner The parent Window
@@ -243,6 +257,15 @@ public class QuestDetail extends Stage {
     lblQuestPointsValue = new Label(Integer.toString(quest.getQuestPoints()));
 
     lblSkillRewards = new Label("Skill rewards");
+
+    lblUserPriority = new Label("User priority");
+
+    cmbPriority = new ComboBox<>(FXCollections.observableArrayList(UserPriority.values()));
+    cmbPriority.setTooltip(new Tooltip("Set custom priority for quest"));
+
+    cmbPriority.setOnAction(e -> setQuestUserPriority(quest));
+
+    cmbPriority.getSelectionModel().select(quest.getUserPriority());
     // Align to the top
     GridPane.setValignment(lblSkillRewards, VPos.TOP);
 
@@ -296,20 +319,22 @@ public class QuestDetail extends Stage {
 
     // Add components to the grid
     grid.add(lblName, 0, 0, 2, 1);
-    grid.add(lblMembers, 0, 1);
-    grid.add(lblMembersValue, 1, 1);
-    grid.add(lblSkillReqs, 0, 2);
-    grid.add(lstSkillReqs, 1, 2);
-    grid.add(lblQuestReqs, 0, 3);
-    grid.add(lstQuestReqs, 1, 3);
-    grid.add(lblOtherReqs, 0, 4);
-    grid.add(lstOtherReqs, 1, 4);
-    grid.add(lblQuestPoints, 0, 5);
-    grid.add(lblQuestPointsValue, 1, 5);
-    grid.add(lblSkillRewards, 0, 6);
-    grid.add(lstSkillRewards, 1, 6);
-    grid.add(lblLampRewards, 0, 7);
-    grid.add(lstLampRewards, 1, 7);
+    grid.add(lblUserPriority, 0, 1);
+    grid.add(cmbPriority, 1, 1);
+    grid.add(lblMembers, 0, 2);
+    grid.add(lblMembersValue, 1, 2);
+    grid.add(lblSkillReqs, 0, 3);
+    grid.add(lstSkillReqs, 1, 3);
+    grid.add(lblQuestReqs, 0, 4);
+    grid.add(lstQuestReqs, 1, 4);
+    grid.add(lblOtherReqs, 0, 5);
+    grid.add(lstOtherReqs, 1, 5);
+    grid.add(lblQuestPoints, 0, 6);
+    grid.add(lblQuestPointsValue, 1, 6);
+    grid.add(lblSkillRewards, 0, 7);
+    grid.add(lstSkillRewards, 1, 7);
+    grid.add(lblLampRewards, 0, 8);
+    grid.add(lstLampRewards, 1, 8);
 
     // Set the scene
     sizeToScene();
@@ -355,5 +380,17 @@ public class QuestDetail extends Stage {
       questDetail.sizeToScene();
       questDetail.showAndWait();
     }
+  }
+
+  /**
+   * Sets the UserPriority of a quest
+   *
+   * @param quest The quest to change
+   */
+  private void setQuestUserPriority(Quest quest) {
+
+    Quest.UserPriority newPriority  = cmbPriority.getSelectionModel().getSelectedItem();
+    quest.setUserPriority(newPriority);
+
   }
 }

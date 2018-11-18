@@ -7,6 +7,7 @@ import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Lamp;
 import com.darrenswhite.rs.ironquest.quest.Quest;
+import com.darrenswhite.rs.ironquest.quest.Quest.UserPriority;
 import com.darrenswhite.rs.ironquest.quest.QuestDeserializer;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
@@ -234,6 +235,42 @@ public class IronQuest implements Runnable {
    * @see Quest#getPriority(Player, boolean, boolean)
    */
   private Quest getBestQuest() {
+
+    // Find the first quest, if exists, with a priority of MAX
+    // We will prioritize completing this quest as fast as possible
+    Quest mustComplete = open.stream()
+        .filter(q -> q.getUserPriority() == UserPriority.MAX)
+        .findFirst()
+        .orElse(null);
+
+    if (mustComplete != null) {
+
+      LOG.info("Prioritizing Quest: {}", mustComplete.toString());
+
+      // Has all requirements, complete the quest
+      if (mustComplete.hasRequirements(player, ironman, recommended)) {
+        return mustComplete;
+      }
+
+      if (mustComplete.hasQuestRequirements(player, ironman, recommended)
+          && mustComplete.hasOtherRequirements(player, ironman, recommended)) {
+
+        mustComplete.getRemainingSkillRequirements(player, ironman, recommended)
+            .forEach(this::addTrainAction);
+      }
+
+      // Get the best quest from remaining required quests
+      Quest nextBest = getBestQuest(mustComplete.getRemainingQuestRequirements(player));
+
+      // If nextBest is null, we're missing some Other requirements for the
+      // prioritized quest. This means that we'll continue with the regular algorithm
+      // until we have all the requirements
+      if (nextBest != null) {
+        return nextBest;
+      }
+
+    }
+
     // Create a new stream from the open list
     // Filter the stream to contain Quest's which the player has all
     // requirements for and all Lamp requirements
@@ -274,6 +311,67 @@ public class IronQuest implements Runnable {
         .forEach(this::addTrainAction);
 
     return closestQuest;
+  }
+
+  /**
+   * Gets the 'best' Quest to be completed given a subset of Quests. Uses a similar algorithm as the
+   * {@link #getBestQuest()} (int, int) getBestQuest} method.
+   *
+   * @param quests The list of quests to use
+   * @return The best Quest, or null if none found
+   */
+  private Quest getBestQuest(Set<Quest> quests) {
+    // Create a new stream from the open list
+    // Filter the stream to contain Quest's which the player has all
+    // requirements for and all Lamp requirements
+    // Get the maximum Quest by comparing priority
+    Optional<Quest> best = quests.stream()
+        .filter(q -> q.hasRequirements(player, ironman, recommended))
+        .max(Comparator.comparingInt(q -> q.getPriority(player, ironman, recommended)));
+
+    // Return the best quest if there is one
+    if (best.isPresent()) {
+      return best.get();
+    }
+
+    // Create a new stream from the open list
+    // Filter the stream to contain Quest's which the player has all
+    // requirements (including Lamp requirements but excluding skills)
+    // Get the minimum Quest by comparing total remaining
+    // skill requirements
+    Optional<Quest> closest = quests.stream()
+        .filter(q -> q.hasOtherRequirements(player, ironman, recommended) &&
+            q.hasQuestRequirements(player, ironman, recommended))
+        .min(Comparator.comparingInt(q ->
+            q.getRemainingSkillRequirements(player, ironman, recommended)
+                .stream()
+                .mapToInt(SkillRequirement::getLevel)
+                .sum()));
+
+    if (closest.isPresent()) {
+      // Get the closest quest
+      Quest closestQuest = closest.get();
+
+      // Notify user which skills have to be trained
+      closestQuest.getRemainingSkillRequirements(player, ironman, recommended)
+          .forEach(this::addTrainAction);
+
+      return closestQuest;
+    }
+
+    // All Quests in the Set most likely have further Quest requirements
+    // Gather all of those quests and run this algorithm again with those quests
+    Set<Quest> questsToComplete = quests.stream()
+        .flatMap(q -> q.getRemainingQuestRequirements(player).stream())
+        .collect(Collectors.toSet());
+
+    // No further quest requirements need to be met
+    // Some missing requirements must have been found (ex. Quest Points)
+    if (questsToComplete.size() == 0) {
+      return null;
+    }
+
+    return getBestQuest(questsToComplete);
   }
 
   /**
@@ -474,6 +572,38 @@ public class IronQuest implements Runnable {
   }
 
   /**
+   * Sets the saved user priority for each quest
+   *
+   * @param priorities String of priorities in the form of id->priority
+   */
+  private void setQuestPriorities(String priorities) {
+
+    // No priorities saved
+    if (priorities == null || priorities.isEmpty()) {
+      return;
+    }
+
+    try {
+      String[] savedSettings = priorities.split(",");
+
+      for (String temp : savedSettings) {
+
+        String[] setting = temp.split("->");
+
+        int id = Integer.parseInt(setting[0]);
+        UserPriority priority = UserPriority.valueOf(setting[1]);
+
+        getQuest(id).setUserPriority(priority);
+
+        LOG.info("Setting priority of quest: {} to {}", id, priority);
+
+      }
+    } catch (Exception e) {
+      LOG.error("Unable to load user priority settings", e);
+    }
+  }
+
+  /**
    * Loads the previously saved state from a properties file
    */
   void load() {
@@ -526,6 +656,8 @@ public class IronQuest implements Runnable {
 
     // Set the lamp skills set
     setLampSkills(lampSkills);
+
+    setQuestPriorities(prop.getProperty("priorities"));
   }
 
   /**
@@ -697,6 +829,14 @@ public class IronQuest implements Runnable {
 
     // Store free mode
     prop.setProperty("free", Boolean.toString(free));
+
+    // Get all quests that have a different priority from the default NORMAL
+    String questsToSave = quests.stream()
+        .filter(q -> q.getUserPriority() != UserPriority.NORMAL)
+        .map(q -> q.getId() + "->" + q.getUserPriority().toString())
+        .collect(Collectors.joining(","));
+
+    prop.setProperty("priorities", questsToSave);
 
     // Store the properties to file
     try (OutputStream out = new FileOutputStream(getPropertiesPath())) {
