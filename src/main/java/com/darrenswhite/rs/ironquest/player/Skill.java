@@ -1,45 +1,47 @@
 package com.darrenswhite.rs.ironquest.player;
 
-import java.util.Objects;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
- * @author Darren White
+ * @author Darren S. White
  */
 public enum Skill {
 
-  AGILITY(17, Type.SUPPORT, true),
-  ATTACK(1, Type.COMBAT, false),
-  CONSTITUTION(4, Type.COMBAT, false),
-  CONSTRUCTION(23, Type.ARTISAN, true),
-  COOKING(8, Type.ARTISAN, false),
-  CRAFTING(13, Type.ARTISAN, false),
-  DEFENCE(2, Type.COMBAT, false),
-  DIVINATION(26, Type.GATHERING, true),
-  DUNGEONEERING(25, Type.SUPPORT, false, 120),
-  FARMING(20, Type.GATHERING, true),
-  FIREMAKING(12, Type.ARTISAN, false),
-  FISHING(11, Type.GATHERING, false),
-  FLETCHING(10, Type.ARTISAN, true),
-  HERBLORE(16, Type.ARTISAN, true),
-  HUNTER(22, Type.GATHERING, true),
-  INVENTION(27, Type.ELITE, true, 120),
-  MAGIC(7, Type.COMBAT, false),
-  MINING(15, Type.GATHERING, false),
-  PRAYER(6, Type.COMBAT, false),
-  RANGED(5, Type.GATHERING, false),
-  RUNECRAFTING(21, Type.ARTISAN, false),
-  SLAYER(19, Type.SUPPORT, true),
-  SMITHING(14, Type.ARTISAN, false),
-  STRENGTH(3, Type.COMBAT, false),
-  SUMMONING(24, Type.COMBAT, true),
-  THIEVING(18, Type.SUPPORT, true),
-  WOODCUTTING(9, Type.GATHERING, false);
+  AGILITY(17, SkillType.SUPPORT, true),
+  ATTACK(1, SkillType.COMBAT, false),
+  CONSTITUTION(4, SkillType.COMBAT, false),
+  CONSTRUCTION(23, SkillType.ARTISAN, true),
+  COOKING(8, SkillType.ARTISAN, false),
+  CRAFTING(13, SkillType.ARTISAN, false),
+  DEFENCE(2, SkillType.COMBAT, false),
+  DIVINATION(26, SkillType.GATHERING, true),
+  DUNGEONEERING(25, SkillType.SUPPORT, false, 120),
+  FARMING(20, SkillType.GATHERING, true),
+  FIREMAKING(12, SkillType.ARTISAN, false),
+  FISHING(11, SkillType.GATHERING, false),
+  FLETCHING(10, SkillType.ARTISAN, true),
+  HERBLORE(16, SkillType.ARTISAN, true),
+  HUNTER(22, SkillType.GATHERING, true),
+  INVENTION(27, SkillType.ELITE, true, 120),
+  MAGIC(7, SkillType.COMBAT, false),
+  MINING(15, SkillType.GATHERING, false),
+  PRAYER(6, SkillType.COMBAT, false),
+  RANGED(5, SkillType.GATHERING, false),
+  RUNECRAFTING(21, SkillType.ARTISAN, false),
+  SLAYER(19, SkillType.SUPPORT, true),
+  SMITHING(14, SkillType.ARTISAN, false),
+  STRENGTH(3, SkillType.COMBAT, false),
+  SUMMONING(24, SkillType.COMBAT, true),
+  THIEVING(18, SkillType.SUPPORT, true),
+  WOODCUTTING(9, SkillType.GATHERING, false);
 
-  /**
-   * Normal skill xp table up to 120
-   */
-  protected static final int[] XP_TABLE = {0, 0, 83, 174, 276, 388, 512, 650,
+  public static final double MAX_XP = 2147483648d;
+  protected static final Map<Skill, Double> INITIAL_XPS;
+
+  protected static final double[] XP_TABLE = {0, 0, 83, 174, 276, 388, 512, 650,
       801, 969, 1154, 1358, 1584, 1833, 2107, 2411, 2746, 3115, 3523,
       3973, 4470, 5018, 5624, 6291, 7028, 7842, 8740, 9730, 10824,
       12031, 13363, 14833, 16456, 18247, 20224, 22406, 24815, 27473,
@@ -56,10 +58,7 @@ public enum Skill {
       42769801, 47221641, 52136869, 57563718, 63555443, 70170840,
       77474828, 85539082, 94442737, 104273167};
 
-  /**
-   * Elite skill xp table up to 120
-   */
-  protected static final int[] XP_TABLE_ELITE = {0, 0, 830, 1861, 2902, 3980,
+  protected static final double[] XP_TABLE_ELITE = {0, 0, 830, 1861, 2902, 3980,
       5126, 6380, 7787, 9400, 11275, 13605, 16372, 19656, 23546, 28134,
       33520, 39809, 47109, 55535, 65209, 77190, 90811, 106221, 123573,
       143025, 164742, 188893, 215651, 245196, 277713, 316311, 358547,
@@ -78,111 +77,52 @@ public enum Skill {
       60793812, 63067521, 65397835, 67785643, 70231841, 72737330,
       75303019, 77929820, 80618654};
 
-  /**
-   * The maximum XP for any Skill
-   */
-  public static final int MAX_XP = Integer.MAX_VALUE;
-
-  /**
-   * The shorthand XP formats
-   */
   private static final char[] XP_FORMATS = {'k', 'm', 'b'};
 
-  /**
-   * The Skill id
-   */
+  static {
+    Map<Skill, Double> initialXps = new EnumMap<>(Skill.class);
+    for (Skill skill : values()) {
+      initialXps.put(skill, skill == CONSTITUTION ? XP_TABLE[10] : 0);
+    }
+    INITIAL_XPS = Collections.unmodifiableMap(initialXps);
+  }
+
   private final int id;
-
-  /**
-   * The Skill type
-   */
-  private final Type type;
-
-  /**
-   * If the Skill is members-only
-   */
+  private final SkillType type;
   private final boolean members;
-
-  /**
-   * The maximum level for this Skill
-   */
   private final int maxLevel;
 
-  /**
-   * Creates a new Skill
-   *
-   * @param id The Skill id
-   * @param type The Skill type
-   * @param members If the skill is members or free
-   */
-  Skill(int id, Type type, boolean members) {
+  Skill(int id, SkillType type, boolean members) {
     this(id, type, members, 99);
   }
 
-  /**
-   * Creates a new Skill
-   *
-   * @param id The Skill id
-   * @param type The Skill type
-   * @param members If the skill is members or free
-   * @param maxLevel The maximum level for the Skill
-   */
-  Skill(int id, Type type, boolean members, int maxLevel) {
+  Skill(int id, SkillType type, boolean members, int maxLevel) {
     this.id = id;
-    this.type = Objects.requireNonNull(type);
+    this.type = type;
     this.members = members;
     this.maxLevel = maxLevel;
   }
 
-  /**
-   * Checks the XP is in valid range
-   *
-   * @param xp The XP to check
-   */
-  private static void checkXPRange(double xp) {
-    if (xp < 0 || xp > MAX_XP) {
-      throw new IllegalArgumentException("XP out of range: " + xp);
-    }
-  }
-
-  /**
-   * Formats the XP as a String
-   *
-   * @param xp The XP to format
-   * @return The XP as a formatted String
-   */
-  public static String formatXP(double xp) {
-    // Ensure valid XP range
+  public static String formatXp(double xp) {
     checkXPRange(xp);
 
     int fmt = -1;
 
-    // Get the XP shorthand format
     while (xp >= 1000.0) {
       xp /= 1000.0;
       fmt++;
     }
 
-    // Convert XP to a String
     String xpStr = Double.toString(xp);
 
-    // Number is < 1000
     if (fmt == -1) {
       return xpStr;
     }
 
-    // Add the shorthand format to the XP String
     return xpStr + XP_FORMATS[fmt];
   }
 
-  /**
-   * Gets a Skill with the given name
-   *
-   * @param name The Skill name
-   * @return The Skill with the name
-   */
   public static Optional<Skill> tryGet(String name) {
-    // Use optionals to get the Skill
     for (Skill s : values()) {
       if (name.equalsIgnoreCase(s.name())) {
         return Optional.of(s);
@@ -192,14 +132,7 @@ public enum Skill {
     return Optional.empty();
   }
 
-  /**
-   * Gets a Skill with the given id
-   *
-   * @param id The Skill id
-   * @return The Skill with the id
-   */
   public static Optional<Skill> tryGet(int id) {
-    // Use optionals to get the Skill
     for (Skill s : values()) {
       if (id == s.id) {
         return Optional.of(s);
@@ -209,96 +142,44 @@ public enum Skill {
     return Optional.empty();
   }
 
-  /**
-   * Gets a Skill level at the given XP
-   *
-   * @param xp The XP to get the level at
-   * @return The Skill level
-   */
+  private static void checkXPRange(double xp) {
+    if (xp < 0 || xp > MAX_XP) {
+      throw new IllegalArgumentException("XP out of range: " + xp);
+    }
+  }
+
   public int getLevelAt(double xp) {
-    // Ensure valid XP range
     checkXPRange(xp);
 
-    // Use normal xp table
-    int[] table = XP_TABLE;
-
-    // Use elite xp table
-    if (getType() == Type.ELITE) {
-      table = XP_TABLE_ELITE;
-    }
-
-    // Force max skill level
+    double[] table = getXpTable();
     int max = Math.min(maxLevel, table.length - 1);
 
-    // Start from the end of the xp table,
-    // iterate backwards until the level is reached
     for (int i = max; i > 0; i--) {
       if (xp >= table[i]) {
         return i;
       }
     }
 
-    // Lowest level is 1
     return 1;
   }
 
-  /**
-   * Get the Skill type
-   *
-   * @return The Skill type
-   */
-  public Type getType() {
+  public SkillType getType() {
     return type;
   }
 
-  /**
-   * Get the XP at a given level
-   *
-   * @param lvl The level to get the XP for
-   * @return The XP at a given level
-   */
-  public int getXPAt(int lvl) {
-    // Use normal xp table
-    int[] table = XP_TABLE;
+  public double getXpAtLevel(int lvl) {
+    return getXpTable()[lvl];
+  }
 
-    // Use elite xp table
-    if (getType() == Type.ELITE) {
-      table = XP_TABLE_ELITE;
-    }
-
-    // Get the xp for this level
-    return table[lvl];
+  public double[] getXpTable() {
+    return getType() == SkillType.ELITE ? XP_TABLE_ELITE : XP_TABLE;
   }
 
   @Override
   public String toString() {
-    // Get the first char as uppercase
     char first = name().toUpperCase().charAt(0);
-    // Get the rest of the name as lowercase with spaces
     String remaining = name().substring(1).toLowerCase().replace('_', ' ');
 
     return first + remaining;
-  }
-
-  /**
-   * A Skill type
-   */
-  public enum Type {
-
-    ARTISAN,
-    COMBAT,
-    ELITE,
-    GATHERING,
-    SUPPORT;
-
-    @Override
-    public String toString() {
-      // Get the first char as uppercase
-      char first = name().toUpperCase().charAt(0);
-      // Get the rest of the name as lowercase with spaces
-      String remaining = name().substring(1).toLowerCase().replace('_', ' ');
-
-      return first + remaining;
-    }
   }
 }

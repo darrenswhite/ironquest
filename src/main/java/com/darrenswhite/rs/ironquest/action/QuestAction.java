@@ -1,50 +1,47 @@
 package com.darrenswhite.rs.ironquest.action;
 
-import com.darrenswhite.rs.ironquest.gui.QuestDetail;
 import com.darrenswhite.rs.ironquest.player.Player;
+import com.darrenswhite.rs.ironquest.player.QuestEntry;
+import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.quest.Quest;
-import java.util.Objects;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
- * @author Darren White
+ * A class representing an {@link Action} to complete a {@link Quest}.
+ *
+ * @author Darren S. White
  */
 public class QuestAction extends Action {
 
-  /**
-   * The Quest object
-   */
-  private final Quest quest;
+  private static final Logger LOG = LogManager.getLogger(QuestAction.class);
 
-  /**
-   * Creates a new QuestAction
-   *
-   * @param player The Player
-   * @param quest The Quest
-   */
-  public QuestAction(Player player, Quest quest) {
-    super(player);
-    this.quest = Objects.requireNonNull(quest);
+  private final QuestEntry entry;
+
+  public QuestAction(Player player, QuestEntry entry) {
+    super(player, false);
+    this.entry = entry;
+  }
+
+  public QuestEntry getQuestEntry() {
+    return entry;
   }
 
   @Override
   public String getMessage() {
-    return quest.getDisplayName();
-  }
-
-  /**
-   * Gets the Quest object
-   *
-   * @return A Quest
-   */
-  public Quest getQuest() {
-    return quest;
+    return entry.getQuest().getDisplayName();
   }
 
   @Override
-  public void onClick(Scene scene, MouseEvent e) {
-    super.onClick(scene, e);
-    QuestDetail.shouldDisplay(scene, e, quest);
+  public boolean meetsRequirements(Player player) {
+    return entry.getQuest().meetsAllRequirements(player);
+  }
+
+  @Override
+  protected void processPlayer(Player player) {
+    LOG.debug("Completing quest: {}", entry.getQuest().getDisplayName());
+
+    entry.setStatus(QuestStatus.COMPLETED);
+    entry.getQuest().getXpRewards().forEach(player::addSkillXP);
   }
 }

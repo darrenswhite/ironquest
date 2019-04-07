@@ -2,9 +2,12 @@ package com.darrenswhite.rs.ironquest.gui;
 
 import com.darrenswhite.rs.ironquest.IronQuest;
 import com.darrenswhite.rs.ironquest.action.Action;
+import com.darrenswhite.rs.ironquest.action.LampAction;
+import com.darrenswhite.rs.ironquest.action.QuestAction;
 import com.darrenswhite.rs.ironquest.player.Player;
+import com.darrenswhite.rs.ironquest.player.QuestEntry;
+import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.Skill;
-import com.darrenswhite.rs.ironquest.quest.Quest.UserPriority;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -34,214 +37,105 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * @author Darren White
+ * @author Darren S. White
  */
 public class MainPane extends GridPane {
 
-  /**
-   * The logger
-   */
   private static final Logger LOG = LogManager.getLogger(IronQuest.class);
 
-  /**
-   * Executor for running IronQuest
-   */
   private final ExecutorService executor = Executors.newCachedThreadPool();
-
-  /**
-   * ListView for all Actions
-   */
   private ListView<Action> lstActions;
-
-  /**
-   * List to hold current action information
-   */
   private ObservableList<String> info;
-
-  /**
-   * ListView for current Action information
-   */
-  private ListView<String> lstInfo;
-
-  /**
-   * Username text field
-   */
-  private TextField txtRSN;
-
-  /**
-   * Button to change force lamp skills
-   */
-  private Button btnLampSkills;
-
-  /**
-   * Button to toggle ironman mode
-   */
-  private ToggleButton btnIronman;
-
-  /**
-   * Button to toggle recommended mode
-   */
-  private ToggleButton btnRecommended;
-
-  /**
-   * Button to toggle members/free quests
-   */
   private ComboBox<MembersSelection> cmbMembers;
-
-  /**
-   * The run button
-   */
   private Button btnRun;
 
-  /**
-   * Search text for finding quest position
-   */
-  private TextField txtSearch;
-
-  /**
-   * Resets all user-set quest priorities to NORMAL
-   */
-  private Button btnResetQuestPriorities;
-
-  private void actionClick(MouseEvent e) {
-    // Get selected Action
-    Action act = lstActions.getSelectionModel().getSelectedItem();
-
-    if (act != null) {
-      // Each Action can have different events for click
-      // Pass the Scene and MouseEvent to the Action
-      act.onClick(getScene(), e);
-    }
-  }
-
-  /**
-   * Notify to close the MainPane
-   */
-  public void close() {
-    // Shutdown the executor as the primary stage is closing
-    executor.shutdownNow();
-  }
-
-  /**
-   * Initializes this pane and its components
-   */
   public void init() {
-    // Create a new instance
     IronQuest quest = IronQuest.getInstance();
+    Player player = quest.getPlayer();
 
-    // Set padding & gaps to 10px
     setPadding(new Insets(10));
     setHgap(10);
     setVgap(10);
 
-    txtRSN = new TextField();
-    // Set the username if already set
-    quest.getPlayer().ifPresent(p -> p.getName().ifPresent(n -> txtRSN.setText(n)));
-    // Add tooltip info
+    TextField txtRSN = new TextField(player.getName());
     txtRSN.setTooltip(
         new Tooltip("Enter your RuneScape name to retrieve quest and skill information."));
-    // Add prompt text
     txtRSN.setPromptText("Username");
+    txtRSN.setOnKeyReleased(e -> player.setName(txtRSN.getText()));
 
-    txtSearch = new TextField();
-    // Add tooltip info
+    TextField txtSearch = new TextField();
     txtSearch.setTooltip(new Tooltip("Search for quests to find when they will be completed"));
-    // Add prompt text
     txtSearch.setPromptText("Search for quests");
-    // Filter quests on keyboard event
-    txtSearch.setOnKeyReleased(e -> selectAction());
+    txtSearch.setOnKeyReleased(e -> selectAction(txtSearch.getText()));
 
-    btnLampSkills = new Button("Lamp Skills");
-    // Add tooltip info
+    Button btnLampSkills = new Button("Lamp Skills");
     btnLampSkills
         .setTooltip(new Tooltip("Choose which skills lamps should be used on (must run again)"));
-    // Show LampSkillsChoice on click
     btnLampSkills.setOnAction(e -> showLampSkills());
-    // Always fill width/height
     btnLampSkills.setMaxHeight(Double.MAX_VALUE);
     btnLampSkills.setMaxWidth(Double.MAX_VALUE);
     HBox.setHgrow(btnLampSkills, Priority.ALWAYS);
 
-    btnIronman = new ToggleButton("Ironman");
-    // Add tooltip info
+    ToggleButton btnIronman = new ToggleButton("Ironman");
     btnIronman.setTooltip(new Tooltip("Toggle ironman requirements for quests (must run again)"));
-    // Set current state
-    btnIronman.setSelected(IronQuest.getInstance().isIronman());
-    // Toggle ironman mode
-    btnIronman.setOnAction(e -> IronQuest.getInstance().setIronman(btnIronman.isSelected()));
-    // Always fill width/height
+    btnIronman.setSelected(player.isIronman());
+    btnIronman.setOnAction(e -> player.setIronman(btnIronman.isSelected()));
     btnIronman.setMaxHeight(Double.MAX_VALUE);
     btnIronman.setMaxWidth(Double.MAX_VALUE);
     HBox.setHgrow(btnIronman, Priority.ALWAYS);
 
-    btnRecommended = new ToggleButton("Recommended");
-    // Add tooltip info
+    ToggleButton btnRecommended = new ToggleButton("Recommended");
     btnRecommended
         .setTooltip(new Tooltip("Toggle recommended requirements for quests (must run again)"));
-    // Set current state
-    btnRecommended.setSelected(IronQuest.getInstance().isRecommended());
-    // Toggle recommended mode
-    btnRecommended
-        .setOnAction(e -> IronQuest.getInstance().setRecommended(btnRecommended.isSelected()));
-    // Always fill width/height
+    btnRecommended.setSelected(player.isRecommended());
+    btnRecommended.setOnAction(e -> player.setRecommended(btnRecommended.isSelected()));
     btnRecommended.setMaxHeight(Double.MAX_VALUE);
     btnRecommended.setMaxWidth(Double.MAX_VALUE);
     HBox.setHgrow(btnRecommended, Priority.ALWAYS);
 
     cmbMembers = new ComboBox<>(FXCollections.observableArrayList(MembersSelection.values()));
-    // Add tooltip info
     cmbMembers.setTooltip(new Tooltip("Filter free/members quests"));
-    // Set selected value
-    if (quest.isFree() && quest.isMembers()) {
+    if (player.isFree() && player.isMembers()) {
       cmbMembers.getSelectionModel().select(MembersSelection.BOTH);
-    } else if (quest.isFree()) {
+    } else if (player.isFree()) {
       cmbMembers.getSelectionModel().select(MembersSelection.FREE);
-    } else if (quest.isMembers()) {
+    } else if (player.isMembers()) {
       cmbMembers.getSelectionModel().select(MembersSelection.MEMBERS);
     }
-    // Toggle recommended mode
     cmbMembers.setOnAction(e -> setMembersFree());
-    // Always fill width/height
     cmbMembers.setMaxHeight(Double.MAX_VALUE);
     cmbMembers.setMaxWidth(Double.MAX_VALUE);
     HBox.setHgrow(cmbMembers, Priority.ALWAYS);
 
     lstActions = new ListView<>();
-    // Change the current action information on selection
     lstActions.setOnMouseClicked(this::actionClick);
-    // Show information for selected Action
     lstActions.getSelectionModel().selectedItemProperty()
-        .addListener((observable, oldValue, newValue) -> updateInfo(newValue));
-    // Only one Action can be selected at a time
+        .addListener((observable, oldValue, newValue) -> {
+          if (newValue != null) {
+            updateInfo(newValue.getPlayer());
+          }
+        });
     lstActions.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-    // Bind the actions to the ListView
     lstActions.itemsProperty()
         .bind(Bindings.createObjectBinding(quest::getActions, quest.getActions()));
-    // Add tooltip info
     lstActions.setTooltip(new Tooltip(
         "The recommended order to complete quests. Shows training information and skill lamp choices."));
 
-    lstInfo = new ListView<>();
+    ListView<String> lstInfo = new ListView<>();
     info = FXCollections.observableArrayList();
-    // Bind the information for the current Action to the ListView
     lstInfo.itemsProperty().bind(Bindings.createObjectBinding(() -> info, info));
-    // Add tooltip info
     lstInfo
         .setTooltip(new Tooltip("Shows player information after completing the selected quest."));
 
     btnRun = new Button("Run");
-    // Don't focus run button
     btnRun.setFocusTraversable(false);
-    // Run when the button is pressed
     btnRun.setOnAction(e -> run());
-    // Set as default button
     btnRun.setDefaultButton(true);
-    // Always fill width/height
     btnRun.setMaxHeight(Double.MAX_VALUE);
     btnRun.setMaxWidth(Double.MAX_VALUE);
     HBox.setHgrow(btnRun, Priority.ALWAYS);
 
-    btnResetQuestPriorities = new Button("Reset Custom Priorities");
+    Button btnResetQuestPriorities = new Button("Reset Custom Priorities");
     btnResetQuestPriorities
         .setTooltip(new Tooltip(("Resets all user-set quest priorities to NORMAL")));
 
@@ -262,10 +156,8 @@ public class MainPane extends GridPane {
     btnResetQuestPriorities.setMaxWidth(Double.MAX_VALUE);
     HBox.setHgrow(btnResetQuestPriorities, Priority.ALWAYS);
 
-    // Max columns
     int columns = 10;
 
-    // Add nodes to grid
     add(txtRSN, 0, 0, (int) (columns * 0.4), 1);
     add(txtSearch, 0, 1, (int) (columns * 0.4), 1);
 
@@ -282,10 +174,7 @@ public class MainPane extends GridPane {
 
     add(btnRun, 0, 3, columns, 1);
 
-    // Resize columns evenly
-    for (
-        int i = 0;
-        i < columns; i++) {
+    for (int i = 0; i < columns; i++) {
       ColumnConstraints cc = new ColumnConstraints();
 
       cc.setPercentWidth(100.0 / columns);
@@ -293,120 +182,105 @@ public class MainPane extends GridPane {
       getColumnConstraints().add(cc);
     }
 
-    // Resize rows
     RowConstraints rc0 = new RowConstraints();
     RowConstraints rc1 = new RowConstraints();
     RowConstraints rc2 = new RowConstraints();
     RowConstraints rc3 = new RowConstraints();
 
-    // Middle row to fill height
     rc2.setFillHeight(true);
     rc2.setVgrow(Priority.ALWAYS);
 
     getRowConstraints().addAll(rc0, rc1, rc2, rc3);
 
-    // Start focus on action list
     Platform.runLater(lstActions::requestFocus);
   }
 
-  /**
-   * Event executed when the run button is clicked
-   */
+  public void close() {
+    executor.shutdownNow();
+  }
+
   public void run() {
-    // Disable the button so it can only run one at a time
     btnRun.setDisable(true);
 
-    // Run in the background
     executor.submit(() -> {
       try {
-        // Get the instance
         IronQuest quest = IronQuest.getInstance();
 
-        // Set player name
-        if (txtRSN.getText() != null && !txtRSN.getText().isEmpty()) {
-          quest.setPlayer(txtRSN.getText());
-        } else {
-          quest.setPlayer(null);
-        }
-
-        // Run the algorithm
         quest.run();
 
         Platform.runLater(() -> {
-          // Focus the action list
           lstActions.requestFocus();
-
-          // Update the player info if no actions are present
-          quest.getPlayer().ifPresent(p -> {
-            Action action = new Action(p) {
-
-              @Override
-              public String getMessage() {
-                return null;
-              }
-            };
-            updateInfo(action);
-          });
-
-          // Select the first action
+          updateInfo(quest.getPlayer());
           lstActions.getSelectionModel().select(0);
         });
       } catch (Exception e) {
         LOG.error("Unable to run", e);
       }
 
-      // Enable the button again
       Platform.runLater(() -> btnRun.setDisable(false));
     });
   }
 
-  private void selectAction() {
-    String query = txtSearch.getText();
-    if (query == null || query.trim().isEmpty()) {
-      return;
+  private void actionClick(MouseEvent e) {
+    if (e.getClickCount() == 2) {
+      Action action = lstActions.getSelectionModel().getSelectedItem();
+
+      if (action instanceof LampAction) {
+        LampAction lampAction = (LampAction) action;
+        showQuestDetail(lampAction.getQuestEntry());
+      } else if (action instanceof QuestAction) {
+        QuestAction questAction = (QuestAction) action;
+        showQuestDetail(questAction.getQuestEntry());
+      }
     }
+  }
 
-    query = query.trim().toLowerCase();
+  private void showQuestDetail(QuestEntry questEntry) {
+    QuestDetail questDetail = new QuestDetail(getScene().getWindow(), questEntry);
+    questDetail.sizeToScene();
+    questDetail.showAndWait();
+  }
 
-    for (Action a : lstActions.getItems()) {
-      String msg = a.getMessage().toLowerCase();
-      if (msg.contains(query) || msg.startsWith(query) || msg.endsWith(query) || msg
-          .equalsIgnoreCase(query)) {
-        // Select & highlight the action
-        lstActions.getSelectionModel().select(a);
-        lstActions.scrollTo(a);
-        break;
+  private void selectAction(String query) {
+    if (query != null && !query.trim().isEmpty()) {
+      query = query.trim().toLowerCase();
+
+      for (Action a : lstActions.getItems()) {
+        String msg = a.getMessage().toLowerCase();
+        if (msg.contains(query) || msg.startsWith(query) || msg.endsWith(query) || msg
+            .equalsIgnoreCase(query)) {
+          lstActions.getSelectionModel().select(a);
+          lstActions.scrollTo(a);
+          break;
+        }
       }
     }
   }
 
   private void resetQuestPriorities() {
-    IronQuest quest = IronQuest.getInstance();
-    quest.getQuests().forEach(q -> q.setUserPriority(UserPriority.NORMAL));
+    IronQuest.getInstance().getPlayer().getQuests()
+        .forEach(e -> e.setPriority(QuestPriority.NORMAL));
   }
 
   private void setMembersFree() {
-    IronQuest quest = IronQuest.getInstance();
+    Player player = IronQuest.getInstance().getPlayer();
     MembersSelection selection = cmbMembers.getSelectionModel().getSelectedItem();
     switch (selection) {
       case BOTH:
-        quest.setFree(true);
-        quest.setMembers(true);
+        player.setFree(true);
+        player.setMembers(true);
         break;
       case FREE:
-        quest.setFree(true);
-        quest.setMembers(false);
+        player.setFree(true);
+        player.setMembers(false);
         break;
       case MEMBERS:
-        quest.setFree(false);
-        quest.setMembers(true);
+        player.setFree(false);
+        player.setMembers(true);
         break;
     }
   }
 
-  /**
-   * Shows the stage to choose Skills to use Lamps on
-   */
   private void showLampSkills() {
     Window owner = getScene().getWindow();
     LampSkillsChoice skillsChoice = new LampSkillsChoice(owner);
@@ -415,40 +289,19 @@ public class MainPane extends GridPane {
     skillsChoice.showAndWait();
   }
 
-  /**
-   * Update the info list with the current action information
-   *
-   * @param newValue The new value
-   */
-  private void updateInfo(Action newValue) {
-    if (newValue == null) {
-      return;
-    }
-
-    // Clear old information
+  private void updateInfo(Player player) {
     info.clear();
 
-    // Get the Player for this Action
-    Player p = newValue.getPlayer();
+    info.add("Combat level: " + player.getCombatLevel());
+    info.add("Quest points: " + player.getQuestPoints());
+    info.add("Total level: " + player.getTotalLevel());
 
-    // Combat level
-    double cmb = p.getCombatLevel();
-    info.add("Combat level: " + cmb);
-
-    // Total quest points
-    int qp = p.getQuestPoints();
-    info.add("Quest points: " + qp);
-
-    // Total skill level
-    int totalLvl = p.getTotalLevel();
-    info.add("Total level: " + totalLvl);
-
-    // Skill levels/xp
-    p.getXPs().forEach(
-        (s, xp) -> info.add(s + ": " + s.getLevelAt(xp) + " (" + Skill.formatXP(xp) + " xp)"));
+    player.getSkillXps().forEach(
+        (s, xp) -> info.add(s + ": " + s.getLevelAt(xp) + " (" + Skill.formatXp(xp) + " xp)"));
   }
 
   private enum MembersSelection {
+
     BOTH,
     FREE,
     MEMBERS;

@@ -1,29 +1,25 @@
 package com.darrenswhite.rs.ironquest.player;
 
-import com.darrenswhite.rs.ironquest.IronQuest;
 import com.darrenswhite.rs.ironquest.action.Action;
 import com.darrenswhite.rs.ironquest.action.LampAction;
 import com.darrenswhite.rs.ironquest.action.QuestAction;
-import com.darrenswhite.rs.ironquest.quest.Lamp;
+import com.darrenswhite.rs.ironquest.action.TrainAction;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.RuneMetricsQuest;
+import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
+import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +33,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * @author Darren White
+ * A class representing a player.
+ *
+ * @author Darren S. White
  */
 public class Player {
 
@@ -51,463 +49,420 @@ public class Player {
    */
   private static final String URL_RUNE_METRICS_QUESTS = "https://apps.runescape.com/runemetrics/quests?user=";
 
-  /**
-   * The logger
-   */
   private static final Logger LOG = LogManager.getLogger(Player.class);
 
-  /**
-   * The current stat xps
-   */
-  private final Map<Skill, Integer> skillXPs = new LinkedHashMap<>();
+  private String name;
+  private Map<Skill, Double> skillXps = new EnumMap<>(Skill.INITIAL_XPS);
+  private Set<QuestEntry> quests = new HashSet<>();
+  private Set<Skill> lampSkills = new LinkedHashSet<>();
+  private boolean ironman = false;
+  private boolean recommended = false;
+  private boolean free = false;
+  private boolean members;
 
-  /**
-   * A set of completed Quest ids
-   */
-  private final Set<Integer> quests = new HashSet<>();
+  public String getName() {
+    return name;
+  }
 
-  /**
-   * The name of this Player
-   */
-  private final String name;
-
-  /**
-   * Creates a new Player instance
-   *
-   * @param name The player name
-   */
-  public Player(String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
-  /**
-   * Add XP to a Skill
-   *
-   * @param s A skill to add xp to
-   * @param xp The amount of xp to add
-   */
-  public void addSkillXP(Skill s, int xp) {
-    int newXp = skillXPs.getOrDefault(s, 0) + xp;
+  public Map<Skill, Double> getSkillXps() {
+    return skillXps;
+  }
 
-    if (newXp >= 0) {
-      // Add xp to a skill
-      skillXPs.put(s, newXp);
-    }
+  public void setSkillXps(Map<Skill, Double> skillXps) {
+    this.skillXps = skillXps;
+  }
+
+  public Set<QuestEntry> getQuests() {
+    return quests;
+  }
+
+  public void setQuests(Set<QuestEntry> quests) {
+    this.quests = quests;
+  }
+
+  public Set<Skill> getLampSkills() {
+    return lampSkills;
+  }
+
+  public void setLampSkills(Set<Skill> lampSkills) {
+    this.lampSkills = lampSkills;
+  }
+
+  public boolean isIronman() {
+    return ironman;
+  }
+
+  public void setIronman(boolean ironman) {
+    this.ironman = ironman;
+  }
+
+  public boolean isRecommended() {
+    return recommended;
+  }
+
+  public void setRecommended(boolean recommended) {
+    this.recommended = recommended;
+  }
+
+  public boolean isFree() {
+    return free;
+  }
+
+  public void setFree(boolean free) {
+    this.free = free;
+  }
+
+  public boolean isMembers() {
+    return members;
+  }
+
+  public void setMembers(boolean members) {
+    this.members = members;
+  }
+
+  public Player copy() {
+    Player player = new Player();
+
+    player.setName(name);
+    player.setSkillXps(new EnumMap<>(skillXps));
+    player.setQuests(
+        quests.stream().map(e -> new QuestEntry(e.getQuest(), e.getStatus(), e.getPriority()))
+            .collect(Collectors.toSet()));
+    player.setLampSkills(new LinkedHashSet<>(lampSkills));
+    player.setIronman(ironman);
+    player.setRecommended(recommended);
+    player.setFree(free);
+    player.setMembers(members);
+
+    return player;
+  }
+
+  public Map<Skill, Integer> getLevels() {
+    return skillXps.entrySet().stream()
+        .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getKey().getLevelAt(e.getValue())));
+  }
+
+  public int getQuestPoints() {
+    return getCompletedQuests().stream().mapToInt(q -> q.getQuest().getQuestPointsReward()).sum();
+  }
+
+  public Set<QuestEntry> getCompletedQuests() {
+    return quests.stream().filter(e -> e.getStatus() == QuestStatus.COMPLETED)
+        .collect(Collectors.toSet());
   }
 
   /**
-   * Mark a Quest as completed and process all rewards
+   * Gets all quests which are not completed. This also filters members/free quests.
    *
-   * @param q The Quest to be completed
-   * @param lampSkills The Skills to be used on Lamps
-   * @return A Set of Actions
+   * @return set of incomplete quests
    */
-  public Set<Action> completeQuest(Quest q, Set<Skill> lampSkills) {
-    // Don't complete quests that are already completed
-    if (isQuestCompleted(q.getId())) {
-      throw new IllegalArgumentException("Quest already completed!");
+  public Set<QuestEntry> getIncompleteQuests() {
+    return quests.stream().filter(e -> {
+      boolean membersQuest = e.getQuest().isMembers();
+
+      if (!members && membersQuest || !free && !membersQuest) {
+        return false;
+      }
+
+      return e.getStatus() != QuestStatus.COMPLETED;
+    }).collect(Collectors.toSet());
+  }
+
+  public int getTotalLevel() {
+    return getLevels().values().stream().mapToInt(Integer::intValue).sum();
+  }
+
+  public double getCombatLevel() {
+    // Combat equation found here:
+    // http://runescape.wikia.com/wiki/Combat_level
+
+    double attack = getLevel(Skill.ATTACK);
+    double constitution = getLevel(Skill.CONSTITUTION);
+    double defence = getLevel(Skill.DEFENCE);
+    double magic = getLevel(Skill.MAGIC);
+    double prayer = getLevel(Skill.PRAYER);
+    double range = getLevel(Skill.RANGED);
+    double strength = getLevel(Skill.STRENGTH);
+    double summoning = getLevel(Skill.SUMMONING);
+
+    double max = Math.max(attack + strength, Math.max(2 * magic, 2 * range));
+
+    max *= 13d / 10d;
+
+    return (max + defence + constitution + Math.floor(prayer / 2) + Math.floor(summoning / 2)) / 4;
+  }
+
+  public int getLevel(Skill s) {
+    return s.getLevelAt(getXp(s));
+  }
+
+  public double getXp(Skill s) {
+    return skillXps.get(s);
+  }
+
+  public void addSkillXP(Skill s, double xp) {
+    double newXp = skillXps.getOrDefault(s, 0d) + xp;
+
+    if (newXp >= 0) {
+      skillXps.put(s, newXp);
+    }
+  }
+
+  public boolean isQuestCompleted(Quest quest) {
+    return quests.stream()
+        .anyMatch(e -> e.getQuest().equals(quest) && e.getStatus() == QuestStatus.COMPLETED);
+  }
+
+  public boolean isQuestEntryCompleted(QuestEntry entry) {
+    return quests.stream().anyMatch(e -> e.equals(entry) && e.getStatus() == QuestStatus.COMPLETED);
+  }
+
+  public Set<Action> completeQuest(QuestEntry entry) {
+    Set<Action> actions = new LinkedHashSet<>();
+    Quest quest = entry.getQuest();
+
+    if (isQuestCompleted(quest)) {
+      throw new IllegalArgumentException("Quest already completed: " + quest.getId());
+    } else if (!quest.meetsCombatRequirement(this) || !quest.meetsQuestPointRequirement(this)
+        || !quest.meetsQuestRequirements(this)) {
+      throw new IllegalArgumentException("Unmet requirements for quest: " + quest.getId());
+    } else if (!quest.meetsSkillRequirements(this)) {
+      for (SkillRequirement sr : quest.getRemainingSkillRequirements(this, false)) {
+        actions.add(createTrainAction(sr));
+      }
     }
 
-    Set<Action> actions = new LinkedHashSet<>();
+    actions.add(new QuestAction(this, entry));
 
-    LOG.debug("Completing quest: {}", q.getId());
+    for (LampReward lampReward : quest.getLampRewards()) {
+      LampAction lampAction = createLampAction(entry, lampReward);
 
-    // Add the quest id to the completed list
-    quests.add(q.getId());
-
-    // Add skill xp for all skill rewards
-    q.getSkillRewards().forEach(this::addSkillXP);
-
-    // Add a new QuestAction
-    actions.add(new QuestAction(this, q));
-
-    // Add xp for all lamps, if possible
-    for (Lamp l : q.getLampRewards()) {
-      actions.add(useQuestLamp(q, l, lampSkills));
+      actions.add(lampAction);
     }
 
     return actions;
   }
 
-  /**
-   * Copies this Player object and creates a new Player object
-   *
-   * @return A copy of this Player object
-   */
-  public Player copy() {
-    // Create a Player with the same name
-    Player clone = new Player(name);
+  public void load() {
+    if (name != null && !name.trim().isEmpty()) {
+      try {
+        loadHiscores();
+      } catch (IOException e) {
+        LOG.warn("Failed to load hiscores for player: {}", name, e);
+      }
 
-    // Copy the Skill XPs
-    clone.skillXPs.putAll(skillXPs);
+      try {
+        loadQuests();
+      } catch (IOException e) {
+        LOG.warn("Failed to load quests for player: {}", name, e);
+      }
+    }
+  }
 
-    // Copy the completed Quest ids
-    clone.quests.addAll(quests);
+  public void reset() {
+    for (Skill s : Skill.values()) {
+      skillXps.put(s, Skill.INITIAL_XPS.get(s));
+    }
 
-    return clone;
+    quests.forEach(e -> {
+      e.setStatus(QuestStatus.NOT_STARTED);
+      e.getPreviousLampSkills().clear();
+    });
   }
 
   /**
-   * Gets the best set of Skills to use a lamp on.
+   * Gets the 'best' {@link QuestEntry} to be completed next if any. If no 'best' {@link QuestEntry}
+   * if available then the 'nearest' {@link QuestEntry} will be returned.
    * <p>
-   * If the lamp is exclusive it will ignore any choices that have previously been chosen (if the
-   * previous set contains them).
+   * The 'best' {@link QuestEntry} is determined by this {@link Player} meeting all {@link
+   * Requirement}'s for a {@link Quest} and then getting the maximum {@link QuestEntry} compared by
+   * {@link QuestPriority}.
    * <p>
-   * The best skill set is chosen by the set with the highest amount of XP required to complete all
-   * remaining quests in the open list.
+   * The 'nearest {@link QuestEntry} is determined by this {@link Player} meeting all {@link
+   * Requirement}'s (including all {@link LampReward} {@link Requirement}'s but excluding {@link
+   * SkillRequirement}'s) and then getting the minimum {@link QuestEntry} compared by the total
+   * remaining {@link SkillRequirement}'s.
    *
-   * @param lamp The lamp to get the best Skills for
-   * @param previous The previous Skill choices for the Lamp
-   * @param force The Skills to force use if possible
-   * @return A set of Skills to use a lamp on
+   * @return The best {@link QuestEntry} to be completed
    */
-  private Set<Skill> getBestLampSkills(Lamp lamp, Set<Set<Skill>> previous, Set<Skill> force) {
-    // Ensure player has requirements
-    if (!lamp.hasRequirements(this)) {
-      throw new IllegalStateException(
-          "Unable to use lamp: requirements not met");
+  public Optional<QuestEntry> getBestQuest(Collection<QuestEntry> quests) {
+    return quests.stream().filter(e -> e.getQuest().meetsCombatRequirement(this) && e.getQuest()
+        .meetsQuestPointRequirement(this) && e.getQuest().meetsQuestRequirements(this))
+        .reduce((first, second) -> {
+          boolean firstSkillRequirements = first.getQuest().meetsSkillRequirements(this);
+          boolean secondSkillRequirements = second.getQuest().meetsSkillRequirements(this);
+
+          if (firstSkillRequirements && secondSkillRequirements) {
+            return compareQuestByPriority(first, second);
+          } else if (firstSkillRequirements) {
+            return first;
+          } else if (secondSkillRequirements) {
+            return second;
+          } else {
+            return compareQuestBySkillRequirements(first, second);
+          }
+        });
+  }
+
+  private TrainAction createTrainAction(SkillRequirement skillRequirement) {
+    Skill skill = skillRequirement.getSkill();
+    double currentXp = getXp(skill);
+    double requirementXp = skill.getXpAtLevel(skillRequirement.getLevel());
+
+    return new TrainAction(this, skill, currentXp, requirementXp);
+  }
+
+  private LampAction createLampAction(QuestEntry questEntry, LampReward lampReward) {
+    Set<Skill> bestSkills = new HashSet<>();
+    boolean future = true;
+
+    if (lampReward.meetsRequirements(this)) {
+      Set<Set<Skill>> previous = questEntry.getPreviousLampSkills();
+
+      bestSkills = getBestLampSkills(lampReward, previous);
+      future = false;
+
+      previous.add(bestSkills);
     }
 
-    LOG.debug("Previous choices: {}", previous);
+    return new LampAction(this, future, questEntry, lampReward, bestSkills);
+  }
 
-    // Create a stream for the lamp requirements
-    // Filter the stream based on requirements met
-    // Get the skills that meet requirements
-    Set<Set<Skill>> choices = lamp.getRequirements().entrySet().stream()
-        .filter(e -> e.getKey().stream().noneMatch(s -> getLevel(s) < e.getValue()))
-        .filter(e -> !lamp.isExclusive() || !previous.contains(e.getKey())).map(Map.Entry::getKey)
+  private QuestEntry compareQuestByPriority(QuestEntry first, QuestEntry second) {
+    int priorityComparison = first.getPriority().compareTo(second.getPriority());
+
+    if (priorityComparison != 0) {
+      if (priorityComparison > 0) {
+        return first;
+      } else {
+        return second;
+      }
+    } else {
+      return getQuestPriority(first.getQuest()) > getQuestPriority(second.getQuest()) ? first
+          : second;
+    }
+  }
+
+  private QuestEntry compareQuestBySkillRequirements(QuestEntry first, QuestEntry second) {
+    return first.getQuest().getTotalRemainingSkillRequirements(this, true) > second.getQuest()
+        .getTotalRemainingSkillRequirements(this, true) ? second : first;
+  }
+
+  private double getQuestPriority(Quest quest) {
+    int requirements = quest.getTotalRemainingSkillRequirements(this, true);
+    double rewards = (quest.getTotalLampRewardsXp(this) + quest.getTotalXpRewards()) / 100;
+    return rewards - requirements;
+  }
+
+  private Set<Skill> getBestLampSkills(LampReward lampReward, Set<Set<Skill>> previous) {
+    Set<Set<Skill>> lampSkillChoices = lampReward.getRequirements().entrySet().stream().filter(
+        e -> e.getKey().stream().noneMatch(s -> getLevel(s) < e.getValue()) && (
+            !lampReward.isExclusive() || !previous.contains(e.getKey()))).map(Map.Entry::getKey)
         .collect(Collectors.toSet());
-    // Forced Skill choices
-    Set<Set<Skill>> forceChoices = new LinkedHashSet<>();
+    Set<Set<Skill>> skillChoices = new LinkedHashSet<>();
 
-    // Iterate all forced skill options
-    for (Skill s : force) {
-      // Get all choices for this forced skill
-      Set<Set<Skill>> validChoice = choices.stream().filter(c -> c.contains(s))
-          .collect(Collectors.toSet());
-
-      // Add all the forced choices
-      forceChoices.addAll(validChoice);
+    for (Skill s : lampSkills) {
+      skillChoices
+          .addAll(lampSkillChoices.stream().filter(c -> c.contains(s)).collect(Collectors.toSet()));
     }
 
-    LOG.debug("Skill choices: {}", choices);
-    LOG.debug("Force choices: {}", forceChoices);
-
-    // Force Skill choice if possible
-    if (!forceChoices.isEmpty()) {
-      choices = forceChoices;
+    if (!skillChoices.isEmpty()) {
+      lampSkillChoices = skillChoices;
     }
 
-    // Get remaining xp requirements
-    Map<Skill, Integer> xpReqs = getRemainingXPRequirements();
+    Map<Skill, Double> xpRequirements = calculateRemainingXpRequirements();
 
-    // Map the stream to the skills
-    // Get the total XP requirements for each set of skill choices
-    Map<Set<Skill>, Integer> xpChoicesReqs = choices.stream().collect(
-        Collectors.toMap(s -> s, s -> s.stream().mapToInt(sk -> xpReqs.getOrDefault(sk, 0)).sum()));
+    Map<Set<Skill>, Double> xpChoicesRequirements = lampSkillChoices.stream().collect(Collectors
+        .toMap(s -> s,
+            s -> s.stream().mapToDouble(sk -> xpRequirements.getOrDefault(sk, 0d)).sum()));
 
-    // Get the set of skills with the maximum xp requirement
-    Optional<Map.Entry<Set<Skill>, Integer>> choice = xpChoicesReqs.entrySet().stream()
-        .max(Comparator.comparingInt(Map.Entry::getValue));
+    Optional<Map.Entry<Set<Skill>, Double>> choice = xpChoicesRequirements.entrySet().stream()
+        .max(Comparator.comparingDouble(Map.Entry::getValue));
 
-    // This shouldn't happen
     if (!choice.isPresent()) {
       throw new IllegalStateException(
-          "Unable to use lamp: no suitable skill found: lamp=" + lamp + ",previous=" + previous
-              + ",force=" + force);
+          "Unable to use lampReward: no suitable skill found: lampReward=" + lampReward
+              + ",previous=" + previous + ",lampSkills=" + lampSkills);
     }
 
     return choice.get().getKey();
   }
 
-  /**
-   * Calculate the current combat level. The formula for determining the combat level is found
-   * here:
-   * <p>
-   * http://runescape.wikia.com/wiki/Combat_level
-   *
-   * @return The combat level
-   */
-  public double getCombatLevel() {
-    // Get combat levels
-    int attack = getLevel(Skill.ATTACK);
-    int constitution = getLevel(Skill.CONSTITUTION);
-    int defence = getLevel(Skill.DEFENCE);
-    int magic = getLevel(Skill.MAGIC);
-    int prayer = getLevel(Skill.PRAYER);
-    int range = getLevel(Skill.RANGED);
-    int strength = getLevel(Skill.STRENGTH);
-    int summoning = getLevel(Skill.SUMMONING);
+  private Map<Skill, Double> calculateRemainingXpRequirements() {
+    Map<Skill, Double> remaining = new EnumMap<>(Skill.class);
+    Set<SkillRequirement> maxRequirements = calculateMaxRequirements();
 
-    // Combat equation found here:
-    // http://runescape.wikia.com/wiki/Combat_level
-    double max = Math.max(attack + strength, Math.max(2.0 * magic, 2.0 * range));
-
-    max *= 13.0 / 10.0;
-
-    return (max + defence + constitution + Math.floorDiv(prayer, 2) + Math.floorDiv(summoning, 2))
-        / 4.0;
-  }
-
-  /**
-   * Gets the level for a Skill
-   *
-   * @param s The Skill to get the level for
-   * @return The Skill level
-   */
-  public int getLevel(Skill s) {
-    // Get skill level based on skill xp
-    return s.getLevelAt(getXP(s));
-  }
-
-  /**
-   * Gets all Skill levels
-   *
-   * @return A Map of Skills with levels
-   */
-  public Map<Skill, Integer> getLevels() {
-    // Map Skill XP to levels adding them to a new LinkedHashMap
-    return skillXPs.entrySet().stream().collect(
-        Collectors.toMap(Map.Entry::getKey, e -> e.getKey().getLevelAt(e.getValue()), (u, v) -> {
-          throw new IllegalStateException(String.format("Duplicate key %s", u));
-        }, LinkedHashMap::new));
-  }
-
-  /**
-   * Gets the Player name
-   *
-   * @return The name of the Player
-   */
-  public Optional<String> getName() {
-    return Optional.ofNullable(name);
-  }
-
-  /**
-   * Calculates the total number of Quest points
-   *
-   * @return The number of Quest points
-   */
-  public int getQuestPoints() {
-    // Count quests points for all quests
-    return quests.stream().mapToInt(id -> IronQuest.getInstance().getQuest(id).getQuestPoints())
-        .sum();
-  }
-
-  /**
-   * Get the remaining skill XP requirements to complete all quests
-   *
-   * @return A map of skill xp values to complete remaining quests
-   */
-  private Map<Skill, Integer> getRemainingXPRequirements() {
-    IronQuest quest = IronQuest.getInstance();
-    // Store remaining xp requirements in a Map
-    Map<Skill, Integer> remaining = new EnumMap<>(Skill.class);
-    // Get the maximum requirements for remaining quests
-    Set<SkillRequirement> maxRequirements = quest.getMaxRequirements(quest.getOpen());
-
-    // Get the remaining xp requirements for each Skill
     maxRequirements.forEach(r -> {
       Skill s = r.getSkill();
       int lvl = r.getLevel();
 
-      remaining.put(s, s.getXPAt(lvl) - getXP(s));
+      remaining.put(s, s.getXpAtLevel(lvl) - getXp(s));
     });
 
     return remaining;
   }
 
-  /**
-   * Gets the total skill level
-   *
-   * @return The total skill level
-   */
-  public int getTotalLevel() {
-    return getLevels().values().stream().mapToInt(Integer::intValue).sum();
-  }
+  private Set<SkillRequirement> calculateMaxRequirements() {
+    Set<SkillRequirement> requirements = new HashSet<>();
 
-  /**
-   * Gets the XP for a Skill
-   *
-   * @param s The Skill to get the XP for
-   * @return The Skill XP
-   */
-  public int getXP(Skill s) {
-    // Get current xp for skill
-    return skillXPs.get(s);
-  }
-
-  /**
-   * Gets the Skill XPs
-   *
-   * @return The Skill XPs
-   */
-  public Map<Skill, Integer> getXPs() {
-    return Collections.unmodifiableMap(skillXPs);
-  }
-
-  /**
-   * Checks if a Quest has been completed using the Quest id
-   *
-   * @param id The id for a Quest
-   * @return If a Quest has been completed or not
-   */
-  public boolean isQuestCompleted(int id) {
-    // Check if the id is in the completed set
-    return quests.contains(id);
-  }
-
-  /**
-   * Initializes this Player, retrieving XP from hiscores and Quest's from RuneMetrics
-   */
-  public void load() {
-    // All skills start at zero xp
-    for (Skill s : Skill.values()) {
-      skillXPs.put(s, 0);
+    for (QuestEntry entry : quests) {
+      requirements = SkillRequirement
+          .merge(requirements, entry.getQuest().getRemainingSkillRequirements(this, false));
     }
 
-    // Constitution starts at level 10
-    addSkillXP(Skill.CONSTITUTION, Skill.XP_TABLE[10]);
-
-    if (name != null && !name.trim().isEmpty()) {
-      // Load skill xps from hiscores
-      loadHiscores();
-      // Load completed quests from RuneMetrics
-      loadQuests();
-    }
+    return requirements;
   }
 
-  /**
-   * Loads the Player's skill XP from the RuneScape Hiscores
-   */
-  private void loadHiscores() {
-    // CSV format
+  private void loadHiscores() throws IOException {
     CSVFormat format = CSVFormat.DEFAULT.withDelimiter(',');
 
-    String url;
-
-    try {
-      // Encode the name into the URL
-      url = URL_HISCORES_LITE + URLEncoder.encode(name, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      LOG.error("Unsupported encoding", e);
-      return;
-    }
-
-    // Open a new InputStream for the URL
-    try (InputStream in = new URL(url).openStream()) {
-      // Parse the CSV data
-      CSVParser parser = format.parse(new InputStreamReader(in));
+    try (InputStreamReader in = new InputStreamReader(
+        new URL(URL_HISCORES_LITE + URLEncoder.encode(name, "UTF-8")).openStream())) {
+      CSVParser parser = format.parse(in);
       List<CSVRecord> records = parser.getRecords();
 
-      // Parse the Skill XP values
       for (int i = 1; i < Skill.values().length + 1; i++) {
         Optional<Skill> skill = Skill.tryGet(i);
         CSVRecord r = records.get(i);
 
-        skill.ifPresent(s -> skillXPs.put(s, (int) Math.max(0, Double.parseDouble(r.get(2)))));
+        skill.ifPresent(s -> skillXps.put(s, Math.max(0, Double.parseDouble(r.get(2)))));
       }
-    } catch (IOException e) {
-      LOG.error("Unable to parse Hiscores CSV", e);
     }
   }
 
-  /**
-   * Loads the Player's Quest data from RuneMetrics
-   */
-  private void loadQuests() {
-    // Quest data is in JSON
-    Gson gson = new Gson();
-    String url;
+  private void loadQuests() throws IOException {
+    URL url = new URL(URL_RUNE_METRICS_QUESTS + URLEncoder.encode(name, "UTF-8"));
+    ObjectMapper objectMapper = new ObjectMapper();
+    JsonNode rmQuestsJson = objectMapper.readTree(url).get("quests");
+    Set<RuneMetricsQuest> rmQuests = objectMapper.readValue(objectMapper.treeAsTokens(rmQuestsJson),
+        objectMapper.getTypeFactory().constructType(new TypeReference<Set<RuneMetricsQuest>>() {
+        }));
 
-    try {
-      // Encode name into the URL
-      url = URL_RUNE_METRICS_QUESTS + URLEncoder.encode(name, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      LOG.error("Unsupported encoding", e);
-      return;
-    }
+    for (RuneMetricsQuest rmq : rmQuests) {
+      String title = rmq.getTitle();
+      Optional<QuestEntry> entry = quests.stream().filter(
+          e -> e.getQuest().getTitle().equalsIgnoreCase(title) || e.getQuest().getDisplayName()
+              .equalsIgnoreCase(title)).findAny();
 
-    // Open a new InputStream for the URL
-    try (InputStream in = new URL(url).openStream()) {
-      // Parse the JSON data
-      JsonParser parser = new JsonParser();
-      JsonObject jsonObject = parser.parse(new InputStreamReader(in)).getAsJsonObject();
-      JsonArray questsArray = jsonObject.getAsJsonArray("quests");
-
-      // Parse the Quests
-      LinkedHashSet<RuneMetricsQuest> rmQuests = gson
-          .fromJson(questsArray, new TypeToken<LinkedHashSet<RuneMetricsQuest>>() {
-          }.getType());
-
-      IronQuest instance = IronQuest.getInstance();
-
-      // Add all completed quests to the completed quest set
-      for (RuneMetricsQuest rmq : rmQuests) {
-        try {
-          if (rmq.getStatus() == RuneMetricsQuest.Status.COMPLETED) {
-            quests.add(instance.getQuest(rmq.getTitle()).getId());
-          }
-        } catch (IllegalArgumentException e) {
-          LOG.warn("Unable to find quest: {}", rmq);
+      entry.ifPresent(e -> {
+        switch (rmq.getStatus()) {
+          case COMPLETED:
+            e.setStatus(QuestStatus.COMPLETED);
+            break;
+          case NOT_STARTED:
+            e.setStatus(QuestStatus.NOT_STARTED);
+            break;
+          case STARTED:
+            e.setStatus(QuestStatus.IN_PROGRESS);
+            break;
+          default:
+            break;
         }
-      }
-    } catch (IOException e) {
-      LOG.error("Unable to parse RuneMetrics JSON", e);
+      });
     }
-  }
-
-  /**
-   * Resets this Player
-   */
-  public void reset() {
-    // Clear completed quests
-    quests.clear();
-    // Load data
-    load();
-  }
-
-  @Override
-  public String toString() {
-    return "Player{" +
-        "name='" + name + '\'' +
-        '}';
-  }
-
-  /**
-   * Use a Quest Lamp reward
-   *
-   * @param q The Quest from which the Lamp was obtained from
-   * @param l The Lamp to use
-   * @param lampSkills The Skills to be used on Lamps
-   * @return A LampAction
-   */
-  public LampAction useQuestLamp(Quest q, Lamp l, Set<Skill> lampSkills) {
-    LOG.debug("Processing lamp: {}", l);
-
-    if (!l.hasRequirements(this)) {
-      LOG.warn("Unable to use lamp: requirements not met: {}", l);
-      // The lamp cannot be used so set it to be used in the future
-      // when requirements are met
-      return new LampAction(this, q, l, Collections.emptySet(), true);
-    }
-
-    // Keep track of previous skill choices
-    Set<Set<Skill>> previous = q.getPreviousLampSkills();
-
-    // Get the best skills to use the lamp on based on the
-    // lamps requirements
-    Set<Skill> bestSkills = getBestLampSkills(l, previous, lampSkills);
-
-    LOG.debug("Chosen lamp skills: {}", bestSkills);
-
-    // Keep track of previous choices
-    previous.add(bestSkills);
-    q.setPreviousLampSkills(previous);
-
-    // Add the XP to each Skill
-    bestSkills.forEach(s -> addSkillXP(s, l.getValue()));
-
-    // Return the new LampAction
-    return new LampAction(this, q, l, bestSkills, false);
   }
 }

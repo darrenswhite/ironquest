@@ -3,28 +3,22 @@ package com.darrenswhite.rs.ironquest.quest.requirement;
 import com.darrenswhite.rs.ironquest.player.Player;
 
 /**
- * @author Darren White
+ * @author Darren S. White
  */
 public class CombatRequirement extends Requirement {
 
-  private final int level;
+  private int level;
 
-  public CombatRequirement(int level) {
-    this(false, false, level);
-  }
-
-  public CombatRequirement(boolean ironman, boolean recommended, int level) {
-    super(ironman, recommended);
+  public void setLevel(int level) {
     this.level = level;
   }
 
-  @Override
-  public boolean isOther() {
-    return true;
+  public int getLevel() {
+    return level;
   }
 
   @Override
-  protected boolean test(Player p) {
+  protected boolean testPlayer(Player p) {
     return p.getCombatLevel() >= level;
   }
 

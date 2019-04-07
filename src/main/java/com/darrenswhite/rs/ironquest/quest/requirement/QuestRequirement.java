@@ -1,42 +1,30 @@
 package com.darrenswhite.rs.ironquest.quest.requirement;
 
-import com.darrenswhite.rs.ironquest.IronQuest;
 import com.darrenswhite.rs.ironquest.player.Player;
+import com.darrenswhite.rs.ironquest.quest.Quest;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
- * @author Darren White
+ * @author Darren S. White
  */
+@JsonIdentityInfo(scope = Quest.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "quest")
 public class QuestRequirement extends Requirement {
 
-  private final int id;
+  private Quest quest;
 
-  public QuestRequirement(int id) {
-    this(false, false, id);
+  public Quest getQuest() {
+    return quest;
   }
 
-  public QuestRequirement(boolean ironman, boolean recommended, int id) {
-    super(ironman, recommended);
-    this.id = id;
-  }
-
-  public int getId() {
-    return id;
-  }
-
-  @Override
-  public boolean isOther() {
-    return false;
-  }
-
-  @Override
-  protected boolean test(Player p) {
-    return p.isQuestCompleted(id);
+  public void setQuest(Quest quest) {
+    this.quest = quest;
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append(IronQuest.getInstance().getQuest(getId()).getDisplayName());
+    sb.append(quest.getDisplayName());
     if (isIronman()) {
       sb.append(" (Ironman)");
     }
@@ -44,5 +32,10 @@ public class QuestRequirement extends Requirement {
       sb.append(" (Recommended)");
     }
     return sb.toString();
+  }
+
+  @Override
+  protected boolean testPlayer(Player p) {
+    return p.isQuestCompleted(quest);
   }
 }

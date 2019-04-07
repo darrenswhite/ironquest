@@ -1,53 +1,41 @@
 package com.darrenswhite.rs.ironquest;
 
-import com.darrenswhite.rs.ironquest.action.Action;
+import java.io.IOException;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * @author Darren White
+ * @author Darren S. White
  */
 public class Main {
 
-  /**
-   * The logger
-   */
   private static final Logger LOG = LogManager.getLogger(Main.class);
 
-  /**
-   * Main entry point
-   *
-   * @param args The program arguments
-   */
-  public static void main(String[] args) {
-    // Initialize JavaFX toolkit
+  public static void main(String[] args) throws IOException {
     new JFXPanel();
 
-    // Create a new instance
     IronQuest quest = IronQuest.getInstance();
 
-    // First arg is player name
     if (args.length == 1) {
       String name = args[0];
 
       LOG.debug("Setting player name as: {}", name);
 
-      quest.setPlayer(name);
+      quest.getPlayer().setName(name);
     }
 
-    // Run on FX thread
+    quest.load();
+
     Platform.runLater(() -> {
       quest.run();
 
-      // Print the actions
-      for (Action a : quest.getActions()) {
-        LOG.info(a.getMessage());
-      }
+//      for (Action a : quest.getActions()) {
+//        LOG.info(a.getMessage());
+//      }
     });
 
-    // Terminate JavaFX
     Platform.exit();
   }
 }

@@ -2,41 +2,53 @@ package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * @author Darren White
+ * @author Darren S. White
  */
 public class SkillRequirement extends Requirement {
 
-  private final Skill skill;
-  private final int level;
+  private Skill skill;
+  private int level;
 
-  public SkillRequirement(Skill skill, int level) {
-    this(false, false, skill, level);
-  }
+  public static Set<SkillRequirement> merge(Collection<SkillRequirement> requirements,
+      Collection<SkillRequirement> merge) {
+    Set<SkillRequirement> merged = new HashSet<>(requirements);
 
-  public SkillRequirement(boolean ironman, boolean recommended, Skill skill, int level) {
-    super(ironman, recommended);
-    this.skill = skill;
-    this.level = level;
+    merge.forEach(mergeRequirement -> {
+      SkillRequirement skillRequirement = requirements.stream()
+          .filter(sr -> sr.skill == mergeRequirement.skill).findFirst().orElse(null);
+
+      if (skillRequirement != null) {
+        if (mergeRequirement.level > skillRequirement.level) {
+          merged.remove(skillRequirement);
+          merged.add(mergeRequirement);
+        }
+      } else {
+        merged.add(mergeRequirement);
+      }
+    });
+
+    return merged;
   }
 
   public int getLevel() {
     return level;
   }
 
+  public void setLevel(int level) {
+    this.level = level;
+  }
+
   public Skill getSkill() {
     return skill;
   }
 
-  @Override
-  public boolean isOther() {
-    return false;
-  }
-
-  @Override
-  protected boolean test(Player p) {
-    return p.getLevel(skill) >= level;
+  public void setSkill(Skill skill) {
+    this.skill = skill;
   }
 
   @Override
@@ -52,5 +64,10 @@ public class SkillRequirement extends Requirement {
       sb.append(" (Recommended)");
     }
     return sb.toString();
+  }
+
+  @Override
+  protected boolean testPlayer(Player p) {
+    return p.getLevel(skill) >= level;
   }
 }
