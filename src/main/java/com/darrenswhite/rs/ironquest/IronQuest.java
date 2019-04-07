@@ -7,7 +7,6 @@ import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
-import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
@@ -17,11 +16,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -46,10 +43,7 @@ public class IronQuest implements Runnable {
 
   private static final IronQuest instance = new IronQuest();
 
-  private final List<Quest> open = new ArrayList<>();
-  private final Map<LampReward, Quest> futureLamps = new HashMap<>();
-  private final ObservableList<Action> actions =
-      FXCollections.observableList(new LinkedList<>());
+  private final ObservableList<Action> actions = FXCollections.observableList(new LinkedList<>());
   private final Player player = new Player();
 
   private IronQuest() {
@@ -98,14 +92,10 @@ public class IronQuest implements Runnable {
 
     String name = properties.getProperty("name", null);
     Set<Skill> lampSkills = parseLampSkills(properties.getProperty("lampSkills", ""));
-    boolean ironman = Boolean.parseBoolean(properties.getProperty("ironman",
-        "false"));
-    boolean recommended = Boolean.parseBoolean(properties.getProperty("recommended",
-        "false"));
-    boolean free = Boolean.parseBoolean(properties.getProperty("free",
-        "true"));
-    boolean members = Boolean.parseBoolean(properties.getProperty("members",
-        "true"));
+    boolean ironman = Boolean.parseBoolean(properties.getProperty("ironman", "false"));
+    boolean recommended = Boolean.parseBoolean(properties.getProperty("recommended", "false"));
+    boolean free = Boolean.parseBoolean(properties.getProperty("free", "true"));
+    boolean members = Boolean.parseBoolean(properties.getProperty("members", "true"));
 
     Map<Integer, QuestPriority> questPriorities = parseQuestPriorities(
         properties.getProperty("priorities"));
@@ -131,8 +121,7 @@ public class IronQuest implements Runnable {
     prop.setProperty("free", Boolean.toString(player.isFree()));
     prop.setProperty("members", Boolean.toString(player.isMembers()));
 
-    String lampSkillsStr = player.getLampSkills().stream()
-        .map(Skill::toString)
+    String lampSkillsStr = player.getLampSkills().stream().map(Skill::toString)
         .collect(Collectors.joining(","));
 
     if (!lampSkillsStr.isEmpty()) {
@@ -177,8 +166,7 @@ public class IronQuest implements Runnable {
         int id = Integer.parseInt(setting[0]);
         String priority = setting[1];
 
-        QuestPriority
-            .tryGet(priority).ifPresent(qp -> priorities.put(id, qp));
+        QuestPriority.tryGet(priority).ifPresent(qp -> priorities.put(id, qp));
       }
     }
 

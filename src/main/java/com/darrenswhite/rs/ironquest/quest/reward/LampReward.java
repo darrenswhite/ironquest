@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 /**
  * @author Darren S. White
  */
-public class LampReward extends Reward {
+public class LampReward implements Reward {
 
   /**
    * The case to match ANY {@link Skill} level

@@ -29,8 +29,6 @@ public abstract class Action {
     }
   }
 
-  protected abstract void processPlayer(Player player);
-
   public final boolean isFuture() {
     return future;
   }
@@ -43,4 +41,6 @@ public abstract class Action {
   public final String toString() {
     return getMessage();
   }
+
+  protected abstract void processPlayer(Player player);
 }

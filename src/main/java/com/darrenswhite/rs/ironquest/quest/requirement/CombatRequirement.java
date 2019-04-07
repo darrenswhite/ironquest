@@ -9,17 +9,12 @@ public class CombatRequirement extends Requirement {
 
   private int level;
 
-  public void setLevel(int level) {
-    this.level = level;
-  }
-
   public int getLevel() {
     return level;
   }
 
-  @Override
-  protected boolean testPlayer(Player p) {
-    return p.getCombatLevel() >= level;
+  public void setLevel(int level) {
+    this.level = level;
   }
 
   @Override
@@ -34,5 +29,10 @@ public class CombatRequirement extends Requirement {
       sb.append(" (Recommended)");
     }
     return sb.toString();
+  }
+
+  @Override
+  protected boolean testPlayer(Player p) {
+    return p.getCombatLevel() >= level;
   }
 }

@@ -49,7 +49,6 @@ public class QuestDetail extends Stage {
   private static final String URL_WIKI = "http://runescape.wikia.com/wiki/";
 
   private final QuestEntry questEntry;
-  private ComboBox<QuestPriority> cmbPriority;
 
   QuestDetail(Window owner, QuestEntry questEntry) {
     this.questEntry = questEntry;
@@ -88,7 +87,8 @@ public class QuestDetail extends Stage {
     Label lblSkillReqs = new Label("Skill requirements");
     GridPane.setValignment(lblSkillReqs, VPos.TOP);
 
-    Set<String> skillReqStrings = quest.getSkillRequirements().stream().map(SkillRequirement::toString).collect(Collectors.toSet());
+    Set<String> skillReqStrings = quest.getSkillRequirements().stream()
+        .map(SkillRequirement::toString).collect(Collectors.toSet());
     String skillReqs = String.join("\n", skillReqStrings);
     if (quest.getSkillRequirements().isEmpty()) {
       skillReqs = "None";
@@ -98,7 +98,8 @@ public class QuestDetail extends Stage {
     Label lblQuestReqs = new Label("Quest requirements");
     GridPane.setValignment(lblQuestReqs, VPos.TOP);
 
-    Set<String> questReqStrings = quest.getQuestRequirements().stream().map(QuestRequirement::toString).collect(Collectors.toSet());
+    Set<String> questReqStrings = quest.getQuestRequirements().stream()
+        .map(QuestRequirement::toString).collect(Collectors.toSet());
     String questReqs = String.join("\n", questReqStrings);
     if (quest.getQuestRequirements().isEmpty()) {
       questReqs = "None";
@@ -116,7 +117,8 @@ public class QuestDetail extends Stage {
     GridPane.setValignment(lblQuestPointsReq, VPos.TOP);
 
     String questPointsReq =
-        quest.getQuestPointsRequirement() != null ? quest.getQuestPointsRequirement().toString() : "None";
+        quest.getQuestPointsRequirement() != null ? quest.getQuestPointsRequirement().toString()
+            : "None";
     Label lblQuestPointsReqValue = new Label(questPointsReq);
 
     Label lblQuestPoints = new Label("Quest points");
@@ -126,7 +128,8 @@ public class QuestDetail extends Stage {
 
     Label lblUserPriority = new Label("User priority");
 
-    cmbPriority = new ComboBox<>(FXCollections.observableArrayList(QuestPriority.values()));
+    ComboBox<QuestPriority> cmbPriority = new ComboBox<>(
+        FXCollections.observableArrayList(QuestPriority.values()));
     cmbPriority.setTooltip(new Tooltip("Set custom priority for quest"));
 
     cmbPriority.setOnAction(

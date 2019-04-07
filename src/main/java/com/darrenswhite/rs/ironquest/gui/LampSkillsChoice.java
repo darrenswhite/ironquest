@@ -54,10 +54,8 @@ class LampSkillsChoice extends Stage {
 
     listSkills = new ListView<>(FXCollections.observableArrayList(Skill.values()));
 
-    listSkills.getSelectionModel()
-        .setSelectionMode(SelectionMode.MULTIPLE);
-    listSkills.getSelectionModel().getSelectedItems()
-        .addListener(this::updateLampSkills);
+    listSkills.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    listSkills.getSelectionModel().getSelectedItems().addListener(this::updateLampSkills);
 
     lblSkills = new Label();
 

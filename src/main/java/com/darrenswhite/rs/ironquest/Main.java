@@ -28,13 +28,7 @@ public class Main {
 
     quest.load();
 
-    Platform.runLater(() -> {
-      quest.run();
-
-//      for (Action a : quest.getActions()) {
-//        LOG.info(a.getMessage());
-//      }
-    });
+    Platform.runLater(quest);
 
     Platform.exit();
   }
