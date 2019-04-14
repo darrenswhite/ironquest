@@ -448,21 +448,25 @@ public class Player {
           e -> e.getQuest().getTitle().equalsIgnoreCase(title) || e.getQuest().getDisplayName()
               .equalsIgnoreCase(title)).findAny();
 
-      entry.ifPresent(e -> {
+      if (entry.isPresent()) {
+        QuestStatus status;
         switch (rmq.getStatus()) {
           case COMPLETED:
-            e.setStatus(QuestStatus.COMPLETED);
-            break;
-          case NOT_STARTED:
-            e.setStatus(QuestStatus.NOT_STARTED);
+            status = QuestStatus.COMPLETED;
             break;
           case STARTED:
-            e.setStatus(QuestStatus.IN_PROGRESS);
+            status = QuestStatus.IN_PROGRESS;
             break;
+          case NOT_STARTED:
           default:
+            status = QuestStatus.NOT_STARTED;
             break;
         }
-      });
+
+        entry.get().setStatus(status);
+      } else {
+        LOG.error("Failed to find RuneMetricsQuest: {}", title);
+      }
     }
   }
 }

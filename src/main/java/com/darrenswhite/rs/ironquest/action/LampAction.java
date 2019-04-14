@@ -51,7 +51,6 @@ public class LampAction extends Action {
     Iterator<Skill> it = skills.iterator();
 
     if (it.hasNext()) {
-      message.append(" on ");
       message.append(it.next());
     }
 

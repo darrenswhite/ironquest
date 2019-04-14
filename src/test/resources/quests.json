@@ -801,7 +801,7 @@
     },
     {
       "id": 43,
-      "title": "The Watchtower",
+      "title": "Watchtower",
       "members": true,
       "skillRequirements": [
         {
@@ -850,7 +850,7 @@
     },
     {
       "id": 46,
-      "title": "Dig Site",
+      "title": "The Dig Site",
       "members": true,
       "skillRequirements": [
         {
@@ -1076,7 +1076,7 @@
     },
     {
       "id": 52,
-      "title": "The Elemental Workshop I",
+      "title": "Elemental Workshop I",
       "members": true,
       "skillRequirements": [
         {
@@ -2037,7 +2037,7 @@
     },
     {
       "id": 85,
-      "title": "Garden of Tranquility",
+      "title": "Garden of Tranquillity",
       "members": true,
       "skillRequirements": [
         {
@@ -2119,7 +2119,7 @@
     },
     {
       "id": 89,
-      "title": "A Rum Deal",
+      "title": "Rum Deal",
       "members": true,
       "skillRequirements": [
         {
@@ -2395,7 +2395,7 @@
     },
     {
       "id": 98,
-      "title": "Fairy Tale I - Growing Pains",
+      "title": "A Fairy Tale I - Growing Pains",
       "members": true,
       "questRequirements": [
         {
@@ -2417,7 +2417,7 @@
     },
     {
       "id": 99,
-      "title": "Recipe for Disaster: Starting Out",
+      "title": "Recipe for Disaster: Another Cook's Quest",
       "members": true,
       "skillRequirements": [
         {
@@ -2434,7 +2434,7 @@
     },
     {
       "id": 100,
-      "title": "Recipe for Disaster: Goblin Generals",
+      "title": "Recipe for Disaster: Freeing the Goblin Generals",
       "members": true,
       "questRequirements": [
         {
@@ -2453,7 +2453,7 @@
     },
     {
       "id": 101,
-      "title": "Recipe for Disaster: Dwarf",
+      "title": "Recipe for Disaster: Freeing the Mountain Dwarf",
       "members": true,
       "questRequirements": [
         {
@@ -2471,7 +2471,7 @@
     },
     {
       "id": 102,
-      "title": "Recipe for Disaster: Evil Dave",
+      "title": "Recipe for Disaster: Freeing Evil Dave",
       "members": true,
       "skillRequirements": [
         {
@@ -2497,7 +2497,7 @@
     },
     {
       "id": 103,
-      "title": "Recipe for Disaster: Lumbridge Sage",
+      "title": "Recipe for Disaster: Freeing the Lumbridge Sage",
       "members": true,
       "skillRequirements": [
         {
@@ -2536,7 +2536,7 @@
     },
     {
       "id": 104,
-      "title": "Recipe for Disaster: Pirate Pete",
+      "title": "Recipe for Disaster: Freeing Pirate Pete",
       "members": true,
       "skillRequirements": [
         {
@@ -2559,7 +2559,7 @@
     },
     {
       "id": 105,
-      "title": "Recipe for Disaster: Skrach",
+      "title": "Recipe for Disaster: Freeing Skrach Uglogwee",
       "members": true,
       "skillRequirements": [
         {
@@ -2589,7 +2589,7 @@
     },
     {
       "id": 106,
-      "title": "Recipe for Disaster: Sir Amik Varze",
+      "title": "Recipe for Disaster: Freeing Sir Amik Varze",
       "members": true,
       "questRequirements": [
         {
@@ -2610,7 +2610,7 @@
     },
     {
       "id": 107,
-      "title": "Recipe for Disaster: Awowogei",
+      "title": "Recipe for Disaster: Freeing King Awowogei",
       "members": true,
       "skillRequirements": [
         {
@@ -2638,7 +2638,7 @@
     },
     {
       "id": 108,
-      "title": "Recipe for Disaster",
+      "title": "Recipe for Disaster: Defeating the Culinaromancer",
       "members": true,
       "questPointsRequirement": {
         "amount": 176
@@ -2902,7 +2902,7 @@
     },
     {
       "id": 115,
-      "title": "Fairy Tale II - Cure a Queen",
+      "title": "A Fairy Tale II - Cure a Queen",
       "members": true,
       "skillRequirements": [
         {
@@ -3090,7 +3090,7 @@
     },
     {
       "id": 119,
-      "title": "Slug Menace",
+      "title": "The Slug Menace",
       "members": true,
       "skillRequirements": [
         {
@@ -3127,7 +3127,7 @@
     },
     {
       "id": 120,
-      "title": "The Elemental Workshop II",
+      "title": "Elemental Workshop II",
       "members": true,
       "skillRequirements": [
         {
@@ -3345,7 +3345,7 @@
     },
     {
       "id": 127,
-      "title": "Fremennik Isles",
+      "title": "The Fremennik Isles",
       "members": true,
       "skillRequirements": [
         {
@@ -3416,7 +3416,7 @@
     },
     {
       "id": 129,
-      "title": "Great Brain Robbery",
+      "title": "The Great Brain Robbery",
       "members": true,
       "skillRequirements": [
         {
@@ -3844,7 +3844,7 @@
     },
     {
       "id": 141,
-      "title": "As a First Resort...",
+      "title": "As a First Resort",
       "members": true,
       "skillRequirements": [
         {
@@ -4461,7 +4461,7 @@
     },
     {
       "id": 158,
-      "title": "Chosen Commander",
+      "title": "The Chosen Commander",
       "members": true,
       "skillRequirements": [
         {
@@ -4562,7 +4562,7 @@
     },
     {
       "id": 160,
-      "title": "Tale of the Muspah",
+      "title": "The Tale of the Muspah",
       "members": true,
       "skillRequirements": [
         {
@@ -4689,7 +4689,7 @@
     },
     {
       "id": 163,
-      "title": "Curse of Arrav",
+      "title": "The Curse of Arrav",
       "members": true,
       "skillRequirements": [
         {
@@ -4751,7 +4751,7 @@
     },
     {
       "id": 164,
-      "title": "Fur 'n' Seek",
+      "title": "Fur 'n Seek",
       "members": true,
       "skillRequirements": [
         {
@@ -5077,7 +5077,7 @@
     },
     {
       "id": 173,
-      "title": "Fairy Tale III - Battle at Orks Rift",
+      "title": "A Fairy Tale III - Battle at Ork's Rift",
       "members": true,
       "skillRequirements": [
         {
@@ -5117,7 +5117,7 @@
     },
     {
       "id": 174,
-      "title": "The Elemental Workshop III",
+      "title": "Elemental Workshop III",
       "members": true,
       "skillRequirements": [
         {
@@ -5443,7 +5443,7 @@
     },
     {
       "id": 181,
-      "title": "Prisoner of Glouphrie",
+      "title": "The Prisoner of Glouphrie",
       "members": true,
       "skillRequirements": [
         {
@@ -5481,7 +5481,7 @@
     },
     {
       "id": 182,
-      "title": "The Elemental Workshop IV",
+      "title": "Elemental Workshop IV",
       "members": true,
       "skillRequirements": [
         {
