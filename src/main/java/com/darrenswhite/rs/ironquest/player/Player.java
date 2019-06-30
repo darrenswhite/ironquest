@@ -57,8 +57,8 @@ public class Player {
   private Set<Skill> lampSkills = new LinkedHashSet<>();
   private boolean ironman = false;
   private boolean recommended = false;
-  private boolean free = false;
-  private boolean members;
+  private boolean free = true;
+  private boolean members = true;
 
   public String getName() {
     return name;
@@ -465,7 +465,7 @@ public class Player {
 
         entry.get().setStatus(status);
       } else {
-        LOG.error("Failed to find RuneMetricsQuest: {}", title);
+        LOG.warn("Failed to find RuneMetricsQuest: {}", title);
       }
     }
   }

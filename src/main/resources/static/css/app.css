@@ -1,0 +1,23 @@
+.action-content {
+  white-space: pre-line;
+}
+
+#actions-empty {
+  color: gray;
+}
+
+#action-error {
+  color: red;
+}
+
+#actions-list {
+  border: 1px solid #ced4da;
+  border-style: solid;
+  border-radius: .25rem;
+  max-height: 715px;
+  overflow: auto;
+}
+
+.ms-container {
+  max-width: 100%;
+}

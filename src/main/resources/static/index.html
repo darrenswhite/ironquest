@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+  <meta content="" name="description">
+  <meta content="" name="author">
+
+  <title>IronQuest</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
+        rel="stylesheet">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script>
+
+  <link href="css/app.css" rel="stylesheet">
+  <script src="js/app.js"></script>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/multi-select/0.9.12/css/multi-select.min.css"
+        rel="stylesheet"/>
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/multi-select/0.9.12/js/jquery.multi-select.min.js"></script>
+</head>
+
+<body>
+<main class="container" role="main">
+  <h1>IronQuest</h1>
+
+  <div class="row mt-4">
+    <div class="col-12">
+      <form class="form-horizontal" id="quests-path-form">
+        <div class="form-group row">
+          <label class="col-form-label col-4" for="name">Username:</label>
+          <div class="col-sm-8">
+            <input class="form-control" id="name" name="name" placeholder="Username" type="text">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-4" for="memberFilter">Member Filter:</label>
+          <div class="col-8" id="memberFilter">
+            <div class="form-check">
+              <input checked class="form-check-input" id="filter-both" name="memberFilter"
+                     type="radio" value="BOTH">
+              <label class="form-check-label" for="filter-both">
+                Both
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" id="filter-free" name="memberFilter" type="radio"
+                     value="FREE">
+              <label class="form-check-label" for="filter-free">
+                Free
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" id="filter-members" name="memberFilter" type="radio"
+                     value="MEMBERS">
+              <label class="form-check-label" for="filter-members">
+                Members
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-4">Requirement Filter:</div>
+          <div class="col-8">
+            <div class="form-check">
+              <input class="form-check-input" id="ironman" name="ironman" type="checkbox">
+              <label class="form-check-label" for="ironman">
+                Ironman
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" id="recommended" name="recommended" type="checkbox">
+              <label class="form-check-label" for="recommended">
+                Recommended
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-form-label col-4" for="lamp-skills">Lamp Skills:</label>
+          <div class="col-8">
+            <select class="form-control" id="lamp-skills" multiple="multiple" name="lampSkills">
+              <option value="AGILITY">Agility</option>
+              <option value="ATTACK">Attack</option>
+              <option value="CONSTITUTION">Constitution</option>
+              <option value="CONSTRUCTION">Construction</option>
+              <option value="COOKING">Cooking</option>
+              <option value="CRAFTING">Crafting</option>
+              <option value="DEFENCE">Defence</option>
+              <option value="DIVINATION">Divination</option>
+              <option value="DUNGEONEERING">Dungeoneering</option>
+              <option value="FARMING">Farming</option>
+              <option value="FIREMAKING">Firemaking</option>
+              <option value="FISHING">Fishing</option>
+              <option value="FLETCHING">Fletching</option>
+              <option value="HERBLORE">Herblore</option>
+              <option value="HUNTER">Hunter</option>
+              <option value="INVENTION">Invention</option>
+              <option value="MAGIC">Magic</option>
+              <option value="MINING">Mining</option>
+              <option value="PRAYER">Prayer</option>
+              <option value="RANGED">Ranged</option>
+              <option value="RUNECRAFTING">Runecrafting</option>
+              <option value="SLAYER">Slayer</option>
+              <option value="SMITHING">Smithing</option>
+              <option value="STRENGTH">Strength</option>
+              <option value="SUMMONING">Summoning</option>
+              <option value="THIEVING">Thieving</option>
+              <option value="WOODCUTTING">Woodcutting</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="offset-4 col-8">
+            <button class="btn btn-primary" id="run" type="submit">
+              Run
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <div class="row mt-4">
+    <div class="col-12">
+      <h2>Actions</h2>
+    </div>
+  </div>
+  <div class="row mt-4 mb-4" id="actions">
+    <div class="col-12">
+      <p id="actions-empty"><em>None</em></p>
+    </div>
+  </div>
+</main>
+</body>
+</html>

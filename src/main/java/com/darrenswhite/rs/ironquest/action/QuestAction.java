@@ -19,7 +19,7 @@ public class QuestAction extends Action {
   private final QuestEntry entry;
 
   public QuestAction(Player player, QuestEntry entry) {
-    super(player, false);
+    super(ActionType.QUEST, player, false);
     this.entry = entry;
   }
 

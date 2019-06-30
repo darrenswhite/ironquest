@@ -15,7 +15,7 @@ public class TrainAction extends Action {
   private final double endXp;
 
   public TrainAction(Player player, Skill skill, double startXp, double endXp) {
-    super(player, false);
+    super(ActionType.TRAIN, player, false);
     this.skill = skill;
     this.startXp = startXp;
     this.endXp = endXp;

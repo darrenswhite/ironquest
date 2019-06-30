@@ -9,11 +9,13 @@ import com.darrenswhite.rs.ironquest.player.Player;
  */
 public abstract class Action {
 
+  private final ActionType type;
   private final Player player;
   private final boolean future;
   private boolean processed = false;
 
-  protected Action(Player player, boolean future) {
+  Action(ActionType type, Player player, boolean future) {
+    this.type = type;
     this.player = player.copy();
     this.future = future;
   }
@@ -29,12 +31,20 @@ public abstract class Action {
     }
   }
 
+  public final Player getPlayer() {
+    return player;
+  }
+
+  public final ActionType getType() {
+    return type;
+  }
+
   public final boolean isFuture() {
     return future;
   }
 
-  public final Player getPlayer() {
-    return player;
+  public final boolean isProcessed() {
+    return processed;
   }
 
   @Override

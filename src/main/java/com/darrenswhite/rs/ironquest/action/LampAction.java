@@ -22,7 +22,7 @@ public class LampAction extends Action {
 
   public LampAction(Player player, boolean future, QuestEntry questEntry, LampReward lampReward,
       Set<Skill> skills) {
-    super(player, future);
+    super(ActionType.LAMP, player, future);
     this.questEntry = questEntry;
     this.lampReward = lampReward;
     this.skills = skills;
