@@ -73,7 +73,12 @@ public class LampAction extends Action {
   }
 
   @Override
-  public void processPlayer(Player player) {
+  public void process(Player player) {
     skills.forEach(s -> player.addSkillXP(s, lampReward.getXp()));
+  }
+
+  @Override
+  public LampAction copyForPlayer(Player player) {
+    return new LampAction(player, isFuture(), getQuestEntry(), getLampReward(), getSkills());
   }
 }

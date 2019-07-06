@@ -38,10 +38,16 @@ public class QuestAction extends Action {
   }
 
   @Override
-  protected void processPlayer(Player player) {
+  public void process(Player player) {
     LOG.debug("Completing quest: {}", entry.getQuest().getDisplayName());
 
     entry.setStatus(QuestStatus.COMPLETED);
     entry.getQuest().getXpRewards().forEach(player::addSkillXP);
+  }
+
+
+  @Override
+  public QuestAction copyForPlayer(Player player) {
+    return new QuestAction(player, getQuestEntry());
   }
 }

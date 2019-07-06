@@ -49,7 +49,12 @@ public class TrainAction extends Action {
   }
 
   @Override
-  protected void processPlayer(Player player) {
+  public void process(Player player) {
     player.addSkillXP(skill, getDiffXp());
+  }
+
+  @Override
+  public TrainAction copyForPlayer(Player player) {
+    return new TrainAction(player, getSkill(), getStartXp(), getEndXp());
   }
 }

@@ -308,15 +308,7 @@ public class Player {
         });
   }
 
-  private TrainAction createTrainAction(SkillRequirement skillRequirement) {
-    Skill skill = skillRequirement.getSkill();
-    double currentXp = getXp(skill);
-    double requirementXp = skill.getXpAtLevel(skillRequirement.getLevel());
-
-    return new TrainAction(this, skill, currentXp, requirementXp);
-  }
-
-  private LampAction createLampAction(QuestEntry questEntry, LampReward lampReward) {
+  public LampAction createLampAction(QuestEntry questEntry, LampReward lampReward) {
     Set<Skill> bestSkills = new HashSet<>();
     boolean future = true;
 
@@ -330,6 +322,14 @@ public class Player {
     }
 
     return new LampAction(this, future, questEntry, lampReward, bestSkills);
+  }
+
+  private TrainAction createTrainAction(SkillRequirement skillRequirement) {
+    Skill skill = skillRequirement.getSkill();
+    double currentXp = getXp(skill);
+    double requirementXp = skill.getXpAtLevel(skillRequirement.getLevel());
+
+    return new TrainAction(this, skill, currentXp, requirementXp);
   }
 
   private QuestEntry compareQuestByPriority(QuestEntry first, QuestEntry second) {

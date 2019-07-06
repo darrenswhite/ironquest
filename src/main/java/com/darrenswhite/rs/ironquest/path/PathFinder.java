@@ -1,6 +1,7 @@
 package com.darrenswhite.rs.ironquest.path;
 
 import com.darrenswhite.rs.ironquest.action.Action;
+import com.darrenswhite.rs.ironquest.action.LampAction;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.QuestEntry;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
@@ -12,7 +13,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -65,6 +69,7 @@ public class PathFinder {
 
   private Path find(Player player) {
     Set<Action> actions = new LinkedHashSet<>();
+    List<Action> futureActions = new ArrayList<>();
 
     completePlaceholderQuests(player);
 
@@ -72,20 +77,61 @@ public class PathFinder {
       Optional<QuestEntry> bestQuest = player.getBestQuest(player.getIncompleteQuests());
 
       if (bestQuest.isPresent()) {
-        Set<Action> newActions = player.completeQuest(bestQuest.get());
-
-        for (Action newAction : newActions) {
-          LOG.debug("Adding action: {}", newAction);
-
-          newAction.process(player);
-          actions.add(newAction);
-        }
+        processQuest(player, actions, futureActions, bestQuest.get());
       } else {
         throw new IllegalStateException("Unable to find best quest");
       }
+
+      processFutureActions(player, actions, futureActions);
+    }
+
+    for (Action futureAction : futureActions) {
+      LOG.debug("Adding future action: {}", futureAction);
+
+      actions.add(futureAction);
     }
 
     return new Path(actions);
+  }
+
+  private void processQuest(Player player, Set<Action> actions, List<Action> futureActions,
+      QuestEntry bestQuest) {
+    Set<Action> newActions = player.completeQuest(bestQuest);
+
+    for (Action newAction : newActions) {
+      if (newAction.isFuture()) {
+        LOG.debug("Adding future action: {}", newAction);
+
+        futureActions.add(newAction);
+      } else {
+        LOG.debug("Processing action: {}", newAction);
+
+        newAction.process(player);
+        actions.add(newAction);
+      }
+    }
+  }
+
+  private void processFutureActions(Player player, Set<Action> actions,
+      List<Action> futureActions) {
+    for (Iterator<Action> iterator = futureActions.iterator(); iterator.hasNext(); ) {
+      Action futureAction = iterator.next();
+
+      if (futureAction.meetsRequirements(player)) {
+        if (futureAction instanceof LampAction) {
+          LampAction lampAction = (LampAction) futureAction;
+
+          futureAction = player
+              .createLampAction(lampAction.getQuestEntry(), lampAction.getLampReward());
+        }
+
+        LOG.debug("Processing future action: {}", futureAction);
+
+        futureAction.process(player);
+        actions.add(futureAction.copyForPlayer(player));
+        iterator.remove();
+      }
+    }
   }
 
   private Set<QuestEntry> createQuestEntries(Set<Quest> quests,

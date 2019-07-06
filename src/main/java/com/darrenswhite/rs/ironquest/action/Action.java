@@ -12,7 +12,6 @@ public abstract class Action {
   private final ActionType type;
   private final Player player;
   private final boolean future;
-  private boolean processed = false;
 
   Action(ActionType type, Player player, boolean future) {
     this.type = type;
@@ -20,16 +19,13 @@ public abstract class Action {
     this.future = future;
   }
 
+  public abstract Action copyForPlayer(Player player);
+
   public abstract String getMessage();
 
   public abstract boolean meetsRequirements(Player player);
 
-  public final void process(Player player) {
-    if (!processed && meetsRequirements(player)) {
-      processPlayer(player);
-      processed = true;
-    }
-  }
+  public abstract void process(Player player);
 
   public final Player getPlayer() {
     return player;
@@ -43,14 +39,8 @@ public abstract class Action {
     return future;
   }
 
-  public final boolean isProcessed() {
-    return processed;
-  }
-
   @Override
   public final String toString() {
     return getMessage();
   }
-
-  protected abstract void processPlayer(Player player);
 }
