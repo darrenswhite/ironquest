@@ -3684,6 +3684,11 @@
       {
         "skill": "AGILITY",
         "level": 45
+      },
+      {
+        "skill": "FLETCHING",
+        "level": 59,
+        "ironman": true
       }
     ],
     "questRequirements": [
