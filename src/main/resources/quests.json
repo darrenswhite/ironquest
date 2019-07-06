@@ -6672,6 +6672,21 @@
       {
         "skill": "RANGED",
         "level": 64
+      },
+      {
+        "skill": "CRAFTING",
+        "level": 43,
+        "ironman": true
+      },
+      {
+        "skill": "SMITHING",
+        "level": 40,
+        "ironman": true
+      },
+      {
+        "skill": "MAGIC",
+        "level": 57,
+        "ironman": true
       }
     ],
     "questRequirements": [
