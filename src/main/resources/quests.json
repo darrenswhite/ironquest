@@ -7568,5 +7568,75 @@
       "FIREMAKING": 50000,
       "THIEVING": 50000
     }
+  },
+  {
+    "id": 234,
+    "title": "You Are It",
+    "members": true,
+    "questPointsReward": 1
+  },
+  {
+    "id": 235,
+    "title": "The Needle Skips",
+    "members": true,
+    "questPointsReward": 1
+  },
+  {
+    "id": 236,
+    "title": "Violet is Blue",
+    "members": false,
+    "questPointsReward": 1,
+    "lampRewards": [
+      {
+        "xp": 1000
+      },
+      {
+        "xp": 1000
+      },
+      {
+        "xp": 1000
+      }
+    ]
+  },
+  {
+    "id": 237,
+    "title": "Chef's Assistant",
+    "members": false,
+    "skillRequirements": [
+      {
+        "skill": "COOKING",
+        "level": 32
+      }
+    ],
+    "questRequirements": [
+      {
+        "quest": 0
+      }
+    ],
+    "questPointsReward": 1,
+    "xpRewards": {
+      "COOKING": 1500
+    }
+  },
+  {
+    "id": 238,
+    "title": "Curse of the Black Stone",
+    "members": true,
+    "skillRequirements": [
+      {
+        "skill": "AGILITY",
+        "level": 12
+      },
+      {
+        "skill": "WOODCUTTING",
+        "level": 34
+      }
+    ],
+    "questRequirements": [
+      {
+        "quest": 225
+      }
+    ],
+    "questPointsReward": 4
   }
 ]
