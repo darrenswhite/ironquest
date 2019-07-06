@@ -1,3 +1,5 @@
+var RS_WIKI_URL = 'https://runescape.wiki/'
+
 function displayActionsSuccess(response) {
   setLoading(false);
 
@@ -23,6 +25,12 @@ function displayActionsSuccess(response) {
 
 function getActionContent(action) {
   var content = '<p class="action-content">';
+
+  if (typeof action.questEntry !== "undefined") {
+    var questWikiUrl = RS_WIKI_URL + action.questEntry.quest.displayName.replace(/ /g, '_');
+
+    content += '<a href="' + questWikiUrl + '">View quest on wiki</a>\n';
+  }
 
   content += 'Combat level: ' + action.player.combatLevel + '\n';
   content += 'Quest points: ' + action.player.questPoints + '\n';
