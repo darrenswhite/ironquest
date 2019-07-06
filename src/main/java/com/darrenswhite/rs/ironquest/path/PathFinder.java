@@ -12,7 +12,6 @@ import com.darrenswhite.rs.ironquest.quest.QuestMemberFilter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -27,6 +26,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -37,15 +37,14 @@ public class PathFinder {
 
   private static final Logger LOG = LogManager.getLogger(PathFinder.class);
 
-
   private final Set<Quest> quests = new HashSet<>();
   private final ObjectMapper objectMapper;
 
   /**
    * The URL to retrieve quest data from
    */
-  @Value("${quests.url}")
-  private String questsUrl;
+  @Value("${quests.resource}")
+  private Resource questsResource;
 
   @Autowired
   public PathFinder(ObjectMapper objectMapper) {
@@ -152,10 +151,11 @@ public class PathFinder {
   }
 
   private void loadQuests() throws IOException {
-    LOG.debug("Trying to retrieve quests from URL: {}", questsUrl);
+    LOG.debug("Trying to retrieve quests from resource: {}", questsResource);
 
-    quests.addAll(objectMapper.readValue(new URL(questsUrl), new TypeReference<Set<Quest>>() {
-    }));
+    quests.addAll(
+        objectMapper.readValue(questsResource.getInputStream(), new TypeReference<Set<Quest>>() {
+        }));
   }
 
   private void completePlaceholderQuests(Player player) {
