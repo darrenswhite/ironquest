@@ -8,6 +8,7 @@ import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.EnumMap;
 import java.util.HashSet;
@@ -184,6 +185,7 @@ public class Quest {
         .mapToDouble(LampReward::getXp).sum();
   }
 
+  @JsonIgnore
   public double getTotalXpRewards() {
     return xpRewards.values().stream().mapToDouble(Double::doubleValue).sum();
   }

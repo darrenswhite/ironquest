@@ -9,6 +9,7 @@ import com.darrenswhite.rs.ironquest.quest.RuneMetricsQuest;
 import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -68,6 +69,7 @@ public class Player {
     this.name = name;
   }
 
+  @JsonIgnore
   public Map<Skill, Double> getSkillXps() {
     return skillXps;
   }
@@ -76,6 +78,7 @@ public class Player {
     this.skillXps = skillXps;
   }
 
+  @JsonIgnore
   public Set<QuestEntry> getQuests() {
     return quests;
   }
@@ -84,6 +87,7 @@ public class Player {
     this.quests = quests;
   }
 
+  @JsonIgnore
   public Set<Skill> getLampSkills() {
     return lampSkills;
   }
@@ -150,9 +154,9 @@ public class Player {
     return getCompletedQuests().stream().mapToInt(q -> q.getQuest().getQuestPointsReward()).sum();
   }
 
+  @JsonIgnore
   public Set<QuestEntry> getCompletedQuests() {
-    return quests.stream().filter(e -> e.getStatus() == QuestStatus.COMPLETED)
-        .collect(Collectors.toSet());
+    return quests.stream().filter(e -> e.getStatus() == QuestStatus.COMPLETED).collect(Collectors.toSet());
   }
 
   /**
@@ -160,6 +164,7 @@ public class Player {
    *
    * @return set of incomplete quests
    */
+  @JsonIgnore
   public Set<QuestEntry> getIncompleteQuests() {
     return quests.stream().filter(e -> {
       boolean membersQuest = e.getQuest().isMembers();
