@@ -929,8 +929,17 @@
       {
         "skill": "WOODCUTTING",
         "level": 50
+      },
+      {
+        "skill": "RANGED",
+        "level": 50,
+        "recommended": true
       }
     ],
+    "combatRequirement": {
+      "level": 100,
+      "recommended": true
+    },
     "questPointsRequirement": {
       "amount": 108
     },
@@ -5672,11 +5681,13 @@
       },
       {
         "skill": "ATTACK",
-        "level": 70
+        "level": 70,
+        "recommended": true
       },
       {
         "skill": "RANGED",
-        "level": 70
+        "level": 70,
+        "recommended": true
       }
     ],
     "questRequirements": [
