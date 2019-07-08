@@ -156,7 +156,8 @@ public class Player {
 
   @JsonIgnore
   public Set<QuestEntry> getCompletedQuests() {
-    return quests.stream().filter(e -> e.getStatus() == QuestStatus.COMPLETED).collect(Collectors.toSet());
+    return quests.stream().filter(e -> e.getStatus() == QuestStatus.COMPLETED)
+        .collect(Collectors.toSet());
   }
 
   /**
@@ -423,6 +424,8 @@ public class Player {
   }
 
   private void loadHiscores() throws IOException {
+    LOG.debug("Loading hiscores for player: {}...", name);
+
     CSVFormat format = CSVFormat.DEFAULT.withDelimiter(',');
 
     try (InputStreamReader in = new InputStreamReader(
@@ -440,6 +443,8 @@ public class Player {
   }
 
   private void loadQuests() throws IOException {
+    LOG.debug("Loading quests for player: {}...", name);
+
     URL url = new URL(URL_RUNE_METRICS_QUESTS + URLEncoder.encode(name, "UTF-8"));
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode rmQuestsJson = objectMapper.readTree(url).get("quests");

@@ -4,8 +4,8 @@ import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.QuestEntry;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
-import java.util.Iterator;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A class representing an {@link Action} to use a {@link LampReward} on a set of {@link Skill}'s
@@ -46,18 +46,11 @@ public class LampAction extends Action {
     String xp = Skill.formatXp(lampReward.getXp());
 
     message.append(questEntry.getQuest().getDisplayName()).append(": Use ").append(xp)
-        .append(" xp lamp on ");
+        .append(" xp lamp on");
 
-    Iterator<Skill> it = skills.iterator();
-
-    if (it.hasNext()) {
-      message.append(it.next());
-    }
-
-    while (it.hasNext()) {
-      Skill s = it.next();
-
-      message.append(it.hasNext() ? ", " : " and ").append(s);
+    if (!skills.isEmpty()) {
+      message.append(' ');
+      message.append(skills.stream().map(Skill::toString).collect(Collectors.joining(", ")));
     }
 
     if (isFuture()) {

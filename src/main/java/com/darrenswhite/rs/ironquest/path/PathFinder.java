@@ -79,6 +79,8 @@ public class PathFinder {
     Set<Action> actions = new LinkedHashSet<>();
     List<Action> futureActions = new ArrayList<>();
 
+    LOG.debug("Finding optimal quest path for player: {}", player.getName());
+
     completePlaceholderQuests(player);
 
     while (!player.getIncompleteQuests().isEmpty()) {
@@ -115,7 +117,7 @@ public class PathFinder {
         LOG.debug("Processing action: {}", newAction);
 
         newAction.process(player);
-        actions.add(newAction);
+        actions.add(newAction.copyForPlayer(player));
       }
     }
   }
