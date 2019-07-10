@@ -2353,7 +2353,9 @@
       },
       {
         "skill": "MINING",
-        "level": 45
+        "level": 45,
+        "ironman": true,
+        "recommended": true
       }
     ],
     "questPointsReward": 2,
