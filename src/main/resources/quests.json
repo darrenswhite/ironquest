@@ -7671,5 +7671,33 @@
       }
     ],
     "questPointsReward": 4
+  },
+  {
+    "id": 239,
+    "title": "Desperate Times",
+    "memebers": true,
+    "skillRequirements": [
+      {
+        "skill": "MINING",
+        "level": 50
+      },
+      {
+        "skill": "SMITHING",
+        "level": 50
+      },
+      {
+        "skill": "DIVINATION",
+        "level": 50
+      }
+    ],
+    "questRequirements": [
+      {
+        "quest": 234
+      },
+      {
+        "quest": 235
+      }
+    ],
+    "questPointsReward": 3
   }
 ]
