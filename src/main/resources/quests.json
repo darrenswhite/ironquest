@@ -656,6 +656,12 @@
         "quest": 29
       }
     ],
+    "skillRequirements": [
+      {
+        "skill": "AGILITY",
+        "level": 25
+      }
+    ],
     "questPointsReward": 5,
     "xpRewards": {
       "ATTACK": 18400,
