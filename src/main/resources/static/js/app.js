@@ -43,7 +43,7 @@ var QuestsPathForm = function () {
     if (typeof action.questEntry !== "undefined") {
       var questWikiUrl = RS_WIKI_URL + action.questEntry.quest.displayName.replace(/ /g, '_');
 
-      content += '<a href="' + questWikiUrl + '">View quest on wiki</a>\n';
+      content += '<a href="' + questWikiUrl + '" target="_blank">View quest on wiki</a>\n';
     }
 
     content += 'Combat level: ' + action.player.combatLevel + '\n';
