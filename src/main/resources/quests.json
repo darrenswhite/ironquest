@@ -4024,7 +4024,7 @@
   {
     "id": 146,
     "title": "Perils of Ice Mountain",
-    "members": true,
+    "members": false,
     "skillRequirements": [
       {
         "skill": "FARMING",
@@ -5847,7 +5847,7 @@
   {
     "id": 191,
     "title": "Let Them Eat Pie",
-    "members": true,
+    "members": false,
     "questPointsReward": 1,
     "xpRewards": {
       "COOKING": 100,
@@ -6955,7 +6955,7 @@
   {
     "id": 219,
     "title": "Beneath Cursed Tides",
-    "members": true,
+    "members": false,
     "skillRequirements": [
       {
         "skill": "ATTACK",
@@ -7188,7 +7188,7 @@
   {
     "id": 223,
     "title": "Gower Quest",
-    "members": true,
+    "members": false,
     "questPointsRequirement": {
       "amount": 34
     },
