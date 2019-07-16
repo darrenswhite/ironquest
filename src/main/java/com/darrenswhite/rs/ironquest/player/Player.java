@@ -43,12 +43,12 @@ public class Player {
   /**
    * URL for Hiscores
    */
-  private static final String URL_HISCORES_LITE = "https://services.runescape.com/m=hiscore/index_lite.ws?player=";
+  private static final String URL_HISCORES_LITE = "https://services.runescape.com/m=hiscore/index_lite.ws?player=%s";
 
   /**
    * URL for RuneMetrics quest data
    */
-  private static final String URL_RUNE_METRICS_QUESTS = "https://apps.runescape.com/runemetrics/quests?user=";
+  private static final String URL_RUNE_METRICS_QUESTS = "https://apps.runescape.com/runemetrics/quests?user=%s";
 
   private static final Logger LOG = LogManager.getLogger(Player.class);
 
@@ -401,9 +401,9 @@ public class Player {
     LOG.debug("Loading hiscores for player: {}...", name);
 
     CSVFormat format = CSVFormat.DEFAULT.withDelimiter(',');
+    String hiscoresUrl = String.format(URL_HISCORES_LITE, URLEncoder.encode(name, "UTF-8"));
 
-    try (InputStreamReader in = new InputStreamReader(
-        new URL(URL_HISCORES_LITE + URLEncoder.encode(name, "UTF-8")).openStream())) {
+    try (InputStreamReader in = new InputStreamReader(new URL(hiscoresUrl).openStream())) {
       CSVParser parser = format.parse(in);
       List<CSVRecord> records = parser.getRecords();
 
@@ -419,7 +419,9 @@ public class Player {
   private void loadQuests() throws IOException {
     LOG.debug("Loading quests for player: {}...", name);
 
-    URL url = new URL(URL_RUNE_METRICS_QUESTS + URLEncoder.encode(name, "UTF-8"));
+    String runeMetricsUrl = String
+        .format(URL_RUNE_METRICS_QUESTS, URLEncoder.encode(name, "UTF-8"));
+    URL url = new URL(runeMetricsUrl);
     ObjectMapper objectMapper = new ObjectMapper();
     JsonNode rmQuestsJson = objectMapper.readTree(url).get("quests");
     Set<RuneMetricsQuest> rmQuests = objectMapper.readValue(objectMapper.treeAsTokens(rmQuestsJson),
