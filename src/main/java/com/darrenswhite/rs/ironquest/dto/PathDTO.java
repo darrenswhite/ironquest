@@ -10,26 +10,38 @@ import java.util.Set;
 public class PathDTO {
 
   private final Set<ActionDTO> actions;
+  private final PathStatsDTO stats;
 
-  private PathDTO(Set<ActionDTO> actions) {
+  private PathDTO(Set<ActionDTO> actions, PathStatsDTO stats) {
     this.actions = actions;
+    this.stats = stats;
   }
 
   public Set<ActionDTO> getActions() {
     return actions;
   }
 
+  public PathStatsDTO getStats() {
+    return stats;
+  }
+
   public static class Builder {
 
     private Set<ActionDTO> actions;
+    private PathStatsDTO stats;
 
     public Builder withActions(Set<ActionDTO> actions) {
       this.actions = actions;
       return this;
     }
 
+    public Builder withStats(PathStatsDTO stats) {
+      this.stats = stats;
+      return this;
+    }
+
     public PathDTO build() {
-      return new PathDTO(actions);
+      return new PathDTO(actions, stats);
     }
   }
 }

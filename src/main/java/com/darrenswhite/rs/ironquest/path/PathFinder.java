@@ -75,6 +75,7 @@ public class PathFinder {
   private Path find(Player player) {
     Set<Action> actions = new LinkedHashSet<>();
     List<Action> futureActions = new ArrayList<>();
+    PathStats stats = createStats(player);
 
     LOG.debug("Finding optimal quest path for player: {}", player.getName());
 
@@ -98,7 +99,14 @@ public class PathFinder {
       actions.add(futureAction);
     }
 
-    return new Path(actions);
+    return new Path(actions, stats);
+  }
+
+  private PathStats createStats(Player player) {
+    double percentComplete =
+        (double) player.getCompletedQuests().size() / (double) player.getQuests().size() * 100;
+
+    return new PathStats(percentComplete);
   }
 
   private void processQuest(Player player, Set<Action> actions, List<Action> futureActions,

@@ -1,14 +1,30 @@
 var QuestsPathForm = function () {
   var RS_WIKI_URL = 'https://runescape.wiki/';
   var $actions = $('#actions');
+  var $pathStats = $('#path-stats');
   var $run = $('#run');
   var $questsPathForm = $('#quests-path-form');
   var $lampSkills = $('#lamp-skills');
 
-  function displayActionsSuccess(response) {
+  function displayActionsSuccess(path) {
     setLoading(false);
 
-    var actions = response.actions;
+    var pathStats = getPathStats(path);
+    var actionsContent = getActionsContent(path);
+
+    $pathStats.html(pathStats);
+    $actions.html(actionsContent);
+  }
+
+  function getPathStats(path) {
+    var stats = path.stats;
+
+    return '<div class="col-12"><span class="badge badge-pill badge-success">Completed: <span class="badge badge-pill badge-light">' +
+      Math.round(stats.percentComplete) + '%</span></span></div>';
+  }
+
+  function getActionsContent(path) {
+    var actions = path.actions;
     var actionsContent;
 
     if (actions.length > 0) {
@@ -17,14 +33,14 @@ var QuestsPathForm = function () {
       var actionId;
       var actionContent;
 
-      response.actions.forEach(function (action, i) {
+      path.actions.forEach(function (action, i) {
         actionId = 'action-' + i;
         actionContent = getActionContent(action);
 
-        tabs += '<a class="list-group-item list-group-item-action" data-toggle="list" href="#' +
-          actionId + '" role="tab">' + action.message + '</a>';
-        tabContent += '<div class="tab-pane fade" id="' + actionId + '" role="tabpanel">' +
-          actionContent + '</div>';
+        tabs += '<a class="list-group-item list-group-item-action' + (i == 0 ? ' active' : '') +
+          '" data-toggle="list" href="#' + actionId + '" role="tab">' + action.message + '</a>';
+        tabContent += '<div class="tab-pane fade ' + (i == 0 ? ' show active' : '') +
+          '" id="' + actionId + '" role="tabpanel">' + actionContent + '</div>';
       });
 
       tabs += '</div></div>';
@@ -34,7 +50,7 @@ var QuestsPathForm = function () {
       actionsContent = '<div class="col-12"><p id="actions-empty"><em>None</em></p></div>';
     }
 
-    $actions.html(actionsContent);
+    return actionsContent;
   }
 
   function getActionContent(action) {
@@ -151,4 +167,8 @@ $(function() {
   questsPathForm.init();
   questsPathForm.load();
   $(window).on('beforeunload', questsPathForm.save);
+
+  $('[data-toggle="popover"]').popover({
+    trigger: 'hover'
+  });
 });
