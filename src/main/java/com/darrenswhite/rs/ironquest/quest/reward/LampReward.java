@@ -1,5 +1,6 @@
 package com.darrenswhite.rs.ironquest.quest.reward;
 
+import com.darrenswhite.rs.ironquest.dto.LampRewardDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.fasterxml.jackson.core.JsonParser;
@@ -91,6 +92,10 @@ public class LampReward implements Reward {
       }
       return player.getLevel(s) >= e.getValue();
     }));
+  }
+
+  public LampRewardDTO createDTO() {
+    return new LampRewardDTO.Builder().withXp(getXp()).build();
   }
 
   public static class LampRequirementsDeserializer extends

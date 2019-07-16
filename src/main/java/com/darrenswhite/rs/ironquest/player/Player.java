@@ -4,12 +4,12 @@ import com.darrenswhite.rs.ironquest.action.Action;
 import com.darrenswhite.rs.ironquest.action.LampAction;
 import com.darrenswhite.rs.ironquest.action.QuestAction;
 import com.darrenswhite.rs.ironquest.action.TrainAction;
+import com.darrenswhite.rs.ironquest.dto.PlayerDTO;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.RuneMetricsQuest;
 import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,97 +52,73 @@ public class Player {
 
   private static final Logger LOG = LogManager.getLogger(Player.class);
 
-  private String name;
-  private Map<Skill, Double> skillXps = new EnumMap<>(Skill.INITIAL_XPS);
-  private Set<QuestEntry> quests = new HashSet<>();
-  private Set<Skill> lampSkills = new LinkedHashSet<>();
-  private boolean ironman = false;
-  private boolean recommended = false;
-  private boolean free = true;
-  private boolean members = true;
+  private final String name;
+  private final Map<Skill, Double> skillXps;
+  private final Set<QuestEntry> quests;
+  private final Set<Skill> lampSkills;
+  private final boolean ironman;
+  private final boolean recommended;
+  private final boolean free;
+  private final boolean members;
+
+  private Player(String name, Map<Skill, Double> skillXps, Set<QuestEntry> quests,
+      Set<Skill> lampSkills, boolean ironman, boolean recommended, boolean free, boolean members) {
+    this.name = name;
+    this.skillXps = skillXps;
+    this.quests = quests;
+    this.lampSkills = lampSkills;
+    this.ironman = ironman;
+    this.recommended = recommended;
+    this.free = free;
+    this.members = members;
+  }
 
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  @JsonIgnore
   public Map<Skill, Double> getSkillXps() {
     return skillXps;
   }
 
-  public void setSkillXps(Map<Skill, Double> skillXps) {
-    this.skillXps = skillXps;
-  }
-
-  @JsonIgnore
   public Set<QuestEntry> getQuests() {
     return quests;
   }
 
-  public void setQuests(Set<QuestEntry> quests) {
-    this.quests = quests;
-  }
-
-  @JsonIgnore
   public Set<Skill> getLampSkills() {
     return lampSkills;
-  }
-
-  public void setLampSkills(Set<Skill> lampSkills) {
-    this.lampSkills = lampSkills;
   }
 
   public boolean isIronman() {
     return ironman;
   }
 
-  public void setIronman(boolean ironman) {
-    this.ironman = ironman;
-  }
-
   public boolean isRecommended() {
     return recommended;
-  }
-
-  public void setRecommended(boolean recommended) {
-    this.recommended = recommended;
   }
 
   public boolean isFree() {
     return free;
   }
 
-  public void setFree(boolean free) {
-    this.free = free;
-  }
-
   public boolean isMembers() {
     return members;
   }
 
-  public void setMembers(boolean members) {
-    this.members = members;
+  public PlayerDTO createDTO() {
+    return new PlayerDTO.Builder().setName(name).withLevels(getLevels())
+        .withQuestPoints(getQuestPoints()).withTotalLevel(getTotalLevel())
+        .withCombatLevel(getCombatLevel()).build();
   }
 
   public Player copy() {
-    Player player = new Player();
+    Set<QuestEntry> copiedQuests = quests.stream()
+        .map(e -> new QuestEntry(e.getQuest(), e.getStatus(), e.getPriority()))
+        .collect(Collectors.toSet());
 
-    player.setName(name);
-    player.setSkillXps(new EnumMap<>(skillXps));
-    player.setQuests(
-        quests.stream().map(e -> new QuestEntry(e.getQuest(), e.getStatus(), e.getPriority()))
-            .collect(Collectors.toSet()));
-    player.setLampSkills(new LinkedHashSet<>(lampSkills));
-    player.setIronman(ironman);
-    player.setRecommended(recommended);
-    player.setFree(free);
-    player.setMembers(members);
-
-    return player;
+    return new Builder().setName(name).setSkillXps(new EnumMap<>(skillXps)).setQuests(copiedQuests)
+        .setLampSkills(new LinkedHashSet<>(lampSkills)).setIronman(ironman)
+        .setRecommended(recommended).setFree(free).setMembers(members).build();
   }
 
   public Map<Skill, Integer> getLevels() {
@@ -154,7 +130,7 @@ public class Player {
     return getCompletedQuests().stream().mapToInt(q -> q.getQuest().getQuestPointsReward()).sum();
   }
 
-  @JsonIgnore
+
   public Set<QuestEntry> getCompletedQuests() {
     return quests.stream().filter(e -> e.getStatus() == QuestStatus.COMPLETED)
         .collect(Collectors.toSet());
@@ -166,7 +142,6 @@ public class Player {
    *
    * @return set of incomplete quests
    */
-  @JsonIgnore
   public Set<QuestEntry> getIncompleteQuests() {
     List<QuestEntry> incompleteQuests = quests.stream()
         .filter(e -> e.getStatus() != QuestStatus.COMPLETED).collect(Collectors.toList());
@@ -237,10 +212,6 @@ public class Player {
         .anyMatch(e -> e.getQuest().equals(quest) && e.getStatus() == QuestStatus.COMPLETED);
   }
 
-  public boolean isQuestEntryCompleted(QuestEntry entry) {
-    return quests.stream().anyMatch(e -> e.equals(entry) && e.getStatus() == QuestStatus.COMPLETED);
-  }
-
   public Set<Action> completeQuest(QuestEntry entry) {
     Set<Action> actions = new LinkedHashSet<>();
     Quest quest = entry.getQuest();
@@ -281,17 +252,6 @@ public class Player {
         LOG.warn("Failed to load quests for player: {}", name, e);
       }
     }
-  }
-
-  public void reset() {
-    for (Skill s : Skill.values()) {
-      skillXps.put(s, Skill.INITIAL_XPS.get(s));
-    }
-
-    quests.forEach(e -> {
-      e.setStatus(QuestStatus.NOT_STARTED);
-      e.getPreviousLampSkills().clear();
-    });
   }
 
   /**
@@ -491,6 +451,62 @@ public class Player {
       } else {
         LOG.warn("Failed to find RuneMetricsQuest: {}", title);
       }
+    }
+  }
+
+  public static class Builder {
+
+    private String name;
+    private Map<Skill, Double> skillXps = new EnumMap<>(Skill.INITIAL_XPS);
+    private Set<QuestEntry> quests = new HashSet<>();
+    private Set<Skill> lampSkills = new LinkedHashSet<>();
+    private boolean ironman = false;
+    private boolean recommended = false;
+    private boolean free = true;
+    private boolean members = true;
+
+    public Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public Builder setSkillXps(Map<Skill, Double> skillXps) {
+      this.skillXps = skillXps;
+      return this;
+    }
+
+    public Builder setQuests(Set<QuestEntry> quests) {
+      this.quests = quests;
+      return this;
+    }
+
+    public Builder setLampSkills(Set<Skill> lampSkills) {
+      this.lampSkills = lampSkills;
+      return this;
+    }
+
+    public Builder setIronman(boolean ironman) {
+      this.ironman = ironman;
+      return this;
+    }
+
+    public Builder setRecommended(boolean recommended) {
+      this.recommended = recommended;
+      return this;
+    }
+
+    public Builder setFree(boolean free) {
+      this.free = free;
+      return this;
+    }
+
+    public Builder setMembers(boolean members) {
+      this.members = members;
+      return this;
+    }
+
+    public Player build() {
+      return new Player(name, skillXps, quests, lampSkills, ironman, recommended, free, members);
     }
   }
 }

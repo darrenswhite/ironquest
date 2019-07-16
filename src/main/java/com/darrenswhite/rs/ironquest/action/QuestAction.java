@@ -1,5 +1,6 @@
 package com.darrenswhite.rs.ironquest.action;
 
+import com.darrenswhite.rs.ironquest.dto.QuestActionDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.QuestEntry;
 import com.darrenswhite.rs.ironquest.player.QuestStatus;
@@ -45,6 +46,12 @@ public class QuestAction extends Action {
     entry.getQuest().getXpRewards().forEach(player::addSkillXP);
   }
 
+  @Override
+  public QuestActionDTO createDTO() {
+    return new QuestActionDTO.Builder().withType(getType()).withPlayer(getPlayer().createDTO())
+        .withFuture(isFuture()).withMessage(getMessage())
+        .withQuest(getQuestEntry().getQuest().createDTO()).build();
+  }
 
   @Override
   public QuestAction copyForPlayer(Player player) {

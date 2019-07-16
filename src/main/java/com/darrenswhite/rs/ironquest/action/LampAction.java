@@ -1,5 +1,6 @@
 package com.darrenswhite.rs.ironquest.action;
 
+import com.darrenswhite.rs.ironquest.dto.LampActionDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.QuestEntry;
 import com.darrenswhite.rs.ironquest.player.Skill;
@@ -68,6 +69,14 @@ public class LampAction extends Action {
   @Override
   public void process(Player player) {
     skills.forEach(s -> player.addSkillXP(s, lampReward.getXp()));
+  }
+
+  @Override
+  public LampActionDTO createDTO() {
+    return new LampActionDTO.Builder().withType(getType()).withPlayer(getPlayer().createDTO())
+        .withFuture(isFuture()).withMessage(getMessage())
+        .withQuest(getQuestEntry().getQuest().createDTO())
+        .withLampReward(getLampReward().createDTO()).withSkills(getSkills()).build();
   }
 
   @Override

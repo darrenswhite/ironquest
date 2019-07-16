@@ -1,12 +1,6 @@
 package com.darrenswhite.rs.ironquest.player;
 
 import com.darrenswhite.rs.ironquest.quest.Quest;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -23,17 +17,12 @@ public class QuestEntry {
   private QuestStatus status;
   private QuestPriority priority;
 
-  public QuestEntry(Quest quest) {
-    this(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-  }
-
   public QuestEntry(Quest quest, QuestStatus status, QuestPriority priority) {
     this.quest = quest;
     this.status = status;
     this.priority = priority;
   }
 
-  @JsonSerialize(using = QuestSerializer.class)
   public Quest getQuest() {
     return quest;
   }
@@ -46,7 +35,6 @@ public class QuestEntry {
     this.status = status;
   }
 
-  @JsonIgnore
   public Set<Set<Skill>> getPreviousLampSkills() {
     return previousLampSkills;
   }
@@ -74,18 +62,5 @@ public class QuestEntry {
   @Override
   public int hashCode() {
     return Objects.hash(quest);
-  }
-
-  /**
-   * Custom {@link JsonSerializer} for serializing {@link Quest} objects. This is to ensure the
-   * quest is always serialized instead of being reference.
-   */
-  private static class QuestSerializer extends JsonSerializer<Quest> {
-
-    @Override
-    public void serialize(Quest value, JsonGenerator gen, SerializerProvider serializers)
-        throws IOException {
-      gen.writeObject(value);
-    }
   }
 }

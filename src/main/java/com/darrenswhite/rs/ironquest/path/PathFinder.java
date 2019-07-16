@@ -30,6 +30,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 /**
+ * Service for finding optimal {@link Path} for a given set of attributes.
+ *
  * @author Darren S. White
  */
 @Service
@@ -60,16 +62,11 @@ public class PathFinder {
       boolean recommended, Set<Skill> lampSkills, Map<Integer, QuestPriority> questPriorities) {
     LOG.debug("Using player profile: " + name);
 
-    Player player = new Player();
     Set<QuestEntry> questEntries = createQuestEntries(quests, questPriorities);
+    Player player = new Player.Builder().setName(name).setFree(memberFilter.isFree())
+        .setMembers(memberFilter.isMembers()).setIronman(ironman).setRecommended(recommended)
+        .setLampSkills(lampSkills).setQuests(questEntries).build();
 
-    player.setName(name);
-    player.setFree(memberFilter.isFree());
-    player.setMembers(memberFilter.isMembers());
-    player.setIronman(ironman);
-    player.setRecommended(recommended);
-    player.setLampSkills(lampSkills);
-    player.setQuests(questEntries);
     player.load();
 
     return find(player);

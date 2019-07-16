@@ -1,5 +1,6 @@
 package com.darrenswhite.rs.ironquest.action;
 
+import com.darrenswhite.rs.ironquest.dto.ActionDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
 
 /**
@@ -26,6 +27,8 @@ public abstract class Action {
   public abstract boolean meetsRequirements(Player player);
 
   public abstract void process(Player player);
+
+  public abstract ActionDTO createDTO();
 
   public final Player getPlayer() {
     return player;

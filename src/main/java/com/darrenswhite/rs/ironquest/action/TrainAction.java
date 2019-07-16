@@ -1,5 +1,6 @@
 package com.darrenswhite.rs.ironquest.action;
 
+import com.darrenswhite.rs.ironquest.dto.TrainActionDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 
@@ -51,6 +52,12 @@ public class TrainAction extends Action {
   @Override
   public void process(Player player) {
     player.addSkillXP(skill, getDiffXp());
+  }
+
+  @Override
+  public TrainActionDTO createDTO() {
+    return new TrainActionDTO.Builder().withType(getType()).withPlayer(getPlayer().createDTO())
+        .withFuture(isFuture()).withMessage(getMessage()).build();
   }
 
   @Override

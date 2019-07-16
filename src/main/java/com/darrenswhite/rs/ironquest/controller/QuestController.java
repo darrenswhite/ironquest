@@ -1,6 +1,6 @@
 package com.darrenswhite.rs.ironquest.controller;
 
-import com.darrenswhite.rs.ironquest.path.Path;
+import com.darrenswhite.rs.ironquest.dto.PathDTO;
 import com.darrenswhite.rs.ironquest.path.PathFinder;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.Skill;
@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * {@link RestController} for quests path finder API.
+ */
 @RestController
 @RequestMapping("/api/quests")
 public class QuestController {
@@ -26,7 +29,7 @@ public class QuestController {
   }
 
   @GetMapping("/path")
-  public Path getPath(@RequestParam(name = "name", required = false) String name,
+  public PathDTO getPath(@RequestParam(name = "name", required = false) String name,
       @RequestParam(name = "memberFilter", required = false, defaultValue = "BOTH") QuestMemberFilter memberFilter,
       @RequestParam(name = "ironman", required = false) boolean ironman,
       @RequestParam(name = "recommended", required = false) boolean recommended,
@@ -38,6 +41,7 @@ public class QuestController {
     if (questPriorities == null) {
       questPriorities = Collections.emptyMap();
     }
-    return pathFinder.find(name, memberFilter, ironman, recommended, lampSkills, questPriorities);
+    return pathFinder.find(name, memberFilter, ironman, recommended, lampSkills, questPriorities)
+        .createDTO();
   }
 }
