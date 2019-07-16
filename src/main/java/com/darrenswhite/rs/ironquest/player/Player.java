@@ -161,20 +161,34 @@ public class Player {
   }
 
   /**
-   * Gets all quests which are not completed. This also filters members/free quests.
+   * Gets all quests which are not completed. This also filters members/free quests if they are not
+   * a requirement for another quest.
    *
    * @return set of incomplete quests
    */
   @JsonIgnore
   public Set<QuestEntry> getIncompleteQuests() {
-    return quests.stream().filter(e -> {
-      boolean membersQuest = e.getQuest().isMembers();
+    List<QuestEntry> incompleteQuests = quests.stream()
+        .filter(e -> e.getStatus() != QuestStatus.COMPLETED).collect(Collectors.toList());
+    List<Integer> incompleteQuestRequirements = incompleteQuests.stream()
+        .flatMap(q -> q.getQuest().getQuestRequirements().stream()).map(qr -> qr.getQuest().getId())
+        .collect(Collectors.toList());
 
-      if (!members && membersQuest || !free && !membersQuest) {
-        return false;
+    return quests.stream().filter(e -> {
+      boolean valid = true;
+      boolean complete = e.getStatus() == QuestStatus.COMPLETED;
+
+      if (complete) {
+        valid = false;
+      } else if (!incompleteQuestRequirements.contains(e.getQuest().getId())) {
+        boolean membersQuest = e.getQuest().isMembers();
+
+        if (!members && membersQuest || !free && !membersQuest) {
+          valid = false;
+        }
       }
 
-      return e.getStatus() != QuestStatus.COMPLETED;
+      return valid;
     }).collect(Collectors.toSet());
   }
 
