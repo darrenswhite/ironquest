@@ -1,10 +1,45 @@
-var QuestsPathForm = function () {
+var QuestsPathForm = (function () {
   var RS_WIKI_URL = 'https://runescape.wiki/';
-  var $actions = $('#actions');
-  var $pathStats = $('#path-stats');
-  var $run = $('#run');
-  var $questsPathForm = $('#quests-path-form');
-  var $lampSkills = $('#lamp-skills');
+  var $actions;
+  var $pathStats;
+  var $run;
+  var $questsPathForm;
+  var $lampSkills;
+
+  function init() {
+    initSelectors();
+
+    $questsPathForm.on('submit', function (event) {
+      setLoading(true);
+      event.preventDefault();
+
+      $.get({
+        url: 'api/quests/path',
+        data: $questsPathForm.serialize(),
+        success: displayActionsSuccess,
+        error: displayActionsError
+      });
+    });
+
+    $lampSkills.multiSelect({
+      keepOrder: true,
+      afterSelect: function (value) {
+        $lampSkills.find('option[value="' + value + '"]').remove();
+        $lampSkills.append($("<option></option>").attr('value', value).attr('selected', 'selected'));
+      },
+      afterDeselect: function (value) {
+        $lampSkills.find('option[value="' + value + '"]').removeAttr('selected');
+      }
+    });
+  }
+
+  function initSelectors() {
+    $actions = $('#actions');
+    $pathStats = $('#path-stats');
+    $run = $('#run');
+    $questsPathForm = $('#quests-path-form');
+    $lampSkills = $('#lamp-skills');
+  }
 
   function displayActionsSuccess(path) {
     setLoading(false);
@@ -82,6 +117,7 @@ var QuestsPathForm = function () {
   function displayActionsError(response) {
     setLoading(false);
     $actions.html('<div class="col-12"><p id="action-error">Something went wrong!</p></div>');
+    $pathStats.html('');
   }
 
   function setLoading(loading) {
@@ -93,31 +129,6 @@ var QuestsPathForm = function () {
       $run.prop('disabled', false);
       $run.html('Run');
     }
-  }
-
-  function init() {
-    $questsPathForm.on('submit', function (event) {
-      setLoading(true);
-      event.preventDefault();
-
-      $.get({
-        url: 'api/quests/path',
-        data: $questsPathForm.serialize(),
-        success: displayActionsSuccess,
-        error: displayActionsError
-      });
-    });
-
-    $lampSkills.multiSelect({
-      keepOrder: true,
-      afterSelect: function (value) {
-        $lampSkills.find('option[value="' + value + '"]').remove();
-        $lampSkills.append($("<option></option>").attr('value', value).attr('selected', 'selected'));
-      },
-      afterDeselect: function (value) {
-        $lampSkills.find('option[value="' + value + '"]').removeAttr('selected');
-      }
-    });
   }
 
   function load() {
@@ -160,13 +171,12 @@ var QuestsPathForm = function () {
     load: load,
     save: save
   };
-};
+})();
 
 $(function() {
-  var questsPathForm = new QuestsPathForm();
-  questsPathForm.init();
-  questsPathForm.load();
-  $(window).on('beforeunload', questsPathForm.save);
+  QuestsPathForm.init();
+  QuestsPathForm.load();
+  $(window).on('beforeunload', QuestsPathForm.save);
 
   $('[data-toggle="popover"]').popover({
     trigger: 'hover'
