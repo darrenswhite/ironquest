@@ -1,6 +1,5 @@
 package com.darrenswhite.rs.ironquest.quest.reward;
 
-import com.darrenswhite.rs.ironquest.dto.LampRewardDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.fasterxml.jackson.core.JsonParser;
@@ -55,6 +54,7 @@ public class LampReward implements Reward {
   private Map<Set<Skill>, Integer> requirements = DEFAULT_REQUIREMENTS;
   private double xp;
   private boolean exclusive;
+  private LampType type;
 
   public Map<Set<Skill>, Integer> getRequirements() {
     return requirements;
@@ -80,6 +80,14 @@ public class LampReward implements Reward {
     this.exclusive = exclusive;
   }
 
+  public LampType getType() {
+    return type;
+  }
+
+  public void setType(LampType type) {
+    this.type = type;
+  }
+
   public boolean meetsRequirements(Player player) {
     if (requirements.isEmpty()) {
       return true;
@@ -92,10 +100,6 @@ public class LampReward implements Reward {
       }
       return player.getLevel(s) >= e.getValue();
     }));
-  }
-
-  public LampRewardDTO createDTO() {
-    return new LampRewardDTO.Builder().withXp(getXp()).build();
   }
 
   public static class LampRequirementsDeserializer extends

@@ -29,7 +29,8 @@
           "RANGED": 1,
           "STRENGTH": 1
         },
-        "xp": 100
+        "xp": 100,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -40,7 +41,8 @@
           "RANGED": 1,
           "STRENGTH": 1
         },
-        "xp": 100
+        "xp": 100,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -51,7 +53,8 @@
           "RANGED": 1,
           "STRENGTH": 1
         },
-        "xp": 100
+        "xp": 100,
+        "type": "XP"
       }
     ]
   },
@@ -83,7 +86,8 @@
         "requirements": {
           "*": 5
         },
-        "xp": 200
+        "xp": 200,
+        "type": "XP"
       }
     ]
   },
@@ -97,7 +101,8 @@
         "requirements": {
           "*": 20
         },
-        "xp": 1000
+        "xp": 1000,
+        "type": "XP"
       }
     ]
   },
@@ -122,7 +127,8 @@
           "RANGED": 1,
           "MAGIC": 1
         },
-        "xp": 4825
+        "xp": 4825,
+        "type": "XP"
       }
     ]
   },
@@ -157,7 +163,8 @@
           "PRAYER": 1,
           "SUMMONING": 1
         },
-        "xp": 250
+        "xp": 250,
+        "type": "XP"
       }
     ]
   },
@@ -188,7 +195,8 @@
           "PRAYER": 1,
           "SUMMONING": 1
         },
-        "xp": 250
+        "xp": 250,
+        "type": "XP"
       }
     ]
   },
@@ -228,7 +236,8 @@
           "RANGED": 1,
           "STRENGTH": 1
         },
-        "xp": 500
+        "xp": 500,
+        "type": "XP"
       }
     ]
   },
@@ -248,7 +257,8 @@
         "requirements": {
           "SMITHING": 1
         },
-        "xp": 12725
+        "xp": 12725,
+        "type": "XP"
       }
     ]
   },
@@ -262,7 +272,8 @@
         "requirements": {
           "CRAFTING": 1
         },
-        "xp": 200
+        "xp": 200,
+        "type": "XP"
       }
     ]
   },
@@ -297,13 +308,15 @@
         "requirements": {
           "STRENGTH": 1
         },
-        "xp": 18650
+        "xp": 18650,
+        "type": "XP"
       },
       {
         "requirements": {
           "DEFENCE": 1
         },
-        "xp": 18650
+        "xp": 18650,
+        "type": "XP"
       }
     ]
   },
@@ -351,7 +364,8 @@
         "requirements": {
           "*": 20
         },
-        "xp": 1000
+        "xp": 1000,
+        "type": "XP"
       }
     ]
   },
@@ -672,7 +686,8 @@
         "requirements": {
           "AGILITY": 1
         },
-        "xp": 7900
+        "xp": 7900,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -683,13 +698,15 @@
           "RANGED": 1,
           "MAGIC": 1
         },
-        "xp": 18400
+        "xp": 18400,
+        "type": "XP"
       },
       {
         "requirements": {
           "MAGIC": 1
         },
-        "xp": 2150
+        "xp": 2150,
+        "type": "XP"
       }
     ]
   },
@@ -764,7 +781,8 @@
         "requirements": {
           "CRAFTING": 1
         },
-        "xp": 2250
+        "xp": 2250,
+        "type": "XP"
       }
     ]
   },
@@ -791,7 +809,8 @@
           "SMITHING": 1,
           "THIEVING": 1
         },
-        "xp": 4650
+        "xp": 4650,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -800,7 +819,8 @@
           "SMITHING": 1,
           "THIEVING": 1
         },
-        "xp": 4650
+        "xp": 4650,
+        "type": "XP"
       }
     ]
   },
@@ -887,7 +907,8 @@
         "requirements": {
           "COOKING": 1
         },
-        "xp": 1525
+        "xp": 1525,
+        "type": "XP"
       }
     ]
   },
@@ -983,7 +1004,8 @@
           "AGILITY": 1,
           "THIEVING": 1
         },
-        "xp": 7650
+        "xp": 7650,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -1000,7 +1022,8 @@
           "AGILITY": 1,
           "THIEVING": 1
         },
-        "xp": 7650
+        "xp": 7650,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -1017,7 +1040,8 @@
           "AGILITY": 1,
           "THIEVING": 1
         },
-        "xp": 7650
+        "xp": 7650,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -1034,7 +1058,8 @@
           "AGILITY": 1,
           "THIEVING": 1
         },
-        "xp": 7650
+        "xp": 7650,
+        "type": "XP"
       }
     ]
   },
@@ -1122,7 +1147,8 @@
         "requirements": {
           "PRAYER": 1
         },
-        "xp": 1406
+        "xp": 1406,
+        "type": "XP"
       }
     ]
   },
@@ -1154,19 +1180,22 @@
         "requirements": {
           "CRAFTING": 1
         },
-        "xp": 3000
+        "xp": 3000,
+        "type": "XP"
       },
       {
         "requirements": {
           "DEFENCE": 1
         },
-        "xp": 2000
+        "xp": 2000,
+        "type": "XP"
       },
       {
         "requirements": {
           "CONSTITUTION": 1
         },
-        "xp": 2000
+        "xp": 2000,
+        "type": "XP"
       }
     ]
   },
@@ -1180,19 +1209,22 @@
         "requirements": {
           "*": 1
         },
-        "xp": 100
+        "xp": 100,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 1
         },
-        "xp": 100
+        "xp": 100,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 1
         },
-        "xp": 100
+        "xp": 100,
+        "type": "XP"
       }
     ]
   },
@@ -1221,13 +1253,15 @@
         "requirements": {
           "*": 30
         },
-        "xp": 10000
+        "xp": 10000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 30
         },
-        "xp": 10000
+        "xp": 10000,
+        "type": "XP"
       }
     ]
   },
@@ -1441,7 +1475,8 @@
           "ATTACK,DEFENCE": 1,
           "CONSTITUTION,STRENGTH": 1
         },
-        "xp": 35000
+        "xp": 35000,
+        "type": "XP"
       },
       {
         "exclusive": true,
@@ -1449,7 +1484,8 @@
           "ATTACK,DEFENCE": 1,
           "CONSTITUTION,STRENGTH": 1
         },
-        "xp": 20000
+        "xp": 20000,
+        "type": "XP"
       }
     ]
   },
@@ -1478,7 +1514,8 @@
         "requirements": {
           "STRENGTH": 1
         },
-        "xp": 22000
+        "xp": 22000,
+        "type": "XP"
       }
     ]
   },
@@ -1524,31 +1561,36 @@
         "requirements": {
           "ATTACK": 4
         },
-        "xp": 600
+        "xp": 600,
+        "type": "XP"
       },
       {
         "requirements": {
           "DEFENCE": 4
         },
-        "xp": 600
+        "xp": 600,
+        "type": "XP"
       },
       {
         "requirements": {
           "STRENGTH": 4
         },
-        "xp": 600
+        "xp": 600,
+        "type": "XP"
       },
       {
         "requirements": {
           "CONSTITUTION": 4
         },
-        "xp": 600
+        "xp": 600,
+        "type": "XP"
       },
       {
         "requirements": {
           "CRAFTING": 4
         },
-        "xp": 600
+        "xp": 600,
+        "type": "XP"
       }
     ]
   },
@@ -1656,13 +1698,15 @@
         "requirements": {
           "*": 30
         },
-        "xp": 10000
+        "xp": 10000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 30
         },
-        "xp": 10000
+        "xp": 10000,
+        "type": "XP"
       }
     ]
   },
@@ -1974,19 +2018,22 @@
         "requirements": {
           "PRAYER": 1
         },
-        "xp": 1000
+        "xp": 1000,
+        "type": "XP"
       },
       {
         "requirements": {
           "HERBLORE": 1
         },
-        "xp": 1000
+        "xp": 1000,
+        "type": "XP"
       },
       {
         "requirements": {
           "AGILITY": 1
         },
-        "xp": 1000
+        "xp": 1000,
+        "type": "XP"
       }
     ]
   },
@@ -2084,13 +2131,15 @@
         "requirements": {
           "*": 30
         },
-        "xp": 2500
+        "xp": 2500,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 30
         },
-        "xp": 2500
+        "xp": 2500,
+        "type": "XP"
       }
     ]
   },
@@ -2201,7 +2250,8 @@
           "MAGIC": 1,
           "CONSTITUTION": 1
         },
-        "xp": 10000
+        "xp": 10000,
+        "type": "XP"
       }
     ]
   },
@@ -2697,7 +2747,8 @@
         "requirements": {
           "*": 50
         },
-        "xp": 20000
+        "xp": 20000,
+        "type": "XP"
       }
     ]
   },
@@ -2740,25 +2791,29 @@
         "requirements": {
           "ATTACK": 1
         },
-        "xp": 2000
+        "xp": 2000,
+        "type": "XP"
       },
       {
         "requirements": {
           "STRENGTH": 1
         },
-        "xp": 2000
+        "xp": 2000,
+        "type": "XP"
       },
       {
         "requirements": {
           "CRAFTING": 1
         },
-        "xp": 2000
+        "xp": 2000,
+        "type": "XP"
       },
       {
         "requirements": {
           "DEFENCE": 1
         },
-        "xp": 2000
+        "xp": 2000,
+        "type": "XP"
       }
     ]
   },
@@ -2772,13 +2827,15 @@
         "requirements": {
           "DEFENCE": 1
         },
-        "xp": 500
+        "xp": 500,
+        "type": "XP"
       },
       {
         "requirements": {
           "CONSTITUTION": 1
         },
-        "xp": 500
+        "xp": 500,
+        "type": "XP"
       }
     ]
   },
@@ -2870,19 +2927,22 @@
         "requirements": {
           "AGILITY": 1
         },
-        "xp": 5000
+        "xp": 5000,
+        "type": "XP"
       },
       {
         "requirements": {
           "SLAYER": 1
         },
-        "xp": 5000
+        "xp": 5000,
+        "type": "XP"
       },
       {
         "requirements": {
           "CONSTITUTION": 1
         },
-        "xp": 5000
+        "xp": 5000,
+        "type": "XP"
       }
     ]
   },
@@ -2911,7 +2971,8 @@
         "requirements": {
           "THIEVING": 1
         },
-        "xp": 2000
+        "xp": 2000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -2922,7 +2983,8 @@
           "RANGED": 1,
           "MAGIC": 1
         },
-        "xp": 2000
+        "xp": 2000,
+        "type": "XP"
       }
     ]
   },
@@ -2959,7 +3021,8 @@
         "requirements": {
           "*": 30
         },
-        "xp": 2500
+        "xp": 2500,
+        "type": "XP"
       }
     ]
   },
@@ -3098,19 +3161,22 @@
         "requirements": {
           "*": 30
         },
-        "xp": 2000
+        "xp": 2000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 30
         },
-        "xp": 2000
+        "xp": 2000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 30
         },
-        "xp": 2000
+        "xp": 2000,
+        "type": "XP"
       }
     ]
   },
@@ -3320,7 +3386,8 @@
           "MAGIC": 1,
           "SUMMONING": 30
         },
-        "xp": 7000
+        "xp": 7000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -3332,7 +3399,8 @@
           "MAGIC": 1,
           "SUMMONING": 30
         },
-        "xp": 7000
+        "xp": 7000,
+        "type": "XP"
       }
     ]
   },
@@ -3410,7 +3478,8 @@
           "DEFENCE": 1,
           "CONSTITUTION": 1
         },
-        "xp": 10000
+        "xp": 10000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -3419,7 +3488,8 @@
           "DEFENCE": 1,
           "CONSTITUTION": 1
         },
-        "xp": 10000
+        "xp": 10000,
+        "type": "XP"
       }
     ]
   },
@@ -3480,7 +3550,8 @@
         "requirements": {
           "*": 30
         },
-        "xp": 5000
+        "xp": 5000,
+        "type": "XP"
       }
     ]
   },
@@ -3593,7 +3664,8 @@
           "CONSTITUTION": 1,
           "DEFENCE": 1
         },
-        "xp": 15000
+        "xp": 15000,
+        "type": "XP"
       }
     ]
   },
@@ -3673,7 +3745,8 @@
         "requirements": {
           "*": 50
         },
-        "xp": 5000
+        "xp": 5000,
+        "type": "XP"
       }
     ]
   },
@@ -4005,19 +4078,22 @@
         "requirements": {
           "*": 35
         },
-        "xp": 2500
+        "xp": 2500,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 35
         },
-        "xp": 2500
+        "xp": 2500,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 35
         },
-        "xp": 2500
+        "xp": 2500,
+        "type": "XP"
       }
     ]
   },
@@ -4196,19 +4272,22 @@
         "requirements": {
           "*": 25
         },
-        "xp": 1000
+        "xp": 1000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 25
         },
-        "xp": 1000
+        "xp": 1000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 25
         },
-        "xp": 500
+        "xp": 500,
+        "type": "XP"
       }
     ]
   },
@@ -4332,7 +4411,8 @@
     },
     "lampRewards": [
       {
-        "xp": 1000
+        "xp": 1000,
+        "type": "XP"
       }
     ]
   },
@@ -4416,25 +4496,29 @@
         "requirements": {
           "*": 65
         },
-        "xp": 100000
+        "xp": 100000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 65
         },
-        "xp": 100000
+        "xp": 100000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 65
         },
-        "xp": 100000
+        "xp": 100000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 65
         },
-        "xp": 100000
+        "xp": 100000,
+        "type": "XP"
       }
     ]
   },
@@ -4445,7 +4529,8 @@
     "questPointsReward": 2,
     "lampRewards": [
       {
-        "xp": 500
+        "xp": 500,
+        "type": "XP"
       }
     ]
   },
@@ -4551,7 +4636,8 @@
           "DEFENCE": 1,
           "RANGED": 1
         },
-        "xp": 5000
+        "xp": 5000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -4561,7 +4647,8 @@
           "DEFENCE": 1,
           "RANGED": 1
         },
-        "xp": 5000
+        "xp": 5000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -4571,7 +4658,8 @@
           "DEFENCE": 1,
           "RANGED": 1
         },
-        "xp": 5000
+        "xp": 5000,
+        "type": "XP"
       }
     ]
   },
@@ -4613,7 +4701,8 @@
         "requirements": {
           "*": 10
         },
-        "xp": 200
+        "xp": 200,
+        "type": "XP"
       }
     ]
   },
@@ -4889,7 +4978,8 @@
         "requirements": {
           "*": 50
         },
-        "xp": 23000
+        "xp": 23000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -4902,7 +4992,8 @@
           "MAGIC": 50,
           "SUMMONING": 50
         },
-        "xp": 20000
+        "xp": 20000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -4915,7 +5006,8 @@
           "MAGIC": 50,
           "SUMMONING": 50
         },
-        "xp": 20000
+        "xp": 20000,
+        "type": "XP"
       }
     ]
   },
@@ -4960,7 +5052,8 @@
           "MAGIC": 75,
           "PRAYER": 75
         },
-        "xp": 150000
+        "xp": 150000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -4972,7 +5065,8 @@
           "MAGIC": 75,
           "PRAYER": 75
         },
-        "xp": 150000
+        "xp": 150000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -4984,7 +5078,8 @@
           "MAGIC": 75,
           "PRAYER": 75
         },
-        "xp": 150000
+        "xp": 150000,
+        "type": "XP"
       }
     ]
   },
@@ -5071,7 +5166,8 @@
           "RANGED": 1,
           "MAGIC": 1
         },
-        "xp": 100
+        "xp": 100,
+        "type": "XP"
       }
     ]
   },
@@ -5347,7 +5443,8 @@
           "PRAYER": 75,
           "SUMMONING": 75
         },
-        "xp": 50000
+        "xp": 50000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -5359,7 +5456,8 @@
           "PRAYER": 75,
           "SUMMONING": 75
         },
-        "xp": 50000
+        "xp": 50000,
+        "type": "XP"
       }
     ]
   },
@@ -5720,19 +5818,22 @@
         "requirements": {
           "*": 60
         },
-        "xp": 50000
+        "xp": 50000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 60
         },
-        "xp": 50000
+        "xp": 50000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 60
         },
-        "xp": 50000
+        "xp": 50000,
+        "type": "XP"
       }
     ]
   },
@@ -5794,19 +5895,22 @@
         "requirements": {
           "*": 72
         },
-        "xp": 80000
+        "xp": 80000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 72
         },
-        "xp": 80000
+        "xp": 80000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 72
         },
-        "xp": 80000
+        "xp": 80000,
+        "type": "XP"
       }
     ]
   },
@@ -5886,7 +5990,8 @@
           "MAGIC": 75,
           "RANGED": 75
         },
-        "xp": 100000
+        "xp": 100000,
+        "type": "XP"
       }
     ]
   },
@@ -5900,7 +6005,8 @@
         "requirements": {
           "CONSTITUTION": 1
         },
-        "xp": 700
+        "xp": 700,
+        "type": "XP"
       }
     ]
   },
@@ -5939,13 +6045,15 @@
         "requirements": {
           "*": 30
         },
-        "xp": 1500
+        "xp": 1500,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 30
         },
-        "xp": 1500
+        "xp": 1500,
+        "type": "XP"
       }
     ]
   },
@@ -6020,7 +6128,8 @@
           "RANGED": 80,
           "MAGIC": 80
         },
-        "xp": 275000
+        "xp": 275000,
+        "type": "XP"
       }
     ]
   },
@@ -6055,21 +6164,24 @@
         "requirements": {
           "*": 75
         },
-        "xp": 100000
+        "xp": 100000,
+        "type": "XP"
       },
       {
         "exclusive": true,
         "requirements": {
           "*": 75
         },
-        "xp": 100000
+        "xp": 100000,
+        "type": "XP"
       },
       {
         "exclusive": true,
         "requirements": {
           "*": 75
         },
-        "xp": 100000
+        "xp": 100000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -6082,7 +6194,8 @@
           "CONSTITUTION": 65,
           "SUMMONING": 65
         },
-        "xp": 50000
+        "xp": 50000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -6095,7 +6208,8 @@
           "CONSTITUTION": 65,
           "SUMMONING": 65
         },
-        "xp": 50000
+        "xp": 50000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -6108,7 +6222,8 @@
           "CONSTITUTION": 65,
           "SUMMONING": 65
         },
-        "xp": 50000
+        "xp": 50000,
+        "type": "XP"
       }
     ]
   },
@@ -6196,7 +6311,8 @@
           "SUMMONING": 1,
           "PRAYER": 1
         },
-        "xp": 1500
+        "xp": 1500,
+        "type": "XP"
       }
     ]
   },
@@ -6302,7 +6418,8 @@
           "MAGIC": 80,
           "RANGED": 80
         },
-        "xp": 75000
+        "xp": 75000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -6313,7 +6430,8 @@
           "MAGIC": 80,
           "RANGED": 80
         },
-        "xp": 75000
+        "xp": 75000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -6324,7 +6442,8 @@
           "MAGIC": 80,
           "RANGED": 80
         },
-        "xp": 75000
+        "xp": 75000,
+        "type": "XP"
       }
     ]
   },
@@ -6398,7 +6517,8 @@
           "SUMMONING": 69,
           "SLAYER": 69
         },
-        "xp": 50000
+        "xp": 50000,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -6412,7 +6532,8 @@
           "SUMMONING": 79,
           "SLAYER": 79
         },
-        "xp": 75000
+        "xp": 75000,
+        "type": "XP"
       }
     ]
   },
@@ -6540,7 +6661,8 @@
           "SUMMONING": 1,
           "PRAYER": 1
         },
-        "xp": 500
+        "xp": 500,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -6553,7 +6675,8 @@
           "SUMMONING": 1,
           "PRAYER": 1
         },
-        "xp": 500
+        "xp": 500,
+        "type": "XP"
       }
     ]
   },
@@ -6595,7 +6718,8 @@
           "MAGIC": 1,
           "RANGED": 1
         },
-        "xp": 1500
+        "xp": 1500,
+        "type": "XP"
       }
     ]
   },
@@ -6671,7 +6795,8 @@
           "PRAYER": 1,
           "SUMMONING": 1
         },
-        "xp": 15000
+        "xp": 15000,
+        "type": "XP"
       }
     ]
   },
@@ -6743,7 +6868,8 @@
           "PRAYER": 1,
           "SUMMONING": 1
         },
-        "xp": 30000
+        "xp": 30000,
+        "type": "XP"
       }
     ]
   },
@@ -6922,19 +7048,22 @@
         "requirements": {
           "*": 75
         },
-        "xp": 75000
+        "xp": 75000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 75
         },
-        "xp": 75000
+        "xp": 75000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 75
         },
-        "xp": 75000
+        "xp": 75000,
+        "type": "XP"
       }
     ]
   },
@@ -6948,7 +7077,8 @@
         "requirements": {
           "MAGIC": 10
         },
-        "xp": 1000
+        "xp": 1000,
+        "type": "XP"
       }
     ]
   },
@@ -7008,7 +7138,8 @@
           "SLAYER": 1,
           "HERBLORE": 1
         },
-        "xp": 10000
+        "xp": 10000,
+        "type": "XP"
       }
     ]
   },
@@ -7068,7 +7199,8 @@
           "RANGED": 1,
           "SUMMONING": 1
         },
-        "xp": 50000
+        "xp": 50000,
+        "type": "XP"
       }
     ]
   },
@@ -7133,19 +7265,22 @@
         "requirements": {
           "*": 75
         },
-        "xp": 75000
+        "xp": 75000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 75
         },
-        "xp": 75000
+        "xp": 75000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 75
         },
-        "xp": 75000
+        "xp": 75000,
+        "type": "XP"
       }
     ]
   },
@@ -7213,7 +7348,8 @@
           "RUNECRAFTING": 10,
           "DUNGEONEERING": 10
         },
-        "xp": 250
+        "xp": 250,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -7234,7 +7370,8 @@
           "RUNECRAFTING": 30,
           "DUNGEONEERING": 30
         },
-        "xp": 1500
+        "xp": 1500,
+        "type": "XP"
       },
       {
         "requirements": {
@@ -7255,7 +7392,8 @@
           "RUNECRAFTING": 50,
           "DUNGEONEERING": 50
         },
-        "xp": 12000
+        "xp": 12000,
+        "type": "XP"
       }
     ]
   },
@@ -7289,7 +7427,8 @@
         "requirements": {
           "*": 75
         },
-        "xp": 100000
+        "xp": 100000,
+        "type": "XP"
       }
     ]
   },
@@ -7329,31 +7468,36 @@
         "requirements": {
           "*": 85
         },
-        "xp": 250000
+        "xp": 250000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 85
         },
-        "xp": 250000
+        "xp": 250000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 85
         },
-        "xp": 250000
+        "xp": 250000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 85
         },
-        "xp": 250000
+        "xp": 250000,
+        "type": "XP"
       },
       {
         "requirements": {
           "*": 85
         },
-        "xp": 250000
+        "xp": 250000,
+        "type": "XP"
       }
     ]
   },
@@ -7392,13 +7536,15 @@
     },
     "lampRewards": [
       {
-        "xp": 500
+        "xp": 500,
+        "type": "XP"
       },
       {
         "requirements": {
           "INVENTION": 1
         },
-        "xp": 10000
+        "xp": 10000,
+        "type": "XP"
       }
     ]
   },
@@ -7467,7 +7613,8 @@
         "requirements": {
           "CONSTITUTION": 80
         },
-        "xp": 20000
+        "xp": 20000,
+        "type": "XP"
       }
     ]
   },
@@ -7489,7 +7636,8 @@
         "requirements": {
           "STRENGTH": 80
         },
-        "xp": 20000
+        "xp": 20000,
+        "type": "XP"
       }
     ]
   },
@@ -7627,13 +7775,16 @@
     "questPointsReward": 1,
     "lampRewards": [
       {
-        "xp": 1000
+        "xp": 1000,
+        "type": "XP"
       },
       {
-        "xp": 1000
+        "xp": 1000,
+        "type": "XP"
       },
       {
-        "xp": 1000
+        "xp": 1000,
+        "type": "XP"
       }
     ]
   },

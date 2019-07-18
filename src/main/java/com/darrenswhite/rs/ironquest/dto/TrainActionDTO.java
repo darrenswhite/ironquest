@@ -9,21 +9,15 @@ import com.darrenswhite.rs.ironquest.action.ActionType;
  */
 public class TrainActionDTO extends ActionDTO {
 
-  private TrainActionDTO(ActionType type, PlayerDTO player, boolean future, String message) {
-    super(type, player, future, message);
+  private TrainActionDTO(PlayerDTO player, boolean future, String message) {
+    super(ActionType.TRAIN, player, future, message);
   }
 
   public static class Builder {
 
-    private ActionType type;
     private PlayerDTO player;
     private boolean future;
     private String message;
-
-    public Builder withType(ActionType type) {
-      this.type = type;
-      return this;
-    }
 
     public Builder withPlayer(PlayerDTO player) {
       this.player = player;
@@ -41,7 +35,7 @@ public class TrainActionDTO extends ActionDTO {
     }
 
     public TrainActionDTO build() {
-      return new TrainActionDTO(type, player, future, message);
+      return new TrainActionDTO(player, future, message);
     }
   }
 }

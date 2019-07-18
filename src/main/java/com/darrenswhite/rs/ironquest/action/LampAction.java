@@ -73,10 +73,8 @@ public class LampAction extends Action {
 
   @Override
   public LampActionDTO createDTO() {
-    return new LampActionDTO.Builder().withType(getType()).withPlayer(getPlayer().createDTO())
-        .withFuture(isFuture()).withMessage(getMessage())
-        .withQuest(getQuestEntry().getQuest().createDTO())
-        .withLampReward(getLampReward().createDTO()).withSkills(getSkills()).build();
+    return new LampActionDTO.Builder().withPlayer(getPlayer().createDTO()).withFuture(isFuture())
+        .withMessage(getMessage()).withQuest(getQuestEntry().getQuest().createDTO()).build();
   }
 
   @Override

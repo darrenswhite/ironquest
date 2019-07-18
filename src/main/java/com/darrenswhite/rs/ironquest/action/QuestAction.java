@@ -48,9 +48,8 @@ public class QuestAction extends Action {
 
   @Override
   public QuestActionDTO createDTO() {
-    return new QuestActionDTO.Builder().withType(getType()).withPlayer(getPlayer().createDTO())
-        .withFuture(isFuture()).withMessage(getMessage())
-        .withQuest(getQuestEntry().getQuest().createDTO()).build();
+    return new QuestActionDTO.Builder().withPlayer(getPlayer().createDTO()).withFuture(isFuture())
+        .withMessage(getMessage()).withQuest(getQuestEntry().getQuest().createDTO()).build();
   }
 
   @Override

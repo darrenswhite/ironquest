@@ -56,8 +56,8 @@ public class TrainAction extends Action {
 
   @Override
   public TrainActionDTO createDTO() {
-    return new TrainActionDTO.Builder().withType(getType()).withPlayer(getPlayer().createDTO())
-        .withFuture(isFuture()).withMessage(getMessage()).build();
+    return new TrainActionDTO.Builder().withPlayer(getPlayer().createDTO()).withFuture(isFuture())
+        .withMessage(getMessage()).build();
   }
 
   @Override

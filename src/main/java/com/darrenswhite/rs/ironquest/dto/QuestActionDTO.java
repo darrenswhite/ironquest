@@ -11,9 +11,8 @@ public class QuestActionDTO extends ActionDTO {
 
   private final QuestDTO quest;
 
-  private QuestActionDTO(ActionType type, PlayerDTO player, boolean future, String message,
-      QuestDTO quest) {
-    super(type, player, future, message);
+  private QuestActionDTO(PlayerDTO player, boolean future, String message, QuestDTO quest) {
+    super(ActionType.QUEST, player, future, message);
     this.quest = quest;
   }
 
@@ -23,16 +22,10 @@ public class QuestActionDTO extends ActionDTO {
 
   public static class Builder {
 
-    private ActionType type;
     private PlayerDTO player;
     private boolean future;
     private String message;
     private QuestDTO quest;
-
-    public Builder withType(ActionType type) {
-      this.type = type;
-      return this;
-    }
 
     public Builder withPlayer(PlayerDTO player) {
       this.player = player;
@@ -55,7 +48,7 @@ public class QuestActionDTO extends ActionDTO {
     }
 
     public QuestActionDTO build() {
-      return new QuestActionDTO(type, player, future, message, quest);
+      return new QuestActionDTO(player, future, message, quest);
     }
   }
 }
