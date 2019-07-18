@@ -7766,7 +7766,12 @@
     "id": 235,
     "title": "The Needle Skips",
     "members": true,
-    "questPointsReward": 1
+    "questPointsReward": 1,
+    "lampRewards": [
+      {
+        "type": "SMALL_XP"
+      }
+    ]
   },
   {
     "id": 236,
@@ -7827,7 +7832,18 @@
         "quest": 225
       }
     ],
-    "questPointsReward": 4
+    "questPointsReward": 4,
+    "lampRewards": [
+      {
+        "type": "HUGE_XP"
+      },
+      {
+        "type": "HUGE_XP"
+      },
+      {
+        "type": "HUGE_XP"
+      }
+    ]
   },
   {
     "id": 239,
@@ -7855,6 +7871,11 @@
         "quest": 235
       }
     ],
-    "questPointsReward": 3
+    "questPointsReward": 3,
+    "lampRewards": [
+      {
+        "type": "HUGE_XP"
+      }
+    ]
   }
 ]

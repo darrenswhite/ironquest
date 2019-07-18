@@ -1,9 +1,9 @@
 package com.darrenswhite.rs.ironquest.player;
 
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * @author Darren S. White
@@ -67,6 +67,7 @@ public enum Skill {
       58575824, 60793812, 63067521, 65397835, 67785643, 70231841, 72737330, 75303019, 77929820,
       80618654};
 
+  private static final DecimalFormat XP_FORMAT = new DecimalFormat("#.####");
   private static final char[] XP_FORMATS = {'k', 'm', 'b'};
 
   static {
@@ -103,7 +104,7 @@ public enum Skill {
       fmt++;
     }
 
-    String xpStr = Double.toString(xp);
+    String xpStr = XP_FORMAT.format(xp);
 
     if (fmt == -1) {
       return xpStr;
@@ -112,30 +113,39 @@ public enum Skill {
     return xpStr + XP_FORMATS[fmt];
   }
 
-  public static Optional<Skill> tryGet(String name) {
-    for (Skill s : values()) {
-      if (name.equalsIgnoreCase(s.name())) {
-        return Optional.of(s);
-      }
-    }
+  public static Skill tryGet(int id) {
+    Skill skill = null;
 
-    return Optional.empty();
-  }
-
-  public static Optional<Skill> tryGet(int id) {
     for (Skill s : values()) {
       if (id == s.id) {
-        return Optional.of(s);
+        skill = s;
+        break;
       }
     }
 
-    return Optional.empty();
+    return skill;
   }
 
   private static void checkXPRange(double xp) {
     if (xp < 0 || xp > MAX_XP) {
       throw new IllegalArgumentException("XP out of range: " + xp);
     }
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public boolean isMembers() {
+    return members;
+  }
+
+  public int getMaxLevel() {
+    return maxLevel;
+  }
+
+  public SkillType getType() {
+    return type;
   }
 
   public int getLevelAt(double xp) {
@@ -153,16 +163,12 @@ public enum Skill {
     return 1;
   }
 
-  public SkillType getType() {
-    return type;
-  }
-
   public double getXpAtLevel(int lvl) {
     return getXpTable()[lvl];
   }
 
   public double[] getXpTable() {
-    return getType() == SkillType.ELITE ? XP_TABLE_ELITE : XP_TABLE;
+    return type == SkillType.ELITE ? XP_TABLE_ELITE : XP_TABLE;
   }
 
   @Override

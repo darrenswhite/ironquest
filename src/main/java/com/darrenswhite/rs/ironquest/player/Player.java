@@ -421,10 +421,14 @@ public class Player {
       List<CSVRecord> records = parser.getRecords();
 
       for (int i = 1; i < Skill.values().length + 1; i++) {
-        Optional<Skill> skill = Skill.tryGet(i);
+        Skill skill = Skill.tryGet(i);
         CSVRecord r = records.get(i);
 
-        skill.ifPresent(s -> skillXps.put(s, Math.max(0, Double.parseDouble(r.get(2)))));
+        if (skill != null) {
+          skillXps.put(skill, Math.max(0, Double.parseDouble(r.get(2))));
+        } else {
+          LOG.warn("Unknown skill with id: {}", i);
+        }
       }
     }
   }

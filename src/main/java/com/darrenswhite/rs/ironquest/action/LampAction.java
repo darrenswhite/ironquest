@@ -46,13 +46,36 @@ public class LampAction extends Action {
     StringBuilder message = new StringBuilder();
     String xp = Skill.formatXp(lampReward.getXpForSkills(getPlayer(), skills));
 
-    message.append(questEntry.getQuest().getDisplayName()).append(": Use ").append(xp)
-        .append(" xp lamp on");
+    message.append(questEntry.getQuest().getDisplayName());
+    message.append(": Use ");
+
+    switch (lampReward.getType()) {
+      case XP:
+        break;
+      case SMALL_XP:
+        message.append("Small");
+        break;
+      case MEDIUM_XP:
+        message.append("Medium");
+        break;
+      case LARGE_XP:
+        message.append("Large");
+        break;
+      case HUGE_XP:
+        message.append("Huge");
+        break;
+    }
+
+    message.append(" XP Lamp");
 
     if (!skills.isEmpty()) {
-      message.append(' ');
+      message.append(" on ");
       message.append(skills.stream().map(Skill::toString).collect(Collectors.joining(", ")));
     }
+
+    message.append(" to gain ");
+    message.append(xp);
+    message.append(" xp");
 
     if (isFuture()) {
       message.append(" (when requirements are met)");
