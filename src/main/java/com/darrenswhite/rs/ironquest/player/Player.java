@@ -345,6 +345,7 @@ public class Player {
     double lampXpRewards = quest.getLampRewards().stream().filter(l -> l.meetsRequirements(this))
         .mapToDouble(lampReward -> {
           Set<Skill> skills = getBestLampSkills(lampReward, previousLampSkills);
+          previousLampSkills.add(skills);
           return lampReward.getXpForSkills(this, skills);
         }).sum();
 
@@ -352,37 +353,38 @@ public class Player {
   }
 
   private Set<Skill> getBestLampSkills(LampReward lampReward, Set<Set<Skill>> previous) {
-    Set<Set<Skill>> lampSkillChoices = lampReward.getRequirements().entrySet().stream().filter(
-        e -> e.getKey().stream().noneMatch(s -> getLevel(s) < e.getValue()) && (
-            !lampReward.isExclusive() || !previous.contains(e.getKey()))).map(Map.Entry::getKey)
-        .collect(Collectors.toSet());
-    Set<Set<Skill>> skillChoices = new LinkedHashSet<>();
+    Set<Skill> bestLampSkills = null;
+    Set<Set<Skill>> lampSkillChoices = lampReward.getChoices(this, previous);
 
-    for (Skill s : lampSkills) {
-      skillChoices
-          .addAll(lampSkillChoices.stream().filter(c -> c.contains(s)).collect(Collectors.toSet()));
+    for (Skill lampSkill : lampSkills) {
+      bestLampSkills = lampSkillChoices.stream().filter(skills -> skills.contains(lampSkill))
+          .findFirst().orElse(null);
+
+      if (bestLampSkills != null) {
+        break;
+      }
     }
 
-    if (!skillChoices.isEmpty()) {
-      lampSkillChoices = skillChoices;
+    if (bestLampSkills == null) {
+      Map<Skill, Double> xpRequirements = calculateRemainingXpRequirements();
+
+      Map<Set<Skill>, Double> xpChoicesRequirements = lampSkillChoices.stream().collect(Collectors
+          .toMap(s -> s,
+              s -> s.stream().mapToDouble(sk -> xpRequirements.getOrDefault(sk, 0d)).sum()));
+
+      Optional<Map.Entry<Set<Skill>, Double>> choice = xpChoicesRequirements.entrySet().stream()
+          .max(Comparator.comparingDouble(Map.Entry::getValue));
+
+      if (!choice.isPresent()) {
+        throw new IllegalStateException(
+            "Unable to use lampReward: no suitable skill found: lampReward=" + lampReward
+                + ",previous=" + previous + ",lampSkills=" + lampSkills);
+      }
+
+      bestLampSkills = choice.get().getKey();
     }
 
-    Map<Skill, Double> xpRequirements = calculateRemainingXpRequirements();
-
-    Map<Set<Skill>, Double> xpChoicesRequirements = lampSkillChoices.stream().collect(Collectors
-        .toMap(s -> s,
-            s -> s.stream().mapToDouble(sk -> xpRequirements.getOrDefault(sk, 0d)).sum()));
-
-    Optional<Map.Entry<Set<Skill>, Double>> choice = xpChoicesRequirements.entrySet().stream()
-        .max(Comparator.comparingDouble(Map.Entry::getValue));
-
-    if (!choice.isPresent()) {
-      throw new IllegalStateException(
-          "Unable to use lampReward: no suitable skill found: lampReward=" + lampReward
-              + ",previous=" + previous + ",lampSkills=" + lampSkills);
-    }
-
-    return choice.get().getKey();
+    return bestLampSkills;
   }
 
   private Map<Skill, Double> calculateRemainingXpRequirements() {

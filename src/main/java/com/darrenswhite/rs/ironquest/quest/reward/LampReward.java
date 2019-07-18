@@ -89,6 +89,7 @@ public class LampReward implements Reward {
   private double xp;
   private boolean exclusive;
   private LampType type;
+  private boolean singleChoice;
 
   public Map<Set<Skill>, Integer> getRequirements() {
     return requirements;
@@ -120,6 +121,35 @@ public class LampReward implements Reward {
 
   public void setType(LampType type) {
     this.type = type;
+  }
+
+  public boolean isSingleChoice() {
+    return singleChoice;
+  }
+
+  public void setSingleChoice(boolean singleChoice) {
+    this.singleChoice = singleChoice;
+  }
+
+  public Set<Set<Skill>> getChoices(Player player, Set<Set<Skill>> previous) {
+    Map<Set<Skill>, Integer> choices = new HashMap<>();
+
+    if (singleChoice) {
+      choices = new HashMap<>();
+      for (Entry<Set<Skill>, Integer> entry : requirements.entrySet()) {
+        for (Skill skill : entry.getKey()) {
+          Set<Skill> split = new HashSet<>();
+          split.add(skill);
+          choices.put(split, entry.getValue());
+        }
+      }
+    } else {
+      choices.putAll(requirements);
+    }
+
+    return choices.entrySet().stream().filter(
+        e -> e.getKey().stream().noneMatch(s -> player.getLevel(s) < e.getValue()) && (!exclusive
+            || !previous.contains(e.getKey()))).map(Map.Entry::getKey).collect(Collectors.toSet());
   }
 
   public double getXpForSkills(Player player, Set<Skill> skills) {
@@ -154,7 +184,7 @@ public class LampReward implements Reward {
       return true;
     }
 
-    return requirements.entrySet().stream().anyMatch(e -> e.getKey().stream().anyMatch(s -> {
+    return requirements.entrySet().stream().anyMatch(e -> e.getKey().stream().allMatch(s -> {
       if (s == Skill.INVENTION && (player.getLevel(Skill.CRAFTING) < 80
           || player.getLevel(Skill.DIVINATION) < 80 || player.getLevel(Skill.SMITHING) < 80)) {
         return false;
