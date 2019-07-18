@@ -96,7 +96,7 @@ public class PathFinder {
     for (Action futureAction : futureActions) {
       LOG.debug("Adding future action: {}", futureAction);
 
-      actions.add(futureAction);
+      actions.add(futureAction.copyForPlayer(player));
     }
 
     return new Path(actions, stats);
