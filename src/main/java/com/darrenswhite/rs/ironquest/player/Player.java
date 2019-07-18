@@ -334,8 +334,21 @@ public class Player {
 
   private double getQuestPriority(Quest quest) {
     int requirements = quest.getTotalRemainingSkillRequirements(this, true);
-    double rewards = (quest.getTotalLampRewardsXp(this) + quest.getTotalXpRewards()) / 100;
+    double rewards = getTotalQuestRewards(quest) / 100;
     return rewards - requirements;
+  }
+
+  private double getTotalQuestRewards(Quest quest) {
+    double xpRewards = quest.getXpRewards().values().stream().mapToDouble(Double::doubleValue)
+        .sum();
+    Set<Set<Skill>> previousLampSkills = new HashSet<>();
+    double lampXpRewards = quest.getLampRewards().stream().filter(l -> l.meetsRequirements(this))
+        .mapToDouble(lampReward -> {
+          Set<Skill> skills = getBestLampSkills(lampReward, previousLampSkills);
+          return lampReward.getXpForSkills(this, skills);
+        }).sum();
+
+    return xpRewards + lampXpRewards;
   }
 
   private Set<Skill> getBestLampSkills(LampReward lampReward, Set<Set<Skill>> previous) {

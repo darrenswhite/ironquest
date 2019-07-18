@@ -44,7 +44,7 @@ public class LampAction extends Action {
   @Override
   public String getMessage() {
     StringBuilder message = new StringBuilder();
-    String xp = Skill.formatXp(lampReward.getXp());
+    String xp = Skill.formatXp(lampReward.getXpForSkills(getPlayer(), skills));
 
     message.append(questEntry.getQuest().getDisplayName()).append(": Use ").append(xp)
         .append(" xp lamp on");
@@ -68,7 +68,8 @@ public class LampAction extends Action {
 
   @Override
   public void process(Player player) {
-    skills.forEach(s -> player.addSkillXP(s, lampReward.getXp()));
+    double xp = lampReward.getXpForSkills(player, skills);
+    skills.forEach(s -> player.addSkillXP(s, xp));
   }
 
   @Override

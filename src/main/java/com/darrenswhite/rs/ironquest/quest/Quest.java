@@ -180,15 +180,6 @@ public class Quest {
         .mapToInt(SkillRequirement::getLevel).sum();
   }
 
-  public double getTotalLampRewardsXp(Player player) {
-    return lampRewards.stream().filter(l -> l.meetsRequirements(player))
-        .mapToDouble(LampReward::getXp).sum();
-  }
-
-  public double getTotalXpRewards() {
-    return xpRewards.values().stream().mapToDouble(Double::doubleValue).sum();
-  }
-
   public boolean isPlaceholder() {
     return id < 0;
   }
