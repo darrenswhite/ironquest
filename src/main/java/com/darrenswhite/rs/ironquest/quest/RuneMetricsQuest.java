@@ -1,68 +1,100 @@
 package com.darrenswhite.rs.ironquest.quest;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 /**
  * @author Darren S. White
  */
+@JsonDeserialize(builder = RuneMetricsQuest.Builder.class)
 public class RuneMetricsQuest {
 
-  private String title;
-  private Status status;
-  private int difficulty;
-  private boolean members;
-  private int questPoints;
-  private boolean userEligible;
+  private final String title;
+  private final Status status;
+  private final int difficulty;
+  private final boolean members;
+  private final int questPoints;
+  private final boolean userEligible;
+
+  private RuneMetricsQuest(Builder builder) {
+    this.title = builder.title;
+    this.status = builder.status;
+    this.difficulty = builder.difficulty;
+    this.members = builder.members;
+    this.questPoints = builder.questPoints;
+    this.userEligible = builder.userEligible;
+  }
 
   public String getTitle() {
     return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
   }
 
   public Status getStatus() {
     return status;
   }
 
-  public void setStatus(Status status) {
-    this.status = status;
-  }
-
   public int getDifficulty() {
     return difficulty;
-  }
-
-  public void setDifficulty(int difficulty) {
-    this.difficulty = difficulty;
   }
 
   public boolean isMembers() {
     return members;
   }
 
-  public void setMembers(boolean members) {
-    this.members = members;
-  }
-
   public int getQuestPoints() {
     return questPoints;
-  }
-
-  public void setQuestPoints(int questPoints) {
-    this.questPoints = questPoints;
   }
 
   public boolean isUserEligible() {
     return userEligible;
   }
 
-  public void setUserEligible(boolean userEligible) {
-    this.userEligible = userEligible;
-  }
-
   public enum Status {
     COMPLETED,
     NOT_STARTED,
     STARTED
+  }
+
+  public static class Builder {
+
+    private String title;
+    private Status status;
+    private int difficulty;
+    private boolean members;
+    private int questPoints;
+    private boolean userEligible;
+
+    public Builder withTitle(String title) {
+      this.title = title;
+      return this;
+    }
+
+    public Builder withStatus(Status status) {
+      this.status = status;
+      return this;
+    }
+
+    public Builder withDifficulty(int difficulty) {
+      this.difficulty = difficulty;
+      return this;
+    }
+
+    public Builder withMembers(boolean members) {
+      this.members = members;
+      return this;
+    }
+
+    public Builder withQuestPoints(int questPoints) {
+      this.questPoints = questPoints;
+      return this;
+    }
+
+    public Builder withUserEligible(boolean userEligible) {
+      this.userEligible = userEligible;
+      return this;
+    }
+
+    public RuneMetricsQuest build() {
+      return new RuneMetricsQuest(this);
+    }
   }
 }
