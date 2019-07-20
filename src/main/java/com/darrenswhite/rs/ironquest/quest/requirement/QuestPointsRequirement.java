@@ -1,20 +1,21 @@
 package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.player.Player;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Darren S. White
  */
 public class QuestPointsRequirement extends Requirement {
 
-  private int amount;
+  private final int amount;
+
+  public QuestPointsRequirement(@JsonProperty("amount") int amount) {
+    this.amount = amount;
+  }
 
   public int getAmount() {
     return amount;
-  }
-
-  public void setAmount(int amount) {
-    this.amount = amount;
   }
 
   @Override

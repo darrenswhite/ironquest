@@ -2,6 +2,7 @@ package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -11,8 +12,13 @@ import java.util.Set;
  */
 public class SkillRequirement extends Requirement {
 
-  private Skill skill;
-  private int level;
+  private final Skill skill;
+  private final int level;
+
+  public SkillRequirement(@JsonProperty("skill") Skill skill, @JsonProperty("level") int level) {
+    this.skill = skill;
+    this.level = level;
+  }
 
   public static Set<SkillRequirement> merge(Collection<SkillRequirement> requirements,
       Collection<SkillRequirement> merge) {
@@ -39,16 +45,8 @@ public class SkillRequirement extends Requirement {
     return level;
   }
 
-  public void setLevel(int level) {
-    this.level = level;
-  }
-
   public Skill getSkill() {
     return skill;
-  }
-
-  public void setSkill(Skill skill) {
-    this.skill = skill;
   }
 
   @Override

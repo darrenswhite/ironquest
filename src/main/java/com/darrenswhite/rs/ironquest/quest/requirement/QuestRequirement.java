@@ -2,20 +2,21 @@ package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.quest.Quest;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Darren S. White
  */
 public class QuestRequirement extends Requirement {
 
-  private Quest quest;
+  private final Quest quest;
+
+  public QuestRequirement(@JsonProperty("quest") Quest quest) {
+    this.quest = quest;
+  }
 
   public Quest getQuest() {
     return quest;
-  }
-
-  public void setQuest(Quest quest) {
-    this.quest = quest;
   }
 
   @Override
