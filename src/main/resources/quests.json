@@ -9254,8 +9254,8 @@
   {
     "id": 286,
     "type": "MINIQUEST",
-    "title": "Final Destination (miniquest)",
-    "displayName": "Final Destination",
+    "title": "Hopespear's Will (miniquest)",
+    "displayName": "Hopespear's Will",
     "access": "MEMBERS",
     "questRequirements": [
       {
@@ -9281,5 +9281,150 @@
     "xpRewards": {
       "PRAYER": 13750
     }
+  },
+  {
+    "id": 287,
+    "type": "SAGA",
+    "title": "Nadir (saga)",
+    "displayName": "Nadir",
+    "access": "MEMBERS",
+    "skillRequirements": [
+      {
+        "skill": "DUNGEONEERING",
+        "level": 55
+      },
+      {
+        "skill": "THIEVING",
+        "level": 45
+      },
+      {
+        "skill": "ATTACK",
+        "level": 60
+      }
+    ],
+    "xpRewards": {
+      "DUNGEONEERING": 25420,
+      "ATTACK": 37080
+    }
+  },
+  {
+    "id": 288,
+    "type": "SAGA",
+    "title": "Thok It To 'Em (saga)",
+    "displayName": "Thok It To 'Em",
+    "access": "MEMBERS",
+    "skillRequirements": [
+      {
+        "skill": "DUNGEONEERING",
+        "level": 59
+      },
+      {
+        "skill": "STRENGTH",
+        "level": 70
+      }
+    ],
+    "xpRewards": {
+      "DUNGEONEERING": 37080,
+      "STRENGTH": 75765
+    }
+  },
+  {
+    "id": 289,
+    "type": "SAGA",
+    "title": "Thok Your Block Off (saga)",
+    "displayName": "Thok Your Block Off",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 288
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "DUNGEONEERING",
+        "level": 71
+      },
+      {
+        "skill": "STRENGTH",
+        "level": 75
+      }
+    ],
+    "xpRewards": {
+      "DUNGEONEERING": 53440,
+      "STRENGTH": 105010
+    }
+  },
+  {
+    "id": 290,
+    "type": "SAGA",
+    "title": "Three's Company (saga)",
+    "displayName": "Three's Company",
+    "access": "FREE",
+    "skillRequirements": [
+      {
+        "skill": "DUNGEONEERING",
+        "level": 6
+      },
+      {
+        "skill": "ATTACK",
+        "level": 30
+      },
+      {
+        "skill": "MAGIC",
+        "level": 30
+      },
+      {
+        "skill": "RANGED",
+        "level": 30
+      }
+    ],
+    "xpRewards": {
+      "DUNGEONEERING": 750
+    },
+    "lampRewards": [
+      {
+        "type": "XP",
+        "requirements": {
+          "ATTACK": 1,
+          "RANGED": 1,
+          "MAGIC": 1
+        },
+        "xp": 3750
+      }
+    ]
+  },
+  {
+    "id": 291,
+    "type": "SAGA",
+    "title": "Vengeance (saga)",
+    "displayName": "Vengeance",
+    "access": "MEMBERS",
+    "skillRequirements": [
+      {
+        "skill": "DUNGEONEERING",
+        "level": 23
+      },
+      {
+        "skill": "AGILITY",
+        "level": 55
+      },
+      {
+        "skill": "THIEVING",
+        "level": 55
+      }
+    ],
+    "xpRewards": {
+      "DUNGEONEERING": 2410
+    },
+    "lampRewards": [
+      {
+        "type": "XP",
+        "requirements": {
+          "AGILITY": 1,
+          "THIEVING": 1
+        },
+        "xp": 25415
+      }
+    ]
   }
 ]
