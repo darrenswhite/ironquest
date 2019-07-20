@@ -3,17 +3,17 @@ package com.darrenswhite.rs.ironquest.quest;
 /**
  * @author Darren S. White
  */
-public enum QuestMemberFilter {
+public enum QuestAccessFilter {
 
-  BOTH,
+  ALL,
   FREE,
   MEMBERS;
 
   public boolean isFree() {
-    return this == BOTH || this == FREE;
+    return this == ALL || this == FREE;
   }
 
   public boolean isMembers() {
-    return this == BOTH || this == MEMBERS;
+    return this == ALL || this == MEMBERS;
   }
 }

@@ -4,7 +4,8 @@ import com.darrenswhite.rs.ironquest.dto.PathDTO;
 import com.darrenswhite.rs.ironquest.path.PathFinder;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.Skill;
-import com.darrenswhite.rs.ironquest.quest.QuestMemberFilter;
+import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
+import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -30,18 +31,20 @@ public class QuestController {
 
   @GetMapping("/path")
   public PathDTO getPath(@RequestParam(name = "name", required = false) String name,
-      @RequestParam(name = "memberFilter", required = false, defaultValue = "BOTH") QuestMemberFilter memberFilter,
+      @RequestParam(name = "accessFilter", required = false, defaultValue = "ALL") QuestAccessFilter accessFilter,
       @RequestParam(name = "ironman", required = false) boolean ironman,
       @RequestParam(name = "recommended", required = false) boolean recommended,
       @RequestParam(name = "lampSkills", required = false) Set<Skill> lampSkills,
-      @RequestParam(name = "questPriorities", required = false) Map<Integer, QuestPriority> questPriorities) {
+      @RequestParam(name = "questPriorities", required = false) Map<Integer, QuestPriority> questPriorities,
+      @RequestParam(name = "typeFilter", required = false, defaultValue = "ALL") QuestTypeFilter typeFilter) {
     if (lampSkills == null) {
       lampSkills = Collections.emptySet();
     }
     if (questPriorities == null) {
       questPriorities = Collections.emptyMap();
     }
-    return pathFinder.find(name, memberFilter, ironman, recommended, lampSkills, questPriorities)
+    return pathFinder
+        .find(name, accessFilter, ironman, recommended, lampSkills, questPriorities, typeFilter)
         .createDTO();
   }
 }

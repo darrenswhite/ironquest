@@ -58,19 +58,15 @@ public class Player {
   private final Set<Skill> lampSkills;
   private final boolean ironman;
   private final boolean recommended;
-  private final boolean free;
-  private final boolean members;
 
   private Player(String name, Map<Skill, Double> skillXps, Set<QuestEntry> quests,
-      Set<Skill> lampSkills, boolean ironman, boolean recommended, boolean free, boolean members) {
+      Set<Skill> lampSkills, boolean ironman, boolean recommended) {
     this.name = name;
     this.skillXps = skillXps;
     this.quests = quests;
     this.lampSkills = lampSkills;
     this.ironman = ironman;
     this.recommended = recommended;
-    this.free = free;
-    this.members = members;
   }
 
   public String getName() {
@@ -97,14 +93,6 @@ public class Player {
     return recommended;
   }
 
-  public boolean isFree() {
-    return free;
-  }
-
-  public boolean isMembers() {
-    return members;
-  }
-
   public PlayerDTO createDTO() {
     return new PlayerDTO.Builder().setName(name).withLevels(getLevels())
         .withQuestPoints(getQuestPoints()).withTotalLevel(getTotalLevel())
@@ -118,7 +106,7 @@ public class Player {
 
     return new Builder().setName(name).setSkillXps(new EnumMap<>(skillXps)).setQuests(copiedQuests)
         .setLampSkills(new LinkedHashSet<>(lampSkills)).setIronman(ironman)
-        .setRecommended(recommended).setFree(free).setMembers(members).build();
+        .setRecommended(recommended).build();
   }
 
   public Map<Skill, Integer> getLevels() {
@@ -137,34 +125,13 @@ public class Player {
   }
 
   /**
-   * Gets all quests which are not completed. This also filters members/free quests if they are not
-   * a requirement for another quest.
+   * Get all quest entries which are not completed.
    *
    * @return set of incomplete quests
    */
   public Set<QuestEntry> getIncompleteQuests() {
-    List<QuestEntry> incompleteQuests = quests.stream()
-        .filter(e -> e.getStatus() != QuestStatus.COMPLETED).collect(Collectors.toList());
-    List<Integer> incompleteQuestRequirements = incompleteQuests.stream()
-        .flatMap(q -> q.getQuest().getQuestRequirements().stream()).map(qr -> qr.getQuest().getId())
-        .collect(Collectors.toList());
-
-    return quests.stream().filter(e -> {
-      boolean valid = true;
-      boolean complete = e.getStatus() == QuestStatus.COMPLETED;
-
-      if (complete) {
-        valid = false;
-      } else if (!incompleteQuestRequirements.contains(e.getQuest().getId())) {
-        boolean membersQuest = e.getQuest().isMembers();
-
-        if (!members && membersQuest || !free && !membersQuest) {
-          valid = false;
-        }
-      }
-
-      return valid;
-    }).collect(Collectors.toSet());
+    return quests.stream().filter(e -> e.getStatus() != QuestStatus.COMPLETED)
+        .collect(Collectors.toSet());
   }
 
   public int getTotalLevel() {
@@ -483,8 +450,6 @@ public class Player {
     private Set<Skill> lampSkills = new LinkedHashSet<>();
     private boolean ironman = false;
     private boolean recommended = false;
-    private boolean free = true;
-    private boolean members = true;
 
     public Builder setName(String name) {
       this.name = name;
@@ -516,18 +481,8 @@ public class Player {
       return this;
     }
 
-    public Builder setFree(boolean free) {
-      this.free = free;
-      return this;
-    }
-
-    public Builder setMembers(boolean members) {
-      this.members = members;
-      return this;
-    }
-
     public Player build() {
-      return new Player(name, skillXps, quests, lampSkills, ironman, recommended, free, members);
+      return new Player(name, skillXps, quests, lampSkills, ironman, recommended);
     }
   }
 }

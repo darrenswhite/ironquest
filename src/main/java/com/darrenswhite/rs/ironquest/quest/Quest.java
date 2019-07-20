@@ -26,7 +26,7 @@ public class Quest {
   private int id;
   private String title;
   private String displayName;
-  private boolean members;
+  private QuestAccess access;
   private CombatRequirement combatRequirement;
   private QuestPointsRequirement questPointsRequirement;
   private Set<QuestRequirement> questRequirements = new HashSet<>();
@@ -60,12 +60,12 @@ public class Quest {
     this.displayName = displayName;
   }
 
-  public boolean isMembers() {
-    return members;
+  public QuestAccess getAccess() {
+    return access;
   }
 
-  public void setMembers(boolean members) {
-    this.members = members;
+  public void setAccess(QuestAccess access) {
+    this.access = access;
   }
 
   public CombatRequirement getCombatRequirement() {

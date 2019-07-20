@@ -5,23 +5,21 @@ import com.darrenswhite.rs.ironquest.action.LampAction;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.QuestEntry;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
-import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
-import com.darrenswhite.rs.ironquest.quest.QuestMemberFilter;
+import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
+import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
+import com.darrenswhite.rs.ironquest.quest.Quests;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,33 +37,29 @@ public class PathFinder {
 
   private static final Logger LOG = LogManager.getLogger(PathFinder.class);
 
-  private final Set<Quest> quests = new HashSet<>();
-  private final ObjectMapper objectMapper;
+  private final Quests quests;
 
   /**
-   * The URL to retrieve quest data from
+   * Create a new {@link PathFinder}.
+   *
+   * @param questsResource the resource to retrieve quest data from
+   * @param objectMapper an {@link ObjectMapper}
    */
-  @Value("${quests.resource}")
-  private Resource questsResource;
-
   @Autowired
-  public PathFinder(ObjectMapper objectMapper) {
-    this.objectMapper = objectMapper;
+  public PathFinder(@Value("${quests.resource}") Resource questsResource, ObjectMapper objectMapper)
+      throws IOException {
+    this.quests = loadQuests(questsResource, objectMapper);
   }
 
-  @PostConstruct
-  public void init() throws IOException {
-    loadQuests();
-  }
-
-  public Path find(String name, QuestMemberFilter memberFilter, boolean ironman,
-      boolean recommended, Set<Skill> lampSkills, Map<Integer, QuestPriority> questPriorities) {
+  public Path find(String name, QuestAccessFilter accessFilter, boolean ironman,
+      boolean recommended, Set<Skill> lampSkills, Map<Integer, QuestPriority> questPriorities,
+      QuestTypeFilter typeFilter) {
     LOG.debug("Using player profile: " + name);
 
-    Set<QuestEntry> questEntries = createQuestEntries(quests, questPriorities);
-    Player player = new Player.Builder().setName(name).setFree(memberFilter.isFree())
-        .setMembers(memberFilter.isMembers()).setIronman(ironman).setRecommended(recommended)
-        .setLampSkills(lampSkills).setQuests(questEntries).build();
+    Set<QuestEntry> questEntries = quests
+        .createQuestEntries(questPriorities, accessFilter, typeFilter);
+    Player player = new Player.Builder().setName(name).setIronman(ironman)
+        .setRecommended(recommended).setLampSkills(lampSkills).setQuests(questEntries).build();
 
     player.load();
 
@@ -149,18 +143,10 @@ public class PathFinder {
     }
   }
 
-  private Set<QuestEntry> createQuestEntries(Set<Quest> quests,
-      Map<Integer, QuestPriority> questPriorities) {
-    return quests.stream().map(q -> {
-      QuestPriority priority = questPriorities.getOrDefault(q.getId(), QuestPriority.NORMAL);
-      return new QuestEntry(q, QuestStatus.NOT_STARTED, priority);
-    }).collect(Collectors.toSet());
-  }
-
-  private void loadQuests() throws IOException {
+  private Quests loadQuests(Resource questsResource, ObjectMapper objectMapper) throws IOException {
     LOG.debug("Trying to retrieve quests from resource: {}", questsResource);
 
-    quests.addAll(
+    return new Quests(
         objectMapper.readValue(questsResource.getInputStream(), new TypeReference<Set<Quest>>() {
         }));
   }
