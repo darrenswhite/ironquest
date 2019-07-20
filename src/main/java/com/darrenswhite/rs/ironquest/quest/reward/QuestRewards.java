@@ -46,8 +46,8 @@ public class QuestRewards {
       return this;
     }
 
-    public Builder withLamp(Set<LampReward> lamp) {
-      this.lamps = lamp;
+    public Builder withLamps(Set<LampReward> lamps) {
+      this.lamps = lamps;
       return this;
     }
 
