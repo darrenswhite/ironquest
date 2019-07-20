@@ -89,15 +89,15 @@ var QuestsPathForm = (function () {
   }
 
   function getActionContent(action) {
-    var content = '<div class="action-content">';
+    var content = '<div class="action-content"><table class="table table-sm"><tbody>';
 
     if (typeof action.quest !== 'undefined') {
       var questWikiUrl = RS_WIKI_URL + action.quest.displayName.replace(/ /g, '_');
 
-      content += '<div><a href="' + questWikiUrl + '" target="_blank">View quest on wiki</a><div>';
+      content += '<tr><td colspan="2"><a href="' + questWikiUrl +
+        '" target="_blank">View quest on wiki</a></td></tr>';
     }
 
-    content += '<table><tbody>';
     content += '<tr><td>Combat level:</td><td>' + action.player.combatLevel + '</td></tr>';
     content += '<tr><td>Quest points:</td><td>' + action.player.questPoints + '</td></tr>';
     content += '<tr><td>Total level:</td><td>' + action.player.totalLevel + '</td></tr>';
