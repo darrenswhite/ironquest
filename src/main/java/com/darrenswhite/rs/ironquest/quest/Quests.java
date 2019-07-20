@@ -76,8 +76,8 @@ public class Quests {
 
   private Set<Integer> getQuestRequirements(Predicate<Quest> questFilter) {
     return questSet.stream().filter(questFilter)
-        .flatMap(quest -> quest.getQuestRequirements().stream()).map(qr -> qr.getQuest().getId())
-        .collect(Collectors.toSet());
+        .flatMap(quest -> quest.getQuestRequirements(true).stream())
+        .map(qr -> qr.getQuest().getId()).collect(Collectors.toSet());
   }
 
   private QuestEntry createQuestEntry(Quest quest, Map<Integer, QuestPriority> questPriorities) {

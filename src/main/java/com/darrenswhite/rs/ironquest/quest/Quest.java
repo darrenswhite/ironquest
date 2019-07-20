@@ -193,6 +193,19 @@ public class Quest {
     return id < 0;
   }
 
+  public Set<QuestRequirement> getQuestRequirements(boolean recursive) {
+    Set<QuestRequirement> requirements = new HashSet<>(questRequirements);
+
+    if (recursive) {
+      requirements.addAll(questRequirements.stream()
+          .flatMap(qr -> qr.getQuest().getQuestRequirements(true).stream())
+          .collect(Collectors.toSet()));
+    }
+
+    return requirements;
+  }
+
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
