@@ -1,7 +1,8 @@
 package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -42,8 +43,8 @@ public class QuestRequirements {
 
     private CombatRequirement combat;
     private QuestPointsRequirement questPoints;
-    private Set<QuestRequirement> quests = new HashSet<>();
-    private Set<SkillRequirement> skills = new HashSet<>();
+    private Set<QuestRequirement> quests = Collections.emptySet();
+    private Set<SkillRequirement> skills = Collections.emptySet();
 
     public Builder withCombat(CombatRequirement combat) {
       this.combat = combat;
@@ -55,11 +56,13 @@ public class QuestRequirements {
       return this;
     }
 
+    @JsonDeserialize(as = LinkedHashSet.class)
     public Builder withQuests(Set<QuestRequirement> quests) {
       this.quests = quests;
       return this;
     }
 
+    @JsonDeserialize(as = LinkedHashSet.class)
     public Builder withSkills(Set<SkillRequirement> skills) {
       this.skills = skills;
       return this;

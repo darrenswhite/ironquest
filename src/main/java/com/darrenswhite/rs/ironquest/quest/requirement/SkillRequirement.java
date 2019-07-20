@@ -3,7 +3,7 @@ package com.darrenswhite.rs.ironquest.quest.requirement;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -16,7 +16,7 @@ public class SkillRequirement extends Requirement {
 
   public static Set<SkillRequirement> merge(Collection<SkillRequirement> requirements,
       Collection<SkillRequirement> merge) {
-    Set<SkillRequirement> merged = new HashSet<>(requirements);
+    Set<SkillRequirement> merged = new LinkedHashSet<>(requirements);
 
     merge.forEach(mergeRequirement -> {
       SkillRequirement skillRequirement = requirements.stream()

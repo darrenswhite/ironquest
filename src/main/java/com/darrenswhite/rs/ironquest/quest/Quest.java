@@ -9,6 +9,7 @@ import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -118,11 +119,11 @@ public class Quest {
   }
 
   public Set<SkillRequirement> getRemainingSkillRequirements(Player player, boolean recursive) {
-    Set<SkillRequirement> remainingSkillRequirements = new HashSet<>();
+    Set<SkillRequirement> remainingSkillRequirements = new LinkedHashSet<>();
 
     remainingSkillRequirements = SkillRequirement.merge(remainingSkillRequirements,
         requirements.getSkills().stream().filter(sr -> !sr.test(player))
-            .collect(Collectors.toSet()));
+            .collect(Collectors.toCollection(LinkedHashSet::new)));
 
     if (recursive) {
       Set<Quest> remainingQuestRequirements = getRemainingQuestRequirements(player, true);

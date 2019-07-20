@@ -2,8 +2,9 @@ package com.darrenswhite.rs.ironquest.quest.reward;
 
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import java.util.EnumMap;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -37,15 +38,17 @@ public class QuestRewards {
 
   public static class Builder {
 
-    private Map<Skill, Double> xp = new EnumMap<>(Skill.class);
-    private Set<LampReward> lamps = new HashSet<>();
+    private Map<Skill, Double> xp = Collections.emptyMap();
+    private Set<LampReward> lamps = Collections.emptySet();
     private int questPoints = 0;
 
+    @JsonDeserialize(as = LinkedHashMap.class)
     public Builder withXp(Map<Skill, Double> xp) {
       this.xp = xp;
       return this;
     }
 
+    @JsonDeserialize(as = LinkedHashSet.class)
     public Builder withLamps(Set<LampReward> lamps) {
       this.lamps = lamps;
       return this;
