@@ -89,23 +89,24 @@ var QuestsPathForm = (function () {
   }
 
   function getActionContent(action) {
-    var content = '<p class="action-content">';
+    var content = '<div class="action-content">';
 
     if (typeof action.quest !== 'undefined') {
       var questWikiUrl = RS_WIKI_URL + action.quest.displayName.replace(/ /g, '_');
 
-      content += '<a href="' + questWikiUrl + '" target="_blank">View quest on wiki</a>\n';
+      content += '<div><a href="' + questWikiUrl + '" target="_blank">View quest on wiki</a><div>';
     }
 
-    content += 'Combat level: ' + action.player.combatLevel + '\n';
-    content += 'Quest points: ' + action.player.questPoints + '\n';
-    content += 'Total level: ' + action.player.totalLevel + '\n';
+    content += '<table><tbody>';
+    content += '<tr><td>Combat level:</td><td>' + action.player.combatLevel + '</td></tr>';
+    content += '<tr><td>Quest points:</td><td>' + action.player.questPoints + '</td></tr>';
+    content += '<tr><td>Total level:</td><td>' + action.player.totalLevel + '</td></tr>';
 
     Object.keys(action.player.levels).sort().forEach(function (skill) {
-      content += toTitleCase(skill) + ': ' + action.player.levels[skill] + '\n';
+      content += '<tr><td>' + toTitleCase(skill) + ':</td><td>' + action.player.levels[skill] + '</td></tr>';
     });
 
-    content += '</p>';
+    content += '</table></tbody></div>';
 
     return content;
   }
