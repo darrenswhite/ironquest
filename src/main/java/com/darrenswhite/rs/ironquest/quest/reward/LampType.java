@@ -11,5 +11,6 @@ public enum LampType {
   SMALL_XP,
   MEDIUM_XP,
   LARGE_XP,
-  HUGE_XP
+  HUGE_XP,
+  DRAGONKIN
 }

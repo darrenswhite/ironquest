@@ -27,14 +27,14 @@ public class Quest {
   private String title;
   private String displayName;
   private QuestAccess access;
+  private QuestType type;
   private CombatRequirement combatRequirement;
   private QuestPointsRequirement questPointsRequirement;
   private Set<QuestRequirement> questRequirements = new HashSet<>();
   private Set<SkillRequirement> skillRequirements = new HashSet<>();
   private Map<Skill, Double> xpRewards = new EnumMap<>(Skill.class);
   private Set<LampReward> lampRewards = new HashSet<>();
-  private int questPointsReward;
-  private QuestType type;
+  private int questPointsReward = 0;
 
   public int getId() {
     return id;
@@ -66,6 +66,14 @@ public class Quest {
 
   public void setAccess(QuestAccess access) {
     this.access = access;
+  }
+
+  public QuestType getType() {
+    return type;
+  }
+
+  public void setType(QuestType type) {
+    this.type = type;
   }
 
   public CombatRequirement getCombatRequirement() {
@@ -122,14 +130,6 @@ public class Quest {
 
   public void setLampRewards(Set<LampReward> lampRewards) {
     this.lampRewards = lampRewards;
-  }
-
-  public QuestType getType() {
-    return type;
-  }
-
-  public void setType(QuestType type) {
-    this.type = type;
   }
 
   public boolean meetsCombatRequirement(Player player) {

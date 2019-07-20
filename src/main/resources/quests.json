@@ -464,6 +464,11 @@
         "level": 31
       }
     ],
+    "questRequirements": [
+      {
+        "quest": 241
+      }
+    ],
     "questPointsReward": 1,
     "xpRewards": {
       "STRENGTH": 6625
@@ -1482,6 +1487,11 @@
         "level": 43
       }
     ],
+    "questRequirements": [
+      {
+        "quest": 241
+      }
+    ],
     "questPointsReward": 2,
     "xpRewards": {
       "MAGIC": 4662,
@@ -2453,6 +2463,9 @@
       },
       {
         "quest": 87
+      },
+      {
+        "quest": 240
       }
     ],
     "questPointsReward": 1,
@@ -4646,6 +4659,9 @@
       },
       {
         "quest": 154
+      },
+      {
+        "quest": 260
       }
     ],
     "questPointsReward": 5,
@@ -6710,13 +6726,13 @@
         "quest": 122
       },
       {
-        "quest": 131
-      },
-      {
         "quest": 159
       },
       {
         "quest": 200
+      },
+      {
+        "quest": 260
       }
     ],
     "questPointsReward": 2,
@@ -7720,18 +7736,14 @@
     "access": "MEMBERS",
     "questRequirements": [
       {
-        "quest": 169,
-        "recommended": true
-      },
-      {
-        "quest": 188,
-        "recommended": true
-      },
-      {
         "quest": 208
       },
       {
         "quest": 216
+      },
+      {
+        "quest": 262,
+        "recommended": true
       }
     ],
     "questPointsReward": 2,
@@ -8209,5 +8221,1065 @@
         "type": "HUGE_XP"
       }
     ]
+  },
+  {
+    "id": 240,
+    "type": "MINIQUEST",
+    "title": "Abyss (miniquest)",
+    "displayName": "Abyss",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 49
+      }
+    ],
+    "xpRewards": {
+      "RUNECRAFTING": 1000
+    }
+  },
+  {
+    "id": 241,
+    "type": "MINIQUEST",
+    "title": "Bar Crawl (miniquest)",
+    "displayName": "Bar Crawl",
+    "access": "MEMBERS"
+  },
+  {
+    "id": 242,
+    "type": "MINIQUEST",
+    "title": "Benedict's World Tour (miniquest)",
+    "displayName": "Benedict's World Tour",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 8
+      }
+    ],
+    "lampRewards": [
+      {
+        "type": "SMALL_XP"
+      },
+      {
+        "type": "SMALL_XP"
+      },
+      {
+        "type": "SMALL_XP"
+      },
+      {
+        "type": "SMALL_XP"
+      },
+      {
+        "type": "LARGE_XP"
+      },
+      {
+        "type": "LARGE_XP"
+      }
+    ]
+  },
+  {
+    "id": 243,
+    "type": "MINIQUEST",
+    "title": "Boric's Task I (miniquest)",
+    "displayName": "Boric's Task I",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 10
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "MINING",
+        "level": 30
+      }
+    ],
+    "xpRewards": {
+      "MINING": 1500
+    }
+  },
+  {
+    "id": 244,
+    "type": "MINIQUEST",
+    "title": "Boric's Task II (miniquest)",
+    "displayName": "Boric's Task II",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 243
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "MINING",
+        "level": 40
+      }
+    ],
+    "xpRewards": {
+      "MINING": 3500
+    }
+  },
+  {
+    "id": 245,
+    "type": "MINIQUEST",
+    "title": "Boric's Task III (miniquest)",
+    "displayName": "Boric's Task III",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 244
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "MINING",
+        "level": 60
+      }
+    ],
+    "xpRewards": {
+      "MINING": 8000
+    }
+  },
+  {
+    "id": 246,
+    "type": "MINIQUEST",
+    "title": "The Curse of Zaros (miniquest)",
+    "displayName": "The Curse of Zaros",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 2
+      },
+      {
+        "quest": 76
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "PRAYER",
+        "level": 31
+      }
+    ],
+    "xpRewards": {
+      "MINING": 8000
+    }
+  },
+  {
+    "id": 247,
+    "type": "MINIQUEST",
+    "title": "Desert Slayer Dungeon (miniquest)",
+    "displayName": "Desert Slayer Dungeon",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 148
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "SLAYER",
+        "level": 70
+      },
+      {
+        "skill": "PRAYER",
+        "level": 43,
+        "recommended": true
+      },
+      {
+        "skill": "MAGIC",
+        "level": 50,
+        "recommended": true
+      }
+    ],
+    "xpRewards": {
+      "SLAYER": 4000
+    }
+  },
+  {
+    "id": 248,
+    "type": "MINIQUEST",
+    "title": "Doric's Task I (miniquest)",
+    "displayName": "Doric's Task I",
+    "access": "FREE",
+    "questRequirements": [
+      {
+        "quest": 10
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "SMITHING",
+        "level": 10
+      }
+    ],
+    "xpRewards": {
+      "SMITHING": 250
+    }
+  },
+  {
+    "id": 249,
+    "type": "MINIQUEST",
+    "title": "Doric's Task II (miniquest)",
+    "displayName": "Doric's Task II",
+    "access": "FREE",
+    "questRequirements": [
+      {
+        "quest": 55
+      },
+      {
+        "quest": 248
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "SMITHING",
+        "level": 20
+      }
+    ],
+    "xpRewards": {
+      "SMITHING": 500
+    }
+  },
+  {
+    "id": 250,
+    "type": "MINIQUEST",
+    "title": "Doric's Task III (miniquest)",
+    "displayName": "Doric's Task III",
+    "access": "FREE",
+    "questRequirements": [
+      {
+        "quest": 249
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "SMITHING",
+        "level": 30
+      }
+    ],
+    "xpRewards": {
+      "SMITHING": 750
+    }
+  },
+  {
+    "id": 251,
+    "type": "MINIQUEST",
+    "title": "Doric's Task IV (miniquest)",
+    "displayName": "Doric's Task IV",
+    "access": "FREE",
+    "questRequirements": [
+      {
+        "quest": 250
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "SMITHING",
+        "level": 40
+      }
+    ],
+    "xpRewards": {
+      "SMITHING": 1500
+    }
+  },
+  {
+    "id": 252,
+    "type": "MINIQUEST",
+    "title": "Doric's Task V (miniquest)",
+    "displayName": "Doric's Task V",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 251
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "SMITHING",
+        "level": 50
+      }
+    ],
+    "xpRewards": {
+      "SMITHING": 5000
+    }
+  },
+  {
+    "id": 253,
+    "type": "MINIQUEST",
+    "title": "Doric's Task VI (miniquest)",
+    "displayName": "Doric's Task VI",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 252
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "SMITHING",
+        "level": 60
+      }
+    ],
+    "xpRewards": {
+      "SMITHING": 8000
+    }
+  },
+  {
+    "id": 254,
+    "type": "MINIQUEST",
+    "title": "Doric's Task VII (miniquest)",
+    "displayName": "Doric's Task VII",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 253
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "SMITHING",
+        "level": 65
+      }
+    ],
+    "xpRewards": {
+      "SMITHING": 12000
+    }
+  },
+  {
+    "id": 255,
+    "type": "MINIQUEST",
+    "title": "Doric's Task VIII (miniquest)",
+    "displayName": "Doric's Task VIII",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 254
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "SMITHING",
+        "level": 70
+      }
+    ],
+    "xpRewards": {
+      "SMITHING": 20000
+    }
+  },
+  {
+    "id": 256,
+    "type": "MINIQUEST",
+    "title": "From Tiny Acorns (miniquest)",
+    "displayName": "From Tiny Acorns",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 173
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "THIEVING",
+        "level": 24
+      }
+    ],
+    "xpRewards": {
+      "THIEVING": 1000
+    }
+  },
+  {
+    "id": 257,
+    "type": "MINIQUEST",
+    "title": "The General's Shadow (miniquest)",
+    "displayName": "The General's Shadow",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 30
+      },
+      {
+        "quest": 246
+      }
+    ],
+    "xpRewards": {
+      "SLAYER": 2000
+    }
+  },
+  {
+    "id": 258,
+    "type": "MINIQUEST",
+    "title": "A Guild of Our Own (miniquest)",
+    "displayName": "A Guild of Our Own",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 74
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "THIEVING",
+        "level": 62
+      },
+      {
+        "skill": "AGILITY",
+        "level": 40
+      },
+      {
+        "skill": "HERBLORE",
+        "level": 46
+      }
+    ],
+    "xpRewards": {
+      "THIEVING": 30000,
+      "HERBLORE": 4000
+    }
+  },
+  {
+    "id": 259,
+    "type": "MINIQUEST",
+    "title": "Helping Laniakea",
+    "access": "MEMBERS",
+    "skillRequirements": [
+      {
+        "skill": "HUNTER",
+        "level": 75,
+        "ironman": true
+      },
+      {
+        "skill": "SLAYER",
+        "level": 55,
+        "ironman": true
+      }
+    ]
+  },
+  {
+    "id": 260,
+    "type": "MINIQUEST",
+    "title": "The Hunt for Surok (miniquest)",
+    "displayName": "The Hunt for Surok",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 131
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "MINING",
+        "level": 42
+      },
+      {
+        "skill": "PRAYER",
+        "level": 43,
+        "recommended": true
+      }
+    ],
+    "xpRewards": {
+      "SLAYER": 5000
+    }
+  },
+  {
+    "id": 261,
+    "type": "MINIQUEST",
+    "title": "In Memory of the Myreque (miniquest)",
+    "displayName": "In Memory of the Myreque",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 217
+      }
+    ],
+    "xpRewards": {
+      "CONSTRUCTION": 20000,
+      "PRAYER": 10000
+    }
+  },
+  {
+    "id": 262,
+    "type": "MINIQUEST",
+    "title": "Koschei's Troubles (miniquest)",
+    "displayName": "Koschei's Troubles",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 169
+      },
+      {
+        "quest": 188
+      }
+    ],
+    "lampRewards": [
+      {
+        "requirements": {
+          "*": 75
+        },
+        "xp": 30000,
+        "type": "XP"
+      }
+    ]
+  },
+  {
+    "id": 263,
+    "type": "MINIQUEST",
+    "title": "Lair of Tarn Razorlor (miniquest)",
+    "displayName": "Lair of Tarn Razorlor",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 65
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "SLAYER",
+        "level": 40
+      }
+    ],
+    "xpRewards": {
+      "SLAYER": 5000
+    }
+  },
+  {
+    "id": 264,
+    "type": "MINIQUEST",
+    "title": "Lost Her Marbles (miniquest)",
+    "displayName": "Lost Her Marbles",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 256
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "THIEVING",
+        "level": 41
+      }
+    ],
+    "xpRewards": {
+      "THIEVING": 9800
+    }
+  },
+  {
+    "id": 265,
+    "type": "MINIQUEST",
+    "title": "The Lost Toys (miniquest)",
+    "displayName": "The Lost Toys",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 67
+      }
+    ]
+  },
+  {
+    "id": 266,
+    "type": "MINIQUEST",
+    "title": "Mahjarrat Memories (miniquest)",
+    "displayName": "Mahjarrat Memories",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 200
+      },
+      {
+        "quest": 262
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "DIVINATION",
+        "level": 60
+      }
+    ],
+    "xpRewards": {
+      "DIVINATION": 350000
+    }
+  },
+  {
+    "id": 267,
+    "type": "MINIQUEST",
+    "title": "One Foot in the Grave (miniquest)",
+    "displayName": "One Foot in the Grave",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 138
+      }
+    ],
+    "xpRewards": {
+      "MAGIC": 10000
+    }
+  },
+  {
+    "id": 268,
+    "type": "MINIQUEST",
+    "title": "Purple Cat (miniquest)",
+    "displayName": "Purple Cat",
+    "access": "FREE",
+    "questRequirements": [
+      {
+        "quest": 47
+      },
+      {
+        "quest": 155
+      }
+    ]
+  },
+  {
+    "id": 269,
+    "type": "MINIQUEST",
+    "title": "Rebuilding Edgeville (miniquest)",
+    "displayName": "Rebuilding Edgeville",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 188
+      }
+    ],
+    "xpRewards": {
+      "MAGIC": 50000,
+      "CONSTRUCTION": 45000,
+      "FARMING": 20000,
+      "MINING": 10000,
+      "PRAYER": 5000
+    },
+    "lampRewards": [
+      {
+        "type": "DRAGONKIN"
+      }
+    ]
+  },
+  {
+    "id": 270,
+    "type": "MINIQUEST",
+    "title": "Sheep Shearer (miniquest)",
+    "displayName": "Sheep Shearer",
+    "access": "FREE",
+    "xpRewards": {
+      "CRAFTING": 150
+    }
+  },
+  {
+    "id": 271,
+    "type": "MINIQUEST",
+    "title": "Tales of Nomad (miniquest)",
+    "displayName": "Tales of Nomad",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 220
+      }
+    ],
+    "lampRewards": [
+      {
+        "type": "XP",
+        "xp": 1500
+      },
+      {
+        "type": "XP",
+        "xp": 1500
+      },
+      {
+        "type": "XP",
+        "xp": 1500
+      }
+    ]
+  },
+  {
+    "id": 272,
+    "type": "MINIQUEST",
+    "title": "Tales of the God Wars (miniquest)",
+    "displayName": "Tales of the God Wars",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 56
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "CONSTITUTION",
+        "level": 70
+      },
+      {
+        "skill": "STRENGTH",
+        "level": 60
+      }
+    ],
+    "combatRequirement": {
+      "level": 90,
+      "recommended": true
+    },
+    "lampRewards": [
+      {
+        "type": "XP",
+        "xp": 30000,
+        "requirements": {
+          "ATTACK": 1,
+          "CONSTITUTION": 1,
+          "DEFENCE": 1,
+          "MAGIC": 1,
+          "RANGED": 1,
+          "PRAYER": 1,
+          "SLAYER": 1,
+          "STRENGTH": 1,
+          "SUMMONING": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": 273,
+    "type": "MINIQUEST",
+    "title": "Wandering Ga'al (miniquest)",
+    "displayName": "Wandering Ga'al",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 76
+      },
+      {
+        "quest": 196
+      }
+    ]
+  },
+  {
+    "id": 274,
+    "type": "MINIQUEST",
+    "title": "Witch's Potion (miniquest)",
+    "displayName": "Witch's Potion",
+    "access": "FREE",
+    "xpRewards": {
+      "MAGIC": 325
+    }
+  },
+  {
+    "id": 275,
+    "type": "MINIQUEST",
+    "title": "Witch's Potion (miniquest)",
+    "displayName": "Witch's Potion",
+    "access": "FREE",
+    "xpRewards": {
+      "MAGIC": 325
+    }
+  },
+  {
+    "id": 276,
+    "type": "MINIQUEST",
+    "title": "Flag Fall (miniquest)",
+    "displayName": "Flag Fall",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 225
+      }
+    ]
+  },
+  {
+    "id": 277,
+    "type": "MINIQUEST",
+    "title": "Spiritual Enlightenment (miniquest)",
+    "displayName": "Spiritual Enlightenment",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 225
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "SLAYER",
+        "level": 90
+      }
+    ],
+    "lampRewards": [
+      {
+        "type": "MEDIUM_XP",
+        "requirements": {
+          "SLAYER": 1
+        },
+        "multiplier": 1.5
+      }
+    ]
+  },
+  {
+    "id": 278,
+    "type": "MINIQUEST",
+    "title": "Head of the Family (miniquest)",
+    "displayName": "Head of the Family",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 225
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "WOODCUTTING",
+        "level": 90
+      },
+      {
+        "skill": "FISHING",
+        "level": 90
+      },
+      {
+        "skill": "COOKING",
+        "level": 91
+      }
+    ],
+    "lampRewards": [
+      {
+        "type": "MEDIUM_XP",
+        "requirements": {
+          "AGILITY": 1
+        },
+        "multiplier": 1.5
+      }
+    ]
+  },
+  {
+    "id": 279,
+    "type": "MINIQUEST",
+    "title": "Jed Hunter (miniquest)",
+    "displayName": "Jed Hunter",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 276
+      },
+      {
+        "quest": 277
+      },
+      {
+        "quest": 278
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "HUNTER",
+        "level": 90
+      },
+      {
+        "skill": "CRAFTING",
+        "level": 91
+      }
+    ],
+    "lampRewards": [
+      {
+        "type": "MEDIUM_XP",
+        "requirements": {
+          "HUNTER": 1
+        },
+        "multiplier": 1.5
+      }
+    ]
+  },
+  {
+    "id": 280,
+    "type": "MINIQUEST",
+    "title": "Eye for an Eye (miniquest)",
+    "displayName": "Eye for an Eye",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 279
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "MINING",
+        "level": 90
+      }
+    ],
+    "lampRewards": [
+      {
+        "type": "MEDIUM_XP",
+        "requirements": {
+          "PRAYER": 1
+        },
+        "multiplier": 1.5
+      }
+    ]
+  },
+  {
+    "id": 281,
+    "type": "MINIQUEST",
+    "title": "Harbinger (miniquest)",
+    "displayName": "Harbinger",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 280
+      }
+    ],
+    "lampRewards": [
+      {
+        "type": "MEDIUM_XP",
+        "requirements": {
+          "CONSTRUCTION": 1
+        },
+        "multiplier": 1.5
+      }
+    ]
+  },
+  {
+    "id": 282,
+    "type": "MINIQUEST",
+    "title": "Damage Control (miniquest)",
+    "displayName": "Damage Control",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 281
+      }
+    ],
+    "lampRewards": [
+      {
+        "type": "MEDIUM_XP",
+        "requirements": {
+          "THIEVING": 1
+        },
+        "multiplier": 1.5
+      }
+    ]
+  },
+  {
+    "id": 283,
+    "type": "MINIQUEST",
+    "title": "Ghosts from the Past (miniquest)",
+    "displayName": "Ghosts from the Past",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 281
+      }
+    ],
+    "lampRewards": [
+      {
+        "type": "MEDIUM_XP",
+        "requirements": {
+          "AGILITY": 1,
+          "HERBLORE": 1,
+          "FISHING": 1,
+          "THIEVING": 1,
+          "COOKING": 1,
+          "PRAYER": 1,
+          "RUNECRAFTING": 1,
+          "SLAYER": 1,
+          "CONSTRUCTION": 1,
+          "HUNTER": 1,
+          "DUNGEONEERING": 1,
+          "DIVINATION": 1
+        },
+        "multiplier": 1.5
+      }
+    ]
+  },
+  {
+    "id": 284,
+    "type": "MINIQUEST",
+    "title": "Tuai Leit's Own (miniquest)",
+    "displayName": "Tuai Leit's Own",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 281
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "FARMING",
+        "level": 86
+      },
+      {
+        "skill": "DIVINATION",
+        "level": 90
+      }
+    ],
+    "lampRewards": [
+      {
+        "type": "MEDIUM_XP",
+        "requirements": {
+          "AGILITY": 1,
+          "HERBLORE": 1,
+          "FISHING": 1,
+          "THIEVING": 1,
+          "COOKING": 1,
+          "PRAYER": 1,
+          "RUNECRAFTING": 1,
+          "SLAYER": 1,
+          "CONSTRUCTION": 1,
+          "HUNTER": 1,
+          "DUNGEONEERING": 1,
+          "DIVINATION": 1
+        },
+        "multiplier": 1.5
+      }
+    ]
+  },
+  {
+    "id": 285,
+    "type": "MINIQUEST",
+    "title": "Final Destination (miniquest)",
+    "displayName": "Final Destination",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 282
+      },
+      {
+        "quest": 283
+      },
+      {
+        "quest": 284
+      }
+    ],
+    "lampRewards": [
+      {
+        "type": "LARGE_XP",
+        "requirements": {
+          "ATTACK": 1,
+          "CONSTITUTION": 1,
+          "STRENGTH": 1,
+          "DEFENCE": 1,
+          "RANGED": 1,
+          "PRAYER": 1,
+          "MAGIC": 1,
+          "SUMMONING": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": 286,
+    "type": "MINIQUEST",
+    "title": "Final Destination (miniquest)",
+    "displayName": "Final Destination",
+    "access": "MEMBERS",
+    "questRequirements": [
+      {
+        "quest": 75
+      },
+      {
+        "quest": 116
+      },
+      {
+        "quest": 139
+      }
+    ],
+    "skillRequirements": [
+      {
+        "skill": "PRAYER",
+        "level": 40
+      },
+      {
+        "skill": "DIVINATION",
+        "level": 90
+      }
+    ],
+    "xpRewards": {
+      "PRAYER": 13750
+    }
   }
 ]

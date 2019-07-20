@@ -51,22 +51,26 @@ public class LampAction extends Action {
 
     switch (lampReward.getType()) {
       case XP:
+        message.append("XP");
         break;
       case SMALL_XP:
-        message.append("Small");
+        message.append("Small XP");
         break;
       case MEDIUM_XP:
-        message.append("Medium");
+        message.append("Medium XP");
         break;
       case LARGE_XP:
-        message.append("Large");
+        message.append("Large XP");
         break;
       case HUGE_XP:
-        message.append("Huge");
+        message.append("Huge XP");
+        break;
+      case DRAGONKIN:
+        message.append("Dragonkin");
         break;
     }
 
-    message.append(" XP Lamp");
+    message.append(" Lamp");
 
     if (!skills.isEmpty()) {
       message.append(" on ");

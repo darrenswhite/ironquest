@@ -90,6 +90,7 @@ public class LampReward implements Reward {
   private boolean exclusive;
   private LampType type;
   private boolean singleChoice;
+  private double multiplier = 1;
 
   public Map<Set<Skill>, Integer> getRequirements() {
     return requirements;
@@ -131,8 +132,16 @@ public class LampReward implements Reward {
     this.singleChoice = singleChoice;
   }
 
+  public double getMultiplier() {
+    return multiplier;
+  }
+
+  public void setMultiplier(double multiplier) {
+    this.multiplier = multiplier;
+  }
+
   public Set<Set<Skill>> getChoices(Player player, Set<Set<Skill>> previous) {
-    Map<Set<Skill>, Integer> choices = new HashMap<>();
+    Map<Set<Skill>, Integer> choices;
 
     if (singleChoice) {
       choices = new HashMap<>();
@@ -144,7 +153,7 @@ public class LampReward implements Reward {
         }
       }
     } else {
-      choices.putAll(requirements);
+      choices = new HashMap<>(requirements);
     }
 
     return choices.entrySet().stream().filter(
@@ -171,10 +180,14 @@ public class LampReward implements Reward {
         actualXp = LARGE_XP_LAMP_VALUES[level];
       } else if (type == LampType.HUGE_XP) {
         actualXp = HUGE_XP_LAMP_VALUES[level];
+      } else if (type == LampType.DRAGONKIN) {
+        actualXp = Math.floor((Math.pow(level, 3) - 2 * Math.pow(level, 2) + 100 * level) / 20);
       } else {
         throw new IllegalArgumentException("Unknown lamp type: " + type);
       }
     }
+
+    actualXp *= multiplier;
 
     return actualXp;
   }
