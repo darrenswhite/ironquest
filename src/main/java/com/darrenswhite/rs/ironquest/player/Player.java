@@ -115,7 +115,8 @@ public class Player {
   }
 
   public int getQuestPoints() {
-    return getCompletedQuests().stream().mapToInt(q -> q.getQuest().getQuestPointsReward()).sum();
+    return getCompletedQuests().stream().mapToInt(q -> q.getQuest().getRewards().getQuestPoints())
+        .sum();
   }
 
 
@@ -196,7 +197,7 @@ public class Player {
 
     actions.add(new QuestAction(this, entry));
 
-    for (LampReward lampReward : quest.getLampRewards()) {
+    for (LampReward lampReward : quest.getRewards().getLamps()) {
       LampAction lampAction = createLampAction(entry, lampReward);
 
       actions.add(lampAction);
@@ -306,10 +307,11 @@ public class Player {
   }
 
   private double getTotalQuestRewards(Quest quest) {
-    double xpRewards = quest.getXpRewards().values().stream().mapToDouble(Double::doubleValue)
+    double xpRewards = quest.getRewards().getXp().values().stream().mapToDouble(Double::doubleValue)
         .sum();
     Set<Set<Skill>> previousLampSkills = new HashSet<>();
-    double lampXpRewards = quest.getLampRewards().stream().filter(l -> l.meetsRequirements(this))
+    double lampXpRewards = quest.getRewards().getLamps().stream()
+        .filter(l -> l.meetsRequirements(this))
         .mapToDouble(lampReward -> {
           Set<Skill> skills = getBestLampSkills(lampReward, previousLampSkills);
           previousLampSkills.add(skills);

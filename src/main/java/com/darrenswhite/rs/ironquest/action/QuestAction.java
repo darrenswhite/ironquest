@@ -43,7 +43,7 @@ public class QuestAction extends Action {
     LOG.debug("Completing quest: {}", entry.getQuest().getDisplayName());
 
     entry.setStatus(QuestStatus.COMPLETED);
-    entry.getQuest().getXpRewards().forEach(player::addSkillXP);
+    entry.getQuest().getRewards().getXp().forEach(player::addSkillXP);
   }
 
   @Override

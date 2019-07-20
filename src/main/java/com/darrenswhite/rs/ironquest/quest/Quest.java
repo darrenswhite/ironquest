@@ -2,17 +2,13 @@ package com.darrenswhite.rs.ironquest.quest;
 
 import com.darrenswhite.rs.ironquest.dto.QuestDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
-import com.darrenswhite.rs.ironquest.player.Skill;
-import com.darrenswhite.rs.ironquest.quest.requirement.CombatRequirement;
-import com.darrenswhite.rs.ironquest.quest.requirement.QuestPointsRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
+import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirements;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
-import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
+import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import java.util.EnumMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,13 +24,8 @@ public class Quest {
   private String displayName;
   private QuestAccess access;
   private QuestType type;
-  private CombatRequirement combatRequirement;
-  private QuestPointsRequirement questPointsRequirement;
-  private Set<QuestRequirement> questRequirements = new HashSet<>();
-  private Set<SkillRequirement> skillRequirements = new HashSet<>();
-  private Map<Skill, Double> xpRewards = new EnumMap<>(Skill.class);
-  private Set<LampReward> lampRewards = new HashSet<>();
-  private int questPointsReward = 0;
+  private QuestRequirements requirements = new QuestRequirements.Builder().build();
+  private QuestRewards rewards = new QuestRewards.Builder().build();
 
   public int getId() {
     return id;
@@ -76,76 +67,36 @@ public class Quest {
     this.type = type;
   }
 
-  public CombatRequirement getCombatRequirement() {
-    return combatRequirement;
+  public QuestRequirements getRequirements() {
+    return requirements;
   }
 
-  public void setCombatRequirement(CombatRequirement combatRequirement) {
-    this.combatRequirement = combatRequirement;
+  public void setRequirements(QuestRequirements requirements) {
+    this.requirements = requirements;
   }
 
-  public QuestPointsRequirement getQuestPointsRequirement() {
-    return questPointsRequirement;
+  public QuestRewards getRewards() {
+    return rewards;
   }
 
-  public void setQuestPointsRequirement(QuestPointsRequirement questPointsRequirement) {
-    this.questPointsRequirement = questPointsRequirement;
-  }
-
-  public Set<QuestRequirement> getQuestRequirements() {
-    return questRequirements;
-  }
-
-  public void setQuestRequirements(Set<QuestRequirement> questRequirements) {
-    this.questRequirements = questRequirements;
-  }
-
-  public Set<SkillRequirement> getSkillRequirements() {
-    return skillRequirements;
-  }
-
-  public void setSkillRequirements(Set<SkillRequirement> skillRequirements) {
-    this.skillRequirements = skillRequirements;
-  }
-
-  public int getQuestPointsReward() {
-    return questPointsReward;
-  }
-
-  public void setQuestPointsReward(int questPointsReward) {
-    this.questPointsReward = questPointsReward;
-  }
-
-  public Map<Skill, Double> getXpRewards() {
-    return xpRewards;
-  }
-
-  public void setXpRewards(Map<Skill, Double> xpRewards) {
-    this.xpRewards = xpRewards;
-  }
-
-  public Set<LampReward> getLampRewards() {
-    return lampRewards;
-  }
-
-  public void setLampRewards(Set<LampReward> lampRewards) {
-    this.lampRewards = lampRewards;
+  public void setRewards(QuestRewards rewards) {
+    this.rewards = rewards;
   }
 
   public boolean meetsCombatRequirement(Player player) {
-    return combatRequirement == null || combatRequirement.test(player);
+    return requirements.getCombat() == null || requirements.getCombat().test(player);
   }
 
   public boolean meetsQuestPointRequirement(Player player) {
-    return questPointsRequirement == null || questPointsRequirement.test(player);
+    return requirements.getQuestPoints() == null || requirements.getQuestPoints().test(player);
   }
 
   public boolean meetsQuestRequirements(Player player) {
-    return questRequirements.stream().allMatch(r -> r.test(player));
+    return requirements.getQuests().stream().allMatch(r -> r.test(player));
   }
 
   public boolean meetsSkillRequirements(Player player) {
-    return skillRequirements.stream().allMatch(r -> r.test(player));
+    return requirements.getSkills().stream().allMatch(r -> r.test(player));
   }
 
   public boolean meetsAllRequirements(Player player) {
@@ -154,34 +105,35 @@ public class Quest {
   }
 
   public Set<Quest> getRemainingQuestRequirements(Player player, boolean recursive) {
-    Set<Quest> requirements = questRequirements.stream().filter(q -> !q.test(player))
-        .map(QuestRequirement::getQuest).collect(Collectors.toSet());
+    Set<Quest> remainingQuestRequirements = requirements.getQuests().stream()
+        .filter(q -> !q.test(player)).map(QuestRequirement::getQuest).collect(Collectors.toSet());
 
     if (recursive) {
-      for (Quest quest : requirements) {
-        requirements.addAll(quest.getRemainingQuestRequirements(player, true));
+      for (Quest quest : remainingQuestRequirements) {
+        remainingQuestRequirements.addAll(quest.getRemainingQuestRequirements(player, true));
       }
     }
 
-    return requirements;
+    return remainingQuestRequirements;
   }
 
   public Set<SkillRequirement> getRemainingSkillRequirements(Player player, boolean recursive) {
-    Set<SkillRequirement> requirements = new HashSet<>();
+    Set<SkillRequirement> remainingSkillRequirements = new HashSet<>();
 
-    requirements = SkillRequirement.merge(requirements,
-        skillRequirements.stream().filter(sr -> !sr.test(player)).collect(Collectors.toSet()));
+    remainingSkillRequirements = SkillRequirement.merge(remainingSkillRequirements,
+        requirements.getSkills().stream().filter(sr -> !sr.test(player))
+            .collect(Collectors.toSet()));
 
     if (recursive) {
       Set<Quest> remainingQuestRequirements = getRemainingQuestRequirements(player, true);
 
       for (Quest quest : remainingQuestRequirements) {
-        requirements = SkillRequirement
-            .merge(requirements, quest.getRemainingSkillRequirements(player, true));
+        remainingSkillRequirements = SkillRequirement
+            .merge(remainingSkillRequirements, quest.getRemainingSkillRequirements(player, true));
       }
     }
 
-    return requirements;
+    return remainingSkillRequirements;
   }
 
   public int getTotalRemainingSkillRequirements(Player player, boolean recursive) {
@@ -194,15 +146,15 @@ public class Quest {
   }
 
   public Set<QuestRequirement> getQuestRequirements(boolean recursive) {
-    Set<QuestRequirement> requirements = new HashSet<>(questRequirements);
+    Set<QuestRequirement> questRequirements = new HashSet<>(requirements.getQuests());
 
     if (recursive) {
-      requirements.addAll(questRequirements.stream()
+      questRequirements.addAll(requirements.getQuests().stream()
           .flatMap(qr -> qr.getQuest().getQuestRequirements(true).stream())
           .collect(Collectors.toSet()));
     }
 
-    return requirements;
+    return questRequirements;
   }
 
 
