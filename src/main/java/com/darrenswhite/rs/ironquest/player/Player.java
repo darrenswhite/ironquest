@@ -96,7 +96,7 @@ public class Player {
   public PlayerDTO createDTO() {
     return new PlayerDTO.Builder().setName(name).withLevels(getLevels())
         .withQuestPoints(getQuestPoints()).withTotalLevel(getTotalLevel())
-        .withCombatLevel(getCombatLevel()).build();
+        .withCombatLevel((int) Math.floor(getCombatLevel())).build();
   }
 
   public Player copy() {

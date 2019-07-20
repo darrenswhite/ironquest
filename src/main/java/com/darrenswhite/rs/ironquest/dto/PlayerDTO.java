@@ -14,10 +14,10 @@ public class PlayerDTO {
   private final Map<Skill, Integer> levels;
   private final int questPoints;
   private final int totalLevel;
-  private final double combatLevel;
+  private final int combatLevel;
 
   private PlayerDTO(String name, Map<Skill, Integer> levels, int questPoints, int totalLevel,
-      double combatLevel) {
+      int combatLevel) {
     this.name = name;
     this.levels = levels;
     this.questPoints = questPoints;
@@ -41,7 +41,7 @@ public class PlayerDTO {
     return totalLevel;
   }
 
-  public double getCombatLevel() {
+  public int getCombatLevel() {
     return combatLevel;
   }
 
@@ -51,7 +51,7 @@ public class PlayerDTO {
     private Map<Skill, Integer> levels;
     private int questPoints;
     private int totalLevel;
-    private double combatLevel;
+    private int combatLevel;
 
     public Builder setName(String name) {
       this.name = name;
@@ -73,7 +73,7 @@ public class PlayerDTO {
       return this;
     }
 
-    public Builder withCombatLevel(double combatLevel) {
+    public Builder withCombatLevel(int combatLevel) {
       this.combatLevel = combatLevel;
       return this;
     }
