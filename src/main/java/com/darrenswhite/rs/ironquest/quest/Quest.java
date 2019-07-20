@@ -34,6 +34,7 @@ public class Quest {
   private Map<Skill, Double> xpRewards = new EnumMap<>(Skill.class);
   private Set<LampReward> lampRewards = new HashSet<>();
   private int questPointsReward;
+  private QuestType type;
 
   public int getId() {
     return id;
@@ -121,6 +122,14 @@ public class Quest {
 
   public void setLampRewards(Set<LampReward> lampRewards) {
     this.lampRewards = lampRewards;
+  }
+
+  public QuestType getType() {
+    return type;
+  }
+
+  public void setType(QuestType type) {
+    this.type = type;
   }
 
   public boolean meetsCombatRequirement(Player player) {

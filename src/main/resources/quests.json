@@ -1,12 +1,14 @@
 [
   {
     "id": -1,
+    "type": "QUEST",
     "title": "Unstable Foundations",
     "members": false,
     "questPointsReward": 1
   },
   {
     "id": 0,
+    "type": "QUEST",
     "title": "Cook's Assistant",
     "members": false,
     "questPointsReward": 1,
@@ -16,6 +18,7 @@
   },
   {
     "id": 1,
+    "type": "QUEST",
     "title": "Demon Slayer",
     "members": false,
     "questPointsReward": 3,
@@ -60,6 +63,7 @@
   },
   {
     "id": 2,
+    "type": "QUEST",
     "title": "The Restless Ghost",
     "members": false,
     "questPointsReward": 1,
@@ -69,6 +73,7 @@
   },
   {
     "id": 3,
+    "type": "QUEST",
     "title": "Gunnar's Ground",
     "members": false,
     "skillRequirements": [
@@ -93,6 +98,7 @@
   },
   {
     "id": 4,
+    "type": "QUEST",
     "title": "Shield of Arrav",
     "members": false,
     "questPointsReward": 1,
@@ -108,12 +114,14 @@
   },
   {
     "id": 5,
+    "type": "QUEST",
     "title": "Ernest the Chicken",
     "members": false,
     "questPointsReward": 4
   },
   {
     "id": 6,
+    "type": "QUEST",
     "title": "Vampyre Slayer",
     "members": false,
     "questPointsReward": 3,
@@ -134,6 +142,7 @@
   },
   {
     "id": 7,
+    "type": "QUEST",
     "title": "Imp Catcher",
     "members": false,
     "questPointsReward": 1,
@@ -143,6 +152,7 @@
   },
   {
     "id": 8,
+    "type": "QUEST",
     "title": "Stolen Hearts",
     "members": false,
     "questPointsReward": 3,
@@ -170,6 +180,7 @@
   },
   {
     "id": 9,
+    "type": "QUEST",
     "title": "Diamond in the Rough",
     "members": true,
     "questRequirements": [
@@ -202,6 +213,7 @@
   },
   {
     "id": 10,
+    "type": "QUEST",
     "title": "What's Mine is Yours",
     "members": false,
     "skillRequirements": [
@@ -218,6 +230,7 @@
   },
   {
     "id": 11,
+    "type": "QUEST",
     "title": "The Death of Chivalry",
     "members": false,
     "questPointsReward": 3,
@@ -243,6 +256,7 @@
   },
   {
     "id": 12,
+    "type": "QUEST",
     "title": "The Knight's Sword",
     "members": false,
     "skillRequirements": [
@@ -264,6 +278,7 @@
   },
   {
     "id": 13,
+    "type": "QUEST",
     "title": "Goblin Diplomacy",
     "members": false,
     "questPointsReward": 5,
@@ -279,12 +294,14 @@
   },
   {
     "id": 14,
+    "type": "QUEST",
     "title": "Pirate's Treasure",
     "members": false,
     "questPointsReward": 2
   },
   {
     "id": 15,
+    "type": "QUEST",
     "title": "Dragon Slayer",
     "members": false,
     "questPointsRequirement": {
@@ -322,6 +339,7 @@
   },
   {
     "id": 16,
+    "type": "QUEST",
     "title": "Druidic Ritual",
     "members": false,
     "questPointsReward": 4,
@@ -331,6 +349,7 @@
   },
   {
     "id": 17,
+    "type": "QUEST",
     "title": "Lost City",
     "members": true,
     "skillRequirements": [
@@ -347,6 +366,7 @@
   },
   {
     "id": 18,
+    "type": "QUEST",
     "title": "Witch's House",
     "members": false,
     "questPointsReward": 4,
@@ -356,6 +376,7 @@
   },
   {
     "id": 19,
+    "type": "QUEST",
     "title": "Merlin's Crystal",
     "members": true,
     "questPointsReward": 6,
@@ -371,6 +392,7 @@
   },
   {
     "id": 20,
+    "type": "QUEST",
     "title": "Heroes' Quest",
     "members": true,
     "skillRequirements": [
@@ -433,6 +455,7 @@
   },
   {
     "id": 21,
+    "type": "QUEST",
     "title": "Scorpion Catcher",
     "members": true,
     "skillRequirements": [
@@ -448,6 +471,7 @@
   },
   {
     "id": 22,
+    "type": "QUEST",
     "title": "Family Crest",
     "members": true,
     "skillRequirements": [
@@ -472,6 +496,7 @@
   },
   {
     "id": 23,
+    "type": "QUEST",
     "title": "Tribal Totem",
     "members": true,
     "skillRequirements": [
@@ -487,6 +512,7 @@
   },
   {
     "id": 24,
+    "type": "QUEST",
     "title": "Fishing Contest",
     "members": true,
     "skillRequirements": [
@@ -502,6 +528,7 @@
   },
   {
     "id": 25,
+    "type": "QUEST",
     "title": "Monk's Friend",
     "members": true,
     "questPointsReward": 1,
@@ -511,6 +538,7 @@
   },
   {
     "id": 26,
+    "type": "QUEST",
     "title": "Temple of Ikov",
     "members": true,
     "skillRequirements": [
@@ -531,12 +559,14 @@
   },
   {
     "id": 27,
+    "type": "QUEST",
     "title": "Clock Tower",
     "members": true,
     "questPointsReward": 1
   },
   {
     "id": 28,
+    "type": "QUEST",
     "title": "Holy Grail",
     "members": true,
     "skillRequirements": [
@@ -558,6 +588,7 @@
   },
   {
     "id": 29,
+    "type": "QUEST",
     "title": "Tree Gnome Village",
     "members": true,
     "questPointsReward": 2,
@@ -567,6 +598,7 @@
   },
   {
     "id": 30,
+    "type": "QUEST",
     "title": "Fight Arena",
     "members": true,
     "combatRequirement": {
@@ -580,6 +612,7 @@
   },
   {
     "id": 31,
+    "type": "QUEST",
     "title": "Hazeel Cult",
     "members": true,
     "questPointsReward": 1,
@@ -589,12 +622,14 @@
   },
   {
     "id": 32,
+    "type": "QUEST",
     "title": "Sheep Herder",
     "members": true,
     "questPointsReward": 4
   },
   {
     "id": 33,
+    "type": "QUEST",
     "title": "Plague City",
     "members": true,
     "questPointsReward": 1,
@@ -604,6 +639,7 @@
   },
   {
     "id": 34,
+    "type": "QUEST",
     "title": "Sea Slug",
     "members": true,
     "skillRequirements": [
@@ -619,6 +655,7 @@
   },
   {
     "id": 35,
+    "type": "QUEST",
     "title": "Waterfall Quest",
     "members": true,
     "questPointsReward": 1,
@@ -629,6 +666,7 @@
   },
   {
     "id": 36,
+    "type": "QUEST",
     "title": "Biohazard",
     "members": true,
     "questRequirements": [
@@ -643,6 +681,7 @@
   },
   {
     "id": 37,
+    "type": "QUEST",
     "title": "Jungle Potion",
     "members": true,
     "skillRequirements": [
@@ -663,6 +702,7 @@
   },
   {
     "id": 38,
+    "type": "QUEST",
     "title": "The Grand Tree",
     "members": true,
     "questRequirements": [
@@ -712,6 +752,7 @@
   },
   {
     "id": 39,
+    "type": "QUEST",
     "title": "Shilo Village",
     "members": true,
     "skillRequirements": [
@@ -736,6 +777,7 @@
   },
   {
     "id": 40,
+    "type": "QUEST",
     "title": "Underground Pass",
     "members": true,
     "skillRequirements": [
@@ -773,6 +815,7 @@
   },
   {
     "id": 41,
+    "type": "QUEST",
     "title": "Observatory Quest",
     "members": true,
     "questPointsReward": 2,
@@ -788,6 +831,7 @@
   },
   {
     "id": 42,
+    "type": "QUEST",
     "title": "The Tourist Trap",
     "members": true,
     "skillRequirements": [
@@ -826,6 +870,7 @@
   },
   {
     "id": 43,
+    "type": "QUEST",
     "title": "Watchtower",
     "members": true,
     "skillRequirements": [
@@ -857,6 +902,7 @@
   },
   {
     "id": 44,
+    "type": "QUEST",
     "title": "Dwarf Cannon",
     "members": true,
     "questPointsReward": 1,
@@ -866,6 +912,7 @@
   },
   {
     "id": 45,
+    "type": "QUEST",
     "title": "Murder Mystery",
     "members": true,
     "questPointsReward": 3,
@@ -875,6 +922,7 @@
   },
   {
     "id": 46,
+    "type": "QUEST",
     "title": "The Dig Site",
     "members": true,
     "skillRequirements": [
@@ -899,6 +947,7 @@
   },
   {
     "id": 47,
+    "type": "QUEST",
     "title": "Gertrude's Cat",
     "members": false,
     "questPointsReward": 1,
@@ -914,6 +963,7 @@
   },
   {
     "id": 48,
+    "type": "QUEST",
     "title": "Legends' Quest",
     "members": true,
     "skillRequirements": [
@@ -1065,6 +1115,7 @@
   },
   {
     "id": 49,
+    "type": "QUEST",
     "title": "Rune Mysteries",
     "members": false,
     "questPointsReward": 1,
@@ -1075,6 +1126,7 @@
   },
   {
     "id": 50,
+    "type": "QUEST",
     "title": "Rune Memories",
     "members": true,
     "questRequirements": [
@@ -1090,6 +1142,7 @@
   },
   {
     "id": 51,
+    "type": "QUEST",
     "title": "Big Chompy Bird Hunting",
     "members": true,
     "skillRequirements": [
@@ -1115,6 +1168,7 @@
   },
   {
     "id": 52,
+    "type": "QUEST",
     "title": "Elemental Workshop I",
     "members": true,
     "skillRequirements": [
@@ -1139,6 +1193,7 @@
   },
   {
     "id": 53,
+    "type": "QUEST",
     "title": "Priest in Peril",
     "members": false,
     "questPointsReward": 1,
@@ -1154,6 +1209,7 @@
   },
   {
     "id": 54,
+    "type": "QUEST",
     "title": "Nature Spirit",
     "members": true,
     "skillRequirements": [
@@ -1201,6 +1257,7 @@
   },
   {
     "id": 55,
+    "type": "QUEST",
     "title": "Death Plateau",
     "members": false,
     "questPointsReward": 1,
@@ -1230,6 +1287,7 @@
   },
   {
     "id": 56,
+    "type": "QUEST",
     "title": "Troll Stronghold",
     "members": true,
     "skillRequirements": [
@@ -1267,6 +1325,7 @@
   },
   {
     "id": 57,
+    "type": "QUEST",
     "title": "Tai Bwo Wannai Trio",
     "members": true,
     "skillRequirements": [
@@ -1299,6 +1358,7 @@
   },
   {
     "id": 58,
+    "type": "QUEST",
     "title": "Regicide",
     "members": true,
     "skillRequirements": [
@@ -1323,6 +1383,7 @@
   },
   {
     "id": 59,
+    "type": "QUEST",
     "title": "Eadgar's Ruse",
     "members": true,
     "skillRequirements": [
@@ -1350,6 +1411,7 @@
   },
   {
     "id": 60,
+    "type": "QUEST",
     "title": "Shades of Mort'ton",
     "members": true,
     "skillRequirements": [
@@ -1374,6 +1436,7 @@
   },
   {
     "id": 61,
+    "type": "QUEST",
     "title": "The Fremennik Trials",
     "members": true,
     "skillRequirements": [
@@ -1406,6 +1469,7 @@
   },
   {
     "id": 62,
+    "type": "QUEST",
     "title": "Horror from the Deep",
     "members": true,
     "skillRequirements": [
@@ -1427,6 +1491,7 @@
   },
   {
     "id": 63,
+    "type": "QUEST",
     "title": "Throne of Miscellania",
     "members": true,
     "skillRequirements": [
@@ -1447,6 +1512,7 @@
   },
   {
     "id": 64,
+    "type": "QUEST",
     "title": "Monkey Madness",
     "members": true,
     "skillRequirements": [
@@ -1491,6 +1557,7 @@
   },
   {
     "id": 65,
+    "type": "QUEST",
     "title": "Haunted Mine",
     "members": true,
     "skillRequirements": [
@@ -1521,6 +1588,7 @@
   },
   {
     "id": 66,
+    "type": "QUEST",
     "title": "Troll Romance",
     "members": true,
     "skillRequirements": [
@@ -1542,6 +1610,7 @@
   },
   {
     "id": 67,
+    "type": "QUEST",
     "title": "In Search of the Myreque",
     "members": true,
     "skillRequirements": [
@@ -1596,6 +1665,7 @@
   },
   {
     "id": 68,
+    "type": "QUEST",
     "title": "Creature of Fenkenstrain",
     "members": true,
     "skillRequirements": [
@@ -1620,6 +1690,7 @@
   },
   {
     "id": 69,
+    "type": "QUEST",
     "title": "Roving Elves",
     "members": true,
     "questRequirements": [
@@ -1637,6 +1708,7 @@
   },
   {
     "id": 70,
+    "type": "QUEST",
     "title": "Ghosts Ahoy",
     "members": true,
     "skillRequirements": [
@@ -1664,6 +1736,7 @@
   },
   {
     "id": 71,
+    "type": "QUEST",
     "title": "One Small Favour",
     "members": true,
     "skillRequirements": [
@@ -1712,6 +1785,7 @@
   },
   {
     "id": 72,
+    "type": "QUEST",
     "title": "Mountain Daughter",
     "members": true,
     "skillRequirements": [
@@ -1728,6 +1802,7 @@
   },
   {
     "id": 73,
+    "type": "QUEST",
     "title": "Between a Rock...",
     "members": true,
     "skillRequirements": [
@@ -1761,6 +1836,7 @@
   },
   {
     "id": 74,
+    "type": "QUEST",
     "title": "The Feud",
     "members": true,
     "skillRequirements": [
@@ -1776,6 +1852,7 @@
   },
   {
     "id": 75,
+    "type": "QUEST",
     "title": "The Golem",
     "members": true,
     "skillRequirements": [
@@ -1801,6 +1878,7 @@
   },
   {
     "id": 76,
+    "type": "QUEST",
     "title": "Desert Treasure",
     "members": true,
     "skillRequirements": [
@@ -1852,6 +1930,7 @@
   },
   {
     "id": 77,
+    "type": "QUEST",
     "title": "Icthlarin's Little Helper",
     "members": true,
     "questRequirements": [
@@ -1874,6 +1953,7 @@
   },
   {
     "id": 78,
+    "type": "QUEST",
     "title": "Tears of Guthix",
     "members": true,
     "skillRequirements": [
@@ -1904,6 +1984,7 @@
   },
   {
     "id": 79,
+    "type": "QUEST",
     "title": "Zogre Flesh Eaters",
     "members": true,
     "skillRequirements": [
@@ -1945,6 +2026,7 @@
   },
   {
     "id": 80,
+    "type": "QUEST",
     "title": "The Lost Tribe",
     "members": true,
     "skillRequirements": [
@@ -1973,6 +2055,7 @@
   },
   {
     "id": 81,
+    "type": "QUEST",
     "title": "The Giant Dwarf",
     "members": true,
     "skillRequirements": [
@@ -2005,6 +2088,7 @@
   },
   {
     "id": 82,
+    "type": "QUEST",
     "title": "Recruitment Drive",
     "members": true,
     "questRequirements": [
@@ -2039,6 +2123,7 @@
   },
   {
     "id": 83,
+    "type": "QUEST",
     "title": "Mourning's End Part I",
     "members": true,
     "skillRequirements": [
@@ -2070,6 +2155,7 @@
   },
   {
     "id": 84,
+    "type": "QUEST",
     "title": "Forgettable Tale of a Drunken Dwarf",
     "members": true,
     "skillRequirements": [
@@ -2098,6 +2184,7 @@
   },
   {
     "id": 85,
+    "type": "QUEST",
     "title": "Garden of Tranquillity",
     "members": true,
     "skillRequirements": [
@@ -2118,6 +2205,7 @@
   },
   {
     "id": 86,
+    "type": "QUEST",
     "title": "A Tail of Two Cats",
     "members": true,
     "questRequirements": [
@@ -2145,6 +2233,7 @@
   },
   {
     "id": 87,
+    "type": "QUEST",
     "title": "Wanted!",
     "members": true,
     "questPointsRequirement": {
@@ -2168,6 +2257,7 @@
   },
   {
     "id": 88,
+    "type": "QUEST",
     "title": "Mourning's End Part II",
     "members": true,
     "questRequirements": [
@@ -2182,6 +2272,7 @@
   },
   {
     "id": 89,
+    "type": "QUEST",
     "title": "Rum Deal",
     "members": true,
     "skillRequirements": [
@@ -2223,6 +2314,7 @@
   },
   {
     "id": 90,
+    "type": "QUEST",
     "title": "Shadow of the Storm",
     "members": true,
     "skillRequirements": [
@@ -2257,6 +2349,7 @@
   },
   {
     "id": 91,
+    "type": "QUEST",
     "title": "Making History",
     "members": true,
     "skillRequirements": [
@@ -2289,6 +2382,7 @@
   },
   {
     "id": 92,
+    "type": "QUEST",
     "title": "Rat Catchers",
     "members": true,
     "questRequirements": [
@@ -2303,6 +2397,7 @@
   },
   {
     "id": 93,
+    "type": "QUEST",
     "title": "Spirits of the Elid",
     "members": true,
     "skillRequirements": [
@@ -2332,6 +2427,7 @@
   },
   {
     "id": 94,
+    "type": "QUEST",
     "title": "Devious Minds",
     "members": true,
     "skillRequirements": [
@@ -2368,6 +2464,7 @@
   },
   {
     "id": 95,
+    "type": "QUEST",
     "title": "The Hand in the Sand",
     "members": true,
     "skillRequirements": [
@@ -2388,6 +2485,7 @@
   },
   {
     "id": 96,
+    "type": "QUEST",
     "title": "Enakhra's Lament",
     "members": true,
     "skillRequirements": [
@@ -2424,6 +2522,7 @@
   },
   {
     "id": 97,
+    "type": "QUEST",
     "title": "Cabin Fever",
     "members": true,
     "skillRequirements": [
@@ -2461,6 +2560,7 @@
   },
   {
     "id": 98,
+    "type": "QUEST",
     "title": "A Fairy Tale I - Growing Pains",
     "members": true,
     "questRequirements": [
@@ -2483,6 +2583,7 @@
   },
   {
     "id": 99,
+    "type": "QUEST",
     "title": "Recipe for Disaster: Another Cook's Quest",
     "members": true,
     "skillRequirements": [
@@ -2500,6 +2601,7 @@
   },
   {
     "id": 100,
+    "type": "QUEST",
     "title": "Recipe for Disaster: Freeing the Goblin Generals",
     "members": true,
     "questRequirements": [
@@ -2519,6 +2621,7 @@
   },
   {
     "id": 101,
+    "type": "QUEST",
     "title": "Recipe for Disaster: Freeing the Mountain Dwarf",
     "members": true,
     "questRequirements": [
@@ -2537,6 +2640,7 @@
   },
   {
     "id": 102,
+    "type": "QUEST",
     "title": "Recipe for Disaster: Freeing Evil Dave",
     "members": true,
     "skillRequirements": [
@@ -2563,6 +2667,7 @@
   },
   {
     "id": 103,
+    "type": "QUEST",
     "title": "Recipe for Disaster: Freeing the Lumbridge Sage",
     "members": true,
     "skillRequirements": [
@@ -2602,6 +2707,7 @@
   },
   {
     "id": 104,
+    "type": "QUEST",
     "title": "Recipe for Disaster: Freeing Pirate Pete",
     "members": true,
     "skillRequirements": [
@@ -2625,6 +2731,7 @@
   },
   {
     "id": 105,
+    "type": "QUEST",
     "title": "Recipe for Disaster: Freeing Skrach Uglogwee",
     "members": true,
     "skillRequirements": [
@@ -2655,6 +2762,7 @@
   },
   {
     "id": 106,
+    "type": "QUEST",
     "title": "Recipe for Disaster: Freeing Sir Amik Varze",
     "members": true,
     "questRequirements": [
@@ -2676,6 +2784,7 @@
   },
   {
     "id": 107,
+    "type": "QUEST",
     "title": "Recipe for Disaster: Freeing King Awowogei",
     "members": true,
     "skillRequirements": [
@@ -2704,6 +2813,7 @@
   },
   {
     "id": 108,
+    "type": "QUEST",
     "title": "Recipe for Disaster: Defeating the Culinaromancer",
     "members": true,
     "questPointsRequirement": {
@@ -2754,6 +2864,7 @@
   },
   {
     "id": 109,
+    "type": "QUEST",
     "title": "Recipe for Disaster",
     "members": true,
     "questRequirements": [
@@ -2764,6 +2875,7 @@
   },
   {
     "id": 110,
+    "type": "QUEST",
     "title": "In Aid of the Myreque",
     "members": true,
     "skillRequirements": [
@@ -2819,6 +2931,7 @@
   },
   {
     "id": 111,
+    "type": "QUEST",
     "title": "A Soul's Bane",
     "members": false,
     "questPointsReward": 1,
@@ -2841,6 +2954,7 @@
   },
   {
     "id": 112,
+    "type": "QUEST",
     "title": "Rag and Bone Man",
     "members": true,
     "questPointsReward": 2,
@@ -2851,6 +2965,7 @@
   },
   {
     "id": 113,
+    "type": "QUEST",
     "title": "Swan Song",
     "members": true,
     "skillRequirements": [
@@ -2899,6 +3014,7 @@
   },
   {
     "id": 114,
+    "type": "QUEST",
     "title": "Royal Trouble",
     "members": true,
     "skillRequirements": [
@@ -2948,6 +3064,7 @@
   },
   {
     "id": 115,
+    "type": "QUEST",
     "title": "Death to the Dorgeshuun",
     "members": true,
     "skillRequirements": [
@@ -2990,6 +3107,7 @@
   },
   {
     "id": 116,
+    "type": "QUEST",
     "title": "A Fairy Tale II - Cure a Queen",
     "members": true,
     "skillRequirements": [
@@ -3028,6 +3146,7 @@
   },
   {
     "id": 117,
+    "type": "QUEST",
     "title": "Lunar Diplomacy",
     "members": true,
     "skillRequirements": [
@@ -3086,6 +3205,7 @@
   },
   {
     "id": 118,
+    "type": "QUEST",
     "title": "The Eyes of Glouphrie",
     "members": true,
     "skillRequirements": [
@@ -3113,6 +3233,7 @@
   },
   {
     "id": 119,
+    "type": "QUEST",
     "title": "The Darkness of Hallowvale",
     "members": true,
     "skillRequirements": [
@@ -3182,6 +3303,7 @@
   },
   {
     "id": 120,
+    "type": "QUEST",
     "title": "The Slug Menace",
     "members": true,
     "skillRequirements": [
@@ -3219,6 +3341,7 @@
   },
   {
     "id": 121,
+    "type": "QUEST",
     "title": "Elemental Workshop II",
     "members": true,
     "skillRequirements": [
@@ -3244,6 +3367,7 @@
   },
   {
     "id": 122,
+    "type": "QUEST",
     "title": "My Arm's Big Adventure",
     "members": true,
     "skillRequirements": [
@@ -3275,6 +3399,7 @@
   },
   {
     "id": 123,
+    "type": "QUEST",
     "title": "Enlightened Journey",
     "members": true,
     "skillRequirements": [
@@ -3304,6 +3429,7 @@
   },
   {
     "id": 124,
+    "type": "QUEST",
     "title": "Eagles' Peak",
     "members": true,
     "skillRequirements": [
@@ -3319,6 +3445,7 @@
   },
   {
     "id": 125,
+    "type": "QUEST",
     "title": "Animal Magnetism",
     "members": true,
     "skillRequirements": [
@@ -3364,6 +3491,7 @@
   },
   {
     "id": 126,
+    "type": "QUEST",
     "title": "Contact!",
     "members": true,
     "questRequirements": [
@@ -3406,6 +3534,7 @@
   },
   {
     "id": 127,
+    "type": "QUEST",
     "title": "Cold War",
     "members": true,
     "skillRequirements": [
@@ -3439,6 +3568,7 @@
   },
   {
     "id": 128,
+    "type": "QUEST",
     "title": "The Fremennik Isles",
     "members": true,
     "skillRequirements": [
@@ -3495,6 +3625,7 @@
   },
   {
     "id": 129,
+    "type": "QUEST",
     "title": "Tower of Life",
     "members": true,
     "skillRequirements": [
@@ -3512,6 +3643,7 @@
   },
   {
     "id": 130,
+    "type": "QUEST",
     "title": "The Great Brain Robbery",
     "members": true,
     "skillRequirements": [
@@ -3557,6 +3689,7 @@
   },
   {
     "id": 131,
+    "type": "QUEST",
     "title": "What Lies Below",
     "members": true,
     "skillRequirements": [
@@ -3582,6 +3715,7 @@
   },
   {
     "id": 132,
+    "type": "QUEST",
     "title": "Olaf's Quest",
     "members": true,
     "skillRequirements": [
@@ -3606,6 +3740,7 @@
   },
   {
     "id": 133,
+    "type": "QUEST",
     "title": "Another Slice of H.A.M.",
     "members": true,
     "skillRequirements": [
@@ -3637,6 +3772,7 @@
   },
   {
     "id": 134,
+    "type": "QUEST",
     "title": "Dream Mentor",
     "members": true,
     "combatRequirement": {
@@ -3671,6 +3807,7 @@
   },
   {
     "id": 135,
+    "type": "QUEST",
     "title": "Grim Tales",
     "members": true,
     "skillRequirements": [
@@ -3712,6 +3849,7 @@
   },
   {
     "id": 136,
+    "type": "QUEST",
     "title": "King's Ransom",
     "members": true,
     "skillRequirements": [
@@ -3752,6 +3890,7 @@
   },
   {
     "id": 137,
+    "type": "QUEST",
     "title": "The Path of Glouphrie",
     "members": true,
     "skillRequirements": [
@@ -3802,6 +3941,7 @@
   },
   {
     "id": 138,
+    "type": "QUEST",
     "title": "Back to my Roots",
     "members": true,
     "skillRequirements": [
@@ -3846,6 +3986,7 @@
   },
   {
     "id": 139,
+    "type": "QUEST",
     "title": "Land of the Goblins",
     "members": true,
     "skillRequirements": [
@@ -3890,6 +4031,7 @@
   },
   {
     "id": 140,
+    "type": "QUEST",
     "title": "Dealing with Scabaras",
     "members": true,
     "skillRequirements": [
@@ -3939,6 +4081,7 @@
   },
   {
     "id": 141,
+    "type": "QUEST",
     "title": "Wolf Whistle",
     "members": false,
     "questPointsReward": 1,
@@ -3948,6 +4091,7 @@
   },
   {
     "id": 142,
+    "type": "QUEST",
     "title": "As a First Resort",
     "members": true,
     "skillRequirements": [
@@ -3978,6 +4122,7 @@
   },
   {
     "id": 143,
+    "type": "QUEST",
     "title": "Catapult Construction",
     "members": true,
     "skillRequirements": [
@@ -4003,6 +4148,7 @@
   },
   {
     "id": 144,
+    "type": "QUEST",
     "title": "Kennith's Concerns",
     "members": true,
     "skillRequirements": [
@@ -4024,6 +4170,7 @@
   },
   {
     "id": 145,
+    "type": "QUEST",
     "title": "Legacy of Seergaze",
     "members": true,
     "skillRequirements": [
@@ -4099,6 +4246,7 @@
   },
   {
     "id": 146,
+    "type": "QUEST",
     "title": "Perils of Ice Mountain",
     "members": false,
     "skillRequirements": [
@@ -4124,6 +4272,7 @@
   },
   {
     "id": 147,
+    "type": "QUEST",
     "title": "TokTz-Ket-Dill",
     "members": true,
     "skillRequirements": [
@@ -4159,6 +4308,7 @@
   },
   {
     "id": 148,
+    "type": "QUEST",
     "title": "Smoking Kills",
     "members": true,
     "skillRequirements": [
@@ -4186,6 +4336,7 @@
   },
   {
     "id": 149,
+    "type": "QUEST",
     "title": "Rocking Out",
     "members": true,
     "skillRequirements": [
@@ -4221,6 +4372,7 @@
   },
   {
     "id": 150,
+    "type": "QUEST",
     "title": "Spirit of Summer",
     "members": true,
     "skillRequirements": [
@@ -4256,6 +4408,7 @@
   },
   {
     "id": 151,
+    "type": "QUEST",
     "title": "Meeting History",
     "members": true,
     "questRequirements": [
@@ -4293,6 +4446,7 @@
   },
   {
     "id": 152,
+    "type": "QUEST",
     "title": "All Fired Up",
     "members": true,
     "skillRequirements": [
@@ -4313,6 +4467,7 @@
   },
   {
     "id": 153,
+    "type": "QUEST",
     "title": "Summer's End",
     "members": true,
     "skillRequirements": [
@@ -4358,6 +4513,7 @@
   },
   {
     "id": 154,
+    "type": "QUEST",
     "title": "Defender of Varrock",
     "members": true,
     "skillRequirements": [
@@ -4418,12 +4574,14 @@
   },
   {
     "id": 155,
+    "type": "QUEST",
     "title": "Swept Away",
     "members": false,
     "questPointsReward": 2
   },
   {
     "id": 156,
+    "type": "QUEST",
     "title": "While Guthix Sleeps",
     "members": true,
     "skillRequirements": [
@@ -4524,6 +4682,7 @@
   },
   {
     "id": 157,
+    "type": "QUEST",
     "title": "Myths of the White Lands",
     "members": false,
     "questPointsReward": 2,
@@ -4536,6 +4695,7 @@
   },
   {
     "id": 158,
+    "type": "QUEST",
     "title": "In Pyre Need",
     "members": true,
     "skillRequirements": [
@@ -4561,6 +4721,7 @@
   },
   {
     "id": 159,
+    "type": "QUEST",
     "title": "The Chosen Commander",
     "members": true,
     "skillRequirements": [
@@ -4591,6 +4752,7 @@
   },
   {
     "id": 160,
+    "type": "QUEST",
     "title": "Glorious Memories",
     "members": true,
     "skillRequirements": [
@@ -4665,6 +4827,7 @@
   },
   {
     "id": 161,
+    "type": "QUEST",
     "title": "The Tale of the Muspah",
     "members": true,
     "skillRequirements": [
@@ -4708,6 +4871,7 @@
   },
   {
     "id": 162,
+    "type": "QUEST",
     "title": "Missing My Mummy",
     "members": true,
     "skillRequirements": [
@@ -4760,6 +4924,7 @@
   },
   {
     "id": 163,
+    "type": "QUEST",
     "title": "Hunt for Red Raktuber",
     "members": true,
     "skillRequirements": [
@@ -4793,6 +4958,7 @@
   },
   {
     "id": 164,
+    "type": "QUEST",
     "title": "The Curse of Arrav",
     "members": true,
     "skillRequirements": [
@@ -4855,6 +5021,7 @@
   },
   {
     "id": 165,
+    "type": "QUEST",
     "title": "Fur 'n Seek",
     "members": true,
     "skillRequirements": [
@@ -4882,6 +5049,7 @@
   },
   {
     "id": 166,
+    "type": "QUEST",
     "title": "Forgiveness of a Chaos Dwarf",
     "members": true,
     "skillRequirements": [
@@ -4915,6 +5083,7 @@
   },
   {
     "id": 167,
+    "type": "QUEST",
     "title": "Within the Light",
     "members": true,
     "skillRequirements": [
@@ -4950,6 +5119,7 @@
   },
   {
     "id": 168,
+    "type": "QUEST",
     "title": "The Temple at Senntisten",
     "members": true,
     "skillRequirements": [
@@ -5013,6 +5183,7 @@
   },
   {
     "id": 169,
+    "type": "QUEST",
     "title": "Blood Runs Deep",
     "members": true,
     "skillRequirements": [
@@ -5085,6 +5256,7 @@
   },
   {
     "id": 170,
+    "type": "QUEST",
     "title": "Nomad's Requiem",
     "members": true,
     "skillRequirements": [
@@ -5121,6 +5293,7 @@
   },
   {
     "id": 171,
+    "type": "QUEST",
     "title": "Rune Mechanics",
     "members": true,
     "skillRequirements": [
@@ -5154,6 +5327,7 @@
   },
   {
     "id": 172,
+    "type": "QUEST",
     "title": "The Blood Pact",
     "members": false,
     "questPointsReward": 1,
@@ -5173,6 +5347,7 @@
   },
   {
     "id": 173,
+    "type": "QUEST",
     "title": "Buyers and Cellars",
     "members": true,
     "skillRequirements": [
@@ -5188,6 +5363,7 @@
   },
   {
     "id": 174,
+    "type": "QUEST",
     "title": "A Fairy Tale III - Battle at Ork's Rift",
     "members": true,
     "skillRequirements": [
@@ -5228,6 +5404,7 @@
   },
   {
     "id": 175,
+    "type": "QUEST",
     "title": "Elemental Workshop III",
     "members": true,
     "skillRequirements": [
@@ -5256,6 +5433,7 @@
   },
   {
     "id": 176,
+    "type": "QUEST",
     "title": "Quiet Before the Swarm",
     "members": true,
     "skillRequirements": [
@@ -5284,6 +5462,7 @@
   },
   {
     "id": 177,
+    "type": "QUEST",
     "title": "Love Story",
     "members": true,
     "skillRequirements": [
@@ -5322,6 +5501,7 @@
   },
   {
     "id": 178,
+    "type": "QUEST",
     "title": "A Void Dance",
     "members": true,
     "skillRequirements": [
@@ -5378,6 +5558,7 @@
   },
   {
     "id": 179,
+    "type": "QUEST",
     "title": "The Void Stares Back",
     "members": true,
     "skillRequirements": [
@@ -5463,6 +5644,7 @@
   },
   {
     "id": 180,
+    "type": "QUEST",
     "title": "Do No Evil",
     "members": true,
     "skillRequirements": [
@@ -5523,6 +5705,7 @@
   },
   {
     "id": 181,
+    "type": "QUEST",
     "title": "King of the Dwarves",
     "members": true,
     "skillRequirements": [
@@ -5556,6 +5739,7 @@
   },
   {
     "id": 182,
+    "type": "QUEST",
     "title": "The Prisoner of Glouphrie",
     "members": true,
     "skillRequirements": [
@@ -5594,6 +5778,7 @@
   },
   {
     "id": 183,
+    "type": "QUEST",
     "title": "Elemental Workshop IV",
     "members": true,
     "skillRequirements": [
@@ -5631,6 +5816,7 @@
   },
   {
     "id": 184,
+    "type": "QUEST",
     "title": "A Clockwork Syringe",
     "members": true,
     "skillRequirements": [
@@ -5681,6 +5867,7 @@
   },
   {
     "id": 185,
+    "type": "QUEST",
     "title": "Deadliest Catch",
     "members": true,
     "skillRequirements": [
@@ -5714,6 +5901,7 @@
   },
   {
     "id": 186,
+    "type": "QUEST",
     "title": "Salt in the Wound",
     "members": true,
     "skillRequirements": [
@@ -5754,6 +5942,7 @@
   },
   {
     "id": 187,
+    "type": "QUEST",
     "title": "The Branches of Darkmeyer",
     "members": true,
     "skillRequirements": [
@@ -5839,6 +6028,7 @@
   },
   {
     "id": 188,
+    "type": "QUEST",
     "title": "Ritual of the Mahjarrat",
     "members": true,
     "skillRequirements": [
@@ -5916,6 +6106,7 @@
   },
   {
     "id": 189,
+    "type": "QUEST",
     "title": "One Piercing Note",
     "members": false,
     "questPointsReward": 2,
@@ -5925,6 +6116,7 @@
   },
   {
     "id": 190,
+    "type": "QUEST",
     "title": "The Firemaker's Curse",
     "members": true,
     "skillRequirements": [
@@ -5950,6 +6142,7 @@
   },
   {
     "id": 191,
+    "type": "QUEST",
     "title": "Let Them Eat Pie",
     "members": false,
     "questPointsReward": 1,
@@ -5960,6 +6153,7 @@
   },
   {
     "id": 192,
+    "type": "QUEST",
     "title": "The Elder Kiln",
     "members": true,
     "skillRequirements": [
@@ -5997,6 +6191,7 @@
   },
   {
     "id": 193,
+    "type": "QUEST",
     "title": "Song from the Depths",
     "members": false,
     "questPointsReward": 1,
@@ -6012,6 +6207,7 @@
   },
   {
     "id": 194,
+    "type": "QUEST",
     "title": "Carnillean Rising",
     "members": true,
     "skillRequirements": [
@@ -6059,6 +6255,7 @@
   },
   {
     "id": 195,
+    "type": "QUEST",
     "title": "Some Like It Cold",
     "members": true,
     "skillRequirements": [
@@ -6094,6 +6291,7 @@
   },
   {
     "id": 196,
+    "type": "QUEST",
     "title": "The Brink of Extinction",
     "members": true,
     "skillRequirements": [
@@ -6135,6 +6333,7 @@
   },
   {
     "id": 197,
+    "type": "QUEST",
     "title": "The World Wakes",
     "members": true,
     "combatRequirement": {
@@ -6243,6 +6442,7 @@
   },
   {
     "id": 198,
+    "type": "QUEST",
     "title": "Bringing Home the Bacon",
     "members": true,
     "skillRequirements": [
@@ -6268,6 +6468,7 @@
   },
   {
     "id": 199,
+    "type": "QUEST",
     "title": "Birthright of the Dwarves",
     "members": true,
     "skillRequirements": [
@@ -6306,6 +6507,7 @@
   },
   {
     "id": 200,
+    "type": "QUEST",
     "title": "Missing, Presumed Death",
     "members": false,
     "questPointsReward": 2,
@@ -6332,6 +6534,7 @@
   },
   {
     "id": 201,
+    "type": "QUEST",
     "title": "One of a Kind",
     "members": true,
     "skillRequirements": [
@@ -6376,6 +6579,7 @@
   },
   {
     "id": 202,
+    "type": "QUEST",
     "title": "Fate of the Gods",
     "members": true,
     "skillRequirements": [
@@ -6463,6 +6667,7 @@
   },
   {
     "id": 203,
+    "type": "QUEST",
     "title": "A Shadow over Ashdale",
     "members": false,
     "questPointsReward": 1,
@@ -6475,6 +6680,7 @@
   },
   {
     "id": 204,
+    "type": "QUEST",
     "title": "The Mighty Fall",
     "members": true,
     "skillRequirements": [
@@ -6553,6 +6759,7 @@
   },
   {
     "id": 205,
+    "type": "QUEST",
     "title": "Plague's End",
     "members": true,
     "skillRequirements": [
@@ -6624,6 +6831,7 @@
   },
   {
     "id": 206,
+    "type": "QUEST",
     "title": "Broken Home",
     "members": false,
     "questPointsReward": 1,
@@ -6707,6 +6915,7 @@
   },
   {
     "id": 207,
+    "type": "QUEST",
     "title": "Heart of Stone",
     "members": true,
     "skillRequirements": [
@@ -6773,6 +6982,7 @@
   },
   {
     "id": 208,
+    "type": "QUEST",
     "title": "Dishonour among Thieves",
     "members": true,
     "skillRequirements": [
@@ -6816,12 +7026,14 @@
   },
   {
     "id": 209,
+    "type": "QUEST",
     "title": "Dimension of Disaster: Coin of the Realm",
     "members": true,
     "questPointsReward": 1
   },
   {
     "id": 210,
+    "type": "QUEST",
     "title": "Dimension of Disaster: Shield of Arrav",
     "members": true,
     "questRequirements": [
@@ -6839,6 +7051,7 @@
   },
   {
     "id": 211,
+    "type": "QUEST",
     "title": "Dimension of Disaster: Demon Slayer",
     "members": true,
     "questRequirements": [
@@ -6857,6 +7070,7 @@
   },
   {
     "id": 212,
+    "type": "QUEST",
     "title": "Dimension of Disaster: Defender of Varrock",
     "members": true,
     "questRequirements": [
@@ -6893,6 +7107,7 @@
   },
   {
     "id": 213,
+    "type": "QUEST",
     "title": "Dimension of Disaster: Curse of Arrav",
     "members": true,
     "skillRequirements": [
@@ -6966,6 +7181,7 @@
   },
   {
     "id": 214,
+    "type": "QUEST",
     "title": "Dimension of Disaster",
     "members": true,
     "questRequirements": [
@@ -6977,6 +7193,7 @@
   },
   {
     "id": 215,
+    "type": "QUEST",
     "title": "Hero's Welcome",
     "members": true,
     "skillRequirements": [
@@ -7015,6 +7232,7 @@
   },
   {
     "id": 216,
+    "type": "QUEST",
     "title": "The Light Within",
     "members": true,
     "skillRequirements": [
@@ -7091,6 +7309,7 @@
   },
   {
     "id": 217,
+    "type": "QUEST",
     "title": "The Lord of Vampyrium",
     "members": true,
     "skillRequirements": [
@@ -7160,6 +7379,7 @@
   },
   {
     "id": 218,
+    "type": "QUEST",
     "title": "Call of the Ancestors",
     "members": true,
     "questPointsReward": 1,
@@ -7175,6 +7395,7 @@
   },
   {
     "id": 219,
+    "type": "QUEST",
     "title": "Beneath Cursed Tides",
     "members": false,
     "skillRequirements": [
@@ -7236,6 +7457,7 @@
   },
   {
     "id": 220,
+    "type": "QUEST",
     "title": "Nomad's Elegy",
     "members": true,
     "skillRequirements": [
@@ -7297,6 +7519,7 @@
   },
   {
     "id": 221,
+    "type": "QUEST",
     "title": "River of Blood",
     "members": true,
     "skillRequirements": [
@@ -7377,6 +7600,7 @@
   },
   {
     "id": 222,
+    "type": "QUEST",
     "title": "Barrows Sister",
     "displayName": "Kindred Spirits",
     "members": true,
@@ -7413,6 +7637,7 @@
   },
   {
     "id": 223,
+    "type": "QUEST",
     "title": "Gower Quest",
     "members": false,
     "questPointsRequirement": {
@@ -7490,6 +7715,7 @@
   },
   {
     "id": 224,
+    "type": "QUEST",
     "title": "Children of Mah",
     "members": true,
     "questRequirements": [
@@ -7525,12 +7751,14 @@
   },
   {
     "id": 225,
+    "type": "QUEST",
     "title": "Impressing the Locals",
     "members": true,
     "questPointsReward": 1
   },
   {
     "id": 226,
+    "type": "QUEST",
     "title": "Sliske's Endgame",
     "members": true,
     "questRequirements": [
@@ -7594,6 +7822,7 @@
   },
   {
     "id": 227,
+    "type": "QUEST",
     "title": "Back to the Freezer",
     "members": true,
     "skillRequirements": [
@@ -7641,6 +7870,7 @@
   },
   {
     "id": 228,
+    "type": "QUEST",
     "title": "The Jack of Spades",
     "members": true,
     "questRequirements": [
@@ -7658,6 +7888,7 @@
   },
   {
     "id": 229,
+    "type": "QUEST",
     "title": "Crocodile Tears",
     "members": true,
     "skillRequirements": [
@@ -7711,6 +7942,7 @@
   },
   {
     "id": 230,
+    "type": "QUEST",
     "title": "Our Man in the North",
     "members": true,
     "questRequirements": [
@@ -7734,6 +7966,7 @@
   },
   {
     "id": 231,
+    "type": "QUEST",
     "title": "'Phite Club",
     "members": true,
     "questRequirements": [
@@ -7772,6 +8005,7 @@
   },
   {
     "id": 232,
+    "type": "QUEST",
     "title": "Evil Dave's Big Day Out",
     "members": true,
     "skillRequirements": [
@@ -7807,6 +8041,7 @@
   },
   {
     "id": 233,
+    "type": "QUEST",
     "title": "Pieces of Hate",
     "members": true,
     "skillRequirements": [
@@ -7849,12 +8084,14 @@
   },
   {
     "id": 234,
+    "type": "QUEST",
     "title": "You Are It",
     "members": true,
     "questPointsReward": 1
   },
   {
     "id": 235,
+    "type": "QUEST",
     "title": "The Needle Skips",
     "members": true,
     "questPointsReward": 1,
@@ -7866,6 +8103,7 @@
   },
   {
     "id": 236,
+    "type": "QUEST",
     "title": "Violet is Blue",
     "members": false,
     "questPointsReward": 1,
@@ -7886,6 +8124,7 @@
   },
   {
     "id": 237,
+    "type": "QUEST",
     "title": "Chef's Assistant",
     "members": false,
     "skillRequirements": [
@@ -7906,6 +8145,7 @@
   },
   {
     "id": 238,
+    "type": "QUEST",
     "title": "Curse of the Black Stone",
     "members": true,
     "skillRequirements": [
@@ -7938,6 +8178,7 @@
   },
   {
     "id": 239,
+    "type": "QUEST",
     "title": "Desperate Times",
     "members": true,
     "skillRequirements": [
