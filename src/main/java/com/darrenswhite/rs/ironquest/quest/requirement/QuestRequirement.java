@@ -2,13 +2,10 @@ package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.quest.Quest;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * @author Darren S. White
  */
-@JsonIdentityInfo(scope = Quest.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "quest")
 public class QuestRequirement extends Requirement {
 
   private Quest quest;

@@ -2,12 +2,15 @@ package com.darrenswhite.rs.ironquest.quest;
 
 import com.darrenswhite.rs.ironquest.dto.QuestDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
+import com.darrenswhite.rs.ironquest.quest.Quest.Builder;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirements;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -17,71 +20,54 @@ import java.util.stream.Collectors;
 /**
  * @author Darren S. White
  */
-@JsonIdentityInfo(scope = QuestRequirement.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonDeserialize(builder = Builder.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Quest {
 
-  private int id;
-  private String title;
-  private String displayName;
-  private QuestAccess access;
-  private QuestType type;
-  private QuestRequirements requirements = new QuestRequirements.Builder().build();
-  private QuestRewards rewards = new QuestRewards.Builder().build();
+  private final int id;
+  private final String title;
+  private final String displayName;
+  private final QuestAccess access;
+  private final QuestType type;
+  private final QuestRequirements requirements;
+  private final QuestRewards rewards;
+
+  private Quest(Builder builder) {
+    this.id = builder.id;
+    this.title = builder.title;
+    this.displayName = builder.displayName;
+    this.access = builder.access;
+    this.type = builder.type;
+    this.requirements = builder.requirements;
+    this.rewards = builder.rewards;
+  }
 
   public int getId() {
     return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
   }
 
   public String getTitle() {
     return title;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
   public String getDisplayName() {
     return displayName != null ? displayName : title;
-  }
-
-  public void setDisplayName(String displayName) {
-    this.displayName = displayName;
   }
 
   public QuestAccess getAccess() {
     return access;
   }
 
-  public void setAccess(QuestAccess access) {
-    this.access = access;
-  }
-
   public QuestType getType() {
     return type;
-  }
-
-  public void setType(QuestType type) {
-    this.type = type;
   }
 
   public QuestRequirements getRequirements() {
     return requirements;
   }
 
-  public void setRequirements(QuestRequirements requirements) {
-    this.requirements = requirements;
-  }
-
   public QuestRewards getRewards() {
     return rewards;
-  }
-
-  public void setRewards(QuestRewards rewards) {
-    this.rewards = rewards;
   }
 
   public boolean meetsCombatRequirement(Player player) {
@@ -158,7 +144,6 @@ public class Quest {
     return questRequirements;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -178,5 +163,64 @@ public class Quest {
 
   public QuestDTO createDTO() {
     return new QuestDTO.Builder().withDisplayName(getDisplayName()).build();
+  }
+
+  public static class Builder {
+
+    private int id;
+    private String title;
+    private String displayName;
+    private QuestAccess access;
+    private QuestType type;
+    private QuestRequirements requirements = QuestRequirements.NONE;
+    private QuestRewards rewards = QuestRewards.NONE;
+
+    @JsonCreator
+    public Builder() {
+    }
+
+    @JsonCreator
+    public Builder(int id) {
+      this.id = id;
+    }
+
+    public Builder withId(int id) {
+      this.id = id;
+      return this;
+    }
+
+    public Builder withTitle(String title) {
+      this.title = title;
+      return this;
+    }
+
+    public Builder withDisplayName(String displayName) {
+      this.displayName = displayName;
+      return this;
+    }
+
+    public Builder withAccess(QuestAccess access) {
+      this.access = access;
+      return this;
+    }
+
+    public Builder withType(QuestType type) {
+      this.type = type;
+      return this;
+    }
+
+    public Builder withRequirements(QuestRequirements requirements) {
+      this.requirements = requirements;
+      return this;
+    }
+
+    public Builder withRewards(QuestRewards rewards) {
+      this.rewards = rewards;
+      return this;
+    }
+
+    public Quest build() {
+      return new Quest(this);
+    }
   }
 }
