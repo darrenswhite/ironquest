@@ -10,27 +10,17 @@ import com.darrenswhite.rs.ironquest.quest.RuneMetricsQuest;
 import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,16 +31,6 @@ import org.apache.logging.log4j.Logger;
  */
 public class Player {
 
-  /**
-   * URL for Hiscores
-   */
-  private static final String URL_HISCORES_LITE = "https://services.runescape.com/m=hiscore/index_lite.ws?player=%s";
-
-  /**
-   * URL for RuneMetrics quest data
-   */
-  private static final String URL_RUNE_METRICS_QUESTS = "https://apps.runescape.com/runemetrics/quests?user=%s";
-
   private static final Logger LOG = LogManager.getLogger(Player.class);
 
   private final String name;
@@ -60,14 +40,13 @@ public class Player {
   private final boolean ironman;
   private final boolean recommended;
 
-  private Player(String name, Map<Skill, Double> skillXps, Set<QuestEntry> quests,
-      Set<Skill> lampSkills, boolean ironman, boolean recommended) {
-    this.name = name;
-    this.skillXps = skillXps;
-    this.quests = quests;
-    this.lampSkills = lampSkills;
-    this.ironman = ironman;
-    this.recommended = recommended;
+  private Player(Builder builder) {
+    this.name = builder.name;
+    this.skillXps = builder.skillXps;
+    this.quests = builder.quests;
+    this.lampSkills = builder.lampSkills;
+    this.ironman = builder.ironman;
+    this.recommended = builder.recommended;
   }
 
   public String getName() {
@@ -226,16 +205,16 @@ public class Player {
     return actions;
   }
 
-  public void load() {
+  public void load(HiscoreService hiscoreService, RuneMetricsService runeMetricsService) {
     if (name != null && !name.trim().isEmpty()) {
       try {
-        loadHiscores();
+        loadHiscores(hiscoreService);
       } catch (IOException e) {
         LOG.warn("Failed to load hiscores for player: {}", name, e);
       }
 
       try {
-        loadQuests();
+        loadQuests(runeMetricsService);
       } catch (IOException e) {
         LOG.warn("Failed to load quests for player: {}", name, e);
       }
@@ -400,40 +379,12 @@ public class Player {
     return requirements;
   }
 
-  private void loadHiscores() throws IOException {
-    LOG.debug("Loading hiscores for player: {}...", name);
-
-    CSVFormat format = CSVFormat.DEFAULT.withDelimiter(',');
-    String hiscoresUrl = String.format(URL_HISCORES_LITE, URLEncoder.encode(name, "UTF-8"));
-
-    try (InputStreamReader in = new InputStreamReader(new URL(hiscoresUrl).openStream())) {
-      CSVParser parser = format.parse(in);
-      List<CSVRecord> records = parser.getRecords();
-
-      for (int i = 1; i < Skill.values().length + 1; i++) {
-        Skill skill = Skill.tryGet(i);
-        CSVRecord r = records.get(i);
-
-        if (skill != null) {
-          skillXps.put(skill, Math.max(0, Double.parseDouble(r.get(2))));
-        } else {
-          LOG.warn("Unknown skill with id: {}", i);
-        }
-      }
-    }
+  private void loadHiscores(HiscoreService hiscoreService) throws IOException {
+    skillXps.putAll(hiscoreService.load(name));
   }
 
-  private void loadQuests() throws IOException {
-    LOG.debug("Loading quests for player: {}...", name);
-
-    String runeMetricsUrl = String
-        .format(URL_RUNE_METRICS_QUESTS, URLEncoder.encode(name, "UTF-8"));
-    URL url = new URL(runeMetricsUrl);
-    ObjectMapper objectMapper = new ObjectMapper();
-    JsonNode rmQuestsJson = objectMapper.readTree(url).get("quests");
-    Set<RuneMetricsQuest> rmQuests = objectMapper.readValue(objectMapper.treeAsTokens(rmQuestsJson),
-        objectMapper.getTypeFactory().constructType(new TypeReference<Set<RuneMetricsQuest>>() {
-        }));
+  private void loadQuests(RuneMetricsService runeMetricsService) throws IOException {
+    Set<RuneMetricsQuest> rmQuests = runeMetricsService.load(name);
 
     for (RuneMetricsQuest rmq : rmQuests) {
       String title = rmq.getTitle();
@@ -503,7 +454,7 @@ public class Player {
     }
 
     public Player build() {
-      return new Player(name, skillXps, quests, lampSkills, ironman, recommended);
+      return new Player(this);
     }
   }
 }

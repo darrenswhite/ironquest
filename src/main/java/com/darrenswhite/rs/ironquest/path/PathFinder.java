@@ -2,17 +2,16 @@ package com.darrenswhite.rs.ironquest.path;
 
 import com.darrenswhite.rs.ironquest.action.Action;
 import com.darrenswhite.rs.ironquest.action.LampAction;
+import com.darrenswhite.rs.ironquest.player.HiscoreService;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.QuestEntry;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
+import com.darrenswhite.rs.ironquest.player.RuneMetricsService;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
+import com.darrenswhite.rs.ironquest.quest.QuestService;
 import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
-import com.darrenswhite.rs.ironquest.quest.Quests;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -23,12 +22,10 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 /**
- * Service for finding optimal {@link Path} for a given set of attributes.
+ * {@link Service} for finding optimal {@link Path} for a given set of attributes.
  *
  * @author Darren S. White
  */
@@ -37,18 +34,16 @@ public class PathFinder {
 
   private static final Logger LOG = LogManager.getLogger(PathFinder.class);
 
-  private final Quests quests;
+  private final QuestService questService;
+  private final HiscoreService hiscoreService;
+  private final RuneMetricsService runeMetricsService;
 
-  /**
-   * Create a new {@link PathFinder}.
-   *
-   * @param questsResource the resource to retrieve quest data from
-   * @param objectMapper an {@link ObjectMapper}
-   */
   @Autowired
-  public PathFinder(@Value("${quests.resource}") Resource questsResource, ObjectMapper objectMapper)
-      throws IOException {
-    this.quests = loadQuests(questsResource, objectMapper);
+  public PathFinder(QuestService questService, HiscoreService hiscoreService,
+      RuneMetricsService runeMetricsService) {
+    this.questService = questService;
+    this.hiscoreService = hiscoreService;
+    this.runeMetricsService = runeMetricsService;
   }
 
   public Path find(String name, QuestAccessFilter accessFilter, boolean ironman,
@@ -56,14 +51,23 @@ public class PathFinder {
       QuestTypeFilter typeFilter) {
     LOG.debug("Using player profile: " + name);
 
-    Set<QuestEntry> questEntries = quests
+    Player player = createPlayer(name, accessFilter, ironman, recommended, lampSkills,
+        questPriorities, typeFilter);
+
+    return find(player);
+  }
+
+  Player createPlayer(String name, QuestAccessFilter accessFilter, boolean ironman,
+      boolean recommended, Set<Skill> lampSkills, Map<Integer, QuestPriority> questPriorities,
+      QuestTypeFilter typeFilter) {
+    Set<QuestEntry> questEntries = questService.getQuests()
         .createQuestEntries(questPriorities, accessFilter, typeFilter);
     Player player = new Player.Builder().withName(name).withIronman(ironman)
         .withRecommended(recommended).withLampSkills(lampSkills).withQuests(questEntries).build();
 
-    player.load();
+    player.load(hiscoreService, runeMetricsService);
 
-    return find(player);
+    return player;
   }
 
   private Path find(Player player) {
@@ -141,14 +145,6 @@ public class PathFinder {
         iterator.remove();
       }
     }
-  }
-
-  private Quests loadQuests(Resource questsResource, ObjectMapper objectMapper) throws IOException {
-    LOG.debug("Trying to retrieve quests from resource: {}", questsResource);
-
-    return new Quests(
-        objectMapper.readValue(questsResource.getInputStream(), new TypeReference<Set<Quest>>() {
-        }));
   }
 
   private void completePlaceholderQuests(Player player) {
