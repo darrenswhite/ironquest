@@ -1,6 +1,6 @@
 package com.darrenswhite.rs.ironquest.dto;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * Data Transfer Object for {@link com.darrenswhite.rs.ironquest.path.Path}.
@@ -9,15 +9,15 @@ import java.util.Set;
  */
 public class PathDTO {
 
-  private final Set<ActionDTO> actions;
+  private final List<ActionDTO> actions;
   private final PathStatsDTO stats;
 
-  private PathDTO(Set<ActionDTO> actions, PathStatsDTO stats) {
+  private PathDTO(List<ActionDTO> actions, PathStatsDTO stats) {
     this.actions = actions;
     this.stats = stats;
   }
 
-  public Set<ActionDTO> getActions() {
+  public List<ActionDTO> getActions() {
     return actions;
   }
 
@@ -27,10 +27,10 @@ public class PathDTO {
 
   public static class Builder {
 
-    private Set<ActionDTO> actions;
+    private List<ActionDTO> actions;
     private PathStatsDTO stats;
 
-    public Builder withActions(Set<ActionDTO> actions) {
+    public Builder withActions(List<ActionDTO> actions) {
       this.actions = actions;
       return this;
     }

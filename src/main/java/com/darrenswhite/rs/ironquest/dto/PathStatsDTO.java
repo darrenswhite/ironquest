@@ -7,9 +7,9 @@ package com.darrenswhite.rs.ironquest.dto;
  */
 public class PathStatsDTO {
 
-  private final double percentComplete;
+  private final int percentComplete;
 
-  private PathStatsDTO(double percentComplete) {
+  private PathStatsDTO(int percentComplete) {
     this.percentComplete = percentComplete;
   }
 
@@ -17,12 +17,11 @@ public class PathStatsDTO {
     return percentComplete;
   }
 
-
   public static class Builder {
 
-    private double percentComplete;
+    private int percentComplete;
 
-    public Builder withPercentComplete(double percentComplete) {
+    public Builder withPercentComplete(int percentComplete) {
       this.percentComplete = percentComplete;
       return this;
     }

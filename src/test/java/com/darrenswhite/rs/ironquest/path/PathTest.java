@@ -17,7 +17,8 @@ import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
 import com.darrenswhite.rs.ironquest.quest.reward.LampType;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import org.junit.Test;
 
@@ -33,8 +34,8 @@ public class PathTest {
     LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
     QuestAction questAction = new QuestAction(player, entry);
     TrainAction trainAction = new TrainAction(player, Skill.ATTACK, 0, 100);
-    Set<Action> actions = new LinkedHashSet<>(Arrays.asList(lampAction, questAction, trainAction));
-    PathStats stats = new PathStats(55.3);
+    List<Action> actions = new LinkedList<>(Arrays.asList(lampAction, questAction, trainAction));
+    PathStats stats = new PathStats(55);
     Path path = new Path(actions, stats);
 
     PathDTO dto = path.createDTO();

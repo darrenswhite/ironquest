@@ -14,7 +14,7 @@ import com.darrenswhite.rs.ironquest.quest.QuestService;
 import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -48,13 +48,13 @@ public class PathFinder {
 
   public Path find(String name, QuestAccessFilter accessFilter, boolean ironman,
       boolean recommended, Set<Skill> lampSkills, Map<Integer, QuestPriority> questPriorities,
-      QuestTypeFilter typeFilter) {
+      QuestTypeFilter typeFilter) throws BestQuestNotFoundException {
     LOG.debug("Using player profile: " + name);
 
     Player player = createPlayer(name, accessFilter, ironman, recommended, lampSkills,
         questPriorities, typeFilter);
 
-    return find(player);
+    return findForPlayer(player);
   }
 
   Player createPlayer(String name, QuestAccessFilter accessFilter, boolean ironman,
@@ -70,8 +70,8 @@ public class PathFinder {
     return player;
   }
 
-  private Path find(Player player) {
-    Set<Action> actions = new LinkedHashSet<>();
+  Path findForPlayer(Player player) throws BestQuestNotFoundException {
+    List<Action> actions = new LinkedList<>();
     List<Action> futureActions = new ArrayList<>();
     PathStats stats = createStats(player);
 
@@ -82,12 +82,12 @@ public class PathFinder {
     while (!player.getIncompleteQuests().isEmpty()) {
       Optional<QuestEntry> bestQuest = player.getBestQuest(player.getIncompleteQuests());
 
-      if (bestQuest.isPresent()) {
-        processQuest(player, actions, futureActions, bestQuest.get());
-      } else {
-        throw new IllegalStateException("Unable to find best quest");
+      if (!bestQuest.isPresent()) {
+        throw new BestQuestNotFoundException(
+            "Unable to find best quest for player: " + player.getName());
       }
 
+      processQuest(player, actions, futureActions, bestQuest.get());
       processFutureActions(player, actions, futureActions);
     }
 
@@ -101,15 +101,21 @@ public class PathFinder {
   }
 
   private PathStats createStats(Player player) {
-    double percentComplete =
-        (double) player.getCompletedQuests().size() / (double) player.getQuests().size() * 100;
+    double completed =
+        (double) player.getCompletedQuests().size() / (double) player.getQuests().size();
+
+    if (Double.isNaN(completed)) {
+      completed = 0;
+    }
+
+    int percentComplete = (int) Math.floor(completed * 100);
 
     return new PathStats(percentComplete);
   }
 
-  private void processQuest(Player player, Set<Action> actions, List<Action> futureActions,
+  private void processQuest(Player player, List<Action> actions, List<Action> futureActions,
       QuestEntry bestQuest) {
-    Set<Action> newActions = player.completeQuest(bestQuest);
+    List<Action> newActions = player.completeQuest(bestQuest);
 
     for (Action newAction : newActions) {
       if (newAction.isFuture()) {
@@ -125,7 +131,7 @@ public class PathFinder {
     }
   }
 
-  private void processFutureActions(Player player, Set<Action> actions,
+  private void processFutureActions(Player player, List<Action> actions,
       List<Action> futureActions) {
     for (Iterator<Action> iterator = futureActions.iterator(); iterator.hasNext(); ) {
       Action futureAction = iterator.next();
@@ -154,7 +160,7 @@ public class PathFinder {
       if (quest.isPlaceholder()) {
         LOG.debug("Processing placeholder quest: {}", quest.getDisplayName());
 
-        Set<Action> newActions = player.completeQuest(entry);
+        List<Action> newActions = player.completeQuest(entry);
 
         for (Action newAction : newActions) {
           newAction.process(player);

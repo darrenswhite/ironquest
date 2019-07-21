@@ -30,12 +30,12 @@ public abstract class Action {
 
   public abstract ActionDTO createDTO();
 
-  public final Player getPlayer() {
-    return player;
-  }
-
   public final ActionType getType() {
     return type;
+  }
+
+  public final Player getPlayer() {
+    return player;
   }
 
   public final boolean isFuture() {

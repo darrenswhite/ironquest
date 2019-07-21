@@ -9,9 +9,9 @@ import com.darrenswhite.rs.ironquest.dto.PathStatsDTO;
  */
 public class PathStats {
 
-  private final double percentComplete;
+  private final int percentComplete;
 
-  public PathStats(double percentComplete) {
+  public PathStats(int percentComplete) {
     this.percentComplete = percentComplete;
   }
 

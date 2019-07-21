@@ -1,6 +1,7 @@
 package com.darrenswhite.rs.ironquest.controller;
 
 import com.darrenswhite.rs.ironquest.dto.PathDTO;
+import com.darrenswhite.rs.ironquest.path.BestQuestNotFoundException;
 import com.darrenswhite.rs.ironquest.path.PathFinder;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.Skill;
@@ -36,7 +37,8 @@ public class QuestController {
       @RequestParam(name = "recommended", required = false) boolean recommended,
       @RequestParam(name = "lampSkills", required = false) Set<Skill> lampSkills,
       @RequestParam(name = "questPriorities", required = false) Map<Integer, QuestPriority> questPriorities,
-      @RequestParam(name = "typeFilter", required = false, defaultValue = "ALL") QuestTypeFilter typeFilter) {
+      @RequestParam(name = "typeFilter", required = false, defaultValue = "ALL") QuestTypeFilter typeFilter)
+      throws BestQuestNotFoundException {
     if (lampSkills == null) {
       lampSkills = Collections.emptySet();
     }

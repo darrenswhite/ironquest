@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.darrenswhite.rs.ironquest.dto.PathDTO;
+import com.darrenswhite.rs.ironquest.path.BestQuestNotFoundException;
 import com.darrenswhite.rs.ironquest.path.Path;
 import com.darrenswhite.rs.ironquest.path.PathFinder;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
@@ -22,7 +23,7 @@ import org.junit.Test;
 public class QuestControllerTest {
 
   @Test
-  public void getPath() {
+  public void getPath() throws BestQuestNotFoundException {
     PathFinder pathFinder = mock(PathFinder.class);
     QuestController controller = new QuestController(pathFinder);
 
@@ -48,7 +49,7 @@ public class QuestControllerTest {
   }
 
   @Test
-  public void getPath_NullValues() {
+  public void getPath_NullValues() throws BestQuestNotFoundException {
     PathFinder pathFinder = mock(PathFinder.class);
     QuestController controller = new QuestController(pathFinder);
 

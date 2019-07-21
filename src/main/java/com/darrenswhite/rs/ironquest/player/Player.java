@@ -15,6 +15,8 @@ import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -178,8 +180,8 @@ public class Player {
         .anyMatch(e -> e.getQuest().equals(quest) && e.getStatus() == QuestStatus.COMPLETED);
   }
 
-  public Set<Action> completeQuest(QuestEntry entry) {
-    Set<Action> actions = new LinkedHashSet<>();
+  public List<Action> completeQuest(QuestEntry entry) {
+    List<Action> actions = new LinkedList<>();
     Quest quest = entry.getQuest();
 
     if (isQuestCompleted(quest)) {
