@@ -58,8 +58,8 @@ public class PathFinder {
 
     Set<QuestEntry> questEntries = quests
         .createQuestEntries(questPriorities, accessFilter, typeFilter);
-    Player player = new Player.Builder().setName(name).setIronman(ironman)
-        .setRecommended(recommended).setLampSkills(lampSkills).setQuests(questEntries).build();
+    Player player = new Player.Builder().withName(name).withIronman(ironman)
+        .withRecommended(recommended).withLampSkills(lampSkills).withQuests(questEntries).build();
 
     player.load();
 

@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -93,6 +94,25 @@ public class Player {
     return recommended;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Player player = (Player) o;
+    return ironman == player.ironman && recommended == player.recommended && Objects
+        .equals(name, player.name) && Objects.equals(skillXps, player.skillXps) && Objects
+        .equals(quests, player.quests) && Objects.equals(lampSkills, player.lampSkills);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, skillXps, quests, lampSkills, ironman, recommended);
+  }
+
   public PlayerDTO createDTO() {
     return new PlayerDTO.Builder().setName(name).withLevels(getLevels())
         .withQuestPoints(getQuestPoints()).withTotalLevel(getTotalLevel())
@@ -104,9 +124,9 @@ public class Player {
         .map(e -> new QuestEntry(e.getQuest(), e.getStatus(), e.getPriority()))
         .collect(Collectors.toSet());
 
-    return new Builder().setName(name).setSkillXps(new EnumMap<>(skillXps)).setQuests(copiedQuests)
-        .setLampSkills(new LinkedHashSet<>(lampSkills)).setIronman(ironman)
-        .setRecommended(recommended).build();
+    return new Builder().withName(name).withSkillXps(new EnumMap<>(skillXps))
+        .withQuests(copiedQuests).withLampSkills(new LinkedHashSet<>(lampSkills))
+        .withIronman(ironman).withRecommended(recommended).build();
   }
 
   public Map<Skill, Integer> getLevels() {
@@ -311,8 +331,7 @@ public class Player {
         .sum();
     Set<Set<Skill>> previousLampSkills = new HashSet<>();
     double lampXpRewards = quest.getRewards().getLamps().stream()
-        .filter(l -> l.meetsRequirements(this))
-        .mapToDouble(lampReward -> {
+        .filter(l -> l.meetsRequirements(this)).mapToDouble(lampReward -> {
           Set<Skill> skills = getBestLampSkills(lampReward, previousLampSkills);
           previousLampSkills.add(skills);
           return lampReward.getXpForSkills(this, skills);
@@ -453,32 +472,32 @@ public class Player {
     private boolean ironman = false;
     private boolean recommended = false;
 
-    public Builder setName(String name) {
+    public Builder withName(String name) {
       this.name = name;
       return this;
     }
 
-    public Builder setSkillXps(Map<Skill, Double> skillXps) {
+    public Builder withSkillXps(Map<Skill, Double> skillXps) {
       this.skillXps = skillXps;
       return this;
     }
 
-    public Builder setQuests(Set<QuestEntry> quests) {
+    public Builder withQuests(Set<QuestEntry> quests) {
       this.quests = quests;
       return this;
     }
 
-    public Builder setLampSkills(Set<Skill> lampSkills) {
+    public Builder withLampSkills(Set<Skill> lampSkills) {
       this.lampSkills = lampSkills;
       return this;
     }
 
-    public Builder setIronman(boolean ironman) {
+    public Builder withIronman(boolean ironman) {
       this.ironman = ironman;
       return this;
     }
 
-    public Builder setRecommended(boolean recommended) {
+    public Builder withRecommended(boolean recommended) {
       this.recommended = recommended;
       return this;
     }

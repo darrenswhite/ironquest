@@ -2,6 +2,7 @@ package com.darrenswhite.rs.ironquest.dto;
 
 import com.darrenswhite.rs.ironquest.player.Skill;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Data Transfer Object for {@link com.darrenswhite.rs.ironquest.player.Player}.
@@ -43,6 +44,25 @@ public class PlayerDTO {
 
   public int getCombatLevel() {
     return combatLevel;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    PlayerDTO playerDTO = (PlayerDTO) o;
+    return questPoints == playerDTO.questPoints && totalLevel == playerDTO.totalLevel
+        && combatLevel == playerDTO.combatLevel && Objects.equals(name, playerDTO.name) && Objects
+        .equals(levels, playerDTO.levels);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, levels, questPoints, totalLevel, combatLevel);
   }
 
   public static class Builder {

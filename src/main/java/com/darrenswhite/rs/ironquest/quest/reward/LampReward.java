@@ -72,20 +72,23 @@ public class LampReward implements Reward {
    *
    * Default is any {@link Skill} at level 1.
    */
-  private static final Map<Set<Skill>, Integer> DEFAULT_REQUIREMENTS = new HashMap<>();
+  private static final Map<Set<Skill>, Integer> DEFAULT_REQUIREMENTS;
 
   static {
+    Map<Set<Skill>, Integer> defaultRequirements = new HashMap<>();
     Set<Skill> skills;
 
     for (Skill s : Skill.values()) {
       skills = new HashSet<>();
       skills.add(s);
-      DEFAULT_REQUIREMENTS.put(skills, 1);
+      defaultRequirements.put(skills, 1);
     }
+
+    DEFAULT_REQUIREMENTS = Collections.unmodifiableMap(defaultRequirements);
   }
 
   @JsonDeserialize(using = LampRequirementsDeserializer.class)
-  private Map<Set<Skill>, Integer> requirements = DEFAULT_REQUIREMENTS;
+  private Map<Set<Skill>, Integer> requirements = new HashMap<>(DEFAULT_REQUIREMENTS);
   private double xp;
   private boolean exclusive;
   private LampType type;
