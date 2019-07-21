@@ -10,7 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class ApplicationTest {
 
   @Test
-  public void main() {
-    Application.main(new String[0]);
+  public void contextLoads() {
   }
 }
