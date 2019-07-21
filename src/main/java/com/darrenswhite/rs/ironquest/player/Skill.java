@@ -31,7 +31,7 @@ public enum Skill {
   PRAYER(6, SkillType.COMBAT, false),
   RANGED(5, SkillType.GATHERING, false),
   RUNECRAFTING(21, SkillType.ARTISAN, false),
-  SLAYER(19, SkillType.SUPPORT, true),
+  SLAYER(19, SkillType.SUPPORT, true, 120),
   SMITHING(14, SkillType.ARTISAN, false),
   STRENGTH(3, SkillType.COMBAT, false),
   SUMMONING(24, SkillType.COMBAT, true),
