@@ -7,6 +7,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Path containing {@link Action}'s and {@link PathStats}
+ *
+ * @author Darren S. White
+ */
 public class Path {
 
   private final Set<Action> actions;
