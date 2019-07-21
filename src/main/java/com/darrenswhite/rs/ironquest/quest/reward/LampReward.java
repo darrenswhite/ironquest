@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 /**
  * @author Darren S. White
  */
+@JsonDeserialize(builder = LampReward.Builder.class)
 public class LampReward implements Reward {
 
   private static final double[] SMALL_XP_LAMP_VALUES = {62, 69, 77, 85, 93, 104, 123, 127, 144, 153,
@@ -87,16 +88,12 @@ public class LampReward implements Reward {
     DEFAULT_REQUIREMENTS = Collections.unmodifiableMap(defaultRequirements);
   }
 
-  @JsonDeserialize(using = LampRequirementsDeserializer.class)
-  private Map<Set<Skill>, Integer> requirements = DEFAULT_REQUIREMENTS;
-  private double xp;
-  private boolean exclusive;
-  private LampType type;
-  private boolean singleChoice;
-  private double multiplier = 1;
-
-  public LampReward() {
-  }
+  private final Map<Set<Skill>, Integer> requirements;
+  private final double xp;
+  private final boolean exclusive;
+  private final LampType type;
+  private final boolean singleChoice;
+  private final double multiplier;
 
   private LampReward(Builder builder) {
     this.requirements = builder.requirements;
@@ -111,48 +108,24 @@ public class LampReward implements Reward {
     return requirements;
   }
 
-  public void setRequirements(Map<Set<Skill>, Integer> requirements) {
-    this.requirements = requirements;
-  }
-
   public double getXp() {
     return xp;
-  }
-
-  public void setXp(double xp) {
-    this.xp = xp;
   }
 
   public boolean isExclusive() {
     return exclusive;
   }
 
-  public void setExclusive(boolean exclusive) {
-    this.exclusive = exclusive;
-  }
-
   public LampType getType() {
     return type;
-  }
-
-  public void setType(LampType type) {
-    this.type = type;
   }
 
   public boolean isSingleChoice() {
     return singleChoice;
   }
 
-  public void setSingleChoice(boolean singleChoice) {
-    this.singleChoice = singleChoice;
-  }
-
   public double getMultiplier() {
     return multiplier;
-  }
-
-  public void setMultiplier(double multiplier) {
-    this.multiplier = multiplier;
   }
 
   public Set<Set<Skill>> getChoices(Player player, Set<Set<Skill>> previous) {
@@ -223,6 +196,7 @@ public class LampReward implements Reward {
 
   public static class Builder {
 
+    @JsonDeserialize(using = LampRequirementsDeserializer.class)
     private Map<Set<Skill>, Integer> requirements = DEFAULT_REQUIREMENTS;
     private double xp;
     private boolean exclusive;
