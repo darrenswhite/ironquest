@@ -31,17 +31,6 @@ public class QuestActionTest {
   }
 
   @Test
-  public void getQuestEntry() {
-    Quest quest = new Quest.Builder().build();
-    QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-    Player player = new Player.Builder().build();
-
-    QuestAction questAction = new QuestAction(player, entry);
-
-    assertEquals(questAction.getQuestEntry(), entry);
-  }
-
-  @Test
   public void getMessage() {
     String title = "title";
     Quest quest = new Quest.Builder().withTitle(title).build();

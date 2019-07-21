@@ -88,12 +88,24 @@ public class LampReward implements Reward {
   }
 
   @JsonDeserialize(using = LampRequirementsDeserializer.class)
-  private Map<Set<Skill>, Integer> requirements = new HashMap<>(DEFAULT_REQUIREMENTS);
+  private Map<Set<Skill>, Integer> requirements = DEFAULT_REQUIREMENTS;
   private double xp;
   private boolean exclusive;
   private LampType type;
   private boolean singleChoice;
   private double multiplier = 1;
+
+  public LampReward() {
+  }
+
+  private LampReward(Builder builder) {
+    this.requirements = builder.requirements;
+    this.xp = builder.xp;
+    this.exclusive = builder.exclusive;
+    this.type = builder.type;
+    this.singleChoice = builder.singleChoice;
+    this.multiplier = builder.multiplier;
+  }
 
   public Map<Set<Skill>, Integer> getRequirements() {
     return requirements;
@@ -209,7 +221,51 @@ public class LampReward implements Reward {
     }));
   }
 
-  public static class LampRequirementsDeserializer extends
+  public static class Builder {
+
+    private Map<Set<Skill>, Integer> requirements = DEFAULT_REQUIREMENTS;
+    private double xp;
+    private boolean exclusive;
+    private LampType type;
+    private boolean singleChoice;
+    private double multiplier = 1;
+
+    public Builder withRequirements(Map<Set<Skill>, Integer> requirements) {
+      this.requirements = requirements;
+      return this;
+    }
+
+    public Builder withXp(double xp) {
+      this.xp = xp;
+      return this;
+    }
+
+    public Builder withExclusive(boolean exclusive) {
+      this.exclusive = exclusive;
+      return this;
+    }
+
+    public Builder withType(LampType type) {
+      this.type = type;
+      return this;
+    }
+
+    public Builder withSingleChoice(boolean singleChoice) {
+      this.singleChoice = singleChoice;
+      return this;
+    }
+
+    public Builder withMultiplier(double multiplier) {
+      this.multiplier = multiplier;
+      return this;
+    }
+
+    public LampReward build() {
+      return new LampReward(this);
+    }
+  }
+
+  private static class LampRequirementsDeserializer extends
       JsonDeserializer<Map<Set<Skill>, Integer>> {
 
     @Override
