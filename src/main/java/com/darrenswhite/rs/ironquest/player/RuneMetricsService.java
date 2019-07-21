@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,18 +34,26 @@ public class RuneMetricsService {
     this.objectMapper = objectMapper;
   }
 
-  public Set<RuneMetricsQuest> load(String name) throws IOException {
+  public Set<RuneMetricsQuest> load(String name) {
+    Set<RuneMetricsQuest> quests = new HashSet<>();
+
     LOG.debug("Loading quests for player: {}...", name);
 
-    String runeMetricsUrl = String
-        .format(url, URLEncoder.encode(name, StandardCharsets.UTF_8.toString()));
+    try {
+      String runeMetricsUrl = String
+          .format(url, URLEncoder.encode(name, StandardCharsets.UTF_8.toString()));
 
-    try (InputStreamReader in = new InputStreamReader(new URL(runeMetricsUrl).openStream())) {
-      JsonNode rmQuestsJson = objectMapper.readTree(in).get("quests");
+      try (InputStreamReader in = new InputStreamReader(new URL(runeMetricsUrl).openStream())) {
+        JsonNode rmQuestsJson = objectMapper.readTree(in).get("quests");
 
-      return objectMapper.readValue(objectMapper.treeAsTokens(rmQuestsJson),
-          objectMapper.getTypeFactory().constructType(new TypeReference<Set<RuneMetricsQuest>>() {
-          }));
+        quests.addAll(objectMapper.readValue(objectMapper.treeAsTokens(rmQuestsJson),
+            objectMapper.getTypeFactory().constructType(new TypeReference<Set<RuneMetricsQuest>>() {
+            })));
+      }
+    } catch (IOException e) {
+      LOG.warn("Failed to load quests for player: {}", name, e);
     }
+
+    return quests;
   }
 }

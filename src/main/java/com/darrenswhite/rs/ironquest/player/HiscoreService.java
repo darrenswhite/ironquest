@@ -30,28 +30,34 @@ public class HiscoreService {
     this.url = url;
   }
 
-  public Map<Skill, Double> load(String name) throws IOException {
+  public Map<Skill, Double> load(String name) {
+    Map<Skill, Double> skillXps = new EnumMap<>(Skill.class);
+
     LOG.debug("Loading hiscores for player: {}...", name);
 
-    Map<Skill, Double> skillXps = new EnumMap<>(Skill.class);
-    CSVFormat format = CSVFormat.DEFAULT.withDelimiter(',');
-    String hiscoresUrl = String
-        .format(url, URLEncoder.encode(name, StandardCharsets.UTF_8.toString()));
+    try {
+      CSVFormat format = CSVFormat.DEFAULT.withDelimiter(',');
+      String hiscoresUrl = String
+          .format(url, URLEncoder.encode(name, StandardCharsets.UTF_8.toString()));
 
-    try (InputStreamReader in = new InputStreamReader(new URL(hiscoresUrl).openStream())) {
-      CSVParser parser = format.parse(in);
-      List<CSVRecord> records = parser.getRecords();
+      try (InputStreamReader in = new InputStreamReader(new URL(hiscoresUrl).openStream())) {
+        CSVParser parser = format.parse(in);
+        List<CSVRecord> records = parser.getRecords();
 
-      for (int i = 1; i < Skill.values().length + 1; i++) {
-        Skill skill = Skill.tryGet(i);
-        CSVRecord r = records.get(i);
+        for (int i = 1; i < Skill.values().length + 1; i++) {
+          Skill skill = Skill.tryGet(i);
+          CSVRecord r = records.get(i);
 
-        if (skill != null) {
-          skillXps.put(skill, Math.max(Skill.INITIAL_XPS.get(skill), Double.parseDouble(r.get(2))));
-        } else {
-          LOG.warn("Unknown skill with id: {}", i);
+          if (skill != null) {
+            skillXps
+                .put(skill, Math.max(Skill.INITIAL_XPS.get(skill), Double.parseDouble(r.get(2))));
+          } else {
+            LOG.warn("Unknown skill with id: {}", i);
+          }
         }
       }
+    } catch (IOException e) {
+      LOG.warn("Failed to load hiscores for player: {}", name, e);
     }
 
     return skillXps;

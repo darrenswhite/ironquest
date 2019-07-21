@@ -10,7 +10,6 @@ import com.darrenswhite.rs.ironquest.quest.RuneMetricsQuest;
 import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.EnumMap;
@@ -207,17 +206,8 @@ public class Player {
 
   public void load(HiscoreService hiscoreService, RuneMetricsService runeMetricsService) {
     if (name != null && !name.trim().isEmpty()) {
-      try {
-        loadHiscores(hiscoreService);
-      } catch (IOException e) {
-        LOG.warn("Failed to load hiscores for player: {}", name, e);
-      }
-
-      try {
-        loadQuests(runeMetricsService);
-      } catch (IOException e) {
-        LOG.warn("Failed to load quests for player: {}", name, e);
-      }
+      loadHiscores(hiscoreService);
+      loadQuests(runeMetricsService);
     }
   }
 
@@ -379,11 +369,11 @@ public class Player {
     return requirements;
   }
 
-  private void loadHiscores(HiscoreService hiscoreService) throws IOException {
+  private void loadHiscores(HiscoreService hiscoreService) {
     skillXps.putAll(hiscoreService.load(name));
   }
 
-  private void loadQuests(RuneMetricsService runeMetricsService) throws IOException {
+  private void loadQuests(RuneMetricsService runeMetricsService) {
     Set<RuneMetricsQuest> rmQuests = runeMetricsService.load(name);
 
     for (RuneMetricsQuest rmq : rmQuests) {
