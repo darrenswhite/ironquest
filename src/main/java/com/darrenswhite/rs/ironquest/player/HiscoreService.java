@@ -47,7 +47,7 @@ public class HiscoreService {
         CSVRecord r = records.get(i);
 
         if (skill != null) {
-          skillXps.put(skill, Math.max(0, Double.parseDouble(r.get(2))));
+          skillXps.put(skill, Math.max(Skill.INITIAL_XPS.get(skill), Double.parseDouble(r.get(2))));
         } else {
           LOG.warn("Unknown skill with id: {}", i);
         }
