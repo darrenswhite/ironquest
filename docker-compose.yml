@@ -11,7 +11,5 @@ services:
       - 443:443
     restart: always
   server:
-    build: ./
+    build: ./server
     restart: always
-    volumes:
-      - ~/.m2:/root/.m2
