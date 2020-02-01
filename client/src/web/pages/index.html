@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      name="viewport"
+    />
+    <meta content="IronQuest" name="description" />
+    <meta content="Darren S. White" name="author" />
+
+    <title>IronQuest</title>
+  </head>
+
+  <body>
+    <div class="main" id="app">
+      <div id="header">
+        <h1>IronQuest</h1>
+      </div>
+      <Settings v-model="parameters" id="settings"></Settings>
+      <div id="toolbar">
+        <button v-on:click="run" v-bind:disabled="actions.loading" id="run">Run</button>
+      </div>
+      <Actions v-model="actions" id="results"></Actions>
+    </div>
+  </body>
+</html>

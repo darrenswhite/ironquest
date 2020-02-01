@@ -1,0 +1,152 @@
+@require './grid.mixin';
+
+main_bg = #222222;
+
+main_fg = #dddddd;
+main_fg_light = #eaeaea;
+
+input_bg = #333333;
+input_bg_light = #383838;
+
+input_border = #111111;
+input_border_light = #282828;
+
+input_focus = #ff8c00;
+
+body {
+  background-color: main_bg;
+  margin: 0;
+}
+
+body * {
+  color: main_fg;
+  font: 1rem Verdana, sans-serif;
+}
+
+.main {
+  display-grid();
+  margin: 0.5rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+label {
+  display: inline-block;
+}
+
+button {
+  background-color: input_bg;
+  border: 1px solid input_border;
+  border-radius: 4px;
+  padding: 0.5rem;
+
+  &:focus {
+    outline-color: input_focus;
+  }
+
+  &:hover {
+    background-color: input_bg_light;
+    color: main_fg_light;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: default;
+    }
+  }
+}
+
+input {
+  background-color: input_bg;
+  border: 1px solid input_border;
+  border-radius: 4px;
+  padding: 0.5rem;
+
+  &:focus {
+    outline-color: input_focus;
+  }
+
+  &:hover {
+    background-color: input_bg_light;
+    color: main_fg_light;
+  }
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+
+  td {
+    border-top: 1px solid input_bg;
+    padding: 0.3rem;
+  }
+}
+
+select {
+  background: main_bg;
+  border: 1px solid input_border;
+  border-radius: 4px 0 0 4px;
+  overflow: auto;
+  width: 100%;
+
+  &:focus {
+    outline-color: input_focus;
+  }
+
+  option {
+    background-color: input_bg;
+    border: 1px solid input_border_light;
+    border-left: 0;
+    border-right: 0;
+    margin-bottom: -1px;
+    padding: 0.75rem 1.25rem;
+    position: relative;
+    white-space: pre-line;
+
+    &:hover {
+      background-color: input_bg_light;
+      color: #eaeaea;
+    }
+
+    &:first-child {
+      border-top: 0;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    &:checked {
+      background: linear-gradient(input_focus, input_focus);
+      background-color: input_focus !important;
+      border-color: input_focus;
+      color: main_fg_light;
+      z-index: 2;
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  background-color: main_bg;
+  border-left: 1px solid input_border;
+  height: 10px;
+  width: 10px;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: input_bg;
+  border-left: 1px solid input_border;
+
+  &:hover {
+    background-color: input_bg_light;
+  }
+}

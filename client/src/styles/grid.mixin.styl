@@ -1,0 +1,64 @@
+display-grid() {
+  display: -ms-grid;
+  display: grid;
+}
+
+grid-template-columns(columns...) {
+  -ms-grid-columns: columns;
+  grid-template-columns: columns;
+}
+
+grid-template-rows(rows...) {
+  -ms-grid-rows: rows;
+  grid-template-rows: rows;
+}
+
+grid-column(col_start, col_end) {
+  -ms-grid-column: col_start;
+  -ms-grid-column-span: col_end - col_start;
+  grid-column: col_start / col_end;
+}
+
+grid-row(row_start, row_end) {
+  -ms-grid-row: row_start;
+  -ms-grid-row-span: row_end - row_start;
+  grid-row: row_start / row_end;
+}
+
+grid-area(row_start, col_start, row_end, col_end) {
+  grid-row(row_start, row_end);
+  grid-column(col_start, col_end);
+}
+
+grid-column-gap(gap) {
+  & > * {
+    margin-right: gap;
+  }
+
+  @supports (display: grid) {
+    grid-column-gap: gap;
+
+    & > * {
+      margin-right: 0;
+    }
+  }
+}
+
+grid-row-gap(gap) {
+  & > * {
+    margin-bottom: gap;
+  }
+
+  @supports (display: grid) {
+    grid-row-gap: gap;
+
+    & > * {
+      margin-bottom: 0;
+    }
+  }
+}
+
+grid-gap(gap) {
+  grid-column-gap(gap);
+  grid-row-gap(gap);
+}

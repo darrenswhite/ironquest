@@ -1,0 +1,115 @@
+{
+  "manifest_version": 1,
+  "type": "WebApp",
+  "meta": {
+    "name": "IronQuest",
+    "version": "1.0.0",
+    "minimum-overwolf-version": "0.77.10",
+    "author": "Darren S. White",
+    "icon": "IconMouseOver.png",
+    "icon_gray": "IconMouseNormal.png",
+    "description": "IronQuest"
+  },
+  "data": {
+    "start_window": "controller",
+    "externally_connectable": {
+      "matches": [
+        "http://iron-quest.herokuapp.com",
+        "https://iron-quest.herokuapp.com"
+      ]
+    },
+    "hotkeys": {
+      "toggle_IronQuest": {
+        "title": "Show/Hide App",
+        "action-type": "custom",
+        "default": "Shift+F1"
+      },
+      "quit_IronQuest": {
+        "title": "Relaunch App",
+        "action-type": "custom",
+        "default": "Shift+Escape"
+      }
+    },
+    "permissions": [
+      "Extensions",
+      "GameInfo",
+      "Hotkeys",
+      "Profile",
+      "Streaming"
+    ],
+    "protocol_override_domains": { "googlesyndication": "http" },
+    "windows": {
+      "controller": {
+        "file": "build/controller.html",
+        "background_optimization": false,
+        "is_background_page": true
+      },
+      "results": {
+        "file": "build/results.html",
+        "show_in_taskbar": false,
+        "transparent": false,
+        "resizable": true,
+        "block_top_window_navigation": true,
+        "popup_blocker": true,
+        "mute": true,
+        "grab_keyboard_focus": true,
+        "size": {
+          "width": 1024,
+          "height": 450
+        },
+        "min_size": {
+          "width": 450,
+          "height": 450
+        },
+        "start_position": {
+          "top": 0,
+          "left": 0
+        }
+      },
+      "settings": {
+        "file": "build/settings.html",
+        "show_in_taskbar": false,
+        "transparent": false,
+        "resizable": true,
+        "block_top_window_navigation": true,
+        "popup_blocker": true,
+        "mute": true,
+        "grab_keyboard_focus": true,
+        "size": {
+          "width": 300,
+          "height": 692
+        },
+        "min_size": {
+          "width": 300,
+          "height": 692
+        },
+        "start_position": {
+          "top": 0,
+          "left": 0
+        }
+      },
+      "username": {
+        "file": "build/username.html",
+        "show_in_taskbar": false,
+        "transparent": false,
+        "resizable": true,
+        "block_top_window_navigation": true,
+        "popup_blocker": true,
+        "mute": true,
+        "grab_keyboard_focus": true,
+        "size": {
+          "width": 300,
+          "height": 160
+        },
+        "min_size": {
+          "width": 300,
+          "height": 160
+        },
+        "start_position": {
+          "top": 0,
+          "left": 0
+        }
+      }
+    }
+  }
+}
