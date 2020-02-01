@@ -1,215 +1,27 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-  <meta content="IronQuest" name="description">
-  <meta content="Darren S. White" name="author">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      name="viewport"
+    />
+    <meta content="IronQuest" name="description" />
+    <meta content="Darren S. White" name="author" />
 
-  <title>IronQuest</title>
+    <title>IronQuest</title>
+  </head>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
-        rel="stylesheet">
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script>
-
-  <link href="css/app.css" rel="stylesheet">
-  <script src="js/app.js"></script>
-
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/multi-select/0.9.12/css/multi-select.min.css"
-        rel="stylesheet"/>
-  <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/multi-select/0.9.12/js/jquery.multi-select.min.js"></script>
-</head>
-
-<body>
-<main class="container">
-  <h1>IronQuest</h1>
-
-  <div class="row mt-4">
-    <div class="col-12">
-      <form class="form-horizontal" id="quests-path-form">
-        <div class="form-group row">
-          <span class="col-form-label col-4">
-            Username:
-            <a class="badge badge-pill text-nowrap"
-               data-content="Enter your RuneScape name to retrieve quest and skill information."
-               data-placement="bottom"
-               data-toggle="popover"
-               tabindex="0">?</a>
-          </span>
-          <div class="col-sm-8">
-            <input class="form-control" id="name" name="name" placeholder="Username" type="text">
-          </div>
-        </div>
-        <div class="form-group row">
-          <span class="col-form-label col-4">
-            Type Filter:
-            <a class="badge badge-pill" data-content="Filter by quests/miniquests/sagas."
-               data-placement="bottom"
-               data-toggle="popover"
-               tabindex="0">?</a>
-          </span>
-          <div class="col-8">
-            <div class="form-check">
-              <input checked="checked" class="form-check-input" id="type-filter-all"
-                     name="typeFilter"
-                     type="radio" value="ALL">
-              <label class="form-check-label" for="type-filter-all">
-                All
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" id="type-filter-quests" name="typeFilter" type="radio"
-                     value="QUESTS">
-              <label class="form-check-label" for="type-filter-quests">
-                Quests
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" id="type-filter-miniquests" name="typeFilter"
-                     type="radio"
-                     value="MINIQUESTS">
-              <label class="form-check-label" for="type-filter-miniquests">
-                Miniquests
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" id="type-filter-sagas" name="typeFilter" type="radio"
-                     value="SAGAS">
-              <label class="form-check-label" for="type-filter-sagas">
-                Sagas
-              </label>
-            </div>
-          </div>
-        </div>
-        <div class="form-group row">
-          <span class="col-form-label col-4">
-            Member Filter:
-            <a class="badge badge-pill" data-content="Filter by free/member quests."
-               data-placement="bottom"
-               data-toggle="popover"
-               tabindex="0">?</a>
-          </span>
-          <div class="col-8">
-            <div class="form-check">
-              <input checked="checked" class="form-check-input" id="access-filter-all"
-                     name="accessFilter"
-                     type="radio" value="ALL">
-              <label class="form-check-label" for="access-filter-all">
-                All
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" id="access-filter-free" name="accessFilter"
-                     type="radio"
-                     value="FREE">
-              <label class="form-check-label" for="access-filter-free">
-                Free
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" id="access-filter-members" name="accessFilter"
-                     type="radio"
-                     value="MEMBERS">
-              <label class="form-check-label" for="access-filter-members">
-                Members
-              </label>
-            </div>
-          </div>
-        </div>
-        <div class="form-group row">
-          <span class="col-form-label col-4">
-            Requirement Filter:
-            <a class="badge badge-pill"
-               data-content="Toggle ironman/recommended requirements for quests."
-               data-placement="bottom"
-               data-toggle="popover"
-               tabindex="0">?</a>
-          </span>
-          <div class="col-8">
-            <div class="form-check">
-              <input class="form-check-input" id="ironman" name="ironman" type="checkbox">
-              <label class="form-check-label" for="ironman">
-                Ironman
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" id="recommended" name="recommended" type="checkbox">
-              <label class="form-check-label" for="recommended">
-                Recommended
-              </label>
-            </div>
-          </div>
-        </div>
-        <div class="form-group row">
-          <span class="col-form-label col-4">
-            Lamp Skills:
-            <a class="badge badge-pill"
-               data-content="Choose which skills xp lamps should be used on."
-               data-placement="bottom"
-               data-toggle="popover"
-               tabindex="0">?</a>
-          </span>
-          <div class="col-8">
-            <select class="form-control" id="lamp-skills" multiple="multiple" name="lampSkills">
-              <option value="AGILITY">Agility</option>
-              <option value="ATTACK">Attack</option>
-              <option value="CONSTITUTION">Constitution</option>
-              <option value="CONSTRUCTION">Construction</option>
-              <option value="COOKING">Cooking</option>
-              <option value="CRAFTING">Crafting</option>
-              <option value="DEFENCE">Defence</option>
-              <option value="DIVINATION">Divination</option>
-              <option value="DUNGEONEERING">Dungeoneering</option>
-              <option value="FARMING">Farming</option>
-              <option value="FIREMAKING">Firemaking</option>
-              <option value="FISHING">Fishing</option>
-              <option value="FLETCHING">Fletching</option>
-              <option value="HERBLORE">Herblore</option>
-              <option value="HUNTER">Hunter</option>
-              <option value="INVENTION">Invention</option>
-              <option value="MAGIC">Magic</option>
-              <option value="MINING">Mining</option>
-              <option value="PRAYER">Prayer</option>
-              <option value="RANGED">Ranged</option>
-              <option value="RUNECRAFTING">Runecrafting</option>
-              <option value="SLAYER">Slayer</option>
-              <option value="SMITHING">Smithing</option>
-              <option value="STRENGTH">Strength</option>
-              <option value="SUMMONING">Summoning</option>
-              <option value="THIEVING">Thieving</option>
-              <option value="WOODCUTTING">Woodcutting</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="offset-4 col-8">
-            <button class="btn btn-primary" id="run" type="submit">
-              Run
-            </button>
-          </div>
-        </div>
-      </form>
+  <body>
+    <div class="main" id="app">
+      <div id="header">
+        <h1>IronQuest</h1>
+      </div>
+      <Settings v-model="parameters" id="settings"></Settings>
+      <div id="toolbar">
+        <button v-on:click="run" v-bind:disabled="actions.loading" id="run">Run</button>
+      </div>
+      <Actions v-model="actions" id="results"></Actions>
     </div>
-  </div>
-
-  <hr class="my-4">
-
-  <div class="row mt-4">
-    <div class="col-12">
-      <h2>Actions</h2>
-    </div>
-  </div>
-  <div class="row" id="path-stats"></div>
-  <div class="row mt-4 mb-4" id="actions">
-    <div class="col-12">
-      <p id="actions-empty"><em>None</em></p>
-    </div>
-  </div>
-</main>
-</body>
+  <script type="text/javascript" src="index.e979da2e454b7639fe1a.js"></script></body>
 </html>
