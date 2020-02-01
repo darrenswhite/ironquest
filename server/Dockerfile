@@ -15,6 +15,6 @@ USER ironquest:ironquest
 
 WORKDIR /home/ironquest
 
-COPY --from=maven target/ironquest.jar ./
+COPY --from=maven target/*.jar ./
 
-CMD ["/bin/sh", "-c", "/usr/bin/java -jar /home/ironquest/ironquest.jar --server.port=${PORT}"]
+CMD ["/bin/sh", "-c", "/usr/bin/java -jar /home/ironquest/*.jar --server.port=${PORT}"]

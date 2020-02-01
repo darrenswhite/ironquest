@@ -7,7 +7,6 @@
   <artifactId>ironquest</artifactId>
   <version>2.0.1-SNAPSHOT</version>
   <build>
-    <finalName>ironquest</finalName>
     <plugins>
       <plugin>
         <artifactId>spring-boot-maven-plugin</artifactId>
