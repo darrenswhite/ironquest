@@ -12,4 +12,6 @@ services:
     restart: always
   server:
     build: ./server
+    environment:
+      - PORT=8080
     restart: always
