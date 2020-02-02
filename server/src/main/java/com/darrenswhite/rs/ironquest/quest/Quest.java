@@ -32,7 +32,7 @@ public class Quest {
   private final QuestRequirements requirements;
   private final QuestRewards rewards;
 
-  private Quest(Builder builder) {
+  Quest(Builder builder) {
     this.id = builder.id;
     this.title = builder.title;
     this.displayName = builder.displayName;

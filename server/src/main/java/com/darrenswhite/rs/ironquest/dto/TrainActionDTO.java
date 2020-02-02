@@ -9,7 +9,7 @@ import com.darrenswhite.rs.ironquest.action.ActionType;
  */
 public class TrainActionDTO extends ActionDTO {
 
-  private TrainActionDTO(PlayerDTO player, boolean future, String message) {
+  TrainActionDTO(PlayerDTO player, boolean future, String message) {
     super(ActionType.TRAIN, player, future, message);
   }
 

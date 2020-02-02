@@ -12,7 +12,7 @@ public class PathDTO {
   private final List<ActionDTO> actions;
   private final PathStatsDTO stats;
 
-  private PathDTO(List<ActionDTO> actions, PathStatsDTO stats) {
+  PathDTO(List<ActionDTO> actions, PathStatsDTO stats) {
     this.actions = actions;
     this.stats = stats;
   }

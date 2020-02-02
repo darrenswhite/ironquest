@@ -1,6 +1,7 @@
 package com.darrenswhite.rs.ironquest.action;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -236,6 +237,7 @@ public class LampActionTest {
     assertEquals(quest.createDTO(), dto.getQuest());
     assertEquals(player.createDTO(), dto.getPlayer());
     assertEquals(ActionType.LAMP, dto.getType());
+    assertFalse(dto.isFuture());
   }
 
   @Test

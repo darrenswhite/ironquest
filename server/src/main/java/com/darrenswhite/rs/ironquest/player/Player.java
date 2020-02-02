@@ -41,7 +41,7 @@ public class Player {
   private final boolean ironman;
   private final boolean recommended;
 
-  private Player(Builder builder) {
+  Player(Builder builder) {
     this.name = builder.name;
     this.skillXps = builder.skillXps;
     this.quests = builder.quests;

@@ -9,7 +9,7 @@ public class PathStatsDTO {
 
   private final int percentComplete;
 
-  private PathStatsDTO(int percentComplete) {
+  PathStatsDTO(int percentComplete) {
     this.percentComplete = percentComplete;
   }
 

@@ -20,7 +20,7 @@ public class QuestRewards {
   private final Set<LampReward> lamps;
   private final int questPoints;
 
-  private QuestRewards(Builder builder) {
+  QuestRewards(Builder builder) {
     this.xp = builder.xp;
     this.lamps = builder.lamps;
     this.questPoints = builder.questPoints;

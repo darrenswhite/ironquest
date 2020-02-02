@@ -11,7 +11,7 @@ public class QuestActionDTO extends ActionDTO {
 
   private final QuestDTO quest;
 
-  private QuestActionDTO(PlayerDTO player, boolean future, String message, QuestDTO quest) {
+  QuestActionDTO(PlayerDTO player, boolean future, String message, QuestDTO quest) {
     super(ActionType.QUEST, player, future, message);
     this.quest = quest;
   }

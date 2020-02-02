@@ -18,7 +18,7 @@ public class QuestRequirements {
   private final Set<QuestRequirement> quests;
   private final Set<SkillRequirement> skills;
 
-  private QuestRequirements(Builder builder) {
+  QuestRequirements(Builder builder) {
     this.combat = builder.combat;
     this.questPoints = builder.questPoints;
     this.quests = builder.quests;

@@ -1,6 +1,7 @@
 package com.darrenswhite.rs.ironquest.action;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.darrenswhite.rs.ironquest.dto.TrainActionDTO;
@@ -60,6 +61,7 @@ public class TrainActionTest {
     assertEquals(trainAction.getMessage(), dto.getMessage());
     assertEquals(player.createDTO(), dto.getPlayer());
     assertEquals(ActionType.TRAIN, dto.getType());
+    assertFalse(dto.isFuture());
   }
 
   @Test

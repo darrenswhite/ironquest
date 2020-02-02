@@ -11,7 +11,7 @@ public class QuestDTO {
 
   private final String displayName;
 
-  private QuestDTO(String displayName) {
+  QuestDTO(String displayName) {
     this.displayName = displayName;
   }
 

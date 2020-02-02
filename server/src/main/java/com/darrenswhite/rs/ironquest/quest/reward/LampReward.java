@@ -95,7 +95,7 @@ public class LampReward implements Reward {
   private final boolean singleChoice;
   private final double multiplier;
 
-  private LampReward(Builder builder) {
+  LampReward(Builder builder) {
     this.requirements = builder.requirements;
     this.xp = builder.xp;
     this.exclusive = builder.exclusive;

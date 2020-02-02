@@ -15,7 +15,7 @@ public class RuneMetricsQuest {
   private final int questPoints;
   private final boolean userEligible;
 
-  private RuneMetricsQuest(Builder builder) {
+  RuneMetricsQuest(Builder builder) {
     this.title = builder.title;
     this.status = builder.status;
     this.difficulty = builder.difficulty;

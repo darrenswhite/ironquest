@@ -17,7 +17,7 @@ public class PlayerDTO {
   private final int totalLevel;
   private final int combatLevel;
 
-  private PlayerDTO(String name, Map<Skill, Integer> levels, int questPoints, int totalLevel,
+  PlayerDTO(String name, Map<Skill, Integer> levels, int questPoints, int totalLevel,
       int combatLevel) {
     this.name = name;
     this.levels = levels;
