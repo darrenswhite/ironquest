@@ -8,7 +8,7 @@
     "author": "Darren S. White",
     "icon": "IconMouseOver.png",
     "icon_gray": "IconMouseNormal.png",
-    "description": "IronQuest"
+    "description": "Quest planner for RuneScape"
   },
   "data": {
     "start_window": "controller",
