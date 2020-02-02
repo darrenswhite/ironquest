@@ -49,7 +49,7 @@ public class PathFinder {
   public Path find(String name, QuestAccessFilter accessFilter, boolean ironman,
       boolean recommended, Set<Skill> lampSkills, Map<Integer, QuestPriority> questPriorities,
       QuestTypeFilter typeFilter) throws BestQuestNotFoundException {
-    LOG.debug("Using player profile: " + name);
+    LOG.debug("Using player profile: {}", name);
 
     Player player = createPlayer(name, accessFilter, ironman, recommended, lampSkills,
         questPriorities, typeFilter);

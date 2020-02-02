@@ -1,6 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="All in server" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
     <module name="server" />
+    <extension name="coverage" runner="jacoco" />
     <option name="PACKAGE_NAME" value="" />
     <option name="MAIN_CLASS_NAME" value="" />
     <option name="METHOD_NAME" value="" />

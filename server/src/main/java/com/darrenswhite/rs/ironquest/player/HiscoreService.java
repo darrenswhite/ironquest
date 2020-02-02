@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class HiscoreService {
 
-  private static final Logger LOG = LogManager.getLogger(Player.class);
+  private static final Logger LOG = LogManager.getLogger(HiscoreService.class);
 
   private final String url;
 

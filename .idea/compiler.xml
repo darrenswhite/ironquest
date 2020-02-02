@@ -7,18 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="server" />
-        <module name="ironquest" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="ironquest" target="1.8" />
       <module name="server" target="1.8" />
     </bytecodeTargetLevel>
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="ironquest" options="-parameters" />
-      <module name="server" options="-parameters" />
-    </option>
   </component>
 </project>
