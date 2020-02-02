@@ -10485,5 +10485,21 @@
     },
     "title": "Vengeance (saga)",
     "type": "SAGA"
+  },
+  {
+    "access": "MEMBERS",
+    "id": 292,
+    "rewards": {
+      "lamps": [
+        {
+          "requirements": {
+            "HUNTER": 1
+          },
+          "type": "MEDIUM_XP"
+        }
+      ]
+    },
+    "title": "Father and Son",
+    "type": "MINIQUEST"
   }
 ]
