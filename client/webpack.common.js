@@ -3,8 +3,6 @@ const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const TerserJSPlugin = require('terser-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const _ = require('lodash');
 
@@ -72,26 +70,19 @@ module.exports = {
         use: 'file-loader?limit=1024&name=[path][name].[ext]',
       },
       {
-        test: /\.css$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-          },
-          'css-loader',
-        ],
-      },
-      {
         test: /\.vue$/,
-        loader: 'vue-loader'
+        loader: 'vue-loader',
       },
       {
         test: /\.styl(us)?$/,
-        use: ['vue-style-loader', 'css-loader', 'stylus-loader'],
+        use: [
+          'vue-style-loader',
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'stylus-loader',
+        ],
       },
     ],
-  },
-  optimization: {
-    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -109,12 +100,16 @@ module.exports = {
       'window.jQuery': 'jquery',
     }),
     new VueLoaderPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].[hash].css',
+      chunkFilename: '[id].[hash].css',
+    }),
   ],
   resolve: {
     alias: {
       vue: 'vue/dist/vue.common.js',
     },
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js', '.styl'],
   },
   output: {
     filename: '[name].[contenthash].js',

@@ -1,4 +1,4 @@
-import './username.styl';
+import './username';
 import { Windows } from '../../scripts';
 import { PathFinder } from '../../../lib';
 import Vue from 'vue';
