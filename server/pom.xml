@@ -54,6 +54,16 @@
                       <minimum>80%</minimum>
                       <value>COVEREDRATIO</value>
                     </limit>
+                    <limit>
+                      <counter>LINE</counter>
+                      <minimum>70%</minimum>
+                      <value>COVEREDRATIO</value>
+                    </limit>
+                    <limit>
+                      <counter>CLASS</counter>
+                      <maximum>0</maximum>
+                      <value>MISSEDCOUNT</value>
+                    </limit>
                   </limits>
                 </rule>
               </rules>

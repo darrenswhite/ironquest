@@ -1,0 +1,28 @@
+{
+  "quests": [
+    {
+      "title": "a",
+      "status": "NOT_STARTED",
+      "difficulty": 1,
+      "members": false,
+      "questPoints": 10,
+      "userEligible": false
+    },
+    {
+      "title": "b",
+      "status": "STARTED",
+      "difficulty": 2,
+      "members": true,
+      "questPoints": 20,
+      "userEligible": false
+    },
+    {
+      "title": "c",
+      "status": "COMPLETED",
+      "difficulty": 3,
+      "members": false,
+      "questPoints": 30,
+      "userEligible": true
+    }
+  ]
+}

@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,7 +35,7 @@ public class RuneMetricsService {
   }
 
   public Set<RuneMetricsQuest> load(String name) {
-    Set<RuneMetricsQuest> quests = new HashSet<>();
+    Set<RuneMetricsQuest> quests = new LinkedHashSet<>();
 
     LOG.debug("Loading quests for player: {}...", name);
 
@@ -47,8 +47,8 @@ public class RuneMetricsService {
         JsonNode rmQuestsJson = objectMapper.readTree(in).get("quests");
 
         quests.addAll(objectMapper.readValue(objectMapper.treeAsTokens(rmQuestsJson),
-            objectMapper.getTypeFactory().constructType(new TypeReference<Set<RuneMetricsQuest>>() {
-            })));
+            new TypeReference<Set<RuneMetricsQuest>>() {
+            }));
       }
     } catch (IOException e) {
       LOG.warn("Failed to load quests for player: {}", name, e);

@@ -31,14 +31,14 @@ public class QuestService {
    */
   public QuestService(@Value("${quests.resource}") Resource questsResource,
       ObjectMapper objectMapper) throws IOException {
-    this.quests = loadQuests(questsResource, objectMapper);
+    this.quests = load(questsResource, objectMapper);
   }
 
   public Quests getQuests() {
     return quests;
   }
 
-  private Quests loadQuests(Resource questsResource, ObjectMapper objectMapper) throws IOException {
+  private Quests load(Resource questsResource, ObjectMapper objectMapper) throws IOException {
     LOG.debug("Trying to retrieve quests from resource: {}", questsResource);
 
     try (InputStream in = questsResource.getInputStream()) {

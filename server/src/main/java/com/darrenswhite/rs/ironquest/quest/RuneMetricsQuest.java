@@ -1,6 +1,7 @@
 package com.darrenswhite.rs.ironquest.quest;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.Objects;
 
 /**
  * @author Darren S. White
@@ -46,6 +47,25 @@ public class RuneMetricsQuest {
 
   public boolean isUserEligible() {
     return userEligible;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    RuneMetricsQuest that = (RuneMetricsQuest) o;
+    return difficulty == that.difficulty && members == that.members
+        && questPoints == that.questPoints && userEligible == that.userEligible && Objects
+        .equals(title, that.title) && status == that.status;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(title, status, difficulty, members, questPoints, userEligible);
   }
 
   public enum Status {
