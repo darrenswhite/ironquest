@@ -14,7 +14,7 @@ import java.util.Set;
 @JsonDeserialize(builder = QuestRewards.Builder.class)
 public class QuestRewards {
 
-  public static final QuestRewards NONE = new Builder().build();
+  public static final QuestRewards NONE = new QuestRewards.Builder().build();
 
   private final Map<Skill, Double> xp;
   private final Set<LampReward> lamps;

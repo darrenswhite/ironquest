@@ -13,7 +13,6 @@ import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
-import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards.Builder;
 import com.darrenswhite.rs.ironquest.util.MapBuilder;
 import java.util.Map;
 import org.junit.Test;
@@ -61,7 +60,7 @@ public class QuestActionTest {
   public void process() {
     Map<Skill, Double> xp = new MapBuilder<Skill, Double>().put(Skill.ATTACK, 5000d)
         .put(Skill.AGILITY, 2500d).put(Skill.COOKING, 100d).build();
-    QuestRewards rewards = new Builder().withXp(xp).build();
+    QuestRewards rewards = new QuestRewards.Builder().withXp(xp).build();
     Quest quest = new Quest.Builder().withRewards(rewards).build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
     Player player = new Player.Builder().build();

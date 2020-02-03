@@ -8,7 +8,6 @@ import com.darrenswhite.rs.ironquest.player.QuestEntry;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.quest.Quest;
-import com.darrenswhite.rs.ironquest.quest.Quest.Builder;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -18,7 +17,8 @@ public class QuestRequirementTest {
 
   @Test
   public void testPlayer() {
-    QuestRequirement questRequirement = new QuestRequirement(new Quest.Builder().build());
+    QuestRequirement questRequirement = new QuestRequirement.Builder(new Quest.Builder().build())
+        .build();
     Player playerWithIncompleteQuestRequirement = createPlayerWithQuestRequirement(questRequirement,
         QuestStatus.NOT_STARTED);
     Player playerWithCompletedQuestRequirement = createPlayerWithQuestRequirement(questRequirement,
@@ -32,7 +32,7 @@ public class QuestRequirementTest {
       QuestStatus requiredQuestStatus) {
     QuestEntry requiredQuestEntry = new QuestEntry(questRequirement.getQuest(), requiredQuestStatus,
         QuestPriority.NORMAL);
-    QuestEntry questWithRequirement = new QuestEntry(new Builder().withRequirements(
+    QuestEntry questWithRequirement = new QuestEntry(new Quest.Builder().withRequirements(
         new QuestRequirements.Builder().withQuests(Collections.singleton(questRequirement)).build())
         .build(), QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
 

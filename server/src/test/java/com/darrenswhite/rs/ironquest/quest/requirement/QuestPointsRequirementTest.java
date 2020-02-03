@@ -16,7 +16,7 @@ public class QuestPointsRequirementTest {
 
   @Test
   public void testPlayer() {
-    QuestPointsRequirement questPointsRequirement = new QuestPointsRequirement(3);
+    QuestPointsRequirement questPointsRequirement = new QuestPointsRequirement.Builder(3).build();
 
     Player playerWith0QuestPoints = createPlayerWithQuestPoints(0);
     Player playerWith1QuestPoints = createPlayerWithQuestPoints(1);

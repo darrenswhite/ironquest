@@ -14,7 +14,7 @@ import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.player.RuneMetricsService;
 import com.darrenswhite.rs.ironquest.player.Skill;
-import com.darrenswhite.rs.ironquest.quest.Quest.Builder;
+import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
 import com.darrenswhite.rs.ironquest.quest.QuestService;
 import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
@@ -65,13 +65,13 @@ public class PathFinderTest {
   @Test
   public void findForPlayer() throws BestQuestNotFoundException {
     QuestEntry questNotStarted = new QuestEntry(
-        new Builder().withId(0).withTitle("questNotStarted").build(), QuestStatus.NOT_STARTED,
+        new Quest.Builder().withId(0).withTitle("questNotStarted").build(), QuestStatus.NOT_STARTED,
         QuestPriority.NORMAL);
     QuestEntry questCompleted = new QuestEntry(
-        new Builder().withId(1).withTitle("questCompleted").build(), QuestStatus.COMPLETED,
+        new Quest.Builder().withId(1).withTitle("questCompleted").build(), QuestStatus.COMPLETED,
         QuestPriority.NORMAL);
     QuestEntry questInProgress = new QuestEntry(
-        new Builder().withId(2).withTitle("questInProgress").build(), QuestStatus.IN_PROGRESS,
+        new Quest.Builder().withId(2).withTitle("questInProgress").build(), QuestStatus.IN_PROGRESS,
         QuestPriority.NORMAL);
     Player player = new Player.Builder()
         .withQuests(new HashSet<>(Arrays.asList(questNotStarted, questCompleted, questInProgress)))
@@ -88,19 +88,19 @@ public class PathFinderTest {
   @Test
   public void findForPlayer_ProcessFutureActions() throws BestQuestNotFoundException {
     QuestEntry questWithXpLampReward = new QuestEntry(
-        new Builder().withId(0).withTitle("questWithXpLampReward").withRewards(
+        new Quest.Builder().withId(0).withTitle("questWithXpLampReward").withRewards(
             new QuestRewards.Builder().withLamps(Collections.singleton(
                 new LampReward.Builder().withType(LampType.XP).withXp(1000).withRequirements(
                     new MapBuilder<Set<Skill>, Integer>()
                         .put(Collections.singleton(Skill.ATTACK), 2).build()).build())).build())
             .build(), QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
     QuestEntry questCompleted = new QuestEntry(
-        new Builder().withId(1).withTitle("questCompleted").build(), QuestStatus.COMPLETED,
+        new Quest.Builder().withId(1).withTitle("questCompleted").build(), QuestStatus.COMPLETED,
         QuestPriority.NORMAL);
     QuestEntry questWithQuestRequirementAndXpReward = new QuestEntry(
-        new Builder().withId(2).withTitle("questWithXpReward").withRequirements(
-            new QuestRequirements.Builder().withQuests(
-                Collections.singleton(new QuestRequirement(questWithXpLampReward.getQuest())))
+        new Quest.Builder().withId(2).withTitle("questWithXpReward").withRequirements(
+            new QuestRequirements.Builder().withQuests(Collections
+                .singleton(new QuestRequirement.Builder(questWithXpLampReward.getQuest()).build()))
                 .build()).withRewards(new QuestRewards.Builder()
             .withXp(new MapBuilder<Skill, Double>().put(Skill.ATTACK, 500d).build()).build())
             .build(), QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
@@ -121,17 +121,17 @@ public class PathFinderTest {
   @Test
   public void findForPlayer_AddFutureActions() throws BestQuestNotFoundException {
     QuestEntry questWithXpLampReward = new QuestEntry(
-        new Builder().withId(0).withTitle("questWithXpLampReward").withRewards(
+        new Quest.Builder().withId(0).withTitle("questWithXpLampReward").withRewards(
             new QuestRewards.Builder().withLamps(Collections.singleton(
                 new LampReward.Builder().withType(LampType.XP).withXp(1000).withRequirements(
                     new MapBuilder<Set<Skill>, Integer>()
                         .put(Collections.singleton(Skill.ATTACK), 2).build()).build())).build())
             .build(), QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
     QuestEntry questCompleted = new QuestEntry(
-        new Builder().withId(1).withTitle("questCompleted").build(), QuestStatus.COMPLETED,
+        new Quest.Builder().withId(1).withTitle("questCompleted").build(), QuestStatus.COMPLETED,
         QuestPriority.NORMAL);
     QuestEntry questNotStarted = new QuestEntry(
-        new Builder().withId(2).withTitle("questNotStarted").build(), QuestStatus.NOT_STARTED,
+        new Quest.Builder().withId(2).withTitle("questNotStarted").build(), QuestStatus.NOT_STARTED,
         QuestPriority.NORMAL);
     Player player = new Player.Builder().withQuests(
         new HashSet<>(Arrays.asList(questWithXpLampReward, questCompleted, questNotStarted)))
@@ -151,7 +151,7 @@ public class PathFinderTest {
   @Test
   public void findForPlayer_PlaceholderQuests() throws BestQuestNotFoundException {
     QuestEntry placeholderQuestWithQuestPointReward = new QuestEntry(
-        new Builder().withId(-1).withTitle("placeholderQuestWithQuestPointReward")
+        new Quest.Builder().withId(-1).withTitle("placeholderQuestWithQuestPointReward")
             .withRewards(new QuestRewards.Builder().withQuestPoints(1).build()).build(),
         QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
     Player player = new Player.Builder()
@@ -168,9 +168,10 @@ public class PathFinderTest {
   @Test(expected = BestQuestNotFoundException.class)
   public void findForPlayer_NoBestQuest() throws BestQuestNotFoundException {
     QuestEntry questWithQuestPointRequirement = new QuestEntry(
-        new Builder().withId(0).withTitle("questWithQuestPointRequirement").withRequirements(
-            new QuestRequirements.Builder().withQuestPoints(new QuestPointsRequirement(4)).build())
-            .build(), QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+        new Quest.Builder().withId(0).withTitle("questWithQuestPointRequirement").withRequirements(
+            new QuestRequirements.Builder()
+                .withQuestPoints(new QuestPointsRequirement.Builder(4).build()).build()).build(),
+        QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
     Player player = new Player.Builder()
         .withQuests(new HashSet<>(Collections.singletonList(questWithQuestPointRequirement)))
         .build();

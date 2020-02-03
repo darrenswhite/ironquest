@@ -1,16 +1,20 @@
 package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.player.Player;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.Objects;
 
 /**
  * @author Darren S. White
  */
+@JsonDeserialize(builder = CombatRequirement.Builder.class)
 public class CombatRequirement extends Requirement {
 
   private final int level;
 
-  public CombatRequirement(@JsonProperty("level") int level) {
+  CombatRequirement(boolean ironman, boolean recommended, int level) {
+    super(ironman, recommended);
     this.level = level;
   }
 
@@ -19,21 +23,58 @@ public class CombatRequirement extends Requirement {
   }
 
   @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(level);
-    sb.append(" Combat");
-    if (isIronman()) {
-      sb.append(" (Ironman)");
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-    if (isRecommended()) {
-      sb.append(" (Recommended)");
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
-    return sb.toString();
+    CombatRequirement that = (CombatRequirement) o;
+    return level == that.level;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(level);
   }
 
   @Override
   protected boolean testPlayer(Player p) {
     return p.getCombatLevel() >= level;
+  }
+
+  public static class Builder {
+
+    private int level;
+    private boolean ironman;
+    private boolean recommended;
+
+    @JsonCreator
+    public Builder() {
+    }
+
+    public Builder(int level) {
+      this.level = level;
+    }
+
+    public Builder withLevel(int level) {
+      this.level = level;
+      return this;
+    }
+
+    public Builder withIronman(boolean ironman) {
+      this.ironman = ironman;
+      return this;
+    }
+
+    public Builder withRecommended(boolean recommended) {
+      this.recommended = recommended;
+      return this;
+    }
+
+    public CombatRequirement build() {
+      return new CombatRequirement(ironman, recommended, level);
+    }
   }
 }

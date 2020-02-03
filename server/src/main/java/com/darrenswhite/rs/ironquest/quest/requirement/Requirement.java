@@ -7,23 +7,20 @@ import com.darrenswhite.rs.ironquest.player.Player;
  */
 public abstract class Requirement {
 
-  private boolean ironman;
-  private boolean recommended;
+  private final boolean ironman;
+  private final boolean recommended;
+
+  protected Requirement(boolean ironman, boolean recommended) {
+    this.ironman = ironman;
+    this.recommended = recommended;
+  }
 
   public boolean isIronman() {
     return ironman;
   }
 
-  public void setIronman(boolean ironman) {
-    this.ironman = ironman;
-  }
-
   public boolean isRecommended() {
     return recommended;
-  }
-
-  public void setRecommended(boolean recommended) {
-    this.recommended = recommended;
   }
 
   public boolean test(Player p) {

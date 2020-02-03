@@ -29,11 +29,17 @@ public class CombatRequirementTest {
     Player playerWith3Combat = new Player.Builder().build();
     Player playerWith138Combat = new Player.Builder().withSkillXps(MAX_COMBAT_XP).build();
 
-    assertThat(new CombatRequirement(3).testPlayer(playerWith3Combat), equalTo(true));
-    assertThat(new CombatRequirement(4).testPlayer(playerWith3Combat), equalTo(false));
-    assertThat(new CombatRequirement(138).testPlayer(playerWith3Combat), equalTo(false));
-    assertThat(new CombatRequirement(3).testPlayer(playerWith138Combat), equalTo(true));
-    assertThat(new CombatRequirement(138).testPlayer(playerWith138Combat), equalTo(true));
-    assertThat(new CombatRequirement(139).testPlayer(playerWith138Combat), equalTo(false));
+    assertThat(new CombatRequirement.Builder(3).build().testPlayer(playerWith3Combat),
+        equalTo(true));
+    assertThat(new CombatRequirement.Builder(4).build().testPlayer(playerWith3Combat),
+        equalTo(false));
+    assertThat(new CombatRequirement.Builder(138).build().testPlayer(playerWith3Combat),
+        equalTo(false));
+    assertThat(new CombatRequirement.Builder(3).build().testPlayer(playerWith138Combat),
+        equalTo(true));
+    assertThat(new CombatRequirement.Builder(138).build().testPlayer(playerWith138Combat),
+        equalTo(true));
+    assertThat(new CombatRequirement.Builder(139).build().testPlayer(playerWith138Combat),
+        equalTo(false));
   }
 }

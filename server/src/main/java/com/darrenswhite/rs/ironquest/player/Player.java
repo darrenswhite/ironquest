@@ -104,7 +104,7 @@ public class Player {
         .map(e -> new QuestEntry(e.getQuest(), e.getStatus(), e.getPriority()))
         .collect(Collectors.toSet());
 
-    return new Builder().withName(name).withSkillXps(new EnumMap<>(skillXps))
+    return new Player.Builder().withName(name).withSkillXps(new EnumMap<>(skillXps))
         .withQuests(copiedQuests).withLampSkills(new LinkedHashSet<>(lampSkills))
         .withIronman(ironman).withRecommended(recommended).build();
   }

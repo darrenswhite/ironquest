@@ -2,7 +2,8 @@ package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -11,12 +12,14 @@ import java.util.Set;
 /**
  * @author Darren S. White
  */
+@JsonDeserialize(builder = SkillRequirement.Builder.class)
 public class SkillRequirement extends Requirement {
 
   private final Skill skill;
   private final int level;
 
-  public SkillRequirement(@JsonProperty("skill") Skill skill, @JsonProperty("level") int level) {
+  SkillRequirement(boolean ironman, boolean recommended, Skill skill, int level) {
+    super(ironman, recommended);
     this.skill = skill;
     this.level = level;
   }
@@ -75,22 +78,48 @@ public class SkillRequirement extends Requirement {
   }
 
   @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(level);
-    sb.append(' ');
-    sb.append(skill);
-    if (isIronman()) {
-      sb.append(" (Ironman)");
-    }
-    if (isRecommended()) {
-      sb.append(" (Recommended)");
-    }
-    return sb.toString();
-  }
-
-  @Override
   protected boolean testPlayer(Player p) {
     return p.getLevel(skill) >= level;
+  }
+
+  public static class Builder {
+
+    private Skill skill;
+    private int level;
+    private boolean ironman = false;
+    private boolean recommended = false;
+
+    @JsonCreator
+    public Builder() {
+    }
+
+    public Builder(Skill skill, int level) {
+      this.skill = skill;
+      this.level = level;
+    }
+
+    public Builder withSkill(Skill skill) {
+      this.skill = skill;
+      return this;
+    }
+
+    public Builder withLevel(int level) {
+      this.level = level;
+      return this;
+    }
+
+    public Builder withIronman(boolean ironman) {
+      this.ironman = ironman;
+      return this;
+    }
+
+    public Builder withRecommended(boolean recommended) {
+      this.recommended = recommended;
+      return this;
+    }
+
+    public SkillRequirement build() {
+      return new SkillRequirement(ironman, recommended, skill, level);
+    }
   }
 }

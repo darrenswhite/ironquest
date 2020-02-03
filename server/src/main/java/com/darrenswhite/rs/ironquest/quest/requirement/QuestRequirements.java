@@ -11,7 +11,7 @@ import java.util.Set;
 @JsonDeserialize(builder = QuestRequirements.Builder.class)
 public class QuestRequirements {
 
-  public static final QuestRequirements NONE = new Builder().build();
+  public static final QuestRequirements NONE = new QuestRequirements.Builder().build();
 
   private final CombatRequirement combat;
   private final QuestPointsRequirement questPoints;
