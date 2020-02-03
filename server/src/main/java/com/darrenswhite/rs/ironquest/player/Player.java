@@ -214,18 +214,20 @@ public class Player {
   }
 
   /**
-   * Gets the 'best' {@link QuestEntry} to be completed next if any. If no 'best' {@link QuestEntry}
-   * if available then the 'nearest' {@link QuestEntry} will be returned.
+   * Gets the 'best' {@link QuestEntry} from the given {@link Collection} of {@link QuestEntry}'s to
+   * be completed next if any. If no 'best' {@link QuestEntry} if available then the 'nearest'
+   * {@link QuestEntry} will be returned.
    * <p>
    * The 'best' {@link QuestEntry} is determined by this {@link Player} meeting all {@link
    * Requirement}'s for a {@link Quest} and then getting the maximum {@link QuestEntry} compared by
    * {@link QuestPriority}.
    * <p>
-   * The 'nearest {@link QuestEntry} is determined by this {@link Player} meeting all {@link
+   * The 'nearest' {@link QuestEntry} is determined by this {@link Player} meeting all {@link
    * Requirement}'s (including all {@link LampReward} {@link Requirement}'s but excluding {@link
    * SkillRequirement}'s) and then getting the minimum {@link QuestEntry} compared by the total
    * remaining {@link SkillRequirement}'s.
    *
+   * @param quests the collection of quests to search
    * @return The best {@link QuestEntry} to be completed
    */
   public Optional<QuestEntry> getBestQuest(Collection<QuestEntry> quests) {

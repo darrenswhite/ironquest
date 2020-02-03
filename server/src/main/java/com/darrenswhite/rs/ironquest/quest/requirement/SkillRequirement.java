@@ -5,6 +5,7 @@ import com.darrenswhite.rs.ironquest.player.Skill;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -20,6 +21,13 @@ public class SkillRequirement extends Requirement {
     this.level = level;
   }
 
+  /**
+   * Merge both {@link SkillRequirement}'s together.
+   *
+   * @param requirements the first collection
+   * @param merge the second collection
+   * @return {@link LinkedHashSet} of merged {@link SkillRequirement}.
+   */
   public static Set<SkillRequirement> merge(Collection<SkillRequirement> requirements,
       Collection<SkillRequirement> merge) {
     Set<SkillRequirement> merged = new LinkedHashSet<>(requirements);
@@ -47,6 +55,23 @@ public class SkillRequirement extends Requirement {
 
   public Skill getSkill() {
     return skill;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    SkillRequirement that = (SkillRequirement) o;
+    return level == that.level && skill == that.skill;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(skill, level);
   }
 
   @Override
