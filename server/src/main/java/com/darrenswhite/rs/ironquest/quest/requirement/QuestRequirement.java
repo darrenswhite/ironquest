@@ -32,12 +32,13 @@ public class QuestRequirement extends Requirement {
       return false;
     }
     QuestRequirement that = (QuestRequirement) o;
-    return Objects.equals(quest, that.quest);
+    return ironman == that.ironman && recommended == that.recommended && Objects
+        .equals(quest, that.quest);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(quest);
+    return Objects.hash(ironman, recommended, quest);
   }
 
   @Override

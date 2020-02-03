@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -36,6 +37,24 @@ public class QuestRewards {
 
   public int getQuestPoints() {
     return questPoints;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    QuestRewards that = (QuestRewards) o;
+    return questPoints == that.questPoints && Objects.equals(xp, that.xp) && Objects
+        .equals(lamps, that.lamps);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(xp, lamps, questPoints);
   }
 
   public static class Builder {

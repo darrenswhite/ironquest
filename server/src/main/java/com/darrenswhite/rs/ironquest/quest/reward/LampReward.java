@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -126,6 +127,25 @@ public class LampReward implements Reward {
 
   public double getMultiplier() {
     return multiplier;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    LampReward that = (LampReward) o;
+    return Double.compare(that.xp, xp) == 0 && exclusive == that.exclusive
+        && singleChoice == that.singleChoice && Double.compare(that.multiplier, multiplier) == 0
+        && Objects.equals(requirements, that.requirements) && type == that.type;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(requirements, xp, exclusive, type, singleChoice, multiplier);
   }
 
   public Set<Set<Skill>> getChoices(Player player, Set<Set<Skill>> previous) {

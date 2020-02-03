@@ -7,8 +7,8 @@ import com.darrenswhite.rs.ironquest.player.Player;
  */
 public abstract class Requirement {
 
-  private final boolean ironman;
-  private final boolean recommended;
+  protected final boolean ironman;
+  protected final boolean recommended;
 
   protected Requirement(boolean ironman, boolean recommended) {
     this.ironman = ironman;

@@ -31,12 +31,12 @@ public class CombatRequirement extends Requirement {
       return false;
     }
     CombatRequirement that = (CombatRequirement) o;
-    return level == that.level;
+    return ironman == that.ironman && recommended == that.recommended && level == that.level;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(level);
+    return Objects.hash(ironman, recommended, level);
   }
 
   @Override

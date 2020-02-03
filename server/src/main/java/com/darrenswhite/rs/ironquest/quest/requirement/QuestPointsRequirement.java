@@ -31,12 +31,12 @@ public class QuestPointsRequirement extends Requirement {
       return false;
     }
     QuestPointsRequirement that = (QuestPointsRequirement) o;
-    return amount == that.amount;
+    return ironman == that.ironman && recommended == that.recommended && amount == that.amount;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(amount);
+    return Objects.hash(ironman, recommended, amount);
   }
 
   @Override

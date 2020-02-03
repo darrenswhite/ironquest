@@ -3,6 +3,7 @@ package com.darrenswhite.rs.ironquest.quest.requirement;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -39,6 +40,24 @@ public class QuestRequirements {
 
   public Set<SkillRequirement> getSkills() {
     return skills;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    QuestRequirements that = (QuestRequirements) o;
+    return Objects.equals(combat, that.combat) && Objects.equals(questPoints, that.questPoints)
+        && Objects.equals(quests, that.quests) && Objects.equals(skills, that.skills);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(combat, questPoints, quests, skills);
   }
 
   public static class Builder {

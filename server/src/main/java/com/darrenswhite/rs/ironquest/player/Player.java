@@ -119,7 +119,6 @@ public class Player {
         .sum();
   }
 
-
   public Set<QuestEntry> getCompletedQuests() {
     return quests.stream().filter(e -> e.getStatus() == QuestStatus.COMPLETED)
         .collect(Collectors.toSet());

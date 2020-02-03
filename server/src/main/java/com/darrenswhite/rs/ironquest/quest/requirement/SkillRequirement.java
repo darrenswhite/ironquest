@@ -69,12 +69,13 @@ public class SkillRequirement extends Requirement {
       return false;
     }
     SkillRequirement that = (SkillRequirement) o;
-    return level == that.level && skill == that.skill;
+    return ironman == that.ironman && recommended == that.recommended && level == that.level
+        && skill == that.skill;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(skill, level);
+    return Objects.hash(ironman, recommended, skill, level);
   }
 
   @Override
