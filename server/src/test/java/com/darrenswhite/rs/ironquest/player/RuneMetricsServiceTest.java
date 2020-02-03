@@ -19,9 +19,9 @@ public class RuneMetricsServiceTest {
     String url = RuneMetricsServiceTest.class.getClassLoader().getResource("runemetrics.json")
         .toString();
     String name = "user";
-    RuneMetricsService rms = new RuneMetricsService(url, objectMapper);
+    RuneMetricsService runeMetricsService = new RuneMetricsService(url, objectMapper);
 
-    Set<RuneMetricsQuest> loadedQuests = rms.load(name);
+    Set<RuneMetricsQuest> loadedQuests = runeMetricsService.load(name);
 
     assertThat(loadedQuests, notNullValue());
     assertThat(3, equalTo(loadedQuests.size()));

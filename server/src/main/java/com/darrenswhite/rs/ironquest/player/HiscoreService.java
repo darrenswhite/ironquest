@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 public class HiscoreService {
 
   private static final Logger LOG = LogManager.getLogger(HiscoreService.class);
+  private static final CSVFormat CSV_FORMAT = CSVFormat.DEFAULT.withDelimiter(',');
 
   private final String url;
 
@@ -36,12 +37,11 @@ public class HiscoreService {
     LOG.debug("Loading hiscores for player: {}...", name);
 
     try {
-      CSVFormat format = CSVFormat.DEFAULT.withDelimiter(',');
       String hiscoresUrl = String
           .format(url, URLEncoder.encode(name, StandardCharsets.UTF_8.toString()));
 
       try (InputStreamReader in = new InputStreamReader(new URL(hiscoresUrl).openStream())) {
-        CSVParser parser = format.parse(in);
+        CSVParser parser = CSV_FORMAT.parse(in);
         List<CSVRecord> records = parser.getRecords();
 
         for (int i = 1; i < Skill.values().length + 1; i++) {
