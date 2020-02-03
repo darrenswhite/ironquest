@@ -1,7 +1,7 @@
 package com.darrenswhite.rs.ironquest.path;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -57,8 +57,8 @@ public class PathFinderTest {
     Path path = pathFinder.find(null, QuestAccessFilter.ALL, false, false, Collections.emptySet(),
         Collections.emptyMap(), QuestTypeFilter.ALL);
 
-    assertEquals(0, path.getActions().size());
-    assertEquals(0, path.getStats().getPercentComplete(), 0);
+    assertThat(0, equalTo(path.getActions().size()));
+    assertThat(0D, equalTo(path.getStats().getPercentComplete()));
   }
 
   @Test
@@ -78,10 +78,10 @@ public class PathFinderTest {
 
     Path path = pathFinder.findForPlayer(player);
 
-    assertEquals(2, path.getActions().size());
-    assertEquals("questNotStarted", path.getActions().get(0).getMessage());
-    assertEquals("questInProgress", path.getActions().get(1).getMessage());
-    assertEquals(33, path.getStats().getPercentComplete(), 0);
+    assertThat(2, equalTo(path.getActions().size()));
+    assertThat("questNotStarted", equalTo(path.getActions().get(0).getMessage()));
+    assertThat("questInProgress", equalTo(path.getActions().get(1).getMessage()));
+    assertThat(33D, equalTo(path.getStats().getPercentComplete()));
   }
 
   @Test
@@ -109,12 +109,12 @@ public class PathFinderTest {
 
     Path path = pathFinder.findForPlayer(player);
 
-    assertEquals(3, path.getActions().size());
-    assertEquals("questWithXpLampReward", path.getActions().get(0).getMessage());
-    assertEquals("questWithXpReward", path.getActions().get(1).getMessage());
-    assertEquals("questWithXpLampReward: Use XP Lamp on Attack to gain 1k xp",
-        path.getActions().get(2).getMessage());
-    assertEquals(33, path.getStats().getPercentComplete(), 0);
+    assertThat(3, equalTo(path.getActions().size()));
+    assertThat("questWithXpLampReward", equalTo(path.getActions().get(0).getMessage()));
+    assertThat("questWithXpReward", equalTo(path.getActions().get(1).getMessage()));
+    assertThat("questWithXpLampReward: Use XP Lamp on Attack to gain 1k xp",
+        equalTo(path.getActions().get(2).getMessage()));
+    assertThat(33D, equalTo(path.getStats().getPercentComplete()));
   }
 
   @Test
@@ -138,13 +138,13 @@ public class PathFinderTest {
 
     Path path = pathFinder.findForPlayer(player);
 
-    assertEquals(3, path.getActions().size());
-    assertEquals("questWithXpLampReward", path.getActions().get(0).getMessage());
-    assertEquals("questNotStarted", path.getActions().get(1).getMessage());
-    assertEquals("questWithXpLampReward: Use XP Lamp to gain 1k xp (when requirements are met)",
-        path.getActions().get(2).getMessage());
-    assertTrue(path.getActions().get(2).isFuture());
-    assertEquals(33, path.getStats().getPercentComplete(), 0);
+    assertThat(3, equalTo(path.getActions().size()));
+    assertThat("questWithXpLampReward", equalTo(path.getActions().get(0).getMessage()));
+    assertThat("questNotStarted", equalTo(path.getActions().get(1).getMessage()));
+    assertThat("questWithXpLampReward: Use XP Lamp to gain 1k xp (when requirements are met)",
+        equalTo(path.getActions().get(2).getMessage()));
+    assertThat(path.getActions().get(2).isFuture(), equalTo(true));
+    assertThat(33D, equalTo(path.getStats().getPercentComplete()));
   }
 
   @Test
@@ -159,9 +159,9 @@ public class PathFinderTest {
 
     Path path = pathFinder.findForPlayer(player);
 
-    assertEquals(0, path.getActions().size());
-    assertEquals(0, path.getStats().getPercentComplete(), 0);
-    assertEquals(1, player.getQuestPoints());
+    assertThat(0, equalTo(path.getActions().size()));
+    assertThat(0D, equalTo(path.getStats().getPercentComplete()));
+    assertThat(1, equalTo(player.getQuestPoints()));
   }
 
   @Test(expected = BestQuestNotFoundException.class)
@@ -191,7 +191,7 @@ public class PathFinderTest {
         .createPlayer(name, accessFilter, false, false, Collections.emptySet(), questPriorities,
             typeFilter);
 
-    assertEquals(name, player.getName());
+    assertThat(name, equalTo(player.getName()));
     verify(quests).createQuestEntries(questPriorities, accessFilter, typeFilter);
     verify(hiscoreService).load(name);
     verify(runeMetricsService).load(name);

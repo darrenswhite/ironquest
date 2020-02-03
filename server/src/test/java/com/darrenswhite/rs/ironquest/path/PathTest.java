@@ -1,6 +1,7 @@
 package com.darrenswhite.rs.ironquest.path;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.darrenswhite.rs.ironquest.action.Action;
 import com.darrenswhite.rs.ironquest.action.LampAction;
@@ -40,7 +41,7 @@ public class PathTest {
 
     PathDTO dto = path.createDTO();
 
-    assertEquals(actions.size(), dto.getActions().size());
-    assertEquals(stats.getPercentComplete(), dto.getStats().getPercentComplete(), 0);
+    assertThat(actions.size(), equalTo(dto.getActions().size()));
+    assertThat(stats.getPercentComplete(), equalTo(dto.getStats().getPercentComplete()));
   }
 }

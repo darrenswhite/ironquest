@@ -1,7 +1,7 @@
 package com.darrenswhite.rs.ironquest.action;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -28,7 +28,7 @@ public class QuestActionTest {
 
     QuestAction questAction = new QuestAction(player, entry);
 
-    assertEquals(ActionType.QUEST, questAction.getType());
+    assertThat(ActionType.QUEST, equalTo(questAction.getType()));
   }
 
   @Test
@@ -40,8 +40,8 @@ public class QuestActionTest {
 
     QuestAction questAction = new QuestAction(player, entry);
 
-    assertEquals(title, questAction.getMessage());
-    assertEquals(questAction.getMessage(), questAction.toString());
+    assertThat(title, equalTo(questAction.getMessage()));
+    assertThat(questAction.getMessage(), equalTo(questAction.toString()));
   }
 
   @Test
@@ -70,10 +70,10 @@ public class QuestActionTest {
 
     questAction.process(player);
 
-    assertEquals(QuestStatus.COMPLETED, entry.getStatus());
-    assertEquals(5000, player.getXp(Skill.ATTACK), 0);
-    assertEquals(2500, player.getXp(Skill.AGILITY), 0);
-    assertEquals(100, player.getXp(Skill.COOKING), 0);
+    assertThat(QuestStatus.COMPLETED, equalTo(entry.getStatus()));
+    assertThat(5000D, equalTo(player.getXp(Skill.ATTACK)));
+    assertThat(2500D, equalTo(player.getXp(Skill.AGILITY)));
+    assertThat(100D, equalTo(player.getXp(Skill.COOKING)));
   }
 
   @Test
@@ -87,11 +87,11 @@ public class QuestActionTest {
 
     QuestActionDTO dto = questAction.createDTO();
 
-    assertEquals(questAction.getMessage(), dto.getMessage());
-    assertEquals(quest.createDTO(), dto.getQuest());
-    assertEquals(player.createDTO(), dto.getPlayer());
-    assertEquals(ActionType.QUEST, dto.getType());
-    assertFalse(dto.isFuture());
+    assertThat(questAction.getMessage(), equalTo(dto.getMessage()));
+    assertThat(quest.createDTO(), equalTo(dto.getQuest()));
+    assertThat(player.createDTO(), equalTo(dto.getPlayer()));
+    assertThat(ActionType.QUEST, equalTo(dto.getType()));
+    assertThat(dto.isFuture(), equalTo(false));
   }
 
   @Test
@@ -105,7 +105,7 @@ public class QuestActionTest {
 
     QuestAction copied = questAction.copyForPlayer(playerToCopy);
 
-    assertEquals(entry, copied.getQuestEntry());
-    assertEquals(playerToCopy, copied.getPlayer());
+    assertThat(entry, equalTo(copied.getQuestEntry()));
+    assertThat(playerToCopy, equalTo(copied.getPlayer()));
   }
 }

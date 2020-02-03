@@ -1,6 +1,7 @@
 package com.darrenswhite.rs.ironquest.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -45,7 +46,7 @@ public class QuestControllerTest {
     verify(pathFinder)
         .find(name, accessFilter, true, true, lampSkills, questPriorities, typeFilter);
     verify(path).createDTO();
-    assertEquals(pathDTO, result);
+    assertThat(pathDTO, equalTo(result));
   }
 
   @Test
@@ -70,6 +71,6 @@ public class QuestControllerTest {
         .find(eq(name), eq(accessFilter), eq(false), eq(false), eq(new LinkedHashSet<>()),
             eq(new LinkedHashMap<>()), eq(typeFilter));
     verify(path).createDTO();
-    assertEquals(pathDTO, result);
+    assertThat(pathDTO, equalTo(result));
   }
 }
