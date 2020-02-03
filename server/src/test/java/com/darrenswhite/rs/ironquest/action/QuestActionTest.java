@@ -28,7 +28,7 @@ public class QuestActionTest {
 
     QuestAction questAction = new QuestAction(player, entry);
 
-    assertThat(ActionType.QUEST, equalTo(questAction.getType()));
+    assertThat(questAction.getType(), equalTo(ActionType.QUEST));
   }
 
   @Test
@@ -40,8 +40,8 @@ public class QuestActionTest {
 
     QuestAction questAction = new QuestAction(player, entry);
 
-    assertThat(title, equalTo(questAction.getMessage()));
-    assertThat(questAction.getMessage(), equalTo(questAction.toString()));
+    assertThat(questAction.getMessage(), equalTo(title));
+    assertThat(questAction.toString(), equalTo(questAction.getMessage()));
   }
 
   @Test
@@ -70,10 +70,10 @@ public class QuestActionTest {
 
     questAction.process(player);
 
-    assertThat(QuestStatus.COMPLETED, equalTo(entry.getStatus()));
-    assertThat(5000D, equalTo(player.getXp(Skill.ATTACK)));
-    assertThat(2500D, equalTo(player.getXp(Skill.AGILITY)));
-    assertThat(100D, equalTo(player.getXp(Skill.COOKING)));
+    assertThat(entry.getStatus(), equalTo(QuestStatus.COMPLETED));
+    assertThat(player.getXp(Skill.ATTACK), equalTo(5000D));
+    assertThat(player.getXp(Skill.AGILITY), equalTo(2500D));
+    assertThat(player.getXp(Skill.COOKING), equalTo(100D));
   }
 
   @Test
@@ -87,10 +87,10 @@ public class QuestActionTest {
 
     QuestActionDTO dto = questAction.createDTO();
 
-    assertThat(questAction.getMessage(), equalTo(dto.getMessage()));
-    assertThat(quest.createDTO(), equalTo(dto.getQuest()));
-    assertThat(player.createDTO(), equalTo(dto.getPlayer()));
-    assertThat(ActionType.QUEST, equalTo(dto.getType()));
+    assertThat(dto.getMessage(), equalTo(questAction.getMessage()));
+    assertThat(dto.getQuest(), equalTo(quest.createDTO()));
+    assertThat(dto.getPlayer(), equalTo(player.createDTO()));
+    assertThat(dto.getType(), equalTo(ActionType.QUEST));
     assertThat(dto.isFuture(), equalTo(false));
   }
 
@@ -105,7 +105,7 @@ public class QuestActionTest {
 
     QuestAction copied = questAction.copyForPlayer(playerToCopy);
 
-    assertThat(entry, equalTo(copied.getQuestEntry()));
-    assertThat(playerToCopy, equalTo(copied.getPlayer()));
+    assertThat(copied.getQuestEntry(), equalTo(entry));
+    assertThat(copied.getPlayer(), equalTo(playerToCopy));
   }
 }

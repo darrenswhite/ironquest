@@ -16,7 +16,7 @@ public class TrainActionTest {
 
     TrainAction trainAction = new TrainAction(player, Skill.CONSTITUTION, 40000, 55250);
 
-    assertThat(ActionType.TRAIN, equalTo(trainAction.getType()));
+    assertThat(trainAction.getType(), equalTo(ActionType.TRAIN));
   }
 
   @Test
@@ -25,9 +25,9 @@ public class TrainActionTest {
 
     TrainAction trainAction = new TrainAction(player, Skill.CONSTITUTION, 40000, 55250);
 
-    assertThat("Train Constitution to level 43, requiring 15.25k xp",
-        equalTo(trainAction.getMessage()));
-    assertThat(trainAction.getMessage(), equalTo(trainAction.toString()));
+    assertThat(trainAction.getMessage(),
+        equalTo("Train Constitution to level 43, requiring 15.25k xp"));
+    assertThat(trainAction.toString(), equalTo(trainAction.getMessage()));
   }
 
   @Test
@@ -47,7 +47,7 @@ public class TrainActionTest {
 
     trainAction.process(player);
 
-    assertThat(10000D, equalTo(player.getXp(Skill.MAGIC)));
+    assertThat(player.getXp(Skill.MAGIC), equalTo(10000D));
   }
 
   @Test
@@ -58,9 +58,9 @@ public class TrainActionTest {
 
     TrainActionDTO dto = trainAction.createDTO();
 
-    assertThat(trainAction.getMessage(), equalTo(dto.getMessage()));
-    assertThat(player.createDTO(), equalTo(dto.getPlayer()));
-    assertThat(ActionType.TRAIN, equalTo(dto.getType()));
+    assertThat(dto.getMessage(), equalTo(trainAction.getMessage()));
+    assertThat(dto.getPlayer(), equalTo(player.createDTO()));
+    assertThat(dto.getType(), equalTo(ActionType.TRAIN));
     assertThat(dto.isFuture(), equalTo(false));
   }
 
@@ -73,9 +73,9 @@ public class TrainActionTest {
 
     TrainAction copied = trainAction.copyForPlayer(playerToCopy);
 
-    assertThat(trainAction.getSkill(), equalTo(copied.getSkill()));
-    assertThat(trainAction.getStartXp(), equalTo(copied.getStartXp()));
-    assertThat(trainAction.getEndXp(), equalTo(copied.getEndXp()));
-    assertThat(playerToCopy, equalTo(copied.getPlayer()));
+    assertThat(copied.getSkill(), equalTo(trainAction.getSkill()));
+    assertThat(copied.getStartXp(), equalTo(trainAction.getStartXp()));
+    assertThat(copied.getEndXp(), equalTo(trainAction.getEndXp()));
+    assertThat(copied.getPlayer(), equalTo(playerToCopy));
   }
 }

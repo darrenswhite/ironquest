@@ -41,7 +41,7 @@ public class PathTest {
 
     PathDTO dto = path.createDTO();
 
-    assertThat(actions.size(), equalTo(dto.getActions().size()));
-    assertThat(stats.getPercentComplete(), equalTo(dto.getStats().getPercentComplete()));
+    assertThat(dto.getActions().size(), equalTo(actions.size()));
+    assertThat(dto.getStats().getPercentComplete(), equalTo(stats.getPercentComplete()));
   }
 }

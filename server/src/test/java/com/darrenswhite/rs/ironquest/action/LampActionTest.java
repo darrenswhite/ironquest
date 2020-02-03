@@ -35,7 +35,7 @@ public class LampActionTest {
 
     LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
 
-    assertThat(ActionType.LAMP, equalTo(lampAction.getType()));
+    assertThat(lampAction.getType(), equalTo(ActionType.LAMP));
   }
 
   @Test
@@ -49,8 +49,8 @@ public class LampActionTest {
 
     LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
 
-    assertThat(title + ": Use XP Lamp on Attack to gain 500 xp", equalTo(lampAction.getMessage()));
-    assertThat(lampAction.getMessage(), equalTo(lampAction.toString()));
+    assertThat(lampAction.getMessage(), equalTo(title + ": Use XP Lamp on Attack to gain 500 xp"));
+    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
   }
 
   @Test
@@ -64,9 +64,9 @@ public class LampActionTest {
 
     LampAction lampAction = new LampAction(player, true, entry, lampReward, skills);
 
-    assertThat(title + ": Use XP Lamp to gain 1k xp (when requirements are met)",
-        equalTo(lampAction.getMessage()));
-    assertThat(lampAction.getMessage(), equalTo(lampAction.toString()));
+    assertThat(lampAction.getMessage(),
+        equalTo(title + ": Use XP Lamp to gain 1k xp (when requirements are met)"));
+    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
   }
 
   @Test
@@ -82,9 +82,9 @@ public class LampActionTest {
 
     LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
 
-    assertThat(title + ": Use Small XP Lamp on Defence to gain 784 xp",
-        equalTo(lampAction.getMessage()));
-    assertThat(lampAction.getMessage(), equalTo(lampAction.toString()));
+    assertThat(lampAction.getMessage(),
+        equalTo(title + ": Use Small XP Lamp on Defence to gain 784 xp"));
+    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
   }
 
   @Test
@@ -99,9 +99,9 @@ public class LampActionTest {
 
     LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
 
-    assertThat(title + ": Use Medium XP Lamp on Magic to gain 5.185k xp",
-        equalTo(lampAction.getMessage()));
-    assertThat(lampAction.getMessage(), equalTo(lampAction.toString()));
+    assertThat(lampAction.getMessage(),
+        equalTo(title + ": Use Medium XP Lamp on Magic to gain 5.185k xp"));
+    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
   }
 
   @Test
@@ -117,9 +117,9 @@ public class LampActionTest {
 
     LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
 
-    assertThat(title + ": Use Large XP Lamp on Ranged to gain 11.786k xp",
-        equalTo(lampAction.getMessage()));
-    assertThat(lampAction.getMessage(), equalTo(lampAction.toString()));
+    assertThat(lampAction.getMessage(),
+        equalTo(title + ": Use Large XP Lamp on Ranged to gain 11.786k xp"));
+    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
   }
 
   @Test
@@ -135,9 +135,9 @@ public class LampActionTest {
 
     LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
 
-    assertThat(title + ": Use Huge XP Lamp on Thieving to gain 47.38k xp",
-        equalTo(lampAction.getMessage()));
-    assertThat(lampAction.getMessage(), equalTo(lampAction.toString()));
+    assertThat(lampAction.getMessage(),
+        equalTo(title + ": Use Huge XP Lamp on Thieving to gain 47.38k xp"));
+    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
   }
 
   @Test
@@ -153,9 +153,9 @@ public class LampActionTest {
 
     LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
 
-    assertThat(title + ": Use Dragonkin Lamp on Herblore to gain 41.115k xp",
-        equalTo(lampAction.getMessage()));
-    assertThat(lampAction.getMessage(), equalTo(lampAction.toString()));
+    assertThat(lampAction.getMessage(),
+        equalTo(title + ": Use Dragonkin Lamp on Herblore to gain 41.115k xp"));
+    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
   }
 
   @Test
@@ -169,9 +169,9 @@ public class LampActionTest {
 
     LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
 
-    assertThat(title + ": Use XP Lamp on Summoning, Divination to gain 150 xp",
-        equalTo(lampAction.getMessage()));
-    assertThat(lampAction.getMessage(), equalTo(lampAction.toString()));
+    assertThat(lampAction.getMessage(),
+        equalTo(title + ": Use XP Lamp on Summoning, Divination to gain 150 xp"));
+    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
   }
 
   @Test
@@ -186,9 +186,9 @@ public class LampActionTest {
 
     LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
 
-    assertThat(title + ": Use XP Lamp on Construction to gain 187.5 xp",
-        equalTo(lampAction.getMessage()));
-    assertThat(lampAction.getMessage(), equalTo(lampAction.toString()));
+    assertThat(lampAction.getMessage(),
+        equalTo(title + ": Use XP Lamp on Construction to gain 187.5 xp"));
+    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
   }
 
   @Test
@@ -218,8 +218,8 @@ public class LampActionTest {
 
     lampAction.process(player);
 
-    assertThat(1000D, equalTo(player.getXp(Skill.DEFENCE)));
-    assertThat(1000D, equalTo(player.getXp(Skill.STRENGTH)));
+    assertThat(player.getXp(Skill.DEFENCE), equalTo(1000D));
+    assertThat(player.getXp(Skill.STRENGTH), equalTo(1000D));
   }
 
   @Test
@@ -235,10 +235,10 @@ public class LampActionTest {
 
     LampActionDTO dto = lampAction.createDTO();
 
-    assertThat(lampAction.getMessage(), equalTo(dto.getMessage()));
-    assertThat(quest.createDTO(), equalTo(dto.getQuest()));
-    assertThat(player.createDTO(), equalTo(dto.getPlayer()));
-    assertThat(ActionType.LAMP, equalTo(dto.getType()));
+    assertThat(dto.getMessage(), equalTo(lampAction.getMessage()));
+    assertThat(dto.getQuest(), equalTo(quest.createDTO()));
+    assertThat(dto.getPlayer(), equalTo(player.createDTO()));
+    assertThat(dto.getType(), equalTo(ActionType.LAMP));
     assertThat(dto.isFuture(), equalTo(false));
   }
 
@@ -256,9 +256,9 @@ public class LampActionTest {
 
     LampAction copied = lampAction.copyForPlayer(playerToCopy);
 
-    assertThat(entry, equalTo(copied.getQuestEntry()));
-    assertThat(lampReward, equalTo(copied.getLampReward()));
-    assertThat(skills, equalTo(copied.getSkills()));
-    assertThat(playerToCopy, equalTo(copied.getPlayer()));
+    assertThat(copied.getQuestEntry(), equalTo(entry));
+    assertThat(copied.getLampReward(), equalTo(lampReward));
+    assertThat(copied.getSkills(), equalTo(skills));
+    assertThat(copied.getPlayer(), equalTo(playerToCopy));
   }
 }

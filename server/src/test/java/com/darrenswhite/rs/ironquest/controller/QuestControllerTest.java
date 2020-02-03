@@ -46,7 +46,7 @@ public class QuestControllerTest {
     verify(pathFinder)
         .find(name, accessFilter, true, true, lampSkills, questPriorities, typeFilter);
     verify(path).createDTO();
-    assertThat(pathDTO, equalTo(result));
+    assertThat(result, equalTo(pathDTO));
   }
 
   @Test
@@ -71,6 +71,6 @@ public class QuestControllerTest {
         .find(eq(name), eq(accessFilter), eq(false), eq(false), eq(new LinkedHashSet<>()),
             eq(new LinkedHashMap<>()), eq(typeFilter));
     verify(path).createDTO();
-    assertThat(pathDTO, equalTo(result));
+    assertThat(result, equalTo(pathDTO));
   }
 }
