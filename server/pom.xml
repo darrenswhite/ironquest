@@ -51,12 +51,22 @@
                   <limits>
                     <limit>
                       <counter>INSTRUCTION</counter>
-                      <minimum>80%</minimum>
+                      <minimum>90%</minimum>
                       <value>COVEREDRATIO</value>
                     </limit>
                     <limit>
                       <counter>LINE</counter>
                       <minimum>80%</minimum>
+                      <value>COVEREDRATIO</value>
+                    </limit>
+                    <limit>
+                      <counter>BRANCH</counter>
+                      <minimum>60%</minimum>
+                      <value>COVEREDRATIO</value>
+                    </limit>
+                    <limit>
+                      <counter>COMPLEXITY</counter>
+                      <minimum>60%</minimum>
                       <value>COVEREDRATIO</value>
                     </limit>
                     <limit>
