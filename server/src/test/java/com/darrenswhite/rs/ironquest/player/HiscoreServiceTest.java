@@ -1,6 +1,7 @@
 package com.darrenswhite.rs.ironquest.player;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -18,7 +19,7 @@ public class HiscoreServiceTest {
     Map<Skill, Double> loadedSkills = hiscoreService.load(name);
 
     assertThat(loadedSkills, notNullValue());
-    assertThat(loadedSkills.size(), equalTo(27));
+    assertThat(loadedSkills, aMapWithSize(27));
     assertThat(loadedSkills.get(Skill.ATTACK), equalTo(737627D));
     assertThat(loadedSkills.get(Skill.DEFENCE), equalTo(28782069D));
     assertThat(loadedSkills.get(Skill.STRENGTH), equalTo(165576D));

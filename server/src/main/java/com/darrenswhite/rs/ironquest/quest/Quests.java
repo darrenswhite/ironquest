@@ -19,6 +19,10 @@ public class Quests {
     this.questSet = questSet;
   }
 
+  public Set<Quest> getQuests() {
+    return questSet;
+  }
+
   public Set<QuestEntry> createQuestEntries(Map<Integer, QuestPriority> questPriorities,
       QuestAccessFilter accessFilter, QuestTypeFilter typeFilter) {
     Predicate<Quest> accessAndTypeFilter = questMatchesAccessFilter(accessFilter)

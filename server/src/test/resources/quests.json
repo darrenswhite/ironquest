@@ -1,0 +1,138 @@
+[
+  {
+    "access": "FREE",
+    "id": -1,
+    "rewards": {
+      "questPoints": 1
+    },
+    "title": "a",
+    "type": "QUEST"
+  },
+  {
+    "access": "FREE",
+    "id": 0,
+    "requirements": {
+      "combat": {
+        "ironman": true,
+        "level": 40
+      },
+      "skills": [
+        {
+          "level": 50,
+          "skill": "AGILITY"
+        },
+        {
+          "level": 60,
+          "recommended": true,
+          "skill": "AGILITY"
+        }
+      ]
+    },
+    "rewards": {
+      "questPoints": 2
+    },
+    "title": "b",
+    "type": "SAGA"
+  },
+  {
+    "access": "MEMBERS",
+    "id": 1,
+    "rewards": {
+      "lamps": [
+        {
+          "exclusive": true,
+          "requirements": {
+            "ATTACK,DEFENCE": 1,
+            "CONSTITUTION,STRENGTH": 1
+          },
+          "type": "XP",
+          "xp": 35000
+        },
+        {
+          "exclusive": true,
+          "requirements": {
+            "ATTACK,DEFENCE": 1,
+            "CONSTITUTION,STRENGTH": 1
+          },
+          "type": "XP",
+          "xp": 20000
+        }
+      ],
+      "questPoints": 5
+    },
+    "title": "c",
+    "type": "SAGA"
+  },
+  {
+    "access": "MEMBERS",
+    "id": 2,
+    "requirements": {
+      "combat": {
+        "level": 40
+      },
+      "questPoints": {
+        "amount": 2
+      },
+      "quests": [
+        {
+          "quest": 0
+        },
+        {
+          "quest": 1
+        }
+      ],
+      "skills": [
+        {
+          "level": 30,
+          "skill": "HERBLORE"
+        },
+        {
+          "level": 50,
+          "skill": "RANGED"
+        }
+      ]
+    },
+    "rewards": {
+      "lamps": [
+        {
+          "type": "SMALL_XP"
+        },
+        {
+          "requirements": {
+            "MINING,SMITHING": 10
+          },
+          "singleChoice": true,
+          "type": "XP",
+          "xp": 1000
+        },
+        {
+          "multiplier": 1.5,
+          "requirements": {
+            "AGILITY": 1
+          },
+          "type": "MEDIUM_XP"
+        },
+        {
+          "type": "DRAGONKIN"
+        },
+        {
+          "requirements": {
+            "*": 20
+          },
+          "type": "XP",
+          "xp": 1000
+        },
+        {
+          "requirements": {
+            "&": 10
+          },
+          "type": "XP",
+          "xp": 100
+        }
+      ],
+      "questPoints": 3
+    },
+    "title": "d",
+    "type": "MINIQUEST"
+  }
+]

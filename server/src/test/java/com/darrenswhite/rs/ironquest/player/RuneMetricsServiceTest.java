@@ -2,7 +2,7 @@ package com.darrenswhite.rs.ironquest.player;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 
 import com.darrenswhite.rs.ironquest.quest.RuneMetricsQuest;
@@ -21,11 +21,6 @@ public class RuneMetricsServiceTest {
     String name = "user";
     RuneMetricsService runeMetricsService = new RuneMetricsService(url, objectMapper);
 
-    Set<RuneMetricsQuest> loadedQuests = runeMetricsService.load(name);
-
-    assertThat(loadedQuests, notNullValue());
-    assertThat(3, equalTo(loadedQuests.size()));
-
     RuneMetricsQuest questA = new RuneMetricsQuest.Builder().withTitle("a")
         .withStatus(Status.NOT_STARTED).withDifficulty(1).withMembers(false).withQuestPoints(10)
         .withUserEligible(false).build();
@@ -36,6 +31,10 @@ public class RuneMetricsServiceTest {
         .withStatus(Status.COMPLETED).withDifficulty(3).withMembers(false).withQuestPoints(30)
         .withUserEligible(true).build();
 
+    Set<RuneMetricsQuest> loadedQuests = runeMetricsService.load(name);
+
+    assertThat(loadedQuests, notNullValue());
+    assertThat(loadedQuests, hasSize(3));
     assertThat(loadedQuests, containsInAnyOrder(questA, questB, questC));
   }
 }

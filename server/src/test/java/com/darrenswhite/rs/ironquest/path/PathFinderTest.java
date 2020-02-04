@@ -2,6 +2,7 @@ package com.darrenswhite.rs.ironquest.path;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -58,7 +59,7 @@ public class PathFinderTest {
     Path path = pathFinder.find(null, QuestAccessFilter.ALL, false, false, Collections.emptySet(),
         Collections.emptyMap(), QuestTypeFilter.ALL);
 
-    assertThat(path.getActions(), hasSize(0));
+    assertThat(path.getActions(), empty());
     assertThat(path.getStats().getPercentComplete(), equalTo(0D));
   }
 
@@ -160,7 +161,7 @@ public class PathFinderTest {
 
     Path path = pathFinder.findForPlayer(player);
 
-    assertThat(path.getActions(), hasSize(0));
+    assertThat(path.getActions(), empty());
     assertThat(path.getStats().getPercentComplete(), equalTo(0D));
     assertThat(player.getQuestPoints(), equalTo(1));
   }
