@@ -19,12 +19,12 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class QuestControllerTest {
+class QuestControllerTest {
 
   @Test
-  public void getPath() throws BestQuestNotFoundException {
+  void getPath() throws BestQuestNotFoundException {
     PathFinder pathFinder = mock(PathFinder.class);
     QuestController controller = new QuestController(pathFinder);
 
@@ -50,7 +50,7 @@ public class QuestControllerTest {
   }
 
   @Test
-  public void getPath_NullValues() throws BestQuestNotFoundException {
+  void getPath_NullValues() throws BestQuestNotFoundException {
     PathFinder pathFinder = mock(PathFinder.class);
     QuestController controller = new QuestController(pathFinder);
 

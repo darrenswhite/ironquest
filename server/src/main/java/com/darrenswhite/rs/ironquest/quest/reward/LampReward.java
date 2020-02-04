@@ -78,12 +78,9 @@ public class LampReward implements Reward {
 
   static {
     Map<Set<Skill>, Integer> defaultRequirements = new HashMap<>();
-    Set<Skill> skills;
 
-    for (Skill s : Skill.values()) {
-      skills = new HashSet<>();
-      skills.add(s);
-      defaultRequirements.put(skills, 1);
+    for (Skill skill : Skill.values()) {
+      defaultRequirements.put(Collections.singleton(skill), 1);
     }
 
     DEFAULT_REQUIREMENTS = Collections.unmodifiableMap(defaultRequirements);
@@ -276,21 +273,19 @@ public class LampReward implements Reward {
 
         switch (key) {
           case ANY_SKILL:
-            for (Skill s : Skill.values()) {
-              skills = new HashSet<>();
-              skills.add(s);
-              requirements.put(skills, reqLvl);
+            for (Skill skill : Skill.values()) {
+              requirements.put(Collections.singleton(skill), reqLvl);
             }
             break;
           case ALL_SKILLS:
-            skills = new HashSet<>();
-            Collections.addAll(skills, Skill.values());
+            skills = new HashSet<>(Arrays.asList(Skill.values()));
             requirements.put(skills, reqLvl);
             break;
           default:
             String[] keys = key.split(",");
             skills = Arrays.stream(keys).map(Skill::valueOf).collect(Collectors.toSet());
             requirements.put(skills, reqLvl);
+            break;
         }
       }
 

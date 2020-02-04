@@ -1,5 +1,6 @@
 package com.darrenswhite.rs.ironquest.quest;
 
+import static com.darrenswhite.rs.ironquest.Matchers.hasPropertyAtPath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -9,7 +10,6 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 
-import com.darrenswhite.rs.ironquest.Matchers;
 import com.darrenswhite.rs.ironquest.player.QuestEntry;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.Skill;
@@ -35,10 +35,10 @@ import org.hamcrest.TypeSafeMatcher;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.InputStreamResource;
 
-public class QuestServiceTest {
+class QuestServiceTest {
 
   @Test
-  public void getQuests() throws IOException {
+  void getQuests() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     InputStream in = QuestServiceTest.class.getClassLoader().getResourceAsStream("quests.json");
     QuestService questService = new QuestService(new InputStreamResource(in), objectMapper);
@@ -134,7 +134,7 @@ public class QuestServiceTest {
   }
 
   @Test
-  public void createQuestEntries() throws IOException {
+  void createQuestEntries() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     InputStream in = QuestServiceTest.class.getClassLoader().getResourceAsStream("quests.json");
     QuestService questService = new QuestService(new InputStreamResource(in), objectMapper);
@@ -148,7 +148,7 @@ public class QuestServiceTest {
   }
 
   @Test
-  public void createQuestEntries_withPriorities() throws IOException {
+  void createQuestEntries_withPriorities() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     InputStream in = QuestServiceTest.class.getClassLoader().getResourceAsStream("quests.json");
     QuestService questService = new QuestService(new InputStreamResource(in), objectMapper);
@@ -165,19 +165,18 @@ public class QuestServiceTest {
 
     assertThat(questEntries, notNullValue());
     assertThat(questEntries, hasSize(4));
-    assertThat(questEntries, containsInAnyOrder(
-        allOf(Matchers.hasPropertyAtPath("quest.id", equalTo(-1)),
-            hasProperty("priority", equalTo(QuestPriority.MAXIMUM))),
-        allOf(Matchers.hasPropertyAtPath("quest.id", equalTo(0)),
+    assertThat(questEntries, containsInAnyOrder(allOf(hasPropertyAtPath("quest.id", equalTo(-1)),
+        hasProperty("priority", equalTo(QuestPriority.MAXIMUM))),
+        allOf(hasPropertyAtPath("quest.id", equalTo(0)),
             hasProperty("priority", equalTo(QuestPriority.NORMAL))),
-        allOf(Matchers.hasPropertyAtPath("quest.id", equalTo(1)),
+        allOf(hasPropertyAtPath("quest.id", equalTo(1)),
             hasProperty("priority", equalTo(QuestPriority.LOW))),
-        allOf(Matchers.hasPropertyAtPath("quest.id", equalTo(2)),
+        allOf(hasPropertyAtPath("quest.id", equalTo(2)),
             hasProperty("priority", equalTo(QuestPriority.HIGH)))));
   }
 
   @Test
-  public void createQuestEntries_withFreeAccessFilter() throws IOException {
+  void createQuestEntries_withFreeAccessFilter() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     InputStream in = QuestServiceTest.class.getClassLoader().getResourceAsStream("quests.json");
     QuestService questService = new QuestService(new InputStreamResource(in), objectMapper);
@@ -188,11 +187,11 @@ public class QuestServiceTest {
     assertThat(questEntries, notNullValue());
     assertThat(questEntries, hasSize(2));
     assertThat(questEntries,
-        everyItem(Matchers.hasPropertyAtPath("quest.access", equalTo(QuestAccess.FREE))));
+        everyItem(hasPropertyAtPath("quest.access", equalTo(QuestAccess.FREE))));
   }
 
   @Test
-  public void createQuestEntries_withMembersAccessFilter() throws IOException {
+  void createQuestEntries_withMembersAccessFilter() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     InputStream in = QuestServiceTest.class.getClassLoader().getResourceAsStream("quests.json");
     QuestService questService = new QuestService(new InputStreamResource(in), objectMapper);
@@ -203,17 +202,16 @@ public class QuestServiceTest {
     assertThat(questEntries, notNullValue());
     // quest requirements are also included
     assertThat(questEntries, hasSize(3));
-    assertThat(questEntries, containsInAnyOrder(
-        allOf(Matchers.hasPropertyAtPath("quest.id", equalTo(0)),
-            Matchers.hasPropertyAtPath("quest.access", equalTo(QuestAccess.FREE))),
-        allOf(Matchers.hasPropertyAtPath("quest.id", equalTo(1)),
-            Matchers.hasPropertyAtPath("quest.access", equalTo(QuestAccess.MEMBERS))),
-        allOf(Matchers.hasPropertyAtPath("quest.id", equalTo(2)),
-            Matchers.hasPropertyAtPath("quest.access", equalTo(QuestAccess.MEMBERS)))));
+    assertThat(questEntries, containsInAnyOrder(allOf(hasPropertyAtPath("quest.id", equalTo(0)),
+        hasPropertyAtPath("quest.access", equalTo(QuestAccess.FREE))),
+        allOf(hasPropertyAtPath("quest.id", equalTo(1)),
+            hasPropertyAtPath("quest.access", equalTo(QuestAccess.MEMBERS))),
+        allOf(hasPropertyAtPath("quest.id", equalTo(2)),
+            hasPropertyAtPath("quest.access", equalTo(QuestAccess.MEMBERS)))));
   }
 
   @Test
-  public void createQuestEntries_withMiniquestsTypeFilter() throws IOException {
+  void createQuestEntries_withMiniquestsTypeFilter() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     InputStream in = QuestServiceTest.class.getClassLoader().getResourceAsStream("quests.json");
     QuestService questService = new QuestService(new InputStreamResource(in), objectMapper);
@@ -225,17 +223,16 @@ public class QuestServiceTest {
     assertThat(questEntries, notNullValue());
     // quest requirements are also included
     assertThat(questEntries, hasSize(3));
-    assertThat(questEntries, containsInAnyOrder(
-        allOf(Matchers.hasPropertyAtPath("quest.id", equalTo(0)),
-            Matchers.hasPropertyAtPath("quest.type", equalTo(QuestType.SAGA))),
-        allOf(Matchers.hasPropertyAtPath("quest.id", equalTo(1)),
-            Matchers.hasPropertyAtPath("quest.type", equalTo(QuestType.SAGA))),
-        allOf(Matchers.hasPropertyAtPath("quest.id", equalTo(2)),
-            Matchers.hasPropertyAtPath("quest.type", equalTo(QuestType.MINIQUEST)))));
+    assertThat(questEntries, containsInAnyOrder(allOf(hasPropertyAtPath("quest.id", equalTo(0)),
+        hasPropertyAtPath("quest.type", equalTo(QuestType.SAGA))),
+        allOf(hasPropertyAtPath("quest.id", equalTo(1)),
+            hasPropertyAtPath("quest.type", equalTo(QuestType.SAGA))),
+        allOf(hasPropertyAtPath("quest.id", equalTo(2)),
+            hasPropertyAtPath("quest.type", equalTo(QuestType.MINIQUEST)))));
   }
 
   @Test
-  public void createQuestEntries_withSagaTypeFilter() throws IOException {
+  void createQuestEntries_withSagaTypeFilter() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     InputStream in = QuestServiceTest.class.getClassLoader().getResourceAsStream("quests.json");
     QuestService questService = new QuestService(new InputStreamResource(in), objectMapper);
@@ -245,15 +242,14 @@ public class QuestServiceTest {
 
     assertThat(questEntries, notNullValue());
     assertThat(questEntries, hasSize(2));
-    assertThat(questEntries, containsInAnyOrder(
-        allOf(Matchers.hasPropertyAtPath("quest.id", equalTo(0)),
-            Matchers.hasPropertyAtPath("quest.type", equalTo(QuestType.SAGA))),
-        allOf(Matchers.hasPropertyAtPath("quest.id", equalTo(1)),
-            Matchers.hasPropertyAtPath("quest.type", equalTo(QuestType.SAGA)))));
+    assertThat(questEntries, containsInAnyOrder(allOf(hasPropertyAtPath("quest.id", equalTo(0)),
+        hasPropertyAtPath("quest.type", equalTo(QuestType.SAGA))),
+        allOf(hasPropertyAtPath("quest.id", equalTo(1)),
+            hasPropertyAtPath("quest.type", equalTo(QuestType.SAGA)))));
   }
 
   @Test
-  public void createQuestEntries_withQuestsTypeFilter() throws IOException {
+  void createQuestEntries_withQuestsTypeFilter() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     InputStream in = QuestServiceTest.class.getClassLoader().getResourceAsStream("quests.json");
     QuestService questService = new QuestService(new InputStreamResource(in), objectMapper);
@@ -263,16 +259,15 @@ public class QuestServiceTest {
 
     assertThat(questEntries, notNullValue());
     assertThat(questEntries, hasSize(1));
-    assertThat(questEntries, containsInAnyOrder(
-        allOf(Matchers.hasPropertyAtPath("quest.id", equalTo(-1)),
-            Matchers.hasPropertyAtPath("quest.type", equalTo(QuestType.QUEST)))));
+    assertThat(questEntries, containsInAnyOrder(allOf(hasPropertyAtPath("quest.id", equalTo(-1)),
+        hasPropertyAtPath("quest.type", equalTo(QuestType.QUEST)))));
   }
 
   private static class QuestMatcher extends TypeSafeMatcher<Quest> {
 
     private final Quest quest;
 
-    public QuestMatcher(Quest quest) {
+    QuestMatcher(Quest quest) {
       this.quest = quest;
     }
 

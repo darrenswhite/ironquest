@@ -13,10 +13,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import org.junit.jupiter.api.Test;
 
-public class QuestRequirementTest {
+class QuestRequirementTest {
 
   @Test
-  public void testPlayer() {
+  void testPlayer() {
     QuestRequirement questRequirement = new QuestRequirement.Builder(new Quest.Builder().build())
         .build();
     Player playerWithIncompleteQuestRequirement = createPlayerWithQuestRequirement(questRequirement,

@@ -15,12 +15,12 @@ import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
 import com.darrenswhite.rs.ironquest.util.MapBuilder;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class QuestActionTest {
+class QuestActionTest {
 
   @Test
-  public void getType() {
+  void getType() {
     Quest quest = new Quest.Builder().build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
     Player player = new Player.Builder().build();
@@ -31,7 +31,7 @@ public class QuestActionTest {
   }
 
   @Test
-  public void getMessage() {
+  void getMessage() {
     String title = "title";
     Quest quest = new Quest.Builder().withTitle(title).build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
@@ -44,7 +44,7 @@ public class QuestActionTest {
   }
 
   @Test
-  public void meetsRequirements() {
+  void meetsRequirements() {
     Quest quest = mock(Quest.class);
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
     Player player = new Player.Builder().build();
@@ -57,7 +57,7 @@ public class QuestActionTest {
   }
 
   @Test
-  public void process() {
+  void process() {
     Map<Skill, Double> xp = new MapBuilder<Skill, Double>().put(Skill.ATTACK, 5000d)
         .put(Skill.AGILITY, 2500d).put(Skill.COOKING, 100d).build();
     QuestRewards rewards = new QuestRewards.Builder().withXp(xp).build();
@@ -76,7 +76,7 @@ public class QuestActionTest {
   }
 
   @Test
-  public void createDTO() {
+  void createDTO() {
     String title = "title";
     Quest quest = new Quest.Builder().withTitle(title).build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
@@ -94,7 +94,7 @@ public class QuestActionTest {
   }
 
   @Test
-  public void copyForPlayer() {
+  void copyForPlayer() {
     Quest quest = new Quest.Builder().build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
     Player player = new Player.Builder().withName("original").build();

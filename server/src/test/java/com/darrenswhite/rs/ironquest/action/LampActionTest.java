@@ -21,12 +21,12 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class LampActionTest {
+class LampActionTest {
 
   @Test
-  public void getType() {
+  void getType() {
     Quest quest = new Quest.Builder().build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
     Player player = new Player.Builder().build();
@@ -39,7 +39,7 @@ public class LampActionTest {
   }
 
   @Test
-  public void getMessage() {
+  void getMessage() {
     String title = "title";
     Quest quest = new Quest.Builder().withTitle(title).build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
@@ -54,7 +54,7 @@ public class LampActionTest {
   }
 
   @Test
-  public void getMessage_Future() {
+  void getMessage_Future() {
     String title = "title";
     Quest quest = new Quest.Builder().withTitle(title).build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
@@ -70,7 +70,7 @@ public class LampActionTest {
   }
 
   @Test
-  public void getMessage_SmallXp() {
+  void getMessage_SmallXp() {
     String title = "title";
     Quest quest = new Quest.Builder().withTitle(title).build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
@@ -88,7 +88,7 @@ public class LampActionTest {
   }
 
   @Test
-  public void getMessage_MediumXp() {
+  void getMessage_MediumXp() {
     String title = "title";
     Quest quest = new Quest.Builder().withTitle(title).build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
@@ -105,7 +105,7 @@ public class LampActionTest {
   }
 
   @Test
-  public void getMessage_LargeXp() {
+  void getMessage_LargeXp() {
     String title = "title";
     Quest quest = new Quest.Builder().withTitle(title).build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
@@ -123,7 +123,7 @@ public class LampActionTest {
   }
 
   @Test
-  public void getMessage_HugeXp() {
+  void getMessage_HugeXp() {
     String title = "title";
     Quest quest = new Quest.Builder().withTitle(title).build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
@@ -141,7 +141,7 @@ public class LampActionTest {
   }
 
   @Test
-  public void getMessage_Dragonkin() {
+  void getMessage_Dragonkin() {
     String title = "title";
     Quest quest = new Quest.Builder().withTitle(title).build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
@@ -159,7 +159,7 @@ public class LampActionTest {
   }
 
   @Test
-  public void getMessage_MultipleSkills() {
+  void getMessage_MultipleSkills() {
     String title = "title";
     Quest quest = new Quest.Builder().withTitle(title).build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
@@ -175,7 +175,7 @@ public class LampActionTest {
   }
 
   @Test
-  public void getMessage_Multiplier() {
+  void getMessage_Multiplier() {
     String title = "title";
     Quest quest = new Quest.Builder().withTitle(title).build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
@@ -192,7 +192,7 @@ public class LampActionTest {
   }
 
   @Test
-  public void meetsRequirements() {
+  void meetsRequirements() {
     Quest quest = new Quest.Builder().build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
     Player player = new Player.Builder().build();
@@ -207,7 +207,7 @@ public class LampActionTest {
   }
 
   @Test
-  public void process() {
+  void process() {
     Quest quest = new Quest.Builder().build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
     Player player = new Player.Builder().build();
@@ -223,7 +223,7 @@ public class LampActionTest {
   }
 
   @Test
-  public void createDTO() {
+  void createDTO() {
     String title = "title";
     Quest quest = new Quest.Builder().withTitle(title).build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
@@ -243,7 +243,7 @@ public class LampActionTest {
   }
 
   @Test
-  public void copyForPlayer() {
+  void copyForPlayer() {
     Quest quest = new Quest.Builder().build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
     Player player = new Player.Builder().withName("original").build();

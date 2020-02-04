@@ -6,12 +6,12 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class HiscoreServiceTest {
+class HiscoreServiceTest {
 
   @Test
-  public void load() {
+  void load() {
     String url = HiscoreServiceTest.class.getClassLoader().getResource("hiscores.csv").toString();
     String name = "user";
     HiscoreService hiscoreService = new HiscoreService(url);

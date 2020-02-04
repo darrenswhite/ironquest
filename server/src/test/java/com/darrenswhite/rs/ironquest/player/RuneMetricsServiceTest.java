@@ -9,12 +9,12 @@ import com.darrenswhite.rs.ironquest.quest.RuneMetricsQuest;
 import com.darrenswhite.rs.ironquest.quest.RuneMetricsQuest.Status;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class RuneMetricsServiceTest {
+class RuneMetricsServiceTest {
 
   @Test
-  public void load() {
+  void load() {
     ObjectMapper objectMapper = new ObjectMapper();
     String url = RuneMetricsServiceTest.class.getClassLoader().getResource("runemetrics.json")
         .toString();

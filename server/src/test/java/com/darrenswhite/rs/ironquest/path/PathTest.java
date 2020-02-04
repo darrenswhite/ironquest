@@ -21,12 +21,12 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PathTest {
+class PathTest {
 
   @Test
-  public void createDTO() {
+  void createDTO() {
     Quest quest = new Quest.Builder().build();
     QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
     Player player = new Player.Builder().build();

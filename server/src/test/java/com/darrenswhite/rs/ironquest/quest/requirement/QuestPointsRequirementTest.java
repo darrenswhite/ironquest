@@ -12,10 +12,10 @@ import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
-public class QuestPointsRequirementTest {
+class QuestPointsRequirementTest {
 
   @Test
-  public void testPlayer() {
+  void testPlayer() {
     QuestPointsRequirement questPointsRequirement = new QuestPointsRequirement.Builder(3).build();
 
     Player playerWith0QuestPoints = createPlayerWithQuestPoints(0);

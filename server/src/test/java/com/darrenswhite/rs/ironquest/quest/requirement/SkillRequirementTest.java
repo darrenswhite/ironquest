@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 
-public class SkillRequirementTest {
+class SkillRequirementTest {
 
   @Test
-  public void testPlayer() {
+  void testPlayer() {
     SkillRequirement skillRequirement = new SkillRequirement.Builder(Skill.RANGED, 50).build();
     Player playerWith49Ranged = createPlayerWithRangedLevel(49);
     Player playerWith50Ranged = createPlayerWithRangedLevel(50);
@@ -27,7 +27,7 @@ public class SkillRequirementTest {
   }
 
   @Test
-  public void merge() {
+  void merge() {
     List<SkillRequirement> first = Arrays
         .asList(new SkillRequirement.Builder(Skill.SUMMONING, 10).build(),
             new SkillRequirement.Builder(Skill.HERBLORE, 20).build(),

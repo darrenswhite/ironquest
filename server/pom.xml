@@ -102,6 +102,12 @@
       <version>${org.hamcrest.version}</version>
     </dependency>
     <dependency>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+      <version>${org.junit.jupiter.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
       <version>${org.springframework.boot.version}</version>
@@ -125,6 +131,7 @@
     <org.apache.commons.version>1.7</org.apache.commons.version>
     <org.hamcrest.version>2.2</org.hamcrest.version>
     <org.jacoco.version>0.8.5</org.jacoco.version>
+    <org.junit.jupiter.version>5.6.0</org.junit.jupiter.version>
     <org.springframework.boot.version>2.2.4.RELEASE</org.springframework.boot.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

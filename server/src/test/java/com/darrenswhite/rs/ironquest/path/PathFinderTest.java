@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,18 +33,18 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class PathFinderTest {
+class PathFinderTest {
 
   private QuestService questService;
   private HiscoreService hiscoreService;
   private RuneMetricsService runeMetricsService;
   private PathFinder pathFinder;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     questService = mock(QuestService.class);
     hiscoreService = mock(HiscoreService.class);
     runeMetricsService = mock(RuneMetricsService.class);
@@ -51,7 +52,7 @@ public class PathFinderTest {
   }
 
   @Test
-  public void find() throws BestQuestNotFoundException {
+  void find() throws BestQuestNotFoundException {
     Quests quests = new Quests(Collections.emptySet());
 
     when(questService.getQuests()).thenReturn(quests);
@@ -64,7 +65,7 @@ public class PathFinderTest {
   }
 
   @Test
-  public void findForPlayer() throws BestQuestNotFoundException {
+  void findForPlayer() throws BestQuestNotFoundException {
     QuestEntry questNotStarted = new QuestEntry(
         new Quest.Builder().withId(0).withTitle("questNotStarted").build(), QuestStatus.NOT_STARTED,
         QuestPriority.NORMAL);
@@ -87,7 +88,7 @@ public class PathFinderTest {
   }
 
   @Test
-  public void findForPlayer_ProcessFutureActions() throws BestQuestNotFoundException {
+  void findForPlayer_ProcessFutureActions() throws BestQuestNotFoundException {
     QuestEntry questWithXpLampReward = new QuestEntry(
         new Quest.Builder().withId(0).withTitle("questWithXpLampReward").withRewards(
             new QuestRewards.Builder().withLamps(Collections.singleton(
@@ -120,7 +121,7 @@ public class PathFinderTest {
   }
 
   @Test
-  public void findForPlayer_AddFutureActions() throws BestQuestNotFoundException {
+  void findForPlayer_AddFutureActions() throws BestQuestNotFoundException {
     QuestEntry questWithXpLampReward = new QuestEntry(
         new Quest.Builder().withId(0).withTitle("questWithXpLampReward").withRewards(
             new QuestRewards.Builder().withLamps(Collections.singleton(
@@ -150,7 +151,7 @@ public class PathFinderTest {
   }
 
   @Test
-  public void findForPlayer_PlaceholderQuests() throws BestQuestNotFoundException {
+  void findForPlayer_PlaceholderQuests() throws BestQuestNotFoundException {
     QuestEntry placeholderQuestWithQuestPointReward = new QuestEntry(
         new Quest.Builder().withId(-1).withTitle("placeholderQuestWithQuestPointReward")
             .withRewards(new QuestRewards.Builder().withQuestPoints(1).build()).build(),
@@ -166,8 +167,8 @@ public class PathFinderTest {
     assertThat(player.getQuestPoints(), equalTo(1));
   }
 
-  @Test(expected = BestQuestNotFoundException.class)
-  public void findForPlayer_NoBestQuest() throws BestQuestNotFoundException {
+  @Test
+  void findForPlayer_NoBestQuest() {
     QuestEntry questWithQuestPointRequirement = new QuestEntry(
         new Quest.Builder().withId(0).withTitle("questWithQuestPointRequirement").withRequirements(
             new QuestRequirements.Builder()
@@ -177,11 +178,11 @@ public class PathFinderTest {
         .withQuests(new HashSet<>(Collections.singletonList(questWithQuestPointRequirement)))
         .build();
 
-    pathFinder.findForPlayer(player);
+    assertThrows(BestQuestNotFoundException.class, () -> pathFinder.findForPlayer(player));
   }
 
   @Test
-  public void createPlayer() {
+  void createPlayer() {
     Quests quests = mock(Quests.class);
     Map<Integer, QuestPriority> questPriorities = Collections.emptyMap();
     QuestAccessFilter accessFilter = QuestAccessFilter.ALL;

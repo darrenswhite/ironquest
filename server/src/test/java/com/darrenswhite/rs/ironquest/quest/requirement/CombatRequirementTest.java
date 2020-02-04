@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
-public class CombatRequirementTest {
+class CombatRequirementTest {
 
   private static final Map<Skill, Double> MAX_COMBAT_XP = new HashMap<>();
 
@@ -25,7 +25,7 @@ public class CombatRequirementTest {
   }
 
   @Test
-  public void testPlayer() {
+  void testPlayer() {
     Player playerWith3Combat = new Player.Builder().build();
     Player playerWith138Combat = new Player.Builder().withSkillXps(MAX_COMBAT_XP).build();
 

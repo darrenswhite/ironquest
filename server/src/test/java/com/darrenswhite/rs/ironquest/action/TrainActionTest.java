@@ -6,12 +6,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import com.darrenswhite.rs.ironquest.dto.TrainActionDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TrainActionTest {
+class TrainActionTest {
 
   @Test
-  public void getType() {
+  void getType() {
     Player player = new Player.Builder().build();
 
     TrainAction trainAction = new TrainAction(player, Skill.CONSTITUTION, 40000, 55250);
@@ -20,7 +20,7 @@ public class TrainActionTest {
   }
 
   @Test
-  public void getMessage() {
+  void getMessage() {
     Player player = new Player.Builder().build();
 
     TrainAction trainAction = new TrainAction(player, Skill.CONSTITUTION, 40000, 55250);
@@ -31,7 +31,7 @@ public class TrainActionTest {
   }
 
   @Test
-  public void meetsRequirements() {
+  void meetsRequirements() {
     Player player = new Player.Builder().build();
 
     TrainAction trainAction = new TrainAction(player, Skill.PRAYER, 0, 100);
@@ -40,7 +40,7 @@ public class TrainActionTest {
   }
 
   @Test
-  public void process() {
+  void process() {
     Player player = new Player.Builder().build();
 
     TrainAction trainAction = new TrainAction(player, Skill.MAGIC, 0, 10000);
@@ -51,7 +51,7 @@ public class TrainActionTest {
   }
 
   @Test
-  public void createDTO() {
+  void createDTO() {
     Player player = new Player.Builder().build();
 
     TrainAction trainAction = new TrainAction(player, Skill.RANGED, 0, 100);
@@ -65,7 +65,7 @@ public class TrainActionTest {
   }
 
   @Test
-  public void copyForPlayer() {
+  void copyForPlayer() {
     Player player = new Player.Builder().withName("original").build();
     Player playerToCopy = new Player.Builder().withName("copy").build();
 
