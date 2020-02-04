@@ -1,6 +1,8 @@
 package com.darrenswhite.rs.ironquest.action;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -21,244 +23,165 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class LampActionTest {
 
-  @Test
-  void getType() {
-    Quest quest = new Quest.Builder().build();
-    QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-    Player player = new Player.Builder().build();
-    LampReward lampReward = new LampReward.Builder().build();
-    Set<Skill> skills = Collections.emptySet();
+  @Nested
+  class GetType {
 
-    LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
+    @Test
+    void shouldReturnCorrectType() {
+      Quest quest = new Quest.Builder().build();
+      QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+      Player player = new Player.Builder().build();
+      LampReward lampReward = new LampReward.Builder().build();
+      Set<Skill> skills = Collections.emptySet();
 
-    assertThat(lampAction.getType(), equalTo(ActionType.LAMP));
+      LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
+
+      assertThat(lampAction.getType(), equalTo(ActionType.LAMP));
+    }
   }
 
-  @Test
-  void getMessage() {
-    String title = "title";
-    Quest quest = new Quest.Builder().withTitle(title).build();
-    QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-    Player player = new Player.Builder().build();
-    LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(500).build();
-    Set<Skill> skills = Collections.singleton(Skill.ATTACK);
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class GetMessage {
 
-    LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
+    @ParameterizedTest
+    @MethodSource("shouldFormatMessage")
+    void shouldFormatMessage(String title, LampType lampType, int xp, Set<Skill> skills,
+        boolean future, double multiplier, String message) {
+      Quest quest = new Quest.Builder().withTitle(title).build();
+      QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+      Map<Skill, Double> skillXps = new MapBuilder<Skill, Double>().put(Skill.DEFENCE, 50000d)
+          .put(Skill.MAGIC, 750000d).put(Skill.RANGED, 1000000d).put(Skill.THIEVING, 5000000d)
+          .put(Skill.HERBLORE, 9000000d).build();
+      Player player = new Player.Builder().withSkillXps(skillXps).build();
+      LampReward lampReward = new LampReward.Builder().withType(lampType).withXp(xp)
+          .withMultiplier(multiplier).build();
 
-    assertThat(lampAction.getMessage(), equalTo(title + ": Use XP Lamp on Attack to gain 500 xp"));
-    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
+      LampAction lampAction = new LampAction(player, future, entry, lampReward, skills);
+
+      assertThat(lampAction.getMessage(), equalTo(message));
+      assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
+    }
+
+    Stream<Arguments> shouldFormatMessage() {
+      return Stream.of(Arguments
+          .of("playerA", LampType.XP, 500, Collections.singleton(Skill.ATTACK), false, 1.0,
+              "playerA: Use XP Lamp on Attack to gain 500 xp"), Arguments
+          .of("playerB", LampType.XP, 1000, Collections.emptySet(), true, 1.0,
+              "playerB: Use XP Lamp to gain 1k xp (when requirements are met)"), Arguments
+          .of("playerC", LampType.SMALL_XP, 0, Collections.singleton(Skill.DEFENCE), false, 1.0,
+              "playerC: Use Small XP Lamp on Defence to gain 784 xp"), Arguments
+          .of("playerD", LampType.MEDIUM_XP, 0, Collections.singleton(Skill.MAGIC), false, 1.0,
+              "playerD: Use Medium XP Lamp on Magic to gain 5.185k xp"), Arguments
+          .of("playerE", LampType.LARGE_XP, 0, Collections.singleton(Skill.RANGED), false, 1.0,
+              "playerE: Use Large XP Lamp on Ranged to gain 11.786k xp"), Arguments
+          .of("playerF", LampType.HUGE_XP, 0, Collections.singleton(Skill.THIEVING), false, 1.0,
+              "playerF: Use Huge XP Lamp on Thieving to gain 47.38k xp"), Arguments
+          .of("playerG", LampType.DRAGONKIN, 0, Collections.singleton(Skill.HERBLORE), false, 1.0,
+              "playerG: Use Dragonkin Lamp on Herblore to gain 41.115k xp"), Arguments
+          .of("playerH", LampType.XP, 150,
+              new LinkedHashSet<>(Arrays.asList(Skill.SUMMONING, Skill.DIVINATION)), false, 1.0,
+              "playerH: Use XP Lamp on Summoning, Divination to gain 150 xp"), Arguments
+          .of("playerI", LampType.XP, 125, Collections.singleton(Skill.CONSTRUCTION), false, 1.5,
+              "playerI: Use XP Lamp on Construction to gain 187.5 xp"));
+    }
   }
 
-  @Test
-  void getMessage_Future() {
-    String title = "title";
-    Quest quest = new Quest.Builder().withTitle(title).build();
-    QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-    Player player = new Player.Builder().build();
-    LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(1000).build();
-    Set<Skill> skills = Collections.emptySet();
+  @Nested
+  class MeetsRequirements {
 
-    LampAction lampAction = new LampAction(player, true, entry, lampReward, skills);
+    @Test
+    void shouldCallMeetsRequirementsOnLampReward() {
+      Quest quest = new Quest.Builder().build();
+      QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+      Player player = new Player.Builder().build();
+      LampReward lampReward = mock(LampReward.class);
+      Set<Skill> skills = Collections.emptySet();
 
-    assertThat(lampAction.getMessage(),
-        equalTo(title + ": Use XP Lamp to gain 1k xp (when requirements are met)"));
-    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
+      LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
+
+      lampAction.meetsRequirements(player);
+
+      verify(lampReward).meetsRequirements(player);
+    }
   }
 
-  @Test
-  void getMessage_SmallXp() {
-    String title = "title";
-    Quest quest = new Quest.Builder().withTitle(title).build();
-    QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-    Map<Skill, Double> skillXps = new MapBuilder<Skill, Double>().put(Skill.DEFENCE, 50000d)
-        .build();
-    Player player = new Player.Builder().withSkillXps(skillXps).build();
-    LampReward lampReward = new LampReward.Builder().withType(LampType.SMALL_XP).build();
-    Set<Skill> skills = Collections.singleton(Skill.DEFENCE);
+  @Nested
+  class Process {
 
-    LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
+    @Test
+    void shouldAddXPForEachSkillToPlayer() {
+      Quest quest = new Quest.Builder().build();
+      QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+      Player player = new Player.Builder().build();
+      LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(1000).build();
+      Set<Skill> skills = new HashSet<>(Arrays.asList(Skill.DEFENCE, Skill.STRENGTH));
 
-    assertThat(lampAction.getMessage(),
-        equalTo(title + ": Use Small XP Lamp on Defence to gain 784 xp"));
-    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
+      LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
+
+      lampAction.process(player);
+
+      assertThat(player.getXp(Skill.DEFENCE), equalTo(1000D));
+      assertThat(player.getXp(Skill.STRENGTH), equalTo(1000D));
+    }
   }
 
-  @Test
-  void getMessage_MediumXp() {
-    String title = "title";
-    Quest quest = new Quest.Builder().withTitle(title).build();
-    QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-    Map<Skill, Double> skillXps = new MapBuilder<Skill, Double>().put(Skill.MAGIC, 750000d).build();
-    Player player = new Player.Builder().withSkillXps(skillXps).build();
-    LampReward lampReward = new LampReward.Builder().withType(LampType.MEDIUM_XP).build();
-    Set<Skill> skills = Collections.singleton(Skill.MAGIC);
+  @Nested
+  class CreateDTO {
 
-    LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
+    @Test
+    void shouldCreateWithCorrectFields() {
+      String title = "title";
+      Quest quest = new Quest.Builder().withTitle(title).build();
+      QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+      Player player = new Player.Builder().build();
+      LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(500).build();
+      Set<Skill> skills = Collections.singleton(Skill.PRAYER);
 
-    assertThat(lampAction.getMessage(),
-        equalTo(title + ": Use Medium XP Lamp on Magic to gain 5.185k xp"));
-    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
+      LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
+
+      LampActionDTO dto = lampAction.createDTO();
+
+      assertThat(dto.getMessage(), equalTo(lampAction.getMessage()));
+      assertThat(dto.getQuest(), equalTo(quest.createDTO()));
+      assertThat(dto.getPlayer(), equalTo(player.createDTO()));
+      assertThat(dto.getType(), equalTo(ActionType.LAMP));
+      assertThat(dto.isFuture(), equalTo(false));
+    }
   }
 
-  @Test
-  void getMessage_LargeXp() {
-    String title = "title";
-    Quest quest = new Quest.Builder().withTitle(title).build();
-    QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-    Map<Skill, Double> skillXps = new MapBuilder<Skill, Double>().put(Skill.RANGED, 1000000d)
-        .build();
-    Player player = new Player.Builder().withSkillXps(skillXps).build();
-    LampReward lampReward = new LampReward.Builder().withType(LampType.LARGE_XP).build();
-    Set<Skill> skills = Collections.singleton(Skill.RANGED);
+  @Nested
+  class CopyForPlayer {
 
-    LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
+    @Test
+    void shouldCopyAllValues() {
+      Quest quest = new Quest.Builder().build();
+      QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+      Player player = new Player.Builder().withName("original").build();
+      Player playerToCopy = new Player.Builder().withName("copy").build();
 
-    assertThat(lampAction.getMessage(),
-        equalTo(title + ": Use Large XP Lamp on Ranged to gain 11.786k xp"));
-    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
-  }
+      LampReward lampReward = new LampReward.Builder().build();
+      Set<Skill> skills = Collections.singleton(Skill.ATTACK);
 
-  @Test
-  void getMessage_HugeXp() {
-    String title = "title";
-    Quest quest = new Quest.Builder().withTitle(title).build();
-    QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-    Map<Skill, Double> skillXps = new MapBuilder<Skill, Double>().put(Skill.THIEVING, 5000000d)
-        .build();
-    Player player = new Player.Builder().withSkillXps(skillXps).build();
-    LampReward lampReward = new LampReward.Builder().withType(LampType.HUGE_XP).build();
-    Set<Skill> skills = Collections.singleton(Skill.THIEVING);
+      LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
 
-    LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
+      LampAction copied = lampAction.copyForPlayer(playerToCopy);
 
-    assertThat(lampAction.getMessage(),
-        equalTo(title + ": Use Huge XP Lamp on Thieving to gain 47.38k xp"));
-    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
-  }
-
-  @Test
-  void getMessage_Dragonkin() {
-    String title = "title";
-    Quest quest = new Quest.Builder().withTitle(title).build();
-    QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-    Map<Skill, Double> skillXps = new MapBuilder<Skill, Double>().put(Skill.HERBLORE, 9000000d)
-        .build();
-    Player player = new Player.Builder().withSkillXps(skillXps).build();
-    LampReward lampReward = new LampReward.Builder().withType(LampType.DRAGONKIN).build();
-    Set<Skill> skills = Collections.singleton(Skill.HERBLORE);
-
-    LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
-
-    assertThat(lampAction.getMessage(),
-        equalTo(title + ": Use Dragonkin Lamp on Herblore to gain 41.115k xp"));
-    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
-  }
-
-  @Test
-  void getMessage_MultipleSkills() {
-    String title = "title";
-    Quest quest = new Quest.Builder().withTitle(title).build();
-    QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-    Player player = new Player.Builder().build();
-    LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(150).build();
-    Set<Skill> skills = new LinkedHashSet<>(Arrays.asList(Skill.SUMMONING, Skill.DIVINATION));
-
-    LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
-
-    assertThat(lampAction.getMessage(),
-        equalTo(title + ": Use XP Lamp on Summoning, Divination to gain 150 xp"));
-    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
-  }
-
-  @Test
-  void getMessage_Multiplier() {
-    String title = "title";
-    Quest quest = new Quest.Builder().withTitle(title).build();
-    QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-    Player player = new Player.Builder().build();
-    LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(125)
-        .withMultiplier(1.5).build();
-    Set<Skill> skills = Collections.singleton(Skill.CONSTRUCTION);
-
-    LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
-
-    assertThat(lampAction.getMessage(),
-        equalTo(title + ": Use XP Lamp on Construction to gain 187.5 xp"));
-    assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
-  }
-
-  @Test
-  void meetsRequirements() {
-    Quest quest = new Quest.Builder().build();
-    QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-    Player player = new Player.Builder().build();
-    LampReward lampReward = mock(LampReward.class);
-    Set<Skill> skills = Collections.emptySet();
-
-    LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
-
-    lampAction.meetsRequirements(player);
-
-    verify(lampReward).meetsRequirements(player);
-  }
-
-  @Test
-  void process() {
-    Quest quest = new Quest.Builder().build();
-    QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-    Player player = new Player.Builder().build();
-    LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(1000).build();
-    Set<Skill> skills = new HashSet<>(Arrays.asList(Skill.DEFENCE, Skill.STRENGTH));
-
-    LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
-
-    lampAction.process(player);
-
-    assertThat(player.getXp(Skill.DEFENCE), equalTo(1000D));
-    assertThat(player.getXp(Skill.STRENGTH), equalTo(1000D));
-  }
-
-  @Test
-  void createDTO() {
-    String title = "title";
-    Quest quest = new Quest.Builder().withTitle(title).build();
-    QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-    Player player = new Player.Builder().build();
-    LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(500).build();
-    Set<Skill> skills = Collections.singleton(Skill.PRAYER);
-
-    LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
-
-    LampActionDTO dto = lampAction.createDTO();
-
-    assertThat(dto.getMessage(), equalTo(lampAction.getMessage()));
-    assertThat(dto.getQuest(), equalTo(quest.createDTO()));
-    assertThat(dto.getPlayer(), equalTo(player.createDTO()));
-    assertThat(dto.getType(), equalTo(ActionType.LAMP));
-    assertThat(dto.isFuture(), equalTo(false));
-  }
-
-  @Test
-  void copyForPlayer() {
-    Quest quest = new Quest.Builder().build();
-    QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-    Player player = new Player.Builder().withName("original").build();
-    Player playerToCopy = new Player.Builder().withName("copy").build();
-
-    LampReward lampReward = new LampReward.Builder().build();
-    Set<Skill> skills = Collections.singleton(Skill.ATTACK);
-
-    LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
-
-    LampAction copied = lampAction.copyForPlayer(playerToCopy);
-
-    assertThat(copied.getQuestEntry(), equalTo(entry));
-    assertThat(copied.getLampReward(), equalTo(lampReward));
-    assertThat(copied.getSkills(), equalTo(skills));
-    assertThat(copied.getPlayer(), equalTo(playerToCopy));
+      assertThat(copied.getQuestEntry(), equalTo(entry));
+      assertThat(copied.getLampReward(), equalTo(lampReward));
+      assertThat(copied.getSkills(), equalTo(skills));
+      assertThat(copied.getPlayer(), equalTo(playerToCopy));
+      assertThat(copied, not(sameInstance(lampAction)));
+    }
   }
 }

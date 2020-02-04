@@ -19,58 +19,63 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class QuestControllerTest {
 
-  @Test
-  void getPath() throws BestQuestNotFoundException {
-    PathFinder pathFinder = mock(PathFinder.class);
-    QuestController controller = new QuestController(pathFinder);
+  @Nested
+  class GetPath {
 
-    String name = "username";
-    QuestAccessFilter accessFilter = QuestAccessFilter.ALL;
-    Set<Skill> lampSkills = new LinkedHashSet<>();
-    Map<Integer, QuestPriority> questPriorities = new LinkedHashMap<>();
-    QuestTypeFilter typeFilter = QuestTypeFilter.ALL;
-    Path path = mock(Path.class);
-    PathDTO pathDTO = mock(PathDTO.class);
+    @Test
+    void shouldFindPathAndCreateDTO() throws BestQuestNotFoundException {
+      PathFinder pathFinder = mock(PathFinder.class);
+      QuestController controller = new QuestController(pathFinder);
 
-    when(pathFinder.find(name, accessFilter, true, true, lampSkills, questPriorities, typeFilter))
-        .thenReturn(path);
-    when(path.createDTO()).thenReturn(pathDTO);
+      String name = "username";
+      QuestAccessFilter accessFilter = QuestAccessFilter.ALL;
+      Set<Skill> lampSkills = new LinkedHashSet<>();
+      Map<Integer, QuestPriority> questPriorities = new LinkedHashMap<>();
+      QuestTypeFilter typeFilter = QuestTypeFilter.ALL;
+      Path path = mock(Path.class);
+      PathDTO pathDTO = mock(PathDTO.class);
 
-    PathDTO result = controller
-        .getPath(name, accessFilter, true, true, lampSkills, questPriorities, typeFilter);
+      when(pathFinder.find(name, accessFilter, true, true, lampSkills, questPriorities, typeFilter))
+          .thenReturn(path);
+      when(path.createDTO()).thenReturn(pathDTO);
 
-    verify(pathFinder)
-        .find(name, accessFilter, true, true, lampSkills, questPriorities, typeFilter);
-    verify(path).createDTO();
-    assertThat(result, equalTo(pathDTO));
-  }
+      PathDTO result = controller
+          .getPath(name, accessFilter, true, true, lampSkills, questPriorities, typeFilter);
 
-  @Test
-  void getPath_NullValues() throws BestQuestNotFoundException {
-    PathFinder pathFinder = mock(PathFinder.class);
-    QuestController controller = new QuestController(pathFinder);
+      verify(pathFinder)
+          .find(name, accessFilter, true, true, lampSkills, questPriorities, typeFilter);
+      verify(path).createDTO();
+      assertThat(result, equalTo(pathDTO));
+    }
 
-    String name = "username";
-    QuestAccessFilter accessFilter = QuestAccessFilter.ALL;
-    QuestTypeFilter typeFilter = QuestTypeFilter.ALL;
-    Path path = mock(Path.class);
-    PathDTO pathDTO = mock(PathDTO.class);
+    @Test
+    void shouldUseEmptyCollectionsWhenNullValuesAreUsed() throws BestQuestNotFoundException {
+      PathFinder pathFinder = mock(PathFinder.class);
+      QuestController controller = new QuestController(pathFinder);
 
-    when(pathFinder
-        .find(eq(name), eq(accessFilter), eq(false), eq(false), eq(new LinkedHashSet<>()),
-            eq(new LinkedHashMap<>()), eq(typeFilter))).thenReturn(path);
-    when(path.createDTO()).thenReturn(pathDTO);
+      String name = "username";
+      QuestAccessFilter accessFilter = QuestAccessFilter.ALL;
+      QuestTypeFilter typeFilter = QuestTypeFilter.ALL;
+      Path path = mock(Path.class);
+      PathDTO pathDTO = mock(PathDTO.class);
 
-    PathDTO result = controller.getPath(name, accessFilter, false, false, null, null, typeFilter);
+      when(pathFinder
+          .find(eq(name), eq(accessFilter), eq(false), eq(false), eq(new LinkedHashSet<>()),
+              eq(new LinkedHashMap<>()), eq(typeFilter))).thenReturn(path);
+      when(path.createDTO()).thenReturn(pathDTO);
 
-    verify(pathFinder)
-        .find(eq(name), eq(accessFilter), eq(false), eq(false), eq(new LinkedHashSet<>()),
-            eq(new LinkedHashMap<>()), eq(typeFilter));
-    verify(path).createDTO();
-    assertThat(result, equalTo(pathDTO));
+      PathDTO result = controller.getPath(name, accessFilter, false, false, null, null, typeFilter);
+
+      verify(pathFinder)
+          .find(eq(name), eq(accessFilter), eq(false), eq(false), eq(new LinkedHashSet<>()),
+              eq(new LinkedHashMap<>()), eq(typeFilter));
+      verify(path).createDTO();
+      assertThat(result, equalTo(pathDTO));
+    }
   }
 }

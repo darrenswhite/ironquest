@@ -5,13 +5,20 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
-import java.util.HashMap;
+import com.darrenswhite.rs.ironquest.quest.requirement.CombatRequirement.Builder;
+import java.util.EnumMap;
 import java.util.Map;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class CombatRequirementTest {
 
-  private static final Map<Skill, Double> MAX_COMBAT_XP = new HashMap<>();
+  private static final Map<Skill, Double> MIN_COMBAT_XP = new EnumMap<>(Skill.INITIAL_XPS);
+  private static final Map<Skill, Double> MAX_COMBAT_XP = new EnumMap<>(Skill.class);
 
   static {
     MAX_COMBAT_XP.put(Skill.ATTACK, Skill.MAX_XP);
@@ -24,22 +31,38 @@ class CombatRequirementTest {
     MAX_COMBAT_XP.put(Skill.SUMMONING, Skill.MAX_XP);
   }
 
-  @Test
-  void testPlayer() {
-    Player playerWith3Combat = new Player.Builder().build();
-    Player playerWith138Combat = new Player.Builder().withSkillXps(MAX_COMBAT_XP).build();
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class TestPlayer {
 
-    assertThat(new CombatRequirement.Builder(3).build().testPlayer(playerWith3Combat),
-        equalTo(true));
-    assertThat(new CombatRequirement.Builder(4).build().testPlayer(playerWith3Combat),
-        equalTo(false));
-    assertThat(new CombatRequirement.Builder(138).build().testPlayer(playerWith3Combat),
-        equalTo(false));
-    assertThat(new CombatRequirement.Builder(3).build().testPlayer(playerWith138Combat),
-        equalTo(true));
-    assertThat(new CombatRequirement.Builder(138).build().testPlayer(playerWith138Combat),
-        equalTo(true));
-    assertThat(new CombatRequirement.Builder(139).build().testPlayer(playerWith138Combat),
-        equalTo(false));
+    @ParameterizedTest
+    @MethodSource("shouldMeetRequirement")
+    void shouldMeetRequirement(int combatLevel, Map<Skill, Double> skillXps) {
+      Player player = new Player.Builder().withSkillXps(skillXps).build();
+
+      CombatRequirement combatRequirement = new Builder(combatLevel).build();
+
+      assertThat(combatRequirement.testPlayer(player), equalTo(true));
+    }
+
+    Stream<Arguments> shouldMeetRequirement() {
+      return Stream.of(Arguments.of(3, MIN_COMBAT_XP), Arguments.of(3, MAX_COMBAT_XP),
+          Arguments.of(138, MAX_COMBAT_XP));
+    }
+
+    @ParameterizedTest
+    @MethodSource("shouldNotMeetRequirement")
+    void shouldNotMeetRequirement(int combatLevel, Map<Skill, Double> skillXps) {
+      Player player = new Player.Builder().withSkillXps(skillXps).build();
+
+      CombatRequirement combatRequirement = new Builder(combatLevel).build();
+
+      assertThat(combatRequirement.testPlayer(player), equalTo(false));
+    }
+
+    Stream<Arguments> shouldNotMeetRequirement() {
+      return Stream.of(Arguments.of(4, MIN_COMBAT_XP), Arguments.of(138, MIN_COMBAT_XP),
+          Arguments.of(139, MAX_COMBAT_XP));
+    }
   }
 }

@@ -10,44 +10,77 @@ import com.darrenswhite.rs.ironquest.util.MapBuilder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class SkillRequirementTest {
 
-  @Test
-  void testPlayer() {
-    SkillRequirement skillRequirement = new SkillRequirement.Builder(Skill.RANGED, 50).build();
-    Player playerWith49Ranged = createPlayerWithRangedLevel(49);
-    Player playerWith50Ranged = createPlayerWithRangedLevel(50);
-    Player playerWith51Ranged = createPlayerWithRangedLevel(51);
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class TestPlayer {
 
-    assertThat(skillRequirement.testPlayer(playerWith49Ranged), equalTo(false));
-    assertThat(skillRequirement.testPlayer(playerWith50Ranged), equalTo(true));
-    assertThat(skillRequirement.testPlayer(playerWith51Ranged), equalTo(true));
+    @ParameterizedTest
+    @MethodSource("shouldMeetRequirement")
+    void shouldMeetRequirement(int levelRequired, int playerLevel) {
+      Player player = new Player.Builder().withSkillXps(
+          new MapBuilder<Skill, Double>().put(Skill.RANGED, Skill.RANGED.getXpAtLevel(playerLevel))
+              .build()).build();
+
+      SkillRequirement skillRequirement = new SkillRequirement.Builder(Skill.RANGED, levelRequired)
+          .build();
+
+      assertThat(skillRequirement.testPlayer(player), equalTo(true));
+    }
+
+    Stream<Arguments> shouldMeetRequirement() {
+      return Stream.of(Arguments.of(1, 1), Arguments.of(1, 99), Arguments.of(99, 99));
+    }
+
+    @ParameterizedTest
+    @MethodSource("shouldNotMeetRequirement")
+    void shouldNotMeetRequirement(int levelRequired, int playerLevel) {
+      Player player = new Player.Builder().withSkillXps(
+          new MapBuilder<Skill, Double>().put(Skill.RANGED, Skill.RANGED.getXpAtLevel(playerLevel))
+              .build()).build();
+
+      SkillRequirement skillRequirement = new SkillRequirement.Builder(Skill.RANGED, levelRequired)
+          .build();
+
+      assertThat(skillRequirement.testPlayer(player), equalTo(false));
+    }
+
+    Stream<Arguments> shouldNotMeetRequirement() {
+      return Stream.of(Arguments.of(2, 1), Arguments.of(99, 98), Arguments.of(99, 1));
+    }
   }
 
-  @Test
-  void merge() {
-    List<SkillRequirement> first = Arrays
-        .asList(new SkillRequirement.Builder(Skill.SUMMONING, 10).build(),
-            new SkillRequirement.Builder(Skill.HERBLORE, 20).build(),
-            new SkillRequirement.Builder(Skill.STRENGTH, 30).build());
-    List<SkillRequirement> second = Arrays
-        .asList(new SkillRequirement.Builder(Skill.SUMMONING, 20).build(),
-            new SkillRequirement.Builder(Skill.HERBLORE, 10).build(),
-            new SkillRequirement.Builder(Skill.DIVINATION, 30).build());
+  @Nested
+  class Merge {
 
-    Set<SkillRequirement> merged = SkillRequirement.merge(first, second);
+    @Test
+    void shouldCreateMapWithHighestRequirementFromBothCollections() {
+      List<SkillRequirement> first = Arrays
+          .asList(new SkillRequirement.Builder(Skill.SUMMONING, 10).build(),
+              new SkillRequirement.Builder(Skill.HERBLORE, 20).build(),
+              new SkillRequirement.Builder(Skill.STRENGTH, 30).build());
+      List<SkillRequirement> second = Arrays
+          .asList(new SkillRequirement.Builder(Skill.SUMMONING, 20).build(),
+              new SkillRequirement.Builder(Skill.HERBLORE, 10).build(),
+              new SkillRequirement.Builder(Skill.DIVINATION, 30).build());
 
-    assertThat(merged, containsInAnyOrder(new SkillRequirement.Builder(Skill.SUMMONING, 20).build(),
-        new SkillRequirement.Builder(Skill.HERBLORE, 20).build(),
-        new SkillRequirement.Builder(Skill.STRENGTH, 30).build(),
-        new SkillRequirement.Builder(Skill.DIVINATION, 30).build()));
+      Set<SkillRequirement> merged = SkillRequirement.merge(first, second);
+
+      assertThat(merged,
+          containsInAnyOrder(new SkillRequirement.Builder(Skill.SUMMONING, 20).build(),
+              new SkillRequirement.Builder(Skill.HERBLORE, 20).build(),
+              new SkillRequirement.Builder(Skill.STRENGTH, 30).build(),
+              new SkillRequirement.Builder(Skill.DIVINATION, 30).build()));
+    }
   }
 
-  private Player createPlayerWithRangedLevel(int level) {
-    return new Player.Builder().withSkillXps(
-        new MapBuilder<Skill, Double>().put(Skill.RANGED, Skill.RANGED.getXpAtLevel(level)).build())
-        .build();
-  }
 }

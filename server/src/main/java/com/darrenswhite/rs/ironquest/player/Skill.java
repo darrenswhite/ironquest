@@ -39,7 +39,7 @@ public enum Skill {
   WOODCUTTING(9, SkillType.GATHERING, false);
 
   public static final double MAX_XP = 2147483648d;
-  protected static final Map<Skill, Double> INITIAL_XPS;
+  public static final Map<Skill, Double> INITIAL_XPS;
 
   protected static final double[] XP_TABLE = {0, 0, 83, 174, 276, 388, 512, 650, 801, 969, 1154,
       1358, 1584, 1833, 2107, 2411, 2746, 3115, 3523, 3973, 4470, 5018, 5624, 6291, 7028, 7842,

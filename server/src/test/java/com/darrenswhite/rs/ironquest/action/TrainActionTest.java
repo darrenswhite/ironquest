@@ -1,81 +1,109 @@
 package com.darrenswhite.rs.ironquest.action;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.darrenswhite.rs.ironquest.dto.TrainActionDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class TrainActionTest {
 
-  @Test
-  void getType() {
-    Player player = new Player.Builder().build();
+  @Nested
+  class GetType {
 
-    TrainAction trainAction = new TrainAction(player, Skill.CONSTITUTION, 40000, 55250);
+    @Test
+    void shouldReturnCorrectType() {
+      Player player = new Player.Builder().build();
 
-    assertThat(trainAction.getType(), equalTo(ActionType.TRAIN));
+      TrainAction trainAction = new TrainAction(player, Skill.CONSTITUTION, 40000, 55250);
+
+      assertThat(trainAction.getType(), equalTo(ActionType.TRAIN));
+    }
   }
 
-  @Test
-  void getMessage() {
-    Player player = new Player.Builder().build();
+  @Nested
+  class GetMessage {
 
-    TrainAction trainAction = new TrainAction(player, Skill.CONSTITUTION, 40000, 55250);
+    @Test
+    void shouldFormatMessage() {
+      Player player = new Player.Builder().build();
 
-    assertThat(trainAction.getMessage(),
-        equalTo("Train Constitution to level 43, requiring 15.25k xp"));
-    assertThat(trainAction.toString(), equalTo(trainAction.getMessage()));
+      TrainAction trainAction = new TrainAction(player, Skill.CONSTITUTION, 40000, 55250);
+
+      assertThat(trainAction.getMessage(),
+          equalTo("Train Constitution to level 43, requiring 15.25k xp"));
+      assertThat(trainAction.toString(), equalTo(trainAction.getMessage()));
+    }
   }
 
-  @Test
-  void meetsRequirements() {
-    Player player = new Player.Builder().build();
+  @Nested
+  class MeetsRequirements {
 
-    TrainAction trainAction = new TrainAction(player, Skill.PRAYER, 0, 100);
+    @Test
+    void shouldAlwaysReturnTrue() {
+      Player player = new Player.Builder().build();
 
-    assertThat(trainAction.meetsRequirements(player), equalTo(true));
+      TrainAction trainAction = new TrainAction(player, Skill.PRAYER, 0, 100);
+
+      assertThat(trainAction.meetsRequirements(player), equalTo(true));
+    }
   }
 
-  @Test
-  void process() {
-    Player player = new Player.Builder().build();
+  @Nested
+  class Process {
 
-    TrainAction trainAction = new TrainAction(player, Skill.MAGIC, 0, 10000);
+    @Test
+    void shouldAddXPDifferenceToPlayer() {
+      Player player = new Player.Builder().build();
 
-    trainAction.process(player);
+      TrainAction trainAction = new TrainAction(player, Skill.MAGIC, 0, 10000);
 
-    assertThat(player.getXp(Skill.MAGIC), equalTo(10000D));
+      trainAction.process(player);
+
+      assertThat(player.getXp(Skill.MAGIC), equalTo(10000D));
+    }
   }
 
-  @Test
-  void createDTO() {
-    Player player = new Player.Builder().build();
+  @Nested
+  class CreateDTO {
 
-    TrainAction trainAction = new TrainAction(player, Skill.RANGED, 0, 100);
+    @Test
+    void shouldCreateWithCorrectFields() {
+      Player player = new Player.Builder().build();
 
-    TrainActionDTO dto = trainAction.createDTO();
+      TrainAction trainAction = new TrainAction(player, Skill.RANGED, 0, 100);
 
-    assertThat(dto.getMessage(), equalTo(trainAction.getMessage()));
-    assertThat(dto.getPlayer(), equalTo(player.createDTO()));
-    assertThat(dto.getType(), equalTo(ActionType.TRAIN));
-    assertThat(dto.isFuture(), equalTo(false));
+      TrainActionDTO dto = trainAction.createDTO();
+
+      assertThat(dto.getMessage(), equalTo(trainAction.getMessage()));
+      assertThat(dto.getPlayer(), equalTo(player.createDTO()));
+      assertThat(dto.getType(), equalTo(ActionType.TRAIN));
+      assertThat(dto.isFuture(), equalTo(false));
+    }
   }
 
-  @Test
-  void copyForPlayer() {
-    Player player = new Player.Builder().withName("original").build();
-    Player playerToCopy = new Player.Builder().withName("copy").build();
+  @Nested
+  class CopyForPlayer {
 
-    TrainAction trainAction = new TrainAction(player, Skill.DIVINATION, 1500, 5000);
+    @Test
+    void shouldCopyAllValues() {
+      Player player = new Player.Builder().withName("original").build();
+      Player playerToCopy = new Player.Builder().withName("copy").build();
 
-    TrainAction copied = trainAction.copyForPlayer(playerToCopy);
+      TrainAction trainAction = new TrainAction(player, Skill.DIVINATION, 1500, 5000);
 
-    assertThat(copied.getSkill(), equalTo(trainAction.getSkill()));
-    assertThat(copied.getStartXp(), equalTo(trainAction.getStartXp()));
-    assertThat(copied.getEndXp(), equalTo(trainAction.getEndXp()));
-    assertThat(copied.getPlayer(), equalTo(playerToCopy));
+      TrainAction copied = trainAction.copyForPlayer(playerToCopy);
+
+      assertThat(copied.getSkill(), equalTo(trainAction.getSkill()));
+      assertThat(copied.getStartXp(), equalTo(trainAction.getStartXp()));
+      assertThat(copied.getEndXp(), equalTo(trainAction.getEndXp()));
+      assertThat(copied.getPlayer(), equalTo(playerToCopy));
+      assertThat(copied, not(sameInstance(trainAction)));
+    }
   }
 }

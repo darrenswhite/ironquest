@@ -10,31 +10,57 @@ import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
 import java.util.Collections;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class QuestPointsRequirementTest {
 
-  @Test
-  void testPlayer() {
-    QuestPointsRequirement questPointsRequirement = new QuestPointsRequirement.Builder(3).build();
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class TestPlayer {
 
-    Player playerWith0QuestPoints = createPlayerWithQuestPoints(0);
-    Player playerWith1QuestPoints = createPlayerWithQuestPoints(1);
-    Player playerWith2QuestPoints = createPlayerWithQuestPoints(2);
-    Player playerWith3QuestPoints = createPlayerWithQuestPoints(3);
-    Player playerWith4QuestPoints = createPlayerWithQuestPoints(4);
+    @ParameterizedTest
+    @MethodSource("shouldMeetRequirement")
+    void shouldMeetRequirement(int questPointsRequired, int playerQuestPoints) {
+      QuestEntry quest = new QuestEntry(new Quest.Builder()
+          .withRewards(new QuestRewards.Builder().withQuestPoints(playerQuestPoints).build())
+          .build(), QuestStatus.COMPLETED, QuestPriority.NORMAL);
+      Player player = new Player.Builder().withQuests(Collections.singleton(quest)).build();
 
-    assertThat(questPointsRequirement.testPlayer(playerWith0QuestPoints), equalTo(false));
-    assertThat(questPointsRequirement.testPlayer(playerWith1QuestPoints), equalTo(false));
-    assertThat(questPointsRequirement.testPlayer(playerWith2QuestPoints), equalTo(false));
-    assertThat(questPointsRequirement.testPlayer(playerWith3QuestPoints), equalTo(true));
-    assertThat(questPointsRequirement.testPlayer(playerWith4QuestPoints), equalTo(true));
-  }
+      QuestPointsRequirement questPointsRequirement = new QuestPointsRequirement.Builder(
+          questPointsRequired).build();
 
-  private Player createPlayerWithQuestPoints(int questPoints) {
-    QuestEntry questWith3QuestPoints = new QuestEntry(new Quest.Builder()
-        .withRewards(new QuestRewards.Builder().withQuestPoints(questPoints).build()).build(),
-        QuestStatus.COMPLETED, QuestPriority.NORMAL);
-    return new Player.Builder().withQuests(Collections.singleton(questWith3QuestPoints)).build();
+      assertThat(questPointsRequirement.testPlayer(player), equalTo(true));
+    }
+
+    Stream<Arguments> shouldMeetRequirement() {
+      return Stream
+          .of(Arguments.of(0, 0), Arguments.of(0, 1), Arguments.of(99, 99), Arguments.of(100, 101),
+              Arguments.of(0, 300));
+    }
+
+    @ParameterizedTest
+    @MethodSource("shouldNotMeetRequirement")
+    void shouldNotMeetRequirement(int questPointsRequired, int playerQuestPoints) {
+      QuestEntry quest = new QuestEntry(new Quest.Builder()
+          .withRewards(new QuestRewards.Builder().withQuestPoints(playerQuestPoints).build())
+          .build(), QuestStatus.COMPLETED, QuestPriority.NORMAL);
+      Player player = new Player.Builder().withQuests(Collections.singleton(quest)).build();
+
+      QuestPointsRequirement questPointsRequirement = new QuestPointsRequirement.Builder(
+          questPointsRequired).build();
+
+      assertThat(questPointsRequirement.testPlayer(player), equalTo(false));
+    }
+
+    Stream<Arguments> shouldNotMeetRequirement() {
+      return Stream
+          .of(Arguments.of(1, 0), Arguments.of(2, 1), Arguments.of(100, 99), Arguments.of(102, 101),
+              Arguments.of(500, 300));
+    }
   }
 }
