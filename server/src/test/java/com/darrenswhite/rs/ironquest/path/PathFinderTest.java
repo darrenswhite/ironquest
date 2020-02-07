@@ -152,10 +152,10 @@ class PathFinderTest {
 
       assertThat(path.getActions(), hasSize(3));
       assertThat(path.getActions().get(0).getMessage(), equalTo("questWithXpLampReward"));
-      assertThat(path.getActions().get(1).getMessage(), equalTo("questNotStarted"));
-      assertThat(path.getActions().get(2).getMessage(),
+      assertThat(path.getActions().get(1).getMessage(),
           equalTo("questWithXpLampReward: Use XP Lamp to gain 1k xp (when requirements are met)"));
-      assertThat(path.getActions().get(2).isFuture(), equalTo(true));
+      assertThat(path.getActions().get(1).isFuture(), equalTo(true));
+      assertThat(path.getActions().get(2).getMessage(), equalTo("questNotStarted"));
       assertThat(path.getStats().getPercentComplete(), equalTo(33D));
     }
 

@@ -51,7 +51,7 @@
             "
           >
             <td colspan="6" id="view_quest">
-              <a :href="RUNESCAPE_WIKI_URL" target="_blank"
+              <a :href="RUNESCAPE_WIKI_URL + value.selectedAction.quest.displayName.replace(/ /g, '_')" target="_blank"
                 >View quest on wiki</a
               >
             </td>

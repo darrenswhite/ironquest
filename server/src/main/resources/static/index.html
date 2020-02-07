@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-      name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        name="viewport"
     />
-    <meta content="IronQuest" name="description" />
-    <meta content="Darren S. White" name="author" />
+    <meta content="IronQuest" name="description"/>
+    <meta content="Darren S. White" name="author"/>
 
     <title>IronQuest</title>
-  <link href="index.3aa5222b3ddbec1fe103.css" rel="stylesheet"></head>
+    <link href="index.9fbb2f722d24210f671e.css" rel="stylesheet">
+  </head>
 
   <body>
-    <div class="main" id="app">
-      <div id="header">
-        <h1>IronQuest</h1>
-      </div>
-      <Settings v-model="parameters" id="settings"></Settings>
-      <div id="toolbar">
-        <button v-on:click="run" v-bind:disabled="actions.loading" id="run">Run</button>
-      </div>
-      <Actions v-model="actions" id="results"></Actions>
+  <div class="main" id="app">
+    <div id="header">
+      <h1>IronQuest</h1>
     </div>
-  <script type="text/javascript" src="index.429b11010091c305b24f.js"></script></body>
+    <Settings v-model="parameters" id="settings"></Settings>
+    <div id="toolbar">
+      <button v-on:click="run" v-bind:disabled="actions.loading" id="run">Run</button>
+    </div>
+    <Actions v-model="actions" id="results"></Actions>
+  </div>
+  <script src="index.af056c4362528990ecff.js" type="text/javascript"></script>
+  </body>
 </html>
