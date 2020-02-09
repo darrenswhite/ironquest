@@ -1,9 +1,10 @@
 package com.darrenswhite.rs.ironquest.dto;
 
+import com.darrenswhite.rs.ironquest.path.Path;
 import java.util.List;
 
 /**
- * Data Transfer Object for {@link com.darrenswhite.rs.ironquest.path.Path}.
+ * Data Transfer Object for {@link Path}.
  *
  * @author Darren S. White
  */

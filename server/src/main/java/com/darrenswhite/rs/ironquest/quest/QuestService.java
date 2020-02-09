@@ -38,6 +38,12 @@ public class QuestService {
     return quests;
   }
 
+  /**
+   * Retrieve quest data from the specified {@link Resource}.
+   *
+   * @param questsResource the resource to retrieve quest data from
+   * @return the loaded quests
+   */
   private Quests load(Resource questsResource, ObjectMapper objectMapper) throws IOException {
     LOG.debug("Trying to retrieve quests from resource: {}", questsResource);
 

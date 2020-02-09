@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Path containing {@link Action}'s and {@link PathStats}
+ * Class encapsulating a {@link List} of {@link Action}s and {@link PathStats}.
  *
  * @author Darren S. White
  */
@@ -22,14 +22,29 @@ public class Path {
     this.stats = stats;
   }
 
+  /**
+   * Returns the {@link List} of {@link Action}s.
+   *
+   * @return the actions
+   */
   public List<Action> getActions() {
     return actions;
   }
 
+  /**
+   * Returns the {@link PathStats}.
+   *
+   * @return the path stats
+   */
   public PathStats getStats() {
     return stats;
   }
 
+  /**
+   * Returns a DTO for this {@link Path}.
+   *
+   * @return the DTO
+   */
   public PathDTO createDTO() {
     List<ActionDTO> actionDTOs = getActions().stream().map(Action::createDTO)
         .collect(Collectors.toCollection(LinkedList::new));

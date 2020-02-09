@@ -1,6 +1,8 @@
 package com.darrenswhite.rs.ironquest.quest;
 
 /**
+ * Enum representing quest type filters.
+ *
  * @author Darren S. White
  */
 public enum QuestTypeFilter {

@@ -49,6 +49,9 @@ public class RuneMetricsQuest {
     return userEligible;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -63,6 +66,9 @@ public class RuneMetricsQuest {
         .equals(title, that.title) && status == that.status;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int hashCode() {
     return Objects.hash(title, status, difficulty, members, questPoints, userEligible);

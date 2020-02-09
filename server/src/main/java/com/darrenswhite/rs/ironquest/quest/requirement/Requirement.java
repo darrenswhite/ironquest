@@ -1,8 +1,11 @@
 package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.player.Player;
+import com.darrenswhite.rs.ironquest.quest.Quest;
 
 /**
+ * A class representing a requirement for a {@link Quest}.
+ *
  * @author Darren S. White
  */
 public abstract class Requirement {
@@ -15,19 +18,34 @@ public abstract class Requirement {
     this.recommended = recommended;
   }
 
-  public boolean isIronman() {
+  public final boolean isIronman() {
     return ironman;
   }
 
-  public boolean isRecommended() {
+  public final boolean isRecommended() {
     return recommended;
   }
 
-  public boolean test(Player p) {
-    boolean testIronman = isIronman() && !p.isIronman();
-    boolean testRecommended = isRecommended() && !p.isRecommended();
-    return testIronman || testRecommended || testPlayer(p);
+  /**
+   * Test if the specified {@link Player} meets this requirement.
+   *
+   * @param player the player
+   * @return <tt>true</tt> if the player meets this requirement; <tt>false</tt> otherwise
+   */
+  public boolean test(Player player) {
+    boolean testIronman = isIronman() && !player.isIronman();
+    boolean testRecommended = isRecommended() && !player.isRecommended();
+
+    return testIronman || testRecommended || testPlayer(player);
   }
 
-  protected abstract boolean testPlayer(Player p);
+  /**
+   * Test if the specified {@link Player} meets this requirement.
+   *
+   * This is not constrained to ironman and recommended requirements.
+   *
+   * @param player the player
+   * @return <tt>true</tt> if the player meets this requirements; <tt>false</tt> otherwise
+   */
+  protected abstract boolean testPlayer(Player player);
 }

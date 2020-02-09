@@ -1,9 +1,10 @@
 package com.darrenswhite.rs.ironquest.dto;
 
+import com.darrenswhite.rs.ironquest.quest.Quest;
 import java.util.Objects;
 
 /**
- * Data Transfer Object for {@link com.darrenswhite.rs.ironquest.quest.Quest}.
+ * Data Transfer Object for {@link Quest}.
  *
  * @author Darren S. White
  */
@@ -19,6 +20,9 @@ public class QuestDTO {
     return displayName;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -31,6 +35,9 @@ public class QuestDTO {
     return Objects.equals(displayName, questDTO.displayName);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int hashCode() {
     return Objects.hash(displayName);

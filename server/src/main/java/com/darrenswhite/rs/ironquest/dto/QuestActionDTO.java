@@ -1,9 +1,10 @@
 package com.darrenswhite.rs.ironquest.dto;
 
 import com.darrenswhite.rs.ironquest.action.ActionType;
+import com.darrenswhite.rs.ironquest.action.QuestAction;
 
 /**
- * Data Transfer Object for {@link com.darrenswhite.rs.ironquest.action.QuestAction}.
+ * Data Transfer Object for {@link QuestAction}.
  *
  * @author Darren S. White
  */

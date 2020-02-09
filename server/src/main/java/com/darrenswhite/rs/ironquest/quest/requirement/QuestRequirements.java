@@ -1,5 +1,6 @@
 package com.darrenswhite.rs.ironquest.quest.requirement;
 
+import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -7,6 +8,8 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
+ * A class representing all types of requirements for a {@link Quest}.
+ *
  * @author Darren S. White
  */
 @JsonDeserialize(builder = QuestRequirements.Builder.class)
@@ -42,6 +45,9 @@ public class QuestRequirements {
     return skills;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -55,6 +61,9 @@ public class QuestRequirements {
         && Objects.equals(quests, that.quests) && Objects.equals(skills, that.skills);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int hashCode() {
     return Objects.hash(combat, questPoints, quests, skills);

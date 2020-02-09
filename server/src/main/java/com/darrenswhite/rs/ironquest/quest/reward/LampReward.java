@@ -2,6 +2,7 @@ package com.darrenswhite.rs.ironquest.quest.reward;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
+import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -20,11 +21,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * A class representing an xp lamp reward for a {@link Quest}.
+ *
  * @author Darren S. White
  */
 @JsonDeserialize(builder = LampReward.Builder.class)
-public class LampReward implements Reward {
+public class LampReward {
 
+  /**
+   * Xp for each level for small lamps
+   */
   private static final double[] SMALL_XP_LAMP_VALUES = {62, 69, 77, 85, 93, 104, 123, 127, 144, 153,
       170, 188, 205, 229, 252, 261, 274, 285, 298, 310, 324, 337, 352, 367, 384, 399, 405, 414, 453,
       473, 493, 514, 536, 559, 583, 608, 635, 662, 691, 720, 752, 784, 818, 853, 889, 929, 970,
@@ -33,6 +39,9 @@ public class LampReward implements Reward {
       3646, 3792, 3980, 4166, 4347, 4521, 4762, 4918, 5033, 5375, 5592, 5922, 6121, 6451, 6614,
       6928, 7236, 7532, 8064, 8347, 8602};
 
+  /**
+   * Xp for each level for medium lamps
+   */
   private static final double[] MEDIUM_XP_LAMP_VALUES = {125, 138, 154, 170, 186, 208, 246, 254,
       288, 307, 340, 376, 411, 458, 504, 523, 548, 570, 596, 620, 649, 674, 704, 735, 768, 798, 810,
       828, 906, 946, 986, 1028, 1072, 1118, 1166, 1217, 1270, 1324, 1383, 1441, 1504, 1569, 1636,
@@ -41,6 +50,9 @@ public class LampReward implements Reward {
       6164, 6427, 6679, 6990, 7293, 7584, 7960, 8332, 8695, 9043, 9524, 9837, 10066, 10751, 11185,
       11845, 12243, 12903, 13229, 13857, 14472, 15065, 16129, 16695, 17204};
 
+  /**
+   * Xp for each level for large lamps
+   */
   private static final double[] LARGE_XP_LAMP_VALUES = {250, 276, 308, 340, 373, 416, 492, 508, 577,
       614, 680, 752, 822, 916, 1008, 1046, 1096, 1140, 1192, 1240, 1298, 1348, 1408, 1470, 1536,
       1596, 1621, 1656, 1812, 1892, 1973, 2056, 2144, 2237, 2332, 2434, 2540, 2648, 2766, 2882,
@@ -50,6 +62,9 @@ public class LampReward implements Reward {
       19048, 19674, 20132, 21502, 22370, 23690, 24486, 25806, 26458, 27714, 28944, 30130, 32258,
       33390, 34408};
 
+  /**
+   * Xp for each level for huge lamps
+   */
   private static final double[] HUGE_XP_LAMP_VALUES = {500, 552, 616, 680, 746, 832, 984, 1016,
       1154, 1228, 1360, 1504, 1644, 1832, 2016, 2092, 2192, 2280, 2384, 2480, 2596, 2696, 2816,
       2940, 3072, 3192, 3242, 3312, 3624, 3784, 3946, 4112, 4288, 4474, 4664, 4868, 5080, 5296,
@@ -126,6 +141,9 @@ public class LampReward implements Reward {
     return multiplier;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -140,21 +158,35 @@ public class LampReward implements Reward {
         && Objects.equals(requirements, that.requirements) && type == that.type;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int hashCode() {
     return Objects.hash(requirements, xp, exclusive, type, singleChoice, multiplier);
   }
 
-  public Set<Set<Skill>> getChoices(Player player, Set<Set<Skill>> previous) {
+  /**
+   * Get the available skill selections for the specified player.
+   *
+   * Exclusive lamps will remove choices that have previously been used. These choices are specified
+   * in <tt>previousChoices</tt>.
+   *
+   * Only choices which the player has the skill requirements for will be returned.
+   *
+   * Single choice lamps will contain a set of singleton skills.
+   *
+   * @return set of skill choices available to be used
+   */
+  public Set<Set<Skill>> getChoices(Player player, Set<Set<Skill>> previousChoices) {
     Map<Set<Skill>, Integer> choices;
 
     if (singleChoice) {
       choices = new HashMap<>();
+
       for (Entry<Set<Skill>, Integer> entry : requirements.entrySet()) {
         for (Skill skill : entry.getKey()) {
-          Set<Skill> split = new HashSet<>();
-          split.add(skill);
-          choices.put(split, entry.getValue());
+          choices.put(Collections.singleton(skill), entry.getValue());
         }
       }
     } else {
@@ -163,9 +195,19 @@ public class LampReward implements Reward {
 
     return choices.entrySet().stream().filter(
         e -> e.getKey().stream().noneMatch(s -> player.getLevel(s) < e.getValue()) && (!exclusive
-            || !previous.contains(e.getKey()))).map(Map.Entry::getKey).collect(Collectors.toSet());
+            || !previousChoices.contains(e.getKey()))).map(Map.Entry::getKey)
+        .collect(Collectors.toSet());
   }
 
+  /**
+   * Returns the amount of xp that this lamp will reward the {@link Player} for the given {@link
+   * Skill}s.
+   *
+   * @param player the player
+   * @param skills the skills to retrieve xp for
+   * @return the xp
+   * @throws DynamicLampRewardException when skills contains more than one skill for a dynamic lamp
+   */
   public double getXpForSkills(Player player, Set<Skill> skills) {
     int skillsLen = skills.size();
     double actualXp;
@@ -173,18 +215,19 @@ public class LampReward implements Reward {
     if (type == LampType.XP) {
       actualXp = xp;
     } else if (skillsLen != 1) {
-      throw new IllegalArgumentException("Dynamic lamps can only be used on one skill");
+      throw new DynamicLampRewardException("Dynamic lamps can only be used on one skill");
     } else {
-      int level = Math.min(98, player.getLevel(skills.iterator().next())) - 1;
+      int level = player.getLevel(skills.iterator().next());
+      int index = Math.min(98, level) - 1;
 
       if (type == LampType.SMALL_XP) {
-        actualXp = SMALL_XP_LAMP_VALUES[level];
+        actualXp = SMALL_XP_LAMP_VALUES[index];
       } else if (type == LampType.MEDIUM_XP) {
-        actualXp = MEDIUM_XP_LAMP_VALUES[level];
+        actualXp = MEDIUM_XP_LAMP_VALUES[index];
       } else if (type == LampType.LARGE_XP) {
-        actualXp = LARGE_XP_LAMP_VALUES[level];
+        actualXp = LARGE_XP_LAMP_VALUES[index];
       } else if (type == LampType.HUGE_XP) {
-        actualXp = HUGE_XP_LAMP_VALUES[level];
+        actualXp = HUGE_XP_LAMP_VALUES[index];
       } else if (type == LampType.DRAGONKIN) {
         actualXp = Math.floor((Math.pow(level, 3) - 2 * Math.pow(level, 2) + 100 * level) / 20);
       } else {
@@ -197,18 +240,25 @@ public class LampReward implements Reward {
     return actualXp;
   }
 
+  /**
+   * Tests if the specified {@link Player} meets all the requirements to use lamp.
+   *
+   * @param player the player
+   * @return <tt>true</tt> if the player satisfies all requirements; <tt>false</tt> otherwise
+   */
   public boolean meetsRequirements(Player player) {
     if (requirements.isEmpty()) {
       return true;
+    } else {
+      return requirements.entrySet().stream().anyMatch(e -> e.getKey().stream().allMatch(s -> {
+        if (s == Skill.INVENTION && (player.getLevel(Skill.CRAFTING) < 80
+            || player.getLevel(Skill.DIVINATION) < 80 || player.getLevel(Skill.SMITHING) < 80)) {
+          return false;
+        } else {
+          return player.getLevel(s) >= e.getValue();
+        }
+      }));
     }
-
-    return requirements.entrySet().stream().anyMatch(e -> e.getKey().stream().allMatch(s -> {
-      if (s == Skill.INVENTION && (player.getLevel(Skill.CRAFTING) < 80
-          || player.getLevel(Skill.DIVINATION) < 80 || player.getLevel(Skill.SMITHING) < 80)) {
-        return false;
-      }
-      return player.getLevel(s) >= e.getValue();
-    }));
   }
 
   public static class Builder {

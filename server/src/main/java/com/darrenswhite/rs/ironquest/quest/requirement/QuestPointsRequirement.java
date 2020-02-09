@@ -1,11 +1,14 @@
 package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.player.Player;
+import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Objects;
 
 /**
+ * A class representing a quest point requirement for a {@link Quest}.
+ *
  * @author Darren S. White
  */
 @JsonDeserialize(builder = QuestPointsRequirement.Builder.class)
@@ -22,6 +25,9 @@ public class QuestPointsRequirement extends Requirement {
     return amount;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -34,14 +40,22 @@ public class QuestPointsRequirement extends Requirement {
     return ironman == that.ironman && recommended == that.recommended && amount == that.amount;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int hashCode() {
     return Objects.hash(ironman, recommended, amount);
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @return <tt>true</tt> if the player has the required quest points; <tt>false</tt> otherwise.
+   */
   @Override
-  protected boolean testPlayer(Player p) {
-    return p.getQuestPoints() >= amount;
+  protected boolean testPlayer(Player player) {
+    return player.getQuestPoints() >= amount;
   }
 
   public static class Builder {

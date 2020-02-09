@@ -5,7 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
-import com.darrenswhite.rs.ironquest.quest.requirement.CombatRequirement.Builder;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -40,7 +39,7 @@ class CombatRequirementTest {
     void shouldMeetRequirement(int combatLevel, Map<Skill, Double> skillXps) {
       Player player = new Player.Builder().withSkillXps(skillXps).build();
 
-      CombatRequirement combatRequirement = new Builder(combatLevel).build();
+      CombatRequirement combatRequirement = new CombatRequirement.Builder(combatLevel).build();
 
       assertThat(combatRequirement.testPlayer(player), equalTo(true));
     }
@@ -55,7 +54,7 @@ class CombatRequirementTest {
     void shouldNotMeetRequirement(int combatLevel, Map<Skill, Double> skillXps) {
       Player player = new Player.Builder().withSkillXps(skillXps).build();
 
-      CombatRequirement combatRequirement = new Builder(combatLevel).build();
+      CombatRequirement combatRequirement = new CombatRequirement.Builder(combatLevel).build();
 
       assertThat(combatRequirement.testPlayer(player), equalTo(false));
     }

@@ -5,6 +5,7 @@ import com.darrenswhite.rs.ironquest.path.BestQuestNotFoundException;
 import com.darrenswhite.rs.ironquest.path.PathFinder;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.Skill;
+import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
 import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
 import java.util.Collections;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * {@link RestController} for quests path finder API.
+ *
+ * @author Darren S. White
  */
 @RestController
 @RequestMapping("/api/quests")
@@ -30,6 +33,20 @@ public class QuestController {
     this.pathFinder = pathFinder;
   }
 
+  /**
+   * Returns the optimal path.
+   *
+   * @param name player name to load data for
+   * @param accessFilter filter quests by access
+   * @param ironman <tt>true</tt> to enable ironman quest requirements; <tt>false</tt> otherwise.
+   * @param recommended <tt>true</tt> to enable recommended quest requirements; <tt>false</tt>
+   * otherwise.
+   * @param lampSkills set of skills to use on lamps
+   * @param questPriorities prioritise quests by id
+   * @param typeFilter filter quests by type
+   * @return the optimal path
+   * @throws BestQuestNotFoundException if the "best" {@link Quest} can not be found
+   */
   @GetMapping("/path")
   public PathDTO getPath(@RequestParam(name = "name", required = false) String name,
       @RequestParam(name = "accessFilter", required = false, defaultValue = "ALL") QuestAccessFilter accessFilter,
@@ -46,7 +63,6 @@ public class QuestController {
       questPriorities = Collections.emptyMap();
     }
     return pathFinder
-        .find(name, accessFilter, ironman, recommended, lampSkills, questPriorities, typeFilter)
-        .createDTO();
+        .find(name, accessFilter, ironman, recommended, lampSkills, questPriorities, typeFilter).createDTO();
   }
 }

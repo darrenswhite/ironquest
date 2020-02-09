@@ -12,7 +12,7 @@ import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
 import com.darrenswhite.rs.ironquest.quest.QuestService;
 import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
-import java.util.ArrayList;
+import com.darrenswhite.rs.ironquest.quest.Quests;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * {@link Service} for finding optimal {@link Path} for a given set of attributes.
+ * {@link Service} for finding the optimal {@link Path} for a given set of parameters.
  *
  * @author Darren S. White
  */
@@ -46,6 +46,23 @@ public class PathFinder {
     this.runeMetricsService = runeMetricsService;
   }
 
+  /**
+   * Create a new {@link Player} from the specified parameters and find the optimal {@link Path}.
+   *
+   * @param name player name to load data for; can be null
+   * @param accessFilter filter quests by access
+   * @param ironman <tt>true</tt> to enable ironman quest requirements; <tt>false</tt> otherwise.
+   * @param recommended <tt>true</tt> to enable recommended quest requirements; <tt>false</tt>
+   * otherwise.
+   * @param lampSkills set of skills to use on lamps
+   * @param questPriorities prioritise quests by id
+   * @param typeFilter filter quests by type
+   * @return the optimal path
+   * @throws BestQuestNotFoundException if the "best" {@link Quest} can not be found
+   * @see PathFinder#createPlayer(String, QuestAccessFilter, boolean, boolean, Set, Map,
+   * QuestTypeFilter)
+   * @see PathFinder#findForPlayer(Player)
+   */
   public Path find(String name, QuestAccessFilter accessFilter, boolean ironman,
       boolean recommended, Set<Skill> lampSkills, Map<Integer, QuestPriority> questPriorities,
       QuestTypeFilter typeFilter) throws BestQuestNotFoundException {
@@ -57,6 +74,23 @@ public class PathFinder {
     return findForPlayer(player);
   }
 
+  /**
+   * Create a {@link Player} from the specified parameters.
+   *
+   * Quests will be filtered, prioritised and added to the player. Player data is loaded from the
+   * hiscores and runemetrics.
+   *
+   * @param name player name to load data for; can be null
+   * @param accessFilter filter quests by access
+   * @param ironman <tt>true</tt> to enable ironman quest requirements; <tt>false</tt> otherwise.
+   * @param recommended <tt>true</tt> to enable recommended quest requirements; <tt>false</tt>
+   * otherwise.
+   * @param lampSkills set of skills to use on lamps
+   * @param questPriorities prioritise quests by id
+   * @param typeFilter filter quests by type
+   * @see Quests#createQuestEntries(Map, QuestAccessFilter, QuestTypeFilter)
+   * @see Player#load(HiscoreService, RuneMetricsService)
+   */
   Player createPlayer(String name, QuestAccessFilter accessFilter, boolean ironman,
       boolean recommended, Set<Skill> lampSkills, Map<Integer, QuestPriority> questPriorities,
       QuestTypeFilter typeFilter) {
@@ -70,9 +104,23 @@ public class PathFinder {
     return player;
   }
 
+  /**
+   * Find the optimal {@link Path} for the specified {@link Player}.
+   *
+   * Initial stats for the player are calculated and incomplete placeholder quests are completed.
+   *
+   * The best quest is found and marked as completed for the {@link Player} until all quests are
+   * completed or a {@link BestQuestNotFoundException} is thrown.
+   *
+   * If there are any actions which can not be completed after all quests are completed, these are
+   * added as future actions.
+   *
+   * @param player the player to find the path for
+   * @return the optimal path
+   * @throws BestQuestNotFoundException if the best quest can not be found
+   */
   Path findForPlayer(Player player) throws BestQuestNotFoundException {
     List<Action> actions = new LinkedList<>();
-    List<Action> futureActions = new ArrayList<>();
     PathStats stats = createStats(player);
 
     LOG.debug("Finding optimal quest path for player: {}", player.getName());
@@ -87,19 +135,21 @@ public class PathFinder {
             "Unable to find best quest for player: " + player.getName());
       }
 
-      processQuest(player, actions, futureActions, bestQuest.get());
-      processFutureActions(player, actions, futureActions);
+      actions.addAll(completeQuest(player, bestQuest.get()));
+      processFutureActions(player, actions);
     }
 
-    for (Action futureAction : futureActions) {
-      LOG.debug("Adding future action: {}", futureAction);
-
-      actions.add(futureAction.copyForPlayer(player));
-    }
+    processFutureActions(player, actions);
 
     return new Path(actions, stats);
   }
 
+  /**
+   * Create {@link PathStats} for the specified {@link Player}.
+   *
+   * @param player the player
+   * @return the path stats
+   */
   private PathStats createStats(Player player) {
     double completed =
         (double) player.getCompletedQuests().size() / (double) player.getQuests().size();
@@ -113,46 +163,70 @@ public class PathFinder {
     return new PathStats(percentComplete);
   }
 
-  private void processQuest(Player player, List<Action> actions, List<Action> futureActions,
-      QuestEntry bestQuest) {
-    List<Action> newActions = player.completeQuest(bestQuest);
+  /**
+   * Complete the quest and process all non-future actions.
+   *
+   * @return the processed quest actions
+   */
+  private List<Action> completeQuest(Player player, QuestEntry bestQuest) {
+    List<Action> processedActions = new LinkedList<>();
+    List<Action> questActions = player.completeQuest(bestQuest);
 
-    for (Action newAction : newActions) {
+    for (Action newAction : questActions) {
       if (newAction.isFuture()) {
         LOG.debug("Adding future action: {}", newAction);
 
-        futureActions.add(newAction);
+        processedActions.add(newAction);
       } else {
         LOG.debug("Processing action: {}", newAction);
 
         newAction.process(player);
-        actions.add(newAction.copyForPlayer(player));
+        processedActions.add(newAction.copyForPlayer(player));
       }
     }
+
+    return processedActions;
   }
 
-  private void processFutureActions(Player player, List<Action> actions,
-      List<Action> futureActions) {
-    for (Iterator<Action> iterator = futureActions.iterator(); iterator.hasNext(); ) {
-      Action futureAction = iterator.next();
+  /**
+   * Process all future actions if the requirements are met. Any actions which are processed are
+   * removed from the <tt>actions</tt> list, copied for the player and added to the end of the
+   * list.
+   *
+   * @param player the player
+   * @param actions the actions
+   */
+  private void processFutureActions(Player player, List<Action> actions) {
+    List<Action> processedActions = new LinkedList<>();
 
-      if (futureAction.meetsRequirements(player)) {
-        if (futureAction instanceof LampAction) {
-          LampAction lampAction = (LampAction) futureAction;
+    for (Iterator<Action> iterator = actions.iterator(); iterator.hasNext(); ) {
+      Action action = iterator.next();
 
-          futureAction = player
-              .createLampAction(lampAction.getQuestEntry(), lampAction.getLampReward());
+      if (action.isFuture() && action.meetsRequirements(player)) {
+        if (action instanceof LampAction) {
+          LampAction lampAction = (LampAction) action;
+
+          action = player.createLampAction(lampAction.getQuestEntry(), lampAction.getLampReward());
         }
 
-        LOG.debug("Processing future action: {}", futureAction);
+        LOG.debug("Processing future action: {}", action);
 
-        futureAction.process(player);
-        actions.add(futureAction.copyForPlayer(player));
+        action.process(player);
+        processedActions.add(action.copyForPlayer(player));
         iterator.remove();
       }
     }
+
+    actions.addAll(processedActions);
   }
 
+  /**
+   * Complete all incomplete placeholder quests for the {@link Player} and process all new {@link
+   * Action}s.
+   *
+   * @param player the player
+   * @see Quest#isPlaceholder()
+   */
   private void completePlaceholderQuests(Player player) {
     for (QuestEntry entry : player.getIncompleteQuests()) {
       Quest quest = entry.getQuest();

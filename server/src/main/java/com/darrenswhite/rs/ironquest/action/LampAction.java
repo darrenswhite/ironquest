@@ -9,9 +9,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * A class representing an {@link Action} to use a {@link LampReward} on a set of {@link Skill}'s
- * for a given {@link QuestEntry}. The lampReward maybe used in the future when requirements have
- * been met.
+ * A class representing an {@link Action} to use a {@link LampReward} on a set of {@link Skill}s for
+ * a given {@link QuestEntry}. The {@link LampReward} maybe used in the future when requirements
+ * have been met.
  *
  * @author Darren S. White
  */
@@ -29,18 +29,47 @@ public class LampAction extends Action {
     this.skills = skills;
   }
 
+  /**
+   * Returns the {@link LampReward} for this action.
+   *
+   * @return the xp lamp
+   */
   public LampReward getLampReward() {
     return lampReward;
   }
 
+  /**
+   * Returns the {@link QuestEntry} for this action.
+   *
+   * @return the quest entry
+   */
   public QuestEntry getQuestEntry() {
     return questEntry;
   }
 
+  /**
+   * Returns the {@link Set<Skill>} to be used on the lamp for this action.
+   *
+   * @return the set of skills
+   */
   public Set<Skill> getSkills() {
     return skills;
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * Format is:
+   *
+   * For non-future actions:
+   *
+   * `Quest display name`: Use `lamp type description` on `skills` to gain `xp` xp.
+   *
+   * For future actions:
+   *
+   * `Quest display name`: Use `lamp type description` on `skills` to gain `xp` xp (when
+   * requirements are met).
+   */
   @Override
   public String getMessage() {
     StringBuilder message = new StringBuilder();
@@ -48,29 +77,7 @@ public class LampAction extends Action {
 
     message.append(questEntry.getQuest().getDisplayName());
     message.append(": Use ");
-
-    switch (lampReward.getType()) {
-      case XP:
-        message.append("XP");
-        break;
-      case SMALL_XP:
-        message.append("Small XP");
-        break;
-      case MEDIUM_XP:
-        message.append("Medium XP");
-        break;
-      case LARGE_XP:
-        message.append("Large XP");
-        break;
-      case HUGE_XP:
-        message.append("Huge XP");
-        break;
-      case DRAGONKIN:
-        message.append("Dragonkin");
-        break;
-    }
-
-    message.append(" Lamp");
+    message.append(lampReward.getType().getDescription());
 
     if (!skills.isEmpty()) {
       message.append(" on ");
@@ -88,23 +95,42 @@ public class LampAction extends Action {
     return message.toString();
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @see LampReward#meetsRequirements(Player)
+   */
   @Override
   public boolean meetsRequirements(Player player) {
     return lampReward.meetsRequirements(player);
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * Add XP to the {@link Player} for each {@link Skill}.
+   *
+   * @see LampReward#getXpForSkills(Player, Set<Skill>)
+   */
   @Override
   public void process(Player player) {
     double xp = lampReward.getXpForSkills(player, skills);
+
     skills.forEach(s -> player.addSkillXP(s, xp));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public LampActionDTO createDTO() {
     return new LampActionDTO.Builder().withPlayer(getPlayer().createDTO()).withFuture(isFuture())
         .withMessage(getMessage()).withQuest(getQuestEntry().getQuest().createDTO()).build();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public LampAction copyForPlayer(Player player) {
     return new LampAction(player, isFuture(), getQuestEntry(), getLampReward(), getSkills());

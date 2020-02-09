@@ -19,11 +19,15 @@ import org.springframework.stereotype.Service;
 
 /**
  * {@link Service} for retrieving quest data from RuneMetrics.
+ *
+ * @author Darren S. White
  */
 @Service
 public class RuneMetricsService {
 
   private static final Logger LOG = LogManager.getLogger(RuneMetricsService.class);
+
+  private static final String QUESTS_ROOT = "quests";
 
   private final String url;
   private final ObjectMapper objectMapper;
@@ -34,6 +38,12 @@ public class RuneMetricsService {
     this.objectMapper = objectMapper;
   }
 
+  /**
+   * Retrieve quest data for the given username.
+   *
+   * @param name the username
+   * @return set of quests
+   */
   public Set<RuneMetricsQuest> load(String name) {
     Set<RuneMetricsQuest> quests = new LinkedHashSet<>();
 
@@ -44,11 +54,10 @@ public class RuneMetricsService {
           .format(url, URLEncoder.encode(name, StandardCharsets.UTF_8.toString()));
 
       try (InputStreamReader in = new InputStreamReader(new URL(runeMetricsUrl).openStream())) {
-        JsonNode rmQuestsJson = objectMapper.readTree(in).get("quests");
+        JsonNode rmQuestsJson = objectMapper.readTree(in).get(QUESTS_ROOT);
 
-        quests.addAll(objectMapper.readValue(objectMapper.treeAsTokens(rmQuestsJson),
-            new TypeReference<Set<RuneMetricsQuest>>() {
-            }));
+        quests.addAll(objectMapper.readValue(objectMapper.treeAsTokens(rmQuestsJson), new TypeReference<Set<RuneMetricsQuest>>() {
+        }));
       }
     } catch (IOException e) {
       LOG.warn("Failed to load quests for player: {}", name, e);

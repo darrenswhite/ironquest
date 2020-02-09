@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 /**
  * {@link Service} for retrieving skill data from the Hiscores.
+ *
+ * @author Darren S. White
  */
 @Service
 public class HiscoreService {
@@ -25,12 +27,23 @@ public class HiscoreService {
   private static final Logger LOG = LogManager.getLogger(HiscoreService.class);
   private static final CSVFormat CSV_FORMAT = CSVFormat.DEFAULT.withDelimiter(',');
 
+  /**
+   * First row is total level, so skip it.
+   */
+  private static final int ROW_OFFSET = 1;
+
   private final String url;
 
   public HiscoreService(@Value("${hiscores.url}") String url) {
     this.url = url;
   }
 
+  /**
+   * Retrieve skill xp data for the given username.
+   *
+   * @param name the username
+   * @return map of xp for each skill
+   */
   public Map<Skill, Double> load(String name) {
     Map<Skill, Double> skillXps = new EnumMap<>(Skill.class);
 
@@ -44,13 +57,14 @@ public class HiscoreService {
         CSVParser parser = CSV_FORMAT.parse(in);
         List<CSVRecord> records = parser.getRecords();
 
-        for (int i = 1; i < Skill.values().length + 1; i++) {
-          Skill skill = Skill.tryGet(i);
+        for (int i = ROW_OFFSET; i < Skill.values().length + 1; i++) {
+          Skill skill = Skill.getById(i);
           CSVRecord r = records.get(i);
 
           if (skill != null) {
-            skillXps
-                .put(skill, Math.max(Skill.INITIAL_XPS.get(skill), Double.parseDouble(r.get(2))));
+            double xp = Math.max(Skill.INITIAL_XPS.get(skill), Double.parseDouble(r.get(2)));
+
+            skillXps.put(skill, xp);
           } else {
             LOG.warn("Unknown skill with id: {}", i);
           }

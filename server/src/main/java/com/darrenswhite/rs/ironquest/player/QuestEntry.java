@@ -47,6 +47,9 @@ public class QuestEntry {
     this.priority = priority;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -59,6 +62,9 @@ public class QuestEntry {
     return quest.equals(that.quest);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int hashCode() {
     return Objects.hash(quest);

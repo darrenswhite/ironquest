@@ -15,10 +15,21 @@ public class PathStats {
     this.percentComplete = percentComplete;
   }
 
+  /**
+   * The initial percentage of quests completed at the start of the path, before completing any
+   * actions.
+   *
+   * @return percentage of initial quests complete
+   */
   public double getPercentComplete() {
     return percentComplete;
   }
 
+  /**
+   * Returns a DTO for this {@link PathStats}.
+   *
+   * @return the DTO
+   */
   public PathStatsDTO createDTO() {
     return new PathStatsDTO.Builder().withPercentComplete(percentComplete).build();
   }

@@ -1,7 +1,9 @@
 package com.darrenswhite.rs.ironquest.dto;
 
+import com.darrenswhite.rs.ironquest.path.PathStats;
+
 /**
- * Data Transfer Object for {@link com.darrenswhite.rs.ironquest.path.PathStats}.
+ * Data Transfer Object for {@link PathStats}.
  *
  * @author Darren S. White
  */

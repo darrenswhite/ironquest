@@ -1,6 +1,7 @@
 package com.darrenswhite.rs.ironquest.quest.reward;
 
 import com.darrenswhite.rs.ironquest.player.Skill;
+import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -10,6 +11,8 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
+ * A class encapsulating all rewards for a {@link Quest}.
+ *
  * @author Darren S. White
  */
 @JsonDeserialize(builder = QuestRewards.Builder.class)
@@ -39,6 +42,9 @@ public class QuestRewards {
     return questPoints;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -52,6 +58,9 @@ public class QuestRewards {
         .equals(lamps, that.lamps);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int hashCode() {
     return Objects.hash(xp, lamps, questPoints);

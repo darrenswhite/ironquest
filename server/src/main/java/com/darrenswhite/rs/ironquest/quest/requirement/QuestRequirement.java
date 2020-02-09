@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Objects;
 
 /**
+ * A class representing a quest requirement for a {@link Quest}.
+ *
  * @author Darren S. White
  */
 @JsonDeserialize(builder = QuestRequirement.Builder.class)
@@ -23,6 +25,9 @@ public class QuestRequirement extends Requirement {
     return quest;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -36,14 +41,22 @@ public class QuestRequirement extends Requirement {
         .equals(quest, that.quest);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int hashCode() {
     return Objects.hash(ironman, recommended, quest);
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @return <tt>true</tt> if the player has completed the quest; <tt>false</tt> otherwise.
+   */
   @Override
-  protected boolean testPlayer(Player p) {
-    return p.isQuestCompleted(quest);
+  protected boolean testPlayer(Player player) {
+    return player.isQuestCompleted(quest);
   }
 
   public static class Builder {

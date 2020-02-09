@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
+ * Builder used for constructing {@link Map}s.
+ *
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
  * @author Darren S. White

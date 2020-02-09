@@ -1,11 +1,14 @@
 package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.player.Player;
+import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Objects;
 
 /**
+ * A class representing a combat requirement for a {@link Quest}.
+ *
  * @author Darren S. White
  */
 @JsonDeserialize(builder = CombatRequirement.Builder.class)
@@ -22,6 +25,9 @@ public class CombatRequirement extends Requirement {
     return level;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -34,14 +40,22 @@ public class CombatRequirement extends Requirement {
     return ironman == that.ironman && recommended == that.recommended && level == that.level;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int hashCode() {
     return Objects.hash(ironman, recommended, level);
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @return <tt>true</tt> if the player has the required combat level; <tt>false</tt> otherwise.
+   */
   @Override
-  protected boolean testPlayer(Player p) {
-    return p.getCombatLevel() >= level;
+  protected boolean testPlayer(Player player) {
+    return player.getCombatLevel() >= level;
   }
 
   public static class Builder {

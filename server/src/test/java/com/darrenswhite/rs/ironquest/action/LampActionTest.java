@@ -88,7 +88,7 @@ class LampActionTest {
           .of("playerF", LampType.HUGE_XP, 0, Collections.singleton(Skill.THIEVING), false, 1.0,
               "playerF: Use Huge XP Lamp on Thieving to gain 47.38k xp"), Arguments
           .of("playerG", LampType.DRAGONKIN, 0, Collections.singleton(Skill.HERBLORE), false, 1.0,
-              "playerG: Use Dragonkin Lamp on Herblore to gain 41.115k xp"), Arguments
+              "playerG: Use Dragonkin Lamp on Herblore to gain 42.441k xp"), Arguments
           .of("playerH", LampType.XP, 150,
               new LinkedHashSet<>(Arrays.asList(Skill.SUMMONING, Skill.DIVINATION)), false, 1.0,
               "playerH: Use XP Lamp on Summoning, Divination to gain 150 xp"), Arguments

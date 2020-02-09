@@ -3,8 +3,11 @@ package com.darrenswhite.rs.ironquest.quest;
 import com.darrenswhite.rs.ironquest.dto.QuestDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.quest.Quest.Builder;
+import com.darrenswhite.rs.ironquest.quest.requirement.CombatRequirement;
+import com.darrenswhite.rs.ironquest.quest.requirement.QuestPointsRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirements;
+import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -18,6 +21,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * A class representing a quest.
+ *
  * @author Darren S. White
  */
 @JsonDeserialize(builder = Builder.class)
@@ -70,27 +75,65 @@ public class Quest {
     return rewards;
   }
 
+  /**
+   * Test if the player meets the {@link CombatRequirement}s, if any.
+   *
+   * @param player the player
+   * @return <tt>true</tt> if the player meets the combat requirement; <tt>false</tt> otherwise
+   */
   public boolean meetsCombatRequirement(Player player) {
     return requirements.getCombat() == null || requirements.getCombat().test(player);
   }
 
+  /**
+   * Test if the player meets the {@link QuestPointsRequirement}s, if any.
+   *
+   * @param player the player
+   * @return <tt>true</tt> if the player meets the quest point requirement; <tt>false</tt> otherwise
+   */
   public boolean meetsQuestPointRequirement(Player player) {
     return requirements.getQuestPoints() == null || requirements.getQuestPoints().test(player);
   }
 
+  /**
+   * Test if the player meets all {@link QuestRequirement}s.
+   *
+   * @param player the player
+   * @return <tt>true</tt> if the player meets all quest requirements; <tt>false</tt> otherwise
+   */
   public boolean meetsQuestRequirements(Player player) {
     return requirements.getQuests().stream().allMatch(r -> r.test(player));
   }
 
+  /**
+   * Test if the player meets all {@link SkillRequirement}s.
+   *
+   * @param player the player
+   * @return <tt>true</tt> if the player meets all skill requirements; <tt>false</tt> otherwise
+   */
   public boolean meetsSkillRequirements(Player player) {
     return requirements.getSkills().stream().allMatch(r -> r.test(player));
   }
 
+
+  /**
+   * Test if the player meets all {@link Requirement}s.
+   *
+   * @param player the player
+   * @return <tt>true</tt> if the player meets all requirements; <tt>false</tt> otherwise
+   */
   public boolean meetsAllRequirements(Player player) {
     return meetsCombatRequirement(player) && meetsQuestPointRequirement(player)
         && meetsQuestRequirements(player) && meetsSkillRequirements(player);
   }
 
+  /**
+   * Get remaining {@link Quest}s required to complete this {@link Quest}.
+   *
+   * @param player the player
+   * @param recursive <tt>true</tt> to get requirements recursively; <tt>false</tt> otherwise
+   * @return remaining quest requirements
+   */
   public Set<Quest> getRemainingQuestRequirements(Player player, boolean recursive) {
     Set<Quest> remainingQuestRequirements = requirements.getQuests().stream()
         .filter(q -> !q.test(player)).map(QuestRequirement::getQuest).collect(Collectors.toSet());
@@ -104,6 +147,13 @@ public class Quest {
     return remainingQuestRequirements;
   }
 
+  /**
+   * Get remaining {@link SkillRequirement}s to complete this {@link Quest}.
+   *
+   * @param player the player
+   * @param recursive <tt>true</tt> to get requirements recursively; <tt>false</tt> otherwise
+   * @return remaining skill requirements
+   */
   public Set<SkillRequirement> getRemainingSkillRequirements(Player player, boolean recursive) {
     Set<SkillRequirement> remainingSkillRequirements = new LinkedHashSet<>();
 
@@ -123,15 +173,33 @@ public class Quest {
     return remainingSkillRequirements;
   }
 
+  /**
+   * Get total levels required to complete this {@link Quest}.
+   *
+   * @param player the player
+   * @param recursive <tt>true</tt> to get requirements recursively; <tt>false</tt> otherwise
+   * @return total skill level requirements remaining
+   */
   public int getTotalRemainingSkillRequirements(Player player, boolean recursive) {
     return getRemainingSkillRequirements(player, recursive).stream()
         .mapToInt(SkillRequirement::getLevel).sum();
   }
 
+  /**
+   * Test if this {@link Quest} is a placeholder.
+   *
+   * @return <tt>true</tt> if this quest is a placeholder; <tt>false</tt> otherwise
+   */
   public boolean isPlaceholder() {
     return id < 0;
   }
 
+  /**
+   * Get all {@link QuestRequirements}s to complete this {@link Quest}.
+   *
+   * @param recursive <tt>true</tt> to get requirements recursively; <tt>false</tt> otherwise
+   * @return quest requirements
+   */
   public Set<QuestRequirement> getQuestRequirements(boolean recursive) {
     Set<QuestRequirement> questRequirements = new HashSet<>(requirements.getQuests());
 
@@ -144,6 +212,9 @@ public class Quest {
     return questRequirements;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -156,11 +227,19 @@ public class Quest {
     return id == quest.id;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int hashCode() {
     return Objects.hash(id);
   }
 
+  /**
+   * Returns a DTO for this {@link Quest}.
+   *
+   * @return the DTO
+   */
   public QuestDTO createDTO() {
     return new QuestDTO.Builder().withDisplayName(getDisplayName()).build();
   }

@@ -2,6 +2,7 @@ package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
+import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Collection;
@@ -10,6 +11,8 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
+ * A class representing a {@link Skill} requirement for a {@link Quest}.
+ *
  * @author Darren S. White
  */
 @JsonDeserialize(builder = SkillRequirement.Builder.class)
@@ -25,7 +28,7 @@ public class SkillRequirement extends Requirement {
   }
 
   /**
-   * Merge both {@link SkillRequirement}'s together.
+   * Merge both {@link SkillRequirement}s together.
    *
    * @param requirements the first collection
    * @param merge the second collection
@@ -60,6 +63,9 @@ public class SkillRequirement extends Requirement {
     return skill;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -73,14 +79,22 @@ public class SkillRequirement extends Requirement {
         && skill == that.skill;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int hashCode() {
     return Objects.hash(ironman, recommended, skill, level);
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @return <tt>true</tt> if the player has the required skill level; <tt>false</tt> otherwise.
+   */
   @Override
-  protected boolean testPlayer(Player p) {
-    return p.getLevel(skill) >= level;
+  protected boolean testPlayer(Player player) {
+    return player.getLevel(skill) >= level;
   }
 
   public static class Builder {

@@ -18,6 +18,11 @@ public class Application {
     SpringApplication.run(Application.class, args);
   }
 
+  /**
+   * Configure CORS to allow all origins.
+   *
+   * @return the web mvc configurer
+   */
   @Bean
   public WebMvcConfigurer corsConfigurer() {
     return new WebMvcConfigurer() {
