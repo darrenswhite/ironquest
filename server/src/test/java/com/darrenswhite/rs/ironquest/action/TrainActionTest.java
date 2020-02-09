@@ -8,6 +8,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import com.darrenswhite.rs.ironquest.dto.TrainActionDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
+import com.darrenswhite.rs.ironquest.quest.Quest;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -104,6 +106,17 @@ class TrainActionTest {
       assertThat(copied.getEndXp(), equalTo(trainAction.getEndXp()));
       assertThat(copied.getPlayer(), equalTo(playerToCopy));
       assertThat(copied, not(sameInstance(trainAction)));
+    }
+  }
+
+  @Nested
+  class Equals {
+
+    @Test
+    void shouldVerifyEqualsAndHashCode() {
+      EqualsVerifier.forClass(TrainAction.class)
+          .withPrefabValues(Quest.class, new Quest.Builder(0).build(), new Quest.Builder(1).build())
+          .verify();
     }
   }
 }

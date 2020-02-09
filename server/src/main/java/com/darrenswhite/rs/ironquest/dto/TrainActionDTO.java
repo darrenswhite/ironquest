@@ -2,6 +2,7 @@ package com.darrenswhite.rs.ironquest.dto;
 
 import com.darrenswhite.rs.ironquest.action.ActionType;
 import com.darrenswhite.rs.ironquest.action.TrainAction;
+import java.util.Objects;
 
 /**
  * Data Transfer Object for {@link TrainAction}.
@@ -12,6 +13,30 @@ public class TrainActionDTO extends ActionDTO {
 
   TrainActionDTO(PlayerDTO player, boolean future, String message) {
     super(ActionType.TRAIN, player, future, message);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof TrainActionDTO)) {
+      return false;
+    }
+    TrainActionDTO that = (TrainActionDTO) o;
+    return future == that.future && type == that.type && Objects.equals(player, that.player)
+        && Objects.equals(message, that.message);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final int hashCode() {
+    return Objects.hash(future, type, player, message);
   }
 
   public static class Builder {

@@ -11,7 +11,9 @@ import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
 import java.util.Collections;
 import java.util.stream.Stream;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -61,6 +63,15 @@ class QuestPointsRequirementTest {
       return Stream
           .of(Arguments.of(1, 0), Arguments.of(2, 1), Arguments.of(100, 99), Arguments.of(102, 101),
               Arguments.of(500, 300));
+    }
+  }
+
+  @Nested
+  class Equals {
+
+    @Test
+    void shouldVerifyEqualsAndHashCode() {
+      EqualsVerifier.forClass(QuestPointsRequirement.class).verify();
     }
   }
 }

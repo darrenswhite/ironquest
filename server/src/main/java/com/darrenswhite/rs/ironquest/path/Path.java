@@ -5,6 +5,7 @@ import com.darrenswhite.rs.ironquest.dto.ActionDTO;
 import com.darrenswhite.rs.ironquest.dto.PathDTO;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -50,5 +51,28 @@ public class Path {
         .collect(Collectors.toCollection(LinkedList::new));
 
     return new PathDTO.Builder().withActions(actionDTOs).withStats(getStats().createDTO()).build();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Path)) {
+      return false;
+    }
+    Path path = (Path) o;
+    return Objects.equals(actions, path.actions) && Objects.equals(stats, path.stats);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final int hashCode() {
+    return Objects.hash(actions, stats);
   }
 }

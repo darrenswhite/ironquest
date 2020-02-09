@@ -98,6 +98,12 @@
   </build>
   <dependencies>
     <dependency>
+      <artifactId>equalsverifier</artifactId>
+      <groupId>nl.jqno.equalsverifier</groupId>
+      <scope>test</scope>
+      <version>${nl.jqno.equalsverifier.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-csv</artifactId>
       <version>${org.apache.commons.version}</version>
@@ -136,6 +142,7 @@
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+    <nl.jqno.equalsverifier.version>3.1.12</nl.jqno.equalsverifier.version>
     <org.apache.commons.version>1.7</org.apache.commons.version>
     <org.hamcrest.version>2.2</org.hamcrest.version>
     <org.jacoco.version>0.8.5</org.jacoco.version>

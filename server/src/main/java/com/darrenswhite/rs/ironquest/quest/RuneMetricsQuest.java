@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Objects;
 
 /**
+ * Class representing a quest retrieved from rune metrics.
+ *
  * @author Darren S. White
  */
 @JsonDeserialize(builder = RuneMetricsQuest.Builder.class)
@@ -53,11 +55,11 @@ public class RuneMetricsQuest {
    * {@inheritDoc}
    */
   @Override
-  public boolean equals(Object o) {
+  public final boolean equals(Object o) {
     if (this == o) {
       return true;
     }
-    if (o == null || getClass() != o.getClass()) {
+    if (!(o instanceof RuneMetricsQuest)) {
       return false;
     }
     RuneMetricsQuest that = (RuneMetricsQuest) o;
@@ -70,7 +72,7 @@ public class RuneMetricsQuest {
    * {@inheritDoc}
    */
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     return Objects.hash(title, status, difficulty, members, questPoints, userEligible);
   }
 

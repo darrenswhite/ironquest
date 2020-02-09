@@ -2,6 +2,7 @@ package com.darrenswhite.rs.ironquest.dto;
 
 import com.darrenswhite.rs.ironquest.path.Path;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Data Transfer Object for {@link Path}.
@@ -24,6 +25,29 @@ public class PathDTO {
 
   public PathStatsDTO getStats() {
     return stats;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof PathDTO)) {
+      return false;
+    }
+    PathDTO pathDTO = (PathDTO) o;
+    return Objects.equals(actions, pathDTO.actions) && Objects.equals(stats, pathDTO.stats);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final int hashCode() {
+    return Objects.hash(actions, stats);
   }
 
   public static class Builder {

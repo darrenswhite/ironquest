@@ -4,6 +4,7 @@ import com.darrenswhite.rs.ironquest.dto.TrainActionDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import java.text.MessageFormat;
+import java.util.Objects;
 
 /**
  * A class representing an {@link Action} to train a {@link Skill} with a start and end xp goal.
@@ -110,5 +111,30 @@ public class TrainAction extends Action {
   @Override
   public TrainAction copyForPlayer(Player player) {
     return new TrainAction(player, getSkill(), getStartXp(), getEndXp());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof TrainAction)) {
+      return false;
+    }
+    TrainAction that = (TrainAction) o;
+    return future == that.future && type == that.type && Objects.equals(player, that.player)
+        && Double.compare(that.startXp, startXp) == 0 && Double.compare(that.endXp, endXp) == 0
+        && skill == that.skill;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final int hashCode() {
+    return Objects.hash(future, type, player, skill, startXp, endXp);
   }
 }

@@ -17,6 +17,7 @@ import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
 import com.darrenswhite.rs.ironquest.util.MapBuilder;
 import java.util.Map;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -133,6 +134,17 @@ class QuestActionTest {
       assertThat(copied.getQuestEntry(), equalTo(entry));
       assertThat(copied.getPlayer(), equalTo(playerToCopy));
       assertThat(copied, not(sameInstance(questAction)));
+    }
+  }
+
+  @Nested
+  class Equals {
+
+    @Test
+    void shouldVerifyEqualsAndHashCode() {
+      EqualsVerifier.forClass(QuestAction.class)
+          .withPrefabValues(Quest.class, new Quest.Builder(0).build(), new Quest.Builder(1).build())
+          .verify();
     }
   }
 }

@@ -5,6 +5,7 @@ import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.QuestEntry;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -134,5 +135,30 @@ public class LampAction extends Action {
   @Override
   public LampAction copyForPlayer(Player player) {
     return new LampAction(player, isFuture(), getQuestEntry(), getLampReward(), getSkills());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof LampAction)) {
+      return false;
+    }
+    LampAction that = (LampAction) o;
+    return future == that.future && type == that.type && Objects.equals(player, that.player)
+        && Objects.equals(questEntry, that.questEntry) && Objects
+        .equals(lampReward, that.lampReward) && Objects.equals(skills, that.skills);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final int hashCode() {
+    return Objects.hash(future, type, player, questEntry, lampReward, skills);
   }
 }

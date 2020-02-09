@@ -8,7 +8,9 @@ import com.darrenswhite.rs.ironquest.player.Skill;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.stream.Stream;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -62,6 +64,15 @@ class CombatRequirementTest {
     Stream<Arguments> shouldNotMeetRequirement() {
       return Stream.of(Arguments.of(4, MIN_COMBAT_XP), Arguments.of(138, MIN_COMBAT_XP),
           Arguments.of(139, MAX_COMBAT_XP));
+    }
+  }
+
+  @Nested
+  class Equals {
+
+    @Test
+    void shouldVerifyEqualsAndHashCode() {
+      EqualsVerifier.forClass(CombatRequirement.class).verify();
     }
   }
 }

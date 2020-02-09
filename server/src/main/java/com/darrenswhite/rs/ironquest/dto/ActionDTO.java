@@ -10,10 +10,10 @@ import com.darrenswhite.rs.ironquest.action.ActionType;
  */
 public abstract class ActionDTO {
 
-  private final ActionType type;
-  private final PlayerDTO player;
-  private final boolean future;
-  private final String message;
+  protected final ActionType type;
+  protected final PlayerDTO player;
+  protected final boolean future;
+  protected final String message;
 
   protected ActionDTO(ActionType type, PlayerDTO player, boolean future, String message) {
     this.type = type;

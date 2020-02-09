@@ -24,6 +24,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -182,6 +183,17 @@ class LampActionTest {
       assertThat(copied.getSkills(), equalTo(skills));
       assertThat(copied.getPlayer(), equalTo(playerToCopy));
       assertThat(copied, not(sameInstance(lampAction)));
+    }
+  }
+
+  @Nested
+  class Equals {
+
+    @Test
+    void shouldVerifyEqualsAndHashCode() {
+      EqualsVerifier.forClass(LampAction.class)
+          .withPrefabValues(Quest.class, new Quest.Builder(0).build(), new Quest.Builder(1).build())
+          .verify();
     }
   }
 }

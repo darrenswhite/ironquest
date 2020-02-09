@@ -11,6 +11,7 @@ import com.darrenswhite.rs.ironquest.quest.Quest;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -54,4 +55,14 @@ class QuestRequirementTest {
     }
   }
 
+  @Nested
+  class Equals {
+
+    @Test
+    void shouldVerifyEqualsAndHashCode() {
+      EqualsVerifier.forClass(QuestRequirement.class)
+          .withPrefabValues(Quest.class, new Quest.Builder(0).build(), new Quest.Builder(1).build())
+          .verify();
+    }
+  }
 }

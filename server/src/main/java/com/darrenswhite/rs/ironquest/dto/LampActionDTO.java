@@ -2,6 +2,7 @@ package com.darrenswhite.rs.ironquest.dto;
 
 import com.darrenswhite.rs.ironquest.action.ActionType;
 import com.darrenswhite.rs.ironquest.action.LampAction;
+import java.util.Objects;
 
 /**
  * Data Transfer Object for {@link LampAction}.
@@ -19,6 +20,30 @@ public class LampActionDTO extends ActionDTO {
 
   public QuestDTO getQuest() {
     return quest;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof LampActionDTO)) {
+      return false;
+    }
+    LampActionDTO that = (LampActionDTO) o;
+    return future == that.future && type == that.type && Objects.equals(player, that.player)
+        && Objects.equals(quest, that.quest) && Objects.equals(message, that.message);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final int hashCode() {
+    return Objects.hash(future, type, player, quest, message);
   }
 
   public static class Builder {

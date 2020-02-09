@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -47,6 +48,17 @@ class PathTest {
 
       assertThat(dto.getActions().size(), equalTo(actions.size()));
       assertThat(dto.getStats().getPercentComplete(), equalTo(stats.getPercentComplete()));
+    }
+  }
+
+  @Nested
+  class Equals {
+
+    @Test
+    void shouldVerifyEqualsAndHashCode() {
+      EqualsVerifier.forClass(Path.class)
+          .withPrefabValues(Quest.class, new Quest.Builder(0).build(), new Quest.Builder(1).build())
+          .verify();
     }
   }
 }

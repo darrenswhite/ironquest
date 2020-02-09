@@ -1,6 +1,7 @@
 package com.darrenswhite.rs.ironquest.dto;
 
 import com.darrenswhite.rs.ironquest.path.PathStats;
+import java.util.Objects;
 
 /**
  * Data Transfer Object for {@link PathStats}.
@@ -17,6 +18,29 @@ public class PathStatsDTO {
 
   public double getPercentComplete() {
     return percentComplete;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof PathStatsDTO)) {
+      return false;
+    }
+    PathStatsDTO that = (PathStatsDTO) o;
+    return percentComplete == that.percentComplete;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final int hashCode() {
+    return Objects.hash(percentComplete);
   }
 
   public static class Builder {

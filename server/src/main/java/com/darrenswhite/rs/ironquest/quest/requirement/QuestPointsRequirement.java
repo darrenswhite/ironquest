@@ -29,11 +29,11 @@ public class QuestPointsRequirement extends Requirement {
    * {@inheritDoc}
    */
   @Override
-  public boolean equals(Object o) {
+  public final boolean equals(Object o) {
     if (this == o) {
       return true;
     }
-    if (o == null || getClass() != o.getClass()) {
+    if (!(o instanceof QuestPointsRequirement)) {
       return false;
     }
     QuestPointsRequirement that = (QuestPointsRequirement) o;
@@ -44,7 +44,7 @@ public class QuestPointsRequirement extends Requirement {
    * {@inheritDoc}
    */
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     return Objects.hash(ironman, recommended, amount);
   }
 

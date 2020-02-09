@@ -46,11 +46,11 @@ public class QuestRewards {
    * {@inheritDoc}
    */
   @Override
-  public boolean equals(Object o) {
+  public final boolean equals(Object o) {
     if (this == o) {
       return true;
     }
-    if (o == null || getClass() != o.getClass()) {
+    if (!(o instanceof QuestRewards)) {
       return false;
     }
     QuestRewards that = (QuestRewards) o;
@@ -62,7 +62,7 @@ public class QuestRewards {
    * {@inheritDoc}
    */
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     return Objects.hash(xp, lamps, questPoints);
   }
 

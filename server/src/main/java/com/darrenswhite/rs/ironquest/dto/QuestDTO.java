@@ -24,11 +24,11 @@ public class QuestDTO {
    * {@inheritDoc}
    */
   @Override
-  public boolean equals(Object o) {
+  public final boolean equals(Object o) {
     if (this == o) {
       return true;
     }
-    if (o == null || getClass() != o.getClass()) {
+    if (!(o instanceof QuestDTO)) {
       return false;
     }
     QuestDTO questDTO = (QuestDTO) o;
@@ -39,7 +39,7 @@ public class QuestDTO {
    * {@inheritDoc}
    */
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     return Objects.hash(displayName);
   }
 

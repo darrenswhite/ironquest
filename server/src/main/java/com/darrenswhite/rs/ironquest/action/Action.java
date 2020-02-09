@@ -10,9 +10,9 @@ import com.darrenswhite.rs.ironquest.player.Player;
  */
 public abstract class Action {
 
-  private final ActionType type;
-  private final Player player;
-  private final boolean future;
+  protected final ActionType type;
+  protected final Player player;
+  protected final boolean future;
 
   Action(ActionType type, Player player, boolean future) {
     this.type = type;

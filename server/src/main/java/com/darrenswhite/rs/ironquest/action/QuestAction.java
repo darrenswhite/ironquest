@@ -5,6 +5,7 @@ import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.QuestEntry;
 import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.quest.Quest;
+import java.util.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -80,5 +81,29 @@ public class QuestAction extends Action {
   @Override
   public QuestAction copyForPlayer(Player player) {
     return new QuestAction(player, getQuestEntry());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof QuestAction)) {
+      return false;
+    }
+    QuestAction that = (QuestAction) o;
+    return future == that.future && type == that.type && Objects.equals(player, that.player)
+        && Objects.equals(entry, that.entry);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final int hashCode() {
+    return Objects.hash(future, type, player, entry);
   }
 }
