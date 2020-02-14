@@ -1,17 +1,7 @@
 @require './grid.mixin';
-
-main_bg = #222222;
-
-main_fg = #dddddd;
-main_fg_light = #eaeaea;
-
-input_bg = #333333;
-input_bg_light = #383838;
-
-input_border = #111111;
-input_border_light = #282828;
-
-input_focus = #ff8c00;
+@require './multiselect';
+@require './theme';
+@require '../../../node_modules/vue-multiselect/dist/vue-multiselect.min.css';
 
 body {
   background-color: main_bg;
@@ -46,7 +36,7 @@ button {
   padding: 0.5rem;
 
   &:focus {
-    outline-color: input_focus;
+    outline-color: accent;
   }
 
   &:hover {
@@ -67,7 +57,7 @@ input {
   padding: 0.5rem;
 
   &:focus {
-    outline-color: input_focus;
+    outline-color: accent;
   }
 
   &:hover {
@@ -94,7 +84,7 @@ select {
   width: 100%;
 
   &:focus {
-    outline-color: input_focus;
+    outline-color: accent;
   }
 
   option {
@@ -122,13 +112,17 @@ select {
     }
 
     &:checked {
-      background: linear-gradient(input_focus, input_focus);
-      background-color: input_focus !important;
-      border-color: input_focus;
+      background: linear-gradient(accent, accent);
+      background-color: accent !important;
+      border-color: accent;
       color: main_fg_light;
       z-index: 2;
     }
   }
+}
+
+::placeholder {
+  color: placeholder_fg;
 }
 
 ::-webkit-scrollbar {

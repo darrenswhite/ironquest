@@ -1,4 +1,4 @@
-import './index';
+import './index.styl';
 import Actions from '../../components/Actions.vue';
 import Settings from '../../components/Settings.vue';
 import { Action, Path, QuestAccessFilter, QuestTypeFilter } from 'ironquest';

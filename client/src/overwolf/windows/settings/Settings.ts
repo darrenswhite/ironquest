@@ -1,4 +1,4 @@
-import './settings';
+import './settings.styl';
 import { QuestAccessFilter, QuestTypeFilter } from 'ironquest';
 import Settings from '../../../components/Settings.vue';
 import { Windows } from '../../scripts';

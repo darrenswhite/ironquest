@@ -1,4 +1,4 @@
-import './results';
+import './results.styl';
 import Actions from '../../../components/Actions.vue';
 import { Windows } from '../../scripts';
 import { PathFinder } from '../../../lib';

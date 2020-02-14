@@ -2,7 +2,10 @@
   <div class="container">
     <label for="name" id="name-label">
       Username
-      <span title="Enter your RuneScape name to retrieve quest and skill information.">&#9432;</span>
+      <span
+        title="Enter your RuneScape name to retrieve quest and skill information."
+        >&#9432;</span
+      >
     </label>
 
     <input v-model="value.name" id="name" placeholder="Username" type="text" />
@@ -14,22 +17,42 @@
 
     <div id="type-filter">
       <label>
-        <input v-model="value.typeFilter" type="radio" value="ALL" name="typeFilter" />
+        <input
+          v-model="value.typeFilter"
+          type="radio"
+          value="ALL"
+          name="typeFilter"
+        />
         All
       </label>
 
       <label>
-        <input v-model="value.typeFilter" type="radio" value="QUESTS" name="typeFilter" />
+        <input
+          v-model="value.typeFilter"
+          type="radio"
+          value="QUESTS"
+          name="typeFilter"
+        />
         Quests
       </label>
 
       <label>
-        <input v-model="value.typeFilter" type="radio" value="MINIQUESTS" name="typeFilter" />
+        <input
+          v-model="value.typeFilter"
+          type="radio"
+          value="MINIQUESTS"
+          name="typeFilter"
+        />
         Miniquests
       </label>
 
       <label>
-        <input v-model="value.typeFilter" type="radio" value="SAGAS" name="typeFilter" />
+        <input
+          v-model="value.typeFilter"
+          type="radio"
+          value="SAGAS"
+          name="typeFilter"
+        />
         Sagas
       </label>
     </div>
@@ -41,24 +64,41 @@
 
     <div id="member-filter">
       <label>
-        <input v-model="value.accessFilter" type="radio" value="ALL" name="accessFilter" />
+        <input
+          v-model="value.accessFilter"
+          type="radio"
+          value="ALL"
+          name="accessFilter"
+        />
         All
       </label>
 
       <label>
-        <input v-model="value.accessFilter" type="radio" value="FREE" name="accessFilter" />
+        <input
+          v-model="value.accessFilter"
+          type="radio"
+          value="FREE"
+          name="accessFilter"
+        />
         Free
       </label>
 
       <label>
-        <input v-model="value.accessFilter" type="radio" value="MEMBERS" name="accessFilter" />
+        <input
+          v-model="value.accessFilter"
+          type="radio"
+          value="MEMBERS"
+          name="accessFilter"
+        />
         Members
       </label>
     </div>
 
     <div id="requirement-filter-label">
       Requirement Filter
-      <span title="Toggle ironman/recommended requirements for quests.">&#9432;</span>
+      <span title="Toggle ironman/recommended requirements for quests."
+        >&#9432;</span
+      >
     </div>
 
     <div id="requirement-filter">
@@ -75,40 +115,23 @@
 
     <div id="lamp-skills-label">
       Lamp Skills
-      <span title="Choose which skills xp lamps should be used on.">&#9432;</span>
+      <span title="Choose which skills xp lamps should be used on."
+        >&#9432;</span
+      >
     </div>
 
-    <select
-      v-model="selectedLampSkill"
-      v-on:click="addLampSkill"
-      v-on:keyup.space="addLampSkill"
+    <multiselect
+      v-model="value.lampSkills"
+      :options="SKILLS"
+      :multiple="true"
+      :close-on-select="false"
+      :clear-on-select="false"
+      :preserve-search="true"
+      :custom-label="capitalize"
+      placeholder="Select skills"
       id="lamp-skills"
-      size="5"
     >
-      <option
-        v-for="skill in lampSkillsInitial"
-        v-bind:key="skill"
-        v-bind:value="skill"
-      >
-        {{ _.capitalize(skill) }}
-      </option>
-    </select>
-
-    <select
-      v-model="selectedLampSkillSelection"
-      v-on:click="removeLampSkill"
-      v-on:keyup.space="removeLampSkill"
-      id="lamp-skills-selection"
-      size="5"
-    >
-      <option
-        v-for="skill in value.lampSkills"
-        v-bind:key="skill"
-        v-bind:value="skill"
-      >
-        {{ _.capitalize(skill) }}
-      </option>
-    </select>
+    </multiselect>
   </div>
 </template>
 
@@ -156,40 +179,11 @@ export default Vue.extend({
   },
   data() {
     return {
-      selectedLampSkill: null as Skill | null,
-      selectedLampSkillSelection: null as Skill | null,
+      SKILLS,
     };
   },
   methods: {
-    addLampSkill(): void {
-      if (this.selectedLampSkill) {
-        const index = this.value.lampSkills.indexOf(this.selectedLampSkill);
-
-        if (index === -1) {
-          this.value.lampSkills.push(this.selectedLampSkill);
-        }
-      }
-    },
-    removeLampSkill(): void {
-      if(this.selectedLampSkillSelection) {
-        const index = this.value.lampSkills.indexOf(this.selectedLampSkillSelection);
-
-        if (index !== -1) {
-          this.value.lampSkills.splice(index, 1);
-        }
-      }
-    },
-  },
-  computed: {
-    lampSkillsInitial(): Array<Skill> {
-      return _.filter(
-        SKILLS,
-        skill => this.value.lampSkills.indexOf(skill) === -1
-      );
-    },
-    _() {
-      return _;
-    },
+    capitalize: _.capitalize,
   },
   watch: {
     value() {
@@ -205,60 +199,55 @@ export default Vue.extend({
 .container {
   display-grid();
   grid-gap(1rem);
-  grid-template-columns(50%, auto);
 }
 
 #name-label {
   cursor: default;
   font-weight: 700;
-  grid-area(1, 1, 2, 3);
+  grid-area(1, 1, 2, 2);
 }
 
 #name {
-  grid-area(2, 1, 3, 3);
+  grid-area(2, 1, 3, 2);
 }
 
 #type-filter-label {
   cursor: default;
   font-weight: 700;
-  grid-area(3, 1, 4, 3);
+  grid-area(3, 1, 4, 2);
 }
 
 #type-filter {
-  grid-area(4, 1, 5, 3);
+  grid-area(4, 1, 5, 2);
 }
 
 #member-filter-label {
   cursor: default;
   font-weight: 700;
-  grid-area(5, 1, 6, 3);
+  grid-area(5, 1, 6, 2);
 }
 
 #member-filter {
-  grid-area(6, 1, 7, 3);
+  grid-area(6, 1, 7, 2);
 }
 
 #requirement-filter-label {
   cursor: default;
   font-weight: 700;
-  grid-area(7, 1, 8, 3);
+  grid-area(7, 1, 8, 2);
 }
 
 #requirement-filter {
-  grid-area(8, 1, 9, 3);
+  grid-area(8, 1, 9, 2);
 }
 
 #lamp-skills-label {
   cursor: default;
   font-weight: 700;
-  grid-area(9, 1, 10, 3);
+  grid-area(9, 1, 10, 2);
 }
 
 #lamp-skills {
   grid-area(10, 1, 11, 2);
-}
-
-#lamp-skills-selection {
-  grid-area(10, 2, 11, 3);
 }
 </style>

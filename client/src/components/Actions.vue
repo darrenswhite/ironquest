@@ -29,12 +29,12 @@
       <table>
         <tbody>
           <tr v-for="row in SKILLS_TABLE">
-            <td>{{ _.capitalize(row[0]) }}:</td>
-            <td>{{ _.get(value.selectedAction.player.levels, row[0]) }}</td>
-            <td>{{ _.capitalize(row[1]) }}:</td>
-            <td>{{ _.get(value.selectedAction.player.levels, row[1]) }}</td>
-            <td>{{ _.capitalize(row[2]) }}:</td>
-            <td>{{ _.get(value.selectedAction.player.levels, row[2]) }}</td>
+            <td>{{ row[0] | capitalize }}:</td>
+            <td>{{ get(value.selectedAction.player.levels, row[0]) }}</td>
+            <td>{{ row[1] | capitalize }}:</td>
+            <td>{{ get(value.selectedAction.player.levels, row[1]) }}</td>
+            <td>{{ row[2] | capitalize }}:</td>
+            <td>{{ get(value.selectedAction.player.levels, row[2]) }}</td>
           </tr>
           <tr>
             <td>Total level:</td>
@@ -113,11 +113,7 @@ export default Vue.extend({
       this.value.selectedAction = null;
       this.value.error = false;
     },
-  },
-  computed: {
-    _() {
-      return _;
-    },
+    get: _.get
   },
   mounted() {
     this.value.bus.$on('displayActionsSuccess', this.displayActionsSuccess);
