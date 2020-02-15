@@ -1,8 +1,10 @@
 <template>
-  <v-container fluid>
-    <v-row v-if="value.loading" justify="center" align="center">
+  <v-container v-if="value.loading" fluid fill-height>
+    <v-row justify="center" align="center">
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </v-row>
+  </v-container>
+  <v-container v-else fluid>
     <v-row v-if="value.path">
       <v-col>
         <v-chip color="green">
