@@ -9,15 +9,31 @@
     <meta content="IronQuest" name="description" />
     <meta content="Darren S. White" name="author" />
 
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
+
     <title>IronQuest</title>
   </head>
 
   <body>
-    <div class="main" id="app">
-      <div id="toolbar">
-        <button v-on:click="showSettings" id="settings">Settings</button>
-      </div>
-      <Actions v-model="actions" id="results"></Actions>
+    <div id="app" v-cloak>
+      <v-app>
+        <v-content>
+          <Actions v-model="actions">
+            <div id="settings">
+              <v-btn v-on:click="showSettings">
+                Settings
+              </v-btn>
+            </div>
+          </Actions>
+        </v-content>
+      </v-app>
     </div>
   </body>
 </html>

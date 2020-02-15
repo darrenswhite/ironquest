@@ -1,12 +1,13 @@
 import './results.styl';
 import Actions from '../../../components/Actions.vue';
 import { Windows } from '../../scripts';
-import { PathFinder } from '../../../lib';
+import { PathFinder, vuetify } from '../../../lib';
 import { Action, Path } from 'ironquest';
 import Vue from 'vue';
 
 $(() => {
   const vm = new Vue({
+    vuetify,
     data: {
       actions: {
         bus: new Vue(),

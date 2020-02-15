@@ -2,13 +2,14 @@ import './index.styl';
 import Actions from '../../components/Actions.vue';
 import Settings from '../../components/Settings.vue';
 import { Action, Path, QuestAccessFilter, QuestTypeFilter } from 'ironquest';
-import { Cache, PathFinder } from '../../lib';
+import { Cache, PathFinder, vuetify } from '../../lib';
 import Vue from 'vue';
 
 $(() => {
   Cache.getInstance().loadParameters();
 
   const vm = new Vue({
+    vuetify,
     data: {
       actions: {
         bus: new Vue(),

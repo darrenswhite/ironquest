@@ -1,10 +1,11 @@
 import './username.styl';
 import { Windows } from '../../scripts';
-import { PathFinder } from '../../../lib';
+import { PathFinder, vuetify } from '../../../lib';
 import Vue from 'vue';
 
 $(() => {
   new Vue({
+    vuetify,
     data: {
       name: PathFinder.getInstance().parameters.name,
     },

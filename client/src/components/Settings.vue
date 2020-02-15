@@ -1,138 +1,68 @@
 <template>
-  <div class="container">
-    <label for="name" id="name-label">
-      Username
-      <span
-        title="Enter your RuneScape name to retrieve quest and skill information."
-        >&#9432;</span
+  <v-container fluid>
+    <v-row>
+      <v-text-field
+        v-model="value.name"
+        label="Username"
+        hint="Enter your RuneScape name to retrieve quest and skill information."
+        clearable
+      ></v-text-field>
+    </v-row>
+
+    <v-row>
+      <v-radio-group
+        v-model="value.typeFilter"
+        label="Type Filter"
+        hint="Filter by quests/miniquests/sagas."
+        row
       >
-    </label>
+        <v-radio label="All" value="ALL"></v-radio>
+        <v-radio label="Quests" value="QUESTS"></v-radio>
+        <v-radio label="Miniquests" value="MINIQUESTS"></v-radio>
+        <v-radio label="Sagas" value="SAGAS"></v-radio>
+      </v-radio-group>
+    </v-row>
 
-    <input v-model="value.name" id="name" placeholder="Username" type="text" />
-
-    <div id="type-filter-label">
-      Type Filter
-      <span title="Filter by quests/miniquests/sagas.">&#9432;</span>
-    </div>
-
-    <div id="type-filter">
-      <label>
-        <input
-          v-model="value.typeFilter"
-          type="radio"
-          value="ALL"
-          name="typeFilter"
-        />
-        All
-      </label>
-
-      <label>
-        <input
-          v-model="value.typeFilter"
-          type="radio"
-          value="QUESTS"
-          name="typeFilter"
-        />
-        Quests
-      </label>
-
-      <label>
-        <input
-          v-model="value.typeFilter"
-          type="radio"
-          value="MINIQUESTS"
-          name="typeFilter"
-        />
-        Miniquests
-      </label>
-
-      <label>
-        <input
-          v-model="value.typeFilter"
-          type="radio"
-          value="SAGAS"
-          name="typeFilter"
-        />
-        Sagas
-      </label>
-    </div>
-
-    <div id="member-filter-label">
-      Member Filter
-      <span title="Filter by free/member quests.">&#9432;</span>
-    </div>
-
-    <div id="member-filter">
-      <label>
-        <input
-          v-model="value.accessFilter"
-          type="radio"
-          value="ALL"
-          name="accessFilter"
-        />
-        All
-      </label>
-
-      <label>
-        <input
-          v-model="value.accessFilter"
-          type="radio"
-          value="FREE"
-          name="accessFilter"
-        />
-        Free
-      </label>
-
-      <label>
-        <input
-          v-model="value.accessFilter"
-          type="radio"
-          value="MEMBERS"
-          name="accessFilter"
-        />
-        Members
-      </label>
-    </div>
-
-    <div id="requirement-filter-label">
-      Requirement Filter
-      <span title="Toggle ironman/recommended requirements for quests."
-        >&#9432;</span
+    <v-row>
+      <v-radio-group
+        v-model="value.accessFilter"
+        label="Member Filter"
+        hint="Filter by free/member quests."
+        row
       >
-    </div>
+        <v-radio label="All" value="ALL"></v-radio>
+        <v-radio label="Free" value="FREE"></v-radio>
+        <v-radio label="Members" value="MEMBERS"></v-radio>
+      </v-radio-group>
+    </v-row>
 
-    <div id="requirement-filter">
-      <label>
-        <input v-model="value.ironman" type="checkbox" />
-        Ironman
-      </label>
+    <v-row>
+      <v-checkbox
+        v-model="value.ironman"
+        label="Ironman"
+        hint="Toggle ironman requirements for quests."
+        class="mr-4"
+      ></v-checkbox>
+      <v-checkbox
+        v-model="value.recommended"
+        label="Recommended"
+        hint="Toggle recommended requirements for quests."
+      ></v-checkbox>
+    </v-row>
 
-      <label>
-        <input v-model="value.recommended" type="checkbox" />
-        Recommended
-      </label>
-    </div>
-
-    <div id="lamp-skills-label">
-      Lamp Skills
-      <span title="Choose which skills xp lamps should be used on."
-        >&#9432;</span
-      >
-    </div>
-
-    <multiselect
-      v-model="value.lampSkills"
-      :options="SKILLS"
-      :multiple="true"
-      :close-on-select="false"
-      :clear-on-select="false"
-      :preserve-search="true"
-      :custom-label="capitalize"
-      placeholder="Select skills"
-      id="lamp-skills"
-    >
-    </multiselect>
-  </div>
+    <v-row>
+      <v-select
+        v-model="value.lampSkills"
+        :items="skillOptions"
+        item-text="text"
+        item-value="value"
+        label="Lamp Skills"
+        multiple
+        chips
+        hint="Choose which skills xp lamps should be used on."
+      ></v-select>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -177,13 +107,15 @@ export default Vue.extend({
       required: true,
     },
   },
-  data() {
-    return {
-      SKILLS,
-    };
-  },
-  methods: {
-    capitalize: _.capitalize,
+  computed: {
+    skillOptions() {
+      return _.map(SKILLS, skill => {
+        return {
+          value: skill,
+          text: _.capitalize(skill)
+        }
+      });
+    }
   },
   watch: {
     value() {
@@ -192,62 +124,3 @@ export default Vue.extend({
   },
 });
 </script>
-
-<style lang="stylus" scoped>
-@require '../styles/grid.mixin';
-
-.container {
-  display-grid();
-  grid-gap(1rem);
-}
-
-#name-label {
-  cursor: default;
-  font-weight: 700;
-  grid-area(1, 1, 2, 2);
-}
-
-#name {
-  grid-area(2, 1, 3, 2);
-}
-
-#type-filter-label {
-  cursor: default;
-  font-weight: 700;
-  grid-area(3, 1, 4, 2);
-}
-
-#type-filter {
-  grid-area(4, 1, 5, 2);
-}
-
-#member-filter-label {
-  cursor: default;
-  font-weight: 700;
-  grid-area(5, 1, 6, 2);
-}
-
-#member-filter {
-  grid-area(6, 1, 7, 2);
-}
-
-#requirement-filter-label {
-  cursor: default;
-  font-weight: 700;
-  grid-area(7, 1, 8, 2);
-}
-
-#requirement-filter {
-  grid-area(8, 1, 9, 2);
-}
-
-#lamp-skills-label {
-  cursor: default;
-  font-weight: 700;
-  grid-area(9, 1, 10, 2);
-}
-
-#lamp-skills {
-  grid-area(10, 1, 11, 2);
-}
-</style>

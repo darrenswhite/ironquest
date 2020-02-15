@@ -1,65 +1,90 @@
 <template>
-  <div class="container">
-    <div v-if="value.loading" id="actions_loading">
-      <p>Loading...</p>
-    </div>
-    <div v-if="value.error" id="actions_error">
-      <p>Something went wrong!</p>
-    </div>
-    <div v-if="value.path" id="path_stats">
-      <span id="path_stats_completed">
-        Completed:
-        <span id="path_stats_completed_inner">
-          {{ value.path.stats.percentComplete }}%
-        </span>
-      </span>
-    </div>
-    <p v-if="value.path && !value.path.actions" id="actions_none">None</p>
-    <select
-      v-if="value.path && value.path.actions"
-      v-model="value.selectedAction"
-      id="actions"
-      size="5"
-    >
-      <option v-for="action in value.path.actions" v-bind:value="action">
-        {{ action.message }}
-      </option>
-    </select>
-    <div v-if="value.selectedAction" id="actions_content">
-      <table>
-        <tbody>
-          <tr v-for="row in SKILLS_TABLE">
-            <td>{{ row[0] | capitalize }}:</td>
-            <td>{{ get(value.selectedAction.player.levels, row[0]) }}</td>
-            <td>{{ row[1] | capitalize }}:</td>
-            <td>{{ get(value.selectedAction.player.levels, row[1]) }}</td>
-            <td>{{ row[2] | capitalize }}:</td>
-            <td>{{ get(value.selectedAction.player.levels, row[2]) }}</td>
-          </tr>
-          <tr>
-            <td>Total level:</td>
-            <td>{{ value.selectedAction.player.totalLevel }}</td>
-            <td>Combat level:</td>
-            <td>{{ value.selectedAction.player.combatLevel }}</td>
-            <td>Quest points:</td>
-            <td>{{ value.selectedAction.player.questPoints }}</td>
-          </tr>
-          <tr
-            v-if="
-              value.selectedAction.type === 'QUEST' ||
-                value.selectedAction.type === 'LAMP'
-            "
-          >
-            <td colspan="6" id="view_quest">
-              <a :href="RUNESCAPE_WIKI_URL + value.selectedAction.quest.displayName.replace(/ /g, '_')" target="_blank"
-                >View quest on wiki</a
-              >
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <v-container fluid>
+    <v-row v-if="value.loading" justify="center" align="center">
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </v-row>
+    <v-row v-if="value.error" justify="center" align="center">
+      <p class="error">Something went wrong!</p>
+    </v-row>
+    <v-row v-if="value.path">
+      <v-col>
+        <v-chip color="green">
+          <v-avatar left>
+            <v-icon>mdi-checkbox-marked-circle</v-icon>
+          </v-avatar>
+          Completed: {{ value.path.stats.percentComplete }}%
+        </v-chip>
+      </v-col>
+      <v-col>
+        <slot></slot>
+      </v-col>
+    </v-row>
+    <v-row v-if="value.path && !value.path.actions">
+      <p>None</p>
+    </v-row>
+    <v-row v-if="value.path && value.path.actions">
+      <v-col md="6" lg="6" xl="6">
+        <v-list class="actions-list" dense>
+          <v-list-item-group v-model="value.selectedAction" mandatory>
+            <v-list-item
+              v-for="(action, i) in value.path.actions"
+              :key="i"
+              :value="action"
+            >
+              <v-list-item-content>
+                <v-list-item-title v-text="action.message"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-col>
+      <v-col
+        v-if="value.selectedAction"
+        md="6"
+        lg="6"
+        xl="6"
+        class="actions-content"
+      >
+        <v-simple-table dense>
+          <tbody>
+            <tr v-for="row in SKILLS_TABLE">
+              <td>{{ row[0] | capitalize }}:</td>
+              <td>{{ get(value.selectedAction.player.levels, row[0]) }}</td>
+              <td>{{ row[1] | capitalize }}:</td>
+              <td>{{ get(value.selectedAction.player.levels, row[1]) }}</td>
+              <td>{{ row[2] | capitalize }}:</td>
+              <td>{{ get(value.selectedAction.player.levels, row[2]) }}</td>
+            </tr>
+            <tr>
+              <td>Total level:</td>
+              <td>{{ value.selectedAction.player.totalLevel }}</td>
+              <td>Combat level:</td>
+              <td>{{ value.selectedAction.player.combatLevel }}</td>
+              <td>Quest points:</td>
+              <td>{{ value.selectedAction.player.questPoints }}</td>
+            </tr>
+            <tr
+              v-if="
+                value.selectedAction.type === 'QUEST' ||
+                  value.selectedAction.type === 'LAMP'
+              "
+            >
+              <td colspan="6" class="view-quest">
+                <a
+                  :href="
+                    RUNESCAPE_WIKI_URL +
+                      value.selectedAction.quest.displayName.replace(/ /g, '_')
+                  "
+                  target="_blank"
+                  >View quest on wiki</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </v-simple-table>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -113,7 +138,7 @@ export default Vue.extend({
       this.value.selectedAction = null;
       this.value.error = false;
     },
-    get: _.get
+    get: _.get,
   },
   mounted() {
     this.value.bus.$on('displayActionsSuccess', this.displayActionsSuccess);
@@ -129,75 +154,20 @@ export default Vue.extend({
 </script>
 
 <style lang="stylus" scoped>
-@require '../styles/grid.mixin';
-
-.container {
-  display-grid();
-  grid-gap(1rem);
-
-  @media screen and (min-width: 0) {
-    grid-template-columns(100%);
-  }
-
-  @media screen and (min-width: 1024px) {
-    grid-template-columns(50%, auto);
-  }
-}
-
-#actions_error > p {
+.error {
   color: #ee0000;
 }
 
-#actions {
-  grid-area(2, 1, 3, 2);
+.actions-list {
+  max-height: 16rem;
+  overflow-y: auto;
 }
 
-#actions_content {
-  overflow: auto;
-
-  @media screen and (min-width: 0) {
-    grid-area(3, 1, 4, 2);
-  }
-
-  @media screen and (min-width: 1024px) {
-    grid-area(2, 2, 3, 3);
-  }
+.actions-content {
+  overflow-x: auto;
 }
 
-#view_quest {
+.view-quest {
   text-align: center;
-}
-
-#actions_error,
-#actions_loading,
-#actions_none {
-  grid-area(1, 1, 3, 3);
-  margin-bottom: auto;
-  margin-top: auto;
-  text-align: center;
-}
-
-#actions_loading > p,
-#actions_none > p {
-  color: #cccccc;
-  font-style: italic;
-}
-
-#path_stats {
-  grid-area(1, 1, 2, 3);
-}
-
-#path_stats_completed {
-  background-color: #222222;
-  border: 1px solid #222222;
-  border-radius: 4px;
-  display: inline-block;
-  font-weight: 700;
-  padding: 0.5rem;
-  text-align: center;
-}
-
-#path_stats_completed_inner {
-  font-weight: 400;
 }
 </style>

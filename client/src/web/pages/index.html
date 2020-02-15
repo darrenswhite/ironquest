@@ -9,19 +9,46 @@
     <meta content="IronQuest" name="description" />
     <meta content="Darren S. White" name="author" />
 
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
+
     <title>IronQuest</title>
   </head>
 
   <body>
-    <div class="main" id="app">
-      <div id="header">
-        <h1>IronQuest</h1>
-      </div>
-      <Settings v-model="parameters" id="settings"></Settings>
-      <div id="toolbar">
-        <button v-on:click="run" v-bind:disabled="actions.loading" id="run">Run</button>
-      </div>
-      <Actions v-model="actions" id="results"></Actions>
+    <div id="app">
+      <v-app v-cloak>
+        <v-app-bar app>
+          <v-toolbar-title>IronQuest</v-toolbar-title>
+        </v-app-bar>
+        <v-content>
+          <v-container fluid>
+            <v-row>
+              <v-col offset-lg="2" lg="8" offset-xl="2" xl="8">
+                <Settings v-model="parameters"></Settings>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col offset-lg="2" lg="8" offset-xl="2" xl="8">
+                <v-btn v-on:click="run" v-bind:disabled="actions.loading" block>
+                  Run
+                </v-btn>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col offset-lg="2" lg="8" offset-xl="2" xl="8">
+                <Actions v-model="actions"></Actions>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-content>
+      </v-app>
     </div>
   </body>
 </html>

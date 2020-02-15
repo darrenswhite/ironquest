@@ -55,11 +55,11 @@
         "grab_keyboard_focus": true,
         "size": {
           "width": 1024,
-          "height": 450
+          "height": 425
         },
         "min_size": {
-          "width": 450,
-          "height": 450
+          "width": 600,
+          "height": 425
         },
         "start_position": {
           "top": 0,
@@ -76,12 +76,12 @@
         "mute": true,
         "grab_keyboard_focus": true,
         "size": {
-          "width": 300,
-          "height": 692
+          "width": 520,
+          "height": 520
         },
         "min_size": {
-          "width": 300,
-          "height": 692
+          "width": 520,
+          "height": 520
         },
         "start_position": {
           "top": 0,
@@ -99,11 +99,11 @@
         "grab_keyboard_focus": true,
         "size": {
           "width": 300,
-          "height": 160
+          "height": 200
         },
         "min_size": {
           "width": 300,
-          "height": 160
+          "height": 200
         },
         "start_position": {
           "top": 0,
