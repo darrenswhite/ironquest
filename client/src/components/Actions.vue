@@ -20,7 +20,7 @@
       <p>None</p>
     </v-row>
     <v-row v-if="value.path && value.path.actions">
-      <v-col md="6" lg="6" xl="6">
+      <v-col cols="12" md="6" lg="6" xl="6">
         <v-list class="actions-list" dense>
           <v-list-item-group v-model="value.selectedAction" mandatory>
             <v-list-item
@@ -37,6 +37,7 @@
       </v-col>
       <v-col
         v-if="value.selectedAction"
+        cols="12"
         md="6"
         lg="6"
         xl="6"
