@@ -104,12 +104,17 @@ declare module 'ironquest' {
     typeFilter?: QuestTypeFilter;
   }
 
+  export interface PathFinderError {
+    response: Response;
+    parameters: PathFinderParameters;
+  }
+
   export interface PathFinderListener {
     start(): void;
 
     success(path: Path): void;
 
-    failure(response: unknown): void;
+    failure(response: PathFinderError): void;
   }
 
   export interface PathFinder {

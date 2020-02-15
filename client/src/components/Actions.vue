@@ -3,9 +3,6 @@
     <v-row v-if="value.loading" justify="center" align="center">
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </v-row>
-    <v-row v-if="value.error" justify="center" align="center">
-      <p class="error">Something went wrong!</p>
-    </v-row>
     <v-row v-if="value.path">
       <v-col>
         <v-chip color="green">
@@ -84,14 +81,50 @@
         </v-simple-table>
       </v-col>
     </v-row>
+    <v-row justify="center" align="center">
+      <v-alert
+        :value="value.error"
+        type="error"
+        transition="fade-transition"
+        dismissible
+        prominent
+      >
+        <v-row align="center">
+          <v-col class="grow">
+            Something went wrong!
+          </v-col>
+          <v-col class="shrink">
+            <v-btn :href="NEW_ISSUE_URL" target="_blank">Submit issue</v-btn>
+          </v-col>
+        </v-row>
+        <v-row v-if="value.errorResponse" align="center">
+          <v-col>
+            <v-expansion-panels>
+              <v-expansion-panel>
+                <v-expansion-panel-header>
+                  View details
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  Parameters:
+                  <pre>{{ value.errorResponse.parameters }}</pre>
+                  Response:
+                  <pre>{{ value.errorResponse.response }}</pre>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-col>
+        </v-row>
+      </v-alert>
+    </v-row>
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Action, Path, Skill } from 'ironquest';
+import { Action, Path, PathFinderError, Skill } from 'ironquest';
 import { get, head } from 'lodash';
 
+const NEW_ISSUE_URL = 'https://github.com/darrenswhite/ironquest/issues/new';
 const RUNESCAPE_WIKI_URL = 'https://runescape.wiki/';
 const SKILLS_TABLE = [
   [Skill.ATTACK, Skill.CONSTITUTION, Skill.MINING],
@@ -115,6 +148,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      NEW_ISSUE_URL,
       RUNESCAPE_WIKI_URL,
       SKILLS_TABLE,
     };
@@ -127,11 +161,10 @@ export default Vue.extend({
       this.value.path = path;
       this.value.selectedAction = head(path.actions);
     },
-    displayActionsFailure(response: unknown): void {
-      console.error(`Failed to find path: `, response);
-
+    displayActionsFailure(response: PathFinderError): void {
       this.value.loading = false;
       this.value.error = true;
+      this.value.errorResponse = response;
     },
     showLoader(): void {
       this.value.loading = true;

@@ -5,43 +5,42 @@ import { PathFinder, vuetify } from '@/lib';
 import { Action, Path } from 'ironquest';
 import Vue from 'vue';
 
-$(() => {
-  const vm = new Vue({
-    vuetify,
-    data: {
-      actions: {
-        bus: new Vue(),
-        error: false,
-        loading: false,
-        path: null as Path | null,
-        selectedAction: null as Action | null | undefined,
-      },
+const vm = new Vue({
+  vuetify,
+  data: {
+    actions: {
+      bus: new Vue(),
+      error: false,
+      loading: false,
+      path: null as Path | null,
+      selectedAction: null as Action | null | undefined,
     },
-    methods: {
-      showSettings(): void {
-        Windows.getInstance().minimize(Windows.RESULTS);
-        Windows.getInstance().restore(Windows.SETTINGS);
-      },
-      showLoader(): void {
-        vm.actions.bus.$emit('showLoader');
-      },
-      displayActionsSuccess(path: Path): void {
-        vm.actions.bus.$emit('displayActionsSuccess', path);
-      },
-      displayActionsFailure(response: unknown): void {
-        vm.actions.bus.$emit('displayActionsFailure', response);
-      },
+  },
+  methods: {
+    showSettings(): void {
+      Windows.getInstance().minimize(Windows.RESULTS);
+      Windows.getInstance().restore(Windows.SETTINGS);
     },
-    components: {
-      actions: Actions,
+    showLoader(): void {
+      vm.actions.bus.$emit('showLoader');
     },
-  }).$mount('#app');
+    displayActionsSuccess(path: Path): void {
+      vm.actions.bus.$emit('displayActionsSuccess', path);
+    },
+    displayActionsFailure(response: unknown): void {
+      vm.actions.bus.$emit('displayActionsFailure', response);
+    },
+  },
+  components: {
+    Actions,
+  },
+  created() {
+    PathFinder.getInstance().listeners.push({
+      start: vm.showLoader,
+      success: vm.displayActionsSuccess,
+      failure: vm.displayActionsFailure,
+    });
 
-  PathFinder.getInstance().listeners.push({
-    start: vm.showLoader,
-    success: vm.displayActionsSuccess,
-    failure: vm.displayActionsFailure,
-  });
-
-  PathFinder.getInstance().find();
-});
+    PathFinder.getInstance().find();
+  },
+}).$mount('#app');

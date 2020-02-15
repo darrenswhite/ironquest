@@ -5,7 +5,6 @@ export class Controller {
   private constructor() {}
 
   static async init(): Promise<void> {
-    $.ajaxSetup({ traditional: true });
     Controller.registerHotkeys();
     Cache.getInstance().loadParameters();
     Controller.toggleStartWindow();

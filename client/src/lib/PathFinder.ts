@@ -1,5 +1,6 @@
 import { Path, PathFinderListener, PathFinderParameters } from 'ironquest';
 import { Cache } from './';
+import querystring from 'querystring';
 
 const PATH_FINDER_URL = 'https://iron-quest.herokuapp.com/api/quests/path';
 
@@ -27,14 +28,30 @@ export class PathFinder {
 
     this.listeners.forEach(listener => listener.start());
 
-    $.get({
-      url: PATH_FINDER_URL,
-      data: this.parameters,
-    }).then(
-      (path: Path) =>
-        this.listeners.forEach(listener => listener.success(path)),
-      (response: unknown) =>
-        this.listeners.forEach(listener => listener.failure(response))
+    const url = new URL(PATH_FINDER_URL);
+
+    url.search = querystring.stringify(
+      this.parameters as querystring.ParsedUrlQueryInput
     );
+
+    fetch(url.toString())
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw response;
+        }
+      })
+      .then((path: Path) =>
+        this.listeners.forEach(listener => listener.success(path))
+      )
+      .catch(async response => {
+        const json = await response.json();
+
+        this.listeners.forEach(listener => listener.failure({
+          response: json,
+          parameters: this.parameters
+        }));
+      });
   }
 }
