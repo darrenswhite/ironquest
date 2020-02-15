@@ -34,7 +34,7 @@ new Vue({
   components: {
     Actions,
   },
-  created() {
+  mounted() {
     PathFinder.getInstance().listeners.push({
       start: this.showLoader,
       success: this.displayActionsSuccess,
