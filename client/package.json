@@ -30,7 +30,6 @@
   "homepage": "https://github.com/darrenswhite/ironquest#readme",
   "devDependencies": {
     "@types/express": "^4.17.2",
-    "@types/jquery": "^3.3.31",
     "@types/lodash": "^4.14.149",
     "@types/mocha": "^5.2.7",
     "@types/node": "^13.5.0",

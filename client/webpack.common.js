@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const { map, mapValues } = require('lodash');
+const { filter, map, mapValues } = require('lodash');
 
 const WEB = {
   target: 'web',
@@ -58,6 +58,10 @@ function entrypoints(options) {
     return new HtmlWebpackPlugin({
       filename: entrypoint.html,
       template: path.resolve(entrypoint.path, entrypoint.html),
+      excludeChunks: map(
+        filter(config.entrypoints, e => e !== entrypoint),
+        e => e.html.replace('.html', '')
+      ),
       ...options,
     });
   });
@@ -141,10 +145,7 @@ module.exports = {
         },
       ],
     },
-    plugins: [
-      new CleanWebpackPlugin(),
-      new VueLoaderPlugin(),
-    ],
+    plugins: [new CleanWebpackPlugin(), new VueLoaderPlugin()],
     resolve: {
       alias: {
         vue$: 'vue/dist/vue.esm.js',

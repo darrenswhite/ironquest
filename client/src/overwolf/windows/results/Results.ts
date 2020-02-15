@@ -5,7 +5,7 @@ import { PathFinder, vuetify } from '@/lib';
 import { Action, Path } from 'ironquest';
 import Vue from 'vue';
 
-const vm = new Vue({
+new Vue({
   vuetify,
   data: {
     actions: {
@@ -22,13 +22,13 @@ const vm = new Vue({
       Windows.getInstance().restore(Windows.SETTINGS);
     },
     showLoader(): void {
-      vm.actions.bus.$emit('showLoader');
+      this.actions.bus.$emit('showLoader');
     },
     displayActionsSuccess(path: Path): void {
-      vm.actions.bus.$emit('displayActionsSuccess', path);
+      this.actions.bus.$emit('displayActionsSuccess', path);
     },
     displayActionsFailure(response: unknown): void {
-      vm.actions.bus.$emit('displayActionsFailure', response);
+      this.actions.bus.$emit('displayActionsFailure', response);
     },
   },
   components: {
@@ -36,9 +36,9 @@ const vm = new Vue({
   },
   created() {
     PathFinder.getInstance().listeners.push({
-      start: vm.showLoader,
-      success: vm.displayActionsSuccess,
-      failure: vm.displayActionsFailure,
+      start: this.showLoader,
+      success: this.displayActionsSuccess,
+      failure: this.displayActionsFailure,
     });
 
     PathFinder.getInstance().find();
