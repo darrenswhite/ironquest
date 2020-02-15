@@ -1,8 +1,8 @@
 import './settings.styl';
 import { QuestAccessFilter, QuestTypeFilter } from 'ironquest';
-import Settings from '../../../components/Settings.vue';
-import { Windows } from '../../scripts';
-import { PathFinder, vuetify } from '../../../lib';
+import Settings from '@/components/Settings.vue';
+import { Windows } from '@/overwolf/scripts';
+import { PathFinder, vuetify } from '@/lib';
 import Vue from 'vue';
 
 $(() => {

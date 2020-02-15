@@ -1,7 +1,7 @@
 import './results.styl';
-import Actions from '../../../components/Actions.vue';
-import { Windows } from '../../scripts';
-import { PathFinder, vuetify } from '../../../lib';
+import Actions from '@/components/Actions.vue';
+import { Windows } from '@/overwolf/scripts';
+import { PathFinder, vuetify } from '@/lib';
 import { Action, Path } from 'ironquest';
 import Vue from 'vue';
 

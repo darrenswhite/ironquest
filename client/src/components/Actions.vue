@@ -90,7 +90,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Action, Path, Skill } from 'ironquest';
-import _ from 'lodash';
+import { get, head } from 'lodash';
 
 const RUNESCAPE_WIKI_URL = 'https://runescape.wiki/';
 const SKILLS_TABLE = [
@@ -106,6 +106,7 @@ const SKILLS_TABLE = [
 ];
 
 export default Vue.extend({
+  name: 'actions',
   props: {
     value: {
       type: Object,
@@ -124,7 +125,7 @@ export default Vue.extend({
 
       this.value.loading = false;
       this.value.path = path;
-      this.value.selectedAction = _.head(path.actions);
+      this.value.selectedAction = head(path.actions);
     },
     displayActionsFailure(response: unknown): void {
       console.error(`Failed to find path: `, response);
@@ -138,7 +139,7 @@ export default Vue.extend({
       this.value.selectedAction = null;
       this.value.error = false;
     },
-    get: _.get,
+    get,
   },
   mounted() {
     this.value.bus.$on('displayActionsSuccess', this.displayActionsSuccess);

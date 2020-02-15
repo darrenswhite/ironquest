@@ -68,7 +68,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Skill } from 'ironquest';
-import _ from 'lodash';
+import { capitalize, map } from 'lodash';
 
 const SKILLS = [
   Skill.AGILITY,
@@ -101,6 +101,7 @@ const SKILLS = [
 ] as Skill[];
 
 export default Vue.extend({
+  name: 'settings',
   props: {
     value: {
       type: Object,
@@ -109,13 +110,13 @@ export default Vue.extend({
   },
   computed: {
     skillOptions() {
-      return _.map(SKILLS, skill => {
+      return map(SKILLS, skill => {
         return {
           value: skill,
-          text: _.capitalize(skill)
-        }
+          text: capitalize(skill),
+        };
       });
-    }
+    },
   },
   watch: {
     value() {

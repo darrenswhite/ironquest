@@ -1,5 +1,5 @@
-import { Hotkeys, Windows } from '../../scripts';
-import { Cache, PathFinder } from '../../../lib';
+import { Hotkeys, Windows } from '@/overwolf/scripts';
+import { Cache, PathFinder } from '@/lib';
 
 export class Controller {
   private constructor() {}

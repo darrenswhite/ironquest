@@ -1,9 +1,12 @@
 import './index.styl';
-import Actions from '../../components/Actions.vue';
-import Settings from '../../components/Settings.vue';
 import { Action, Path, QuestAccessFilter, QuestTypeFilter } from 'ironquest';
-import { Cache, PathFinder, vuetify } from '../../lib';
+import { Cache, PathFinder, vuetify } from '@/lib';
 import Vue from 'vue';
+
+const actions = () =>
+  import(/* webpackChunkName: "actions" */ '@/components/Actions.vue');
+const settings = () =>
+  import(/* webpackChunkName: "settings" */ '@/components/Settings.vue');
 
 $(() => {
   Cache.getInstance().loadParameters();
@@ -56,8 +59,8 @@ $(() => {
       },
     },
     components: {
-      Actions,
-      Settings,
+      actions,
+      settings,
     },
   }).$mount('#app');
 

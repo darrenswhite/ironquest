@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const _ = require('lodash');
+const { map, mapValues } = require('lodash');
 
 const WEB = {
   target: 'web',
@@ -53,86 +53,121 @@ if (process.env.TARGET === WEB.target) {
   throw new Error(`Unknown target: ${process.env.TARGET}`);
 }
 
-module.exports = {
-  entry: _.mapValues(config.entrypoints, e => path.resolve(e.path, e.ts)),
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        loader: 'ts-loader?configFile=tsconfig.json',
-        exclude: /node_modules|vue\/src/,
-        options: {
-          appendTsSuffixTo: [/\.vue$/],
-        },
-      },
-      {
-        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-        use: 'file-loader?limit=1024&name=[path][name].[ext]',
-      },
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-      },
-      {
-        test: /\.(s(c|a)ss|css)$/,
-        use: [
-          'vue-style-loader',
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              implementation: require('sass'),
-              fiber: require('fibers'),
-            },
-            options: {
-              implementation: require('sass'),
-              sassOptions: {
-                fiber: require('fibers'),
-              },
-            },
-          },
-        ],
-      },
-      {
-        test: /\.styl(us)?$/,
-        use: [
-          'vue-style-loader',
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'stylus-loader',
-        ],
-      },
-    ],
-  },
-  plugins: [
-    new CleanWebpackPlugin(),
-    ..._.map(config.entrypoints, e => {
-      return new HtmlWebpackPlugin({
-        filename: e.html,
-        template: path.resolve(e.path, e.html),
-        chunks: [e.html.replace('.html', '')],
-      });
-    }),
-    new webpack.HashedModuleIdsPlugin(),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery',
-    }),
-    new VueLoaderPlugin(),
-    new MiniCssExtractPlugin({
-      filename: '[name].[hash].css',
-      chunkFilename: '[id].[hash].css',
-    }),
-  ],
-  resolve: {
-    alias: {
-      vue: 'vue/dist/vue.common.js',
+function entrypoints(options) {
+  return map(config.entrypoints, entrypoint => {
+    return new HtmlWebpackPlugin({
+      filename: entrypoint.html,
+      template: path.resolve(entrypoint.path, entrypoint.html),
+      ...options,
+    });
+  });
+}
+
+function styleLoaders(extract) {
+  const styleLoader = extract
+    ? MiniCssExtractPlugin.loader
+    : 'vue-style-loader';
+  const cssLoader = {
+    loader: 'css-loader',
+    options: {
+      sourceMap: true,
     },
-    extensions: ['.tsx', '.ts', '.js', '.styl'],
-  },
-  output: {
-    filename: '[name].[contenthash].js',
-    path: path.resolve(__dirname, 'build'),
+  };
+  const postCssLoader = {
+    loader: 'postcss-loader',
+    options: {
+      sourceMap: true,
+    },
+  };
+
+  return [
+    {
+      test: /\.(s(c|a)ss)$/,
+      use: [
+        styleLoader,
+        cssLoader,
+        postCssLoader,
+        {
+          loader: 'sass-loader',
+          options: {
+            sourceMap: true,
+          },
+        },
+      ],
+    },
+    {
+      test: /\.styl(us)?$/,
+      use: [
+        styleLoader,
+        cssLoader,
+        postCssLoader,
+        {
+          loader: 'stylus-loader',
+          options: {
+            sourceMap: true,
+          },
+        },
+      ],
+    },
+    {
+      test: /\.css$/,
+      use: [styleLoader, cssLoader, postCssLoader],
+    },
+  ];
+}
+
+module.exports = {
+  entrypoints: entrypoints,
+  styleLoaders: styleLoaders,
+  webpack: {
+    entry: mapValues(config.entrypoints, e => path.resolve(e.path, e.ts)),
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          loader: 'ts-loader?configFile=tsconfig.json',
+          exclude: /node_modules|vue\/src/,
+          options: {
+            appendTsSuffixTo: [/\.vue$/],
+          },
+        },
+        {
+          test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+          use: 'file-loader?limit=1024&name=[path][name].[ext]',
+        },
+        {
+          test: /\.vue$/,
+          loader: 'vue-loader',
+        },
+      ],
+    },
+    plugins: [
+      new CleanWebpackPlugin(),
+      new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery',
+      }),
+      new VueLoaderPlugin(),
+    ],
+    resolve: {
+      alias: {
+        vue$: 'vue/dist/vue.esm.js',
+        '@': path.resolve(__dirname, 'src'),
+      },
+      extensions: ['.tsx', '.ts', '.js', '.styl'],
+    },
+    output: {
+      filename: '[name].js',
+      path: path.resolve(__dirname, 'build'),
+    },
+    node: {
+      setImmediate: false,
+      dgram: 'empty',
+      fs: 'empty',
+      net: 'empty',
+      tls: 'empty',
+      child_process: 'empty',
+    },
   },
 };

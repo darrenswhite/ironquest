@@ -1,6 +1,6 @@
 import './username.styl';
-import { Windows } from '../../scripts';
-import { PathFinder, vuetify } from '../../../lib';
+import { Windows } from '@/overwolf/scripts';
+import { PathFinder, vuetify } from '@/lib';
 import Vue from 'vue';
 
 $(() => {
