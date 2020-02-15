@@ -52,7 +52,7 @@ module.exports = merge.smart(common.webpack, {
     rules: [...common.styleLoaders(true)],
   },
   output: {
-    filename: '[name].[chunkhash].js',
+    filename: 'js/[name].[chunkhash].js',
   },
   plugins: [
     new webpack.HashedModuleIdsPlugin(),
@@ -66,7 +66,7 @@ module.exports = merge.smart(common.webpack, {
       chunksSortMode: 'dependency',
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].[chunkhash].css',
+      filename: 'css/[name].[chunkhash].css',
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),
   ],

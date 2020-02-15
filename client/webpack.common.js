@@ -154,7 +154,7 @@ module.exports = {
       extensions: ['.tsx', '.ts', '.js', '.styl'],
     },
     output: {
-      filename: '[name].js',
+      filename: 'js/[name].js',
       path: path.resolve(__dirname, 'build'),
     },
     node: {
