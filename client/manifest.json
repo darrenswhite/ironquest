@@ -54,12 +54,12 @@
         "mute": true,
         "grab_keyboard_focus": true,
         "size": {
-          "width": 1024,
-          "height": 425
+          "width": 1090,
+          "height": 460
         },
         "min_size": {
           "width": 600,
-          "height": 425
+          "height": 460
         },
         "start_position": {
           "top": 0,

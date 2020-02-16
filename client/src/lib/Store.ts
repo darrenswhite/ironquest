@@ -12,11 +12,21 @@ import {
 import { head } from 'lodash';
 import querystring from 'querystring';
 import { getField, updateField } from './MapFields';
-import createMutationsSharer from 'vuex-shared-mutations';
+import { mutationsSharer } from './MutationSharer';
+import VuexPersistence from 'vuex-persist';
 
 const PATH_FINDER_URL = __API__ + '/api/quests/path';
 
 Vue.use(Vuex);
+
+const vuexLocal = new VuexPersistence({
+  storage: window.localStorage,
+});
+const plugins = [vuexLocal.plugin];
+
+if (typeof overwolf !== 'undefined') {
+  plugins.push(mutationsSharer);
+}
 
 const {
   store,
@@ -25,18 +35,7 @@ const {
   rootGetterContext,
   moduleGetterContext,
 } = createDirectStore({
-  plugins: [
-    createMutationsSharer({
-      predicate: [
-        'updateField',
-        'loadParameters',
-        'setError',
-        'setParameters',
-        'setPath',
-        'showLoader',
-      ],
-    }),
-  ],
+  plugins,
   state: {
     actions: {
       error: false,
@@ -59,22 +58,6 @@ const {
   },
   mutations: {
     updateField,
-    loadParameters(state) {
-      if (!localStorage.pathFinderParameters) {
-        localStorage.pathFinderParameters = '{}';
-      }
-
-      const parameters = JSON.parse(localStorage.pathFinderParameters);
-
-      state.parameters = {
-        name: parameters.name || '',
-        typeFilter: parameters.typeFilter || QuestTypeFilter.ALL,
-        accessFilter: parameters.accessFilter || QuestAccessFilter.ALL,
-        ironman: parameters.ironman || false,
-        recommended: parameters.recommended || false,
-        lampSkills: parameters.lampSkills || [],
-      };
-    },
     setError(state, response: PathFinderError) {
       state.actions.loading = false;
       state.actions.error = true;
@@ -128,12 +111,6 @@ const {
         });
     },
   },
-});
-
-store.commit.loadParameters();
-
-store.original.subscribe((_, state) => {
-  localStorage.pathFinderParameters = JSON.stringify(state.parameters);
 });
 
 export {

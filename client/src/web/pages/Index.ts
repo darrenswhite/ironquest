@@ -17,7 +17,4 @@ new Vue({
     Actions,
     Settings,
   },
-  beforeCreate() {
-    this.$store.direct.commit.loadParameters();
-  },
 }).$mount('#app');

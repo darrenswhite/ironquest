@@ -4,6 +4,37 @@ declare module '*.vue' {
 }
 
 declare module 'vuex-shared-mutations' {
-  // tslint:disable:no-any
-  export default function createMutationsSharer(options: any): any;
+  import { Plugin } from 'vuex';
+
+  export type Predicate =
+    | string[]
+    | ((mutation: { type: string; payload: unknown }, state: unknown) => void);
+
+  export interface Strategy {
+    addEventListener(fn: Function): unknown;
+    share(message: unknown): unknown;
+  }
+
+  export interface Options {
+    predicate: Predicate;
+    strategy?: Strategy;
+  }
+
+  export default function createMutationsSharer(
+    options: Options
+  ): Plugin<unknown>;
+
+  export class BroadcastChannelStrategy implements Strategy {
+    static available(): boolean;
+    constructor(options: { key: string });
+    addEventListener(fn: Function): unknown;
+    share(message: unknown): unknown;
+  }
+
+  export class LocalStorageStratery implements Strategy {
+    static available(): boolean;
+    constructor(options: { key: string });
+    addEventListener(fn: Function): unknown;
+    share(message: unknown): unknown;
+  }
 }
