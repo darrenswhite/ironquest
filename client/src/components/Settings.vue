@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-text-field
-        v-model="value.name"
+        v-model="name"
         label="Username"
         hint="Enter your RuneScape name to retrieve quest and skill information."
         clearable
@@ -11,7 +11,7 @@
 
     <v-row>
       <v-radio-group
-        v-model="value.typeFilter"
+        v-model="typeFilter"
         label="Type Filter"
         hint="Filter by quests/miniquests/sagas."
         row
@@ -25,7 +25,7 @@
 
     <v-row>
       <v-radio-group
-        v-model="value.accessFilter"
+        v-model="accessFilter"
         label="Member Filter"
         hint="Filter by free/member quests."
         row
@@ -38,13 +38,13 @@
 
     <v-row>
       <v-checkbox
-        v-model="value.ironman"
+        v-model="ironman"
         label="Ironman"
         hint="Toggle ironman requirements for quests."
         class="mr-4"
       ></v-checkbox>
       <v-checkbox
-        v-model="value.recommended"
+        v-model="recommended"
         label="Recommended"
         hint="Toggle recommended requirements for quests."
       ></v-checkbox>
@@ -52,7 +52,7 @@
 
     <v-row>
       <v-select
-        v-model="value.lampSkills"
+        v-model="lampSkills"
         :items="skillOptions"
         item-text="text"
         item-value="value"
@@ -69,6 +69,8 @@
 import Vue from 'vue';
 import { Skill } from 'ironquest';
 import { capitalize, map } from 'lodash';
+import { mapState } from 'vuex';
+import { mapFields } from '@/lib';
 
 const SKILLS = [
   Skill.AGILITY,
@@ -102,12 +104,6 @@ const SKILLS = [
 
 export default Vue.extend({
   name: 'settings',
-  props: {
-    value: {
-      type: Object,
-      required: true,
-    },
-  },
   computed: {
     skillOptions() {
       return map(SKILLS, skill => {
@@ -117,11 +113,14 @@ export default Vue.extend({
         };
       });
     },
-  },
-  watch: {
-    value() {
-      this.$emit('input', this.value);
-    },
+    ...mapFields([
+      'parameters.name',
+      'parameters.typeFilter',
+      'parameters.accessFilter',
+      'parameters.ironman',
+      'parameters.recommended',
+      'parameters.lampSkills',
+    ]),
   },
 });
 </script>

@@ -1,12 +1,11 @@
 import { Hotkeys, Windows } from '@/overwolf/scripts';
-import { Cache, PathFinder } from '@/lib';
+import { store } from '@/lib';
 
 export class Controller {
   private constructor() {}
 
-  static async init(): Promise<void> {
+  static init(): void {
     Controller.registerHotkeys();
-    Cache.getInstance().loadParameters();
     Controller.toggleStartWindow();
   }
 
@@ -18,21 +17,19 @@ export class Controller {
     Hotkeys.getInstance().setHotkey(Hotkeys.QUIT, Controller.relaunch);
   }
 
-  static async toggleStartWindow(): Promise<void> {
-    const params = PathFinder.getInstance().parameters;
+  static toggleStartWindow(): void {
+    const parameters = store.state.parameters;
 
-    if (params.name) {
+    if (parameters.name) {
       Windows.getInstance().toggle(Windows.RESULTS);
     } else {
       Windows.getInstance().toggle(Windows.USERNAME);
     }
   }
 
-  static async relaunch(): Promise<void> {
+  static relaunch(): void {
     overwolf.extensions.relaunch();
   }
 }
 
-(() => {
-  Controller.init();
-})();
+Controller.init();

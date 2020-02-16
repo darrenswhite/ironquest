@@ -1,8 +1,8 @@
 export {};
-import { PathFinder } from 'ironquest';
+import { AppStore } from '@/lib';
 
 declare global {
   interface Window {
-    pathFinder: PathFinder;
+    store: AppStore;
   }
 }

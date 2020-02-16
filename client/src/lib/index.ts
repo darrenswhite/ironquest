@@ -1,5 +1,5 @@
 import './Init';
 
-export { Cache } from './Cache';
-export { PathFinder } from './PathFinder';
+export { mapFields } from './MapFields';
+export { AppStore, store } from './Store';
 export { vuetify } from './Vuetify';

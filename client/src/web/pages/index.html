@@ -31,19 +31,19 @@
           <v-container fluid>
             <v-row>
               <v-col offset-lg="2" lg="8" offset-xl="2" xl="8">
-                <settings v-model="parameters"></settings>
+                <settings></settings>
               </v-col>
             </v-row>
             <v-row>
               <v-col offset-lg="2" lg="8" offset-xl="2" xl="8">
-                <v-btn v-on:click="run" v-bind:disabled="actions.loading" block>
+                <v-btn v-on:click="run" v-bind:disabled="loading" block>
                   Run
                 </v-btn>
               </v-col>
             </v-row>
             <v-row>
               <v-col offset-lg="2" lg="8" offset-xl="2" xl="8">
-                <actions v-model="actions"></actions>
+                <actions></actions>
               </v-col>
             </v-row>
           </v-container>

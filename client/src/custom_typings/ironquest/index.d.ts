@@ -108,19 +108,4 @@ declare module 'ironquest' {
     response: Response;
     parameters: PathFinderParameters;
   }
-
-  export interface PathFinderListener {
-    start(): void;
-
-    success(path: Path): void;
-
-    failure(response: PathFinderError): void;
-  }
-
-  export interface PathFinder {
-    listeners: PathFinderListener[];
-    parameters: PathFinderParameters;
-
-    find(): void;
-  }
 }

@@ -1,17 +1,14 @@
 import './username.styl';
 import { Windows } from '@/overwolf/scripts';
-import { PathFinder, vuetify } from '@/lib';
+import { mapFields, store, vuetify } from '@/lib';
 import Vue from 'vue';
 
 new Vue({
+  store: store.original,
   vuetify,
-  data: {
-    name: PathFinder.getInstance().parameters.name,
-  },
+  computed: mapFields(['parameters.name']),
   methods: {
     showResults(): void {
-      PathFinder.getInstance().parameters.name = this.name;
-
       Windows.getInstance().close(Windows.USERNAME);
       Windows.getInstance().restore(Windows.RESULTS);
     },
