@@ -14,7 +14,7 @@ import querystring from 'querystring';
 import { getField, updateField } from './MapFields';
 import createMutationsSharer from 'vuex-shared-mutations';
 
-const PATH_FINDER_URL = 'https://iron-quest.herokuapp.com/api/quests/path';
+const PATH_FINDER_URL = __API__ + '/api/quests/path';
 
 Vue.use(Vuex);
 

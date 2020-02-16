@@ -1,3 +1,5 @@
+declare var __API__: string;
+
 declare module 'ironquest' {
   export const enum ActionType {
     LAMP = 'LAMP',

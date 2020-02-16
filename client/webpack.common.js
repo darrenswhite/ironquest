@@ -6,52 +6,49 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const { filter, map, mapValues } = require('lodash');
 
-const WEB = {
-  target: 'web',
-  entrypoints: {
-    index: {
-      path: path.resolve('src', 'web', 'pages'),
-      html: 'index.html',
-      ts: 'Index.ts',
+const CONFIGS = {
+  web: {
+    entrypoints: {
+      index: {
+        path: path.resolve('src', 'web', 'pages'),
+        html: 'index.html',
+        ts: 'Index.ts',
+      },
+    },
+  },
+  overwolf: {
+    entrypoints: {
+      controller: {
+        path: path.resolve('src', 'overwolf', 'windows', 'controller'),
+        html: 'controller.html',
+        ts: 'Controller.ts',
+      },
+      results: {
+        path: path.resolve('src', 'overwolf', 'windows', 'results'),
+        html: 'results.html',
+        ts: 'Results.ts',
+      },
+      settings: {
+        path: path.resolve('src', 'overwolf', 'windows', 'settings'),
+        html: 'settings.html',
+        ts: 'Settings.ts',
+      },
+      username: {
+        path: path.resolve('src', 'overwolf', 'windows', 'username'),
+        html: 'username.html',
+        ts: 'Username.ts',
+      },
     },
   },
 };
 
-const OVERWOLF = {
-  target: 'overwolf',
-  entrypoints: {
-    controller: {
-      path: path.resolve('src', 'overwolf', 'windows', 'controller'),
-      html: 'controller.html',
-      ts: 'Controller.ts',
-    },
-    results: {
-      path: path.resolve('src', 'overwolf', 'windows', 'results'),
-      html: 'results.html',
-      ts: 'Results.ts',
-    },
-    settings: {
-      path: path.resolve('src', 'overwolf', 'windows', 'settings'),
-      html: 'settings.html',
-      ts: 'Settings.ts',
-    },
-    username: {
-      path: path.resolve('src', 'overwolf', 'windows', 'username'),
-      html: 'username.html',
-      ts: 'Username.ts',
-    },
-  },
+const APIS = {
+  local: 'window.location.href',
+  external: JSON.stringify('https://iron-quest.herokuapp.com'),
 };
 
-let config;
-
-if (process.env.TARGET === WEB.target) {
-  config = WEB;
-} else if (process.env.TARGET === OVERWOLF.target) {
-  config = OVERWOLF;
-} else {
-  throw new Error(`Unknown target: ${process.env.TARGET}`);
-}
+const config = CONFIGS[process.env.TARGET] || CONFIGS.WEB;
+const api = APIS[process.env.API] || APIS.external;
 
 function entrypoints(options) {
   return map(config.entrypoints, entrypoint => {
@@ -145,7 +142,13 @@ module.exports = {
         },
       ],
     },
-    plugins: [new CleanWebpackPlugin(), new VueLoaderPlugin()],
+    plugins: [
+      new CleanWebpackPlugin(),
+      new VueLoaderPlugin(),
+      new webpack.DefinePlugin({
+        __API__: api,
+      }),
+    ],
     resolve: {
       alias: {
         vue$: 'vue/dist/vue.esm.js',
