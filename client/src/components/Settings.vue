@@ -106,12 +106,10 @@ export default Vue.extend({
   name: 'settings',
   computed: {
     skillOptions() {
-      return map(SKILLS, skill => {
-        return {
-          value: skill,
-          text: capitalize(skill),
-        };
-      });
+      return map(SKILLS, skill => ({
+        value: skill,
+        text: capitalize(skill),
+      }));
     },
     ...mapFields([
       'parameters.name',

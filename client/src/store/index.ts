@@ -88,13 +88,13 @@ const actions: ActionTree<RootState, RootState> = {
           throw response;
         }
       })
-      .then(() => context.commit(constants.SET_PATH))
+      .then(response => context.commit(constants.SET_PATH, response))
       .catch(async response => {
         const json = await response.json();
 
         context.commit(constants.SET_ERROR, {
           response: json,
-          parameters: Object.assign({}, state.parameters),
+          parameters: Object.assign({}, context.state.parameters),
         });
       });
   },

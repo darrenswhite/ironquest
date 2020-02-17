@@ -35,6 +35,9 @@ const mutationsSharer = createMutationsSharer<RootState>({
 
 const vuexLocal = new VuexPersistence<RootState>({
   storage: window.localStorage,
+  reducer: state => ({
+    parameters: state.parameters,
+  }),
 });
 
 const plugins = [vuexLocal.plugin];
