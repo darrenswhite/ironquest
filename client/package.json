@@ -1,6 +1,6 @@
 {
   "name": "ironquest",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "IronQuest Web App",
   "main": "build/index.js",
   "typings": "build/index.d.ts",
