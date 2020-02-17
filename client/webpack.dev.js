@@ -18,7 +18,7 @@ module.exports = merge.smart(common.webpack, {
     },
   },
   module: {
-    rules: [...common.styleLoaders(false)],
+    rules: [common.tsLoader('tsconfig.json'), ...common.styleLoaders(false)],
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

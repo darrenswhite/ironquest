@@ -49,7 +49,10 @@ module.exports = merge.smart(common.webpack, {
   },
   devtool: 'source-map',
   module: {
-    rules: [...common.styleLoaders(true)],
+    rules: [
+      common.tsLoader('tsconfig.prod.json'),
+      ...common.styleLoaders(true),
+    ],
   },
   output: {
     filename: 'js/[name].[chunkhash].js',

@@ -117,21 +117,26 @@ function styleLoaders(extract) {
   ];
 }
 
+function tsLoader(configFile) {
+  return {
+    test: /\.tsx?$/,
+    loader: 'ts-loader',
+    exclude: /node_modules|vue\/src/,
+    options: {
+      appendTsSuffixTo: [/\.vue$/],
+      configFile: configFile,
+    },
+  };
+}
+
 module.exports = {
-  entrypoints: entrypoints,
-  styleLoaders: styleLoaders,
+  entrypoints,
+  styleLoaders,
+  tsLoader,
   webpack: {
     entry: mapValues(config.entrypoints, e => path.resolve(e.path, e.ts)),
     module: {
       rules: [
-        {
-          test: /\.tsx?$/,
-          loader: 'ts-loader?configFile=tsconfig.json',
-          exclude: /node_modules|vue\/src/,
-          options: {
-            appendTsSuffixTo: [/\.vue$/],
-          },
-        },
         {
           test: /\.(png|woff|woff2|eot|ttf|svg)$/,
           use: 'file-loader?limit=1024&name=[path][name].[ext]',
