@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
@@ -47,7 +48,7 @@ const APIS = {
   external: JSON.stringify('https://iron-quest.herokuapp.com'),
 };
 
-const config = CONFIGS[process.env.TARGET] || CONFIGS.WEB;
+const config = CONFIGS[process.env.TARGET] || CONFIGS.web;
 const api = APIS[process.env.API] || APIS.external;
 
 function entrypoints(options) {
@@ -153,6 +154,12 @@ module.exports = {
       new webpack.DefinePlugin({
         __API__: api,
       }),
+      new CopyWebpackPlugin([
+        {
+          from: path.resolve(__dirname, 'assets/icon-16x16.ico'),
+          to: path.resolve(__dirname, 'build/favicon.ico'),
+        },
+      ]),
     ],
     resolve: {
       alias: {
