@@ -28,3 +28,4 @@ typings/
 .nuxt
 .vuepress/dist
 .serverless
+*.zip
