@@ -12,7 +12,7 @@ import {
 import { head } from 'lodash';
 import querystring from 'querystring';
 import { getField, updateField } from 'vuex-map-fields';
-import { mutationsSharer } from './MutationSharer';
+import { mutationsSharer } from './MutationsSharer';
 import VuexPersistence from 'vuex-persist';
 
 const PATH_FINDER_URL = __API__ + '/api/quests/path';
