@@ -15,9 +15,9 @@ declare module 'vuex-shared-mutations' {
     strategy?: Strategy;
   }
 
-  export default function createMutationsSharer(
+  export default function createMutationsSharer<T>(
     options: Options
-  ): Plugin<unknown>;
+  ): Plugin<T>;
 
   export class BroadcastChannelStrategy implements Strategy {
     static available(): boolean;

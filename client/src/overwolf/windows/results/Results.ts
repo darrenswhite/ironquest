@@ -2,11 +2,11 @@ import './results.styl';
 import Actions from '@/components/Actions.vue';
 import { Windows } from '@/overwolf/scripts';
 import { vuetify } from '@/lib';
-import { store } from '@/store';
+import { constants, store } from '@/store';
 import Vue from 'vue';
 
 new Vue({
-  store: store.original,
+  store,
   vuetify,
   methods: {
     showSettings(): void {
@@ -18,7 +18,6 @@ new Vue({
     Actions,
   },
   mounted() {
-    this.$store.direct.dispatch.findPath();
+    this.$store.dispatch(constants.FIND_PATH);
   },
-
 }).$mount('#app');

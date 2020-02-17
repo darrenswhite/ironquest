@@ -1,130 +1,111 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
-import { createDirectStore } from 'direct-vuex';
+import Vuex, { ActionContext, ActionTree, MutationTree, Store } from 'vuex';
 import {
-  Action,
   Path,
   PathFinderError,
   PathFinderParameters,
   QuestAccessFilter,
   QuestTypeFilter,
 } from 'ironquest';
+import { RootState } from './RootState';
+import * as constants from './constants';
 import { head } from 'lodash';
 import querystring from 'querystring';
 import { getField, updateField } from 'vuex-map-fields';
-import { mutationsSharer } from './MutationsSharer';
-import VuexPersistence from 'vuex-persist';
+import { plugins } from './plugins';
 
 const PATH_FINDER_URL = __API__ + '/api/quests/path';
 
 Vue.use(Vuex);
 
-const vuexLocal = new VuexPersistence({
-  storage: window.localStorage,
-});
-const plugins = [vuexLocal.plugin];
-
-if (typeof overwolf !== 'undefined') {
-  plugins.push(mutationsSharer);
-}
-
-const {
-  store,
-  rootActionContext,
-  moduleActionContext,
-  rootGetterContext,
-  moduleGetterContext,
-} = createDirectStore({
-  plugins,
-  state: {
-    actions: {
-      error: false,
-      errorResponse: null as PathFinderError | null,
-      loading: false,
-      path: null as Path | null,
-      selectedAction: null as Action | null | undefined,
-    },
-    parameters: {
-      name: '',
-      typeFilter: QuestTypeFilter.ALL,
-      accessFilter: QuestAccessFilter.ALL,
-      ironman: false,
-      recommended: false,
-      lampSkills: [],
-    } as PathFinderParameters,
-  },
-  getters: {
-    getField,
-  },
-  mutations: {
-    updateField,
-    setError(state, response: PathFinderError) {
-      state.actions.loading = false;
-      state.actions.error = true;
-      state.actions.errorResponse = response;
-    },
-    setParameters(state, parameters: PathFinderParameters) {
-      state.parameters = parameters;
-    },
-    setPath(state, path: Path) {
-      path.stats.percentComplete = Math.round(path.stats.percentComplete);
-
-      state.actions.loading = false;
-      state.actions.path = path;
-      state.actions.selectedAction = head(path.actions);
-    },
-    showLoader(state) {
-      state.actions.loading = true;
-      state.actions.path = null;
-      state.actions.selectedAction = null;
-      state.actions.error = false;
-    },
-  },
+const state: RootState = {
   actions: {
-    async findPath(context): Promise<void> {
-      const { commit, state } = rootActionContext(context);
-
-      commit.showLoader();
-
-      const url = new URL(PATH_FINDER_URL);
-
-      url.search = querystring.stringify(
-        state.parameters as querystring.ParsedUrlQueryInput
-      );
-
-      return fetch(url.toString())
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw response;
-          }
-        })
-        .then(commit.setPath)
-        .catch(async response => {
-          const json = await response.json();
-
-          commit.setError({
-            response: json,
-            parameters: Object.assign({}, state.parameters),
-          });
-        });
-    },
+    error: false,
+    errorResponse: undefined,
+    loading: false,
+    path: undefined,
+    selectedAction: undefined,
   },
-});
-
-export {
-  store,
-  rootActionContext,
-  moduleActionContext,
-  rootGetterContext,
-  moduleGetterContext
+  parameters: {
+    name: '',
+    typeFilter: QuestTypeFilter.ALL,
+    accessFilter: QuestAccessFilter.ALL,
+    ironman: false,
+    recommended: false,
+    lampSkills: [],
+  },
 };
 
-export type AppStore = typeof store;
+const getters = {
+  getField,
+};
 
-declare module 'vuex' {
-  interface Store<S> {
-    direct: AppStore;
-  }
-}
+const mutations: MutationTree<RootState> = {
+  updateField,
+  [constants.SET_ERROR](state: RootState, response: PathFinderError): void {
+    state.actions.loading = false;
+    state.actions.error = true;
+    state.actions.errorResponse = response;
+  },
+  [constants.SET_PARAMETERS](
+    state: RootState,
+    parameters: PathFinderParameters
+  ): void {
+    state.parameters = parameters;
+  },
+  [constants.SET_PATH](state: RootState, path: Path): void {
+    path.stats.percentComplete = Math.round(path.stats.percentComplete);
+
+    state.actions.loading = false;
+    state.actions.path = path;
+    state.actions.selectedAction = head(path.actions);
+  },
+  [constants.SHOW_LOADER](state: RootState): void {
+    state.actions.loading = true;
+    state.actions.path = undefined;
+    state.actions.selectedAction = undefined;
+    state.actions.error = false;
+  },
+};
+
+const actions: ActionTree<RootState, RootState> = {
+  async [constants.FIND_PATH](
+    context: ActionContext<RootState, RootState>
+  ): Promise<void> {
+    context.commit(constants.SHOW_LOADER);
+
+    const url = new URL(PATH_FINDER_URL);
+
+    url.search = querystring.stringify(
+      context.state.parameters as querystring.ParsedUrlQueryInput
+    );
+
+    return fetch(url.toString())
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw response;
+        }
+      })
+      .then(() => context.commit(constants.SET_PATH))
+      .catch(async response => {
+        const json = await response.json();
+
+        context.commit(constants.SET_ERROR, {
+          response: json,
+          parameters: Object.assign({}, state.parameters),
+        });
+      });
+  },
+};
+
+const store = new Store<RootState>({
+  plugins,
+  state,
+  getters,
+  mutations,
+  actions,
+});
+
+export { RootState, constants, store };

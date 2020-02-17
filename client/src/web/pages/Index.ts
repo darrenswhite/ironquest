@@ -2,16 +2,16 @@ import './index.styl';
 import Actions from '../../components/Actions.vue';
 import Settings from '../../components/Settings.vue';
 import { vuetify } from '@/lib';
-import { store } from '@/store';
+import { constants, store } from '@/store';
 import { mapFields } from 'vuex-map-fields';
 import Vue from 'vue';
 
 new Vue({
-  store: store.original,
+  store,
   vuetify,
   methods: {
     run(): void {
-      this.$store.direct.dispatch.findPath();
+      this.$store.dispatch(constants.FIND_PATH);
     },
   },
   computed: mapFields(['actions.loading']),

@@ -1,4 +1,5 @@
 import { RootState } from './RootState';
+import VuexPersistence from 'vuex-persist';
 import createMutationsSharer, {
   BroadcastChannelStrategy,
   LocalStorageStratery,
@@ -32,4 +33,14 @@ const mutationsSharer = createMutationsSharer<RootState>({
   strategy: getStrategy(),
 });
 
-export { mutationsSharer };
+const vuexLocal = new VuexPersistence<RootState>({
+  storage: window.localStorage,
+});
+
+const plugins = [vuexLocal.plugin];
+
+if (typeof overwolf !== 'undefined') {
+  plugins.push(mutationsSharer);
+}
+
+export { plugins };

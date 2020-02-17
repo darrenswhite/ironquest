@@ -2,11 +2,11 @@ import './settings.styl';
 import Settings from '@/components/Settings.vue';
 import { Windows } from '@/overwolf/scripts';
 import { vuetify } from '@/lib';
-import { store } from '@/store';
+import { constants, store } from '@/store';
 import Vue from 'vue';
 
 new Vue({
-  store: store.original,
+  store,
   vuetify,
   methods: {
     close(): void {
@@ -14,8 +14,8 @@ new Vue({
       Windows.getInstance().restore(Windows.RESULTS);
     },
     showResults(): void {
-      this.$store.direct.dispatch
-        .findPath()
+      this.$store
+        .dispatch(constants.FIND_PATH)
         .finally(() => Windows.getInstance().close(Windows.SETTINGS));
 
       Windows.getInstance().minimize(Windows.SETTINGS);

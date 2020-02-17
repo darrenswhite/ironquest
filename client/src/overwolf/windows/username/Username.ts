@@ -6,7 +6,7 @@ import { mapFields } from 'vuex-map-fields';
 import Vue from 'vue';
 
 new Vue({
-  store: store.original,
+  store,
   vuetify,
   computed: mapFields(['parameters.name']),
   methods: {
