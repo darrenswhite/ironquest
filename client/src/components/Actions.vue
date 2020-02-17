@@ -127,7 +127,7 @@ import Vue from 'vue';
 import { Action, Path, PathFinderError, Skill } from 'ironquest';
 import { get } from 'lodash';
 import { mapState } from 'vuex';
-import { mapFields } from '@/lib';
+import { mapFields } from '@/store';
 
 const NEW_ISSUE_URL = 'https://github.com/darrenswhite/ironquest/issues/new';
 const RUNESCAPE_WIKI_URL = 'https://runescape.wiki/';

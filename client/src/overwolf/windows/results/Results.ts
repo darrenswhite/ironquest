@@ -1,7 +1,8 @@
 import './results.styl';
 import Actions from '@/components/Actions.vue';
 import { Windows } from '@/overwolf/scripts';
-import { store, vuetify } from '@/lib';
+import { vuetify } from '@/lib';
+import { store } from '@/store';
 import Vue from 'vue';
 
 new Vue({

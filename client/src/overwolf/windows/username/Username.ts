@@ -1,6 +1,7 @@
 import './username.styl';
 import { Windows } from '@/overwolf/scripts';
-import { mapFields, store, vuetify } from '@/lib';
+import { vuetify } from '@/lib';
+import { mapFields, store } from '@/store';
 import Vue from 'vue';
 
 new Vue({

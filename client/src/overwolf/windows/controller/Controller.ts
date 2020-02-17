@@ -1,5 +1,5 @@
 import { Hotkeys, Windows } from '@/overwolf/scripts';
-import { store } from '@/lib';
+import { store } from '@/store';
 
 export class Controller {
   private constructor() {}

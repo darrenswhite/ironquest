@@ -70,7 +70,7 @@ import Vue from 'vue';
 import { Skill } from 'ironquest';
 import { capitalize, map } from 'lodash';
 import { mapState } from 'vuex';
-import { mapFields } from '@/lib';
+import { mapFields } from '@/store';
 
 const SKILLS = [
   Skill.AGILITY,
