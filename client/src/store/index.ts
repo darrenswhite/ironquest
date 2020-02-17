@@ -11,7 +11,7 @@ import {
 } from 'ironquest';
 import { head } from 'lodash';
 import querystring from 'querystring';
-import { getField, mapFields, updateField } from './MapFields';
+import { getField, updateField } from 'vuex-map-fields';
 import { mutationsSharer } from './MutationSharer';
 import VuexPersistence from 'vuex-persist';
 
@@ -118,8 +118,7 @@ export {
   rootActionContext,
   moduleActionContext,
   rootGetterContext,
-  moduleGetterContext,
-  mapFields
+  moduleGetterContext
 };
 
 export type AppStore = typeof store;
