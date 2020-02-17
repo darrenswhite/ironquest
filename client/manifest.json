@@ -6,8 +6,10 @@
     "version": "1.0.0",
     "minimum-overwolf-version": "0.77.10",
     "author": "Darren S. White",
-    "icon": "IconMouseOver.png",
-    "icon_gray": "IconMouseNormal.png",
+    "icon": "assets/icon-256x256.png",
+    "icon_gray": "assets/icon-grayscale-256x256.png",
+    "launcher_icon": "assets/icon-256x256.ico",
+    "window_icon": "assets/icon-256x256.png",
     "description": "Quest planner for RuneScape"
   },
   "data": {
