@@ -31,5 +31,3 @@ export class Controller {
     overwolf.extensions.relaunch();
   }
 }
-
-Controller.init();

@@ -5,40 +5,48 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const { filter, map, mapValues } = require('lodash');
+const { filter, keys, map, mapValues } = require('lodash');
 
 const CONFIGS = {
   web: {
     entrypoints: {
-      index: {
-        path: path.resolve('src', 'web', 'pages'),
-        html: 'index.html',
-        ts: 'Index.ts',
-      },
+      index: path.resolve(__dirname, 'src', 'web', 'index.ts'),
     },
   },
   overwolf: {
     entrypoints: {
-      controller: {
-        path: path.resolve('src', 'overwolf', 'windows', 'controller'),
-        html: 'controller.html',
-        ts: 'Controller.ts',
-      },
-      results: {
-        path: path.resolve('src', 'overwolf', 'windows', 'results'),
-        html: 'results.html',
-        ts: 'Results.ts',
-      },
-      settings: {
-        path: path.resolve('src', 'overwolf', 'windows', 'settings'),
-        html: 'settings.html',
-        ts: 'Settings.ts',
-      },
-      username: {
-        path: path.resolve('src', 'overwolf', 'windows', 'username'),
-        html: 'username.html',
-        ts: 'Username.ts',
-      },
+      controller: path.resolve(
+        __dirname,
+        'src',
+        'overwolf',
+        'windows',
+        'controller',
+        'index.ts'
+      ),
+      results: path.resolve(
+        __dirname,
+        'src',
+        'overwolf',
+        'windows',
+        'results',
+        'index.ts'
+      ),
+      settings: path.resolve(
+        __dirname,
+        'src',
+        'overwolf',
+        'windows',
+        'settings',
+        'index.ts'
+      ),
+      username: path.resolve(
+        __dirname,
+        'src',
+        'overwolf',
+        'windows',
+        'username',
+        'index.ts'
+      ),
     },
   },
 };
@@ -52,14 +60,11 @@ const config = CONFIGS[process.env.TARGET] || CONFIGS.web;
 const api = APIS[process.env.API] || APIS.external;
 
 function entrypoints(options) {
-  return map(config.entrypoints, entrypoint => {
+  return map(config.entrypoints, (entrypoint, name) => {
     return new HtmlWebpackPlugin({
-      filename: entrypoint.html,
-      template: path.resolve(entrypoint.path, entrypoint.html),
-      excludeChunks: map(
-        filter(config.entrypoints, e => e !== entrypoint),
-        e => e.html.replace('.html', '')
-      ),
+      filename: name + '.html',
+      template: path.resolve(__dirname, 'src', 'index.html'),
+      excludeChunks: filter(keys(config.entrypoints), key => key !== name),
       ...options,
     });
   });
@@ -135,7 +140,7 @@ module.exports = {
   styleLoaders,
   tsLoader,
   webpack: {
-    entry: mapValues(config.entrypoints, e => path.resolve(e.path, e.ts)),
+    entry: config.entrypoints,
     module: {
       rules: [
         {
@@ -166,7 +171,7 @@ module.exports = {
         vue$: 'vue/dist/vue.esm.js',
         '@': path.resolve(__dirname, 'src'),
       },
-      extensions: ['.tsx', '.ts', '.js', '.styl'],
+      extensions: ['.tsx', '.ts', '.js', '.styl', '.vue'],
     },
     output: {
       filename: 'js/[name].js',

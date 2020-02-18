@@ -15,7 +15,7 @@
     "fix": "gts fix",
     "pretest": "npm run compile",
     "posttest": "npm run check",
-    "start": "npm run compile && ts-node src/App.ts",
+    "start": "npm run compile && ts-node src/serve.ts",
     "test": "nyc mocha"
   },
   "repository": {

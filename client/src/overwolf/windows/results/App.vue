@@ -1,13 +1,24 @@
-import './results.styl';
+<template>
+  <v-app v-cloak>
+    <v-content>
+      <actions>
+        <div id="settings">
+          <v-btn v-on:click="showSettings">
+            Settings
+          </v-btn>
+        </div>
+      </actions>
+    </v-content>
+  </v-app>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
 import Actions from '@/components/Actions.vue';
 import { Windows } from '@/overwolf/scripts';
-import { vuetify } from '@/lib';
 import { constants, store } from '@/store';
-import Vue from 'vue';
 
-new Vue({
-  store,
-  vuetify,
+export default Vue.extend({
   methods: {
     showSettings(): void {
       Windows.getInstance().minimize(Windows.RESULTS);
@@ -20,4 +31,11 @@ new Vue({
   mounted() {
     this.$store.dispatch(constants.FIND_PATH);
   },
-}).$mount('#app');
+});
+</script>
+
+<style lang="stylus">
+#settings {
+  text-align: right;
+}
+</style>
