@@ -53,7 +53,7 @@ const CONFIGS = {
 
 const APIS = {
   local: 'window.location.href',
-  external: JSON.stringify('https://iron-quest.herokuapp.com'),
+  external: JSON.stringify('https://ironquest.co.uk'),
 };
 
 const config = CONFIGS[process.env.TARGET] || CONFIGS.web;
