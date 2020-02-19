@@ -161,8 +161,8 @@ module.exports = {
       }),
       new CopyWebpackPlugin([
         {
-          from: path.resolve(__dirname, 'assets/icon-16x16.ico'),
-          to: path.resolve(__dirname, 'build/favicon.ico'),
+          from: path.resolve(__dirname, 'assets', 'icon-16x16.ico'),
+          to: path.resolve(__dirname, 'build', 'favicon.ico'),
         },
       ]),
     ],
