@@ -12,6 +12,7 @@ const CONFIGS = {
     entrypoints: {
       index: path.resolve(__dirname, 'src', 'web', 'index.ts'),
     },
+    outputPath: path.resolve(__dirname, 'build'),
   },
   overwolf: {
     entrypoints: {
@@ -48,6 +49,7 @@ const CONFIGS = {
         'index.ts'
       ),
     },
+    outputPath: path.resolve(__dirname, 'overwolf', 'build'),
   },
 };
 
@@ -175,7 +177,7 @@ module.exports = {
     },
     output: {
       filename: 'js/[name].js',
-      path: path.resolve(__dirname, 'build'),
+      path: config.outputPath,
     },
     node: {
       setImmediate: false,
