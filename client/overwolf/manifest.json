@@ -6,18 +6,18 @@
     "version": "1.0.0",
     "minimum-overwolf-version": "0.77.10",
     "author": "Darren S. White",
-    "icon": "assets/icon-256x256.png",
-    "icon_gray": "assets/icon-grayscale-256x256.png",
-    "launcher_icon": "assets/icon-256x256.ico",
-    "window_icon": "assets/icon-256x256.png",
+    "icon": "build/assets/icon-256x256.png",
+    "icon_gray": "build/assets/icon-grayscale-256x256.png",
+    "launcher_icon": "build/assets/icon-256x256.ico",
+    "window_icon": "build/assets/icon-256x256.png",
     "description": "Quest planner for RuneScape"
   },
   "data": {
     "start_window": "controller",
     "externally_connectable": {
       "matches": [
-        "http://iron-quest.herokuapp.com",
-        "https://iron-quest.herokuapp.com"
+        "http://ironquest.com",
+        "https://ironquest.com"
       ]
     },
     "hotkeys": {

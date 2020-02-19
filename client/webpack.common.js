@@ -13,6 +13,12 @@ const CONFIGS = {
       index: path.resolve(__dirname, 'src', 'web', 'index.ts'),
     },
     outputPath: path.resolve(__dirname, 'build'),
+    copyPatterns: [
+      {
+        from: path.resolve(__dirname, 'assets', 'icon-16x16.ico'),
+        to: path.resolve(__dirname, 'build', 'favicon.ico'),
+      },
+    ],
   },
   overwolf: {
     entrypoints: {
@@ -50,6 +56,17 @@ const CONFIGS = {
       ),
     },
     outputPath: path.resolve(__dirname, 'overwolf', 'build'),
+    copyPatterns: [
+      {
+        from: path.resolve(
+          __dirname,
+          'assets',
+          '{icon-256x256.ico,icon-256x256.png,icon-grayscale-256x256.png}'
+        ),
+        to: path.resolve(__dirname, 'overwolf', 'build'),
+        toType: 'dir',
+      },
+    ],
   },
 };
 
@@ -161,12 +178,7 @@ module.exports = {
       new webpack.DefinePlugin({
         __API__: api,
       }),
-      new CopyWebpackPlugin([
-        {
-          from: path.resolve(__dirname, 'assets', 'icon-16x16.ico'),
-          to: path.resolve(__dirname, 'build', 'favicon.ico'),
-        },
-      ]),
+      new CopyWebpackPlugin(config.copyPatterns),
     ],
     resolve: {
       alias: {

@@ -13,8 +13,8 @@ rm -rf "${TMP_DIR}"
 rm -f "${ZIP_FILE}"
 mkdir -p "${APP_DIR}" "${STORE_DIR}"
 
-cp -r manifest.json ../assets/ build/ "${APP_DIR}"
-cp -r ../assets/logo-258-198.png ../assets/icon-55x55.png ../assets/screenshot*.png description.txt store.json "${STORE_DIR}"
+cp -r manifest.json build/ "${APP_DIR}"
+cp -r ../assets/logo-258x198.png ../assets/icon-55x55.png ../assets/screenshot*.png description.txt store.json "${STORE_DIR}"
 
 pushd "${TMP_DIR}"
 zip -r "${ZIP_FILE}" .
