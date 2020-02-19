@@ -7,11 +7,7 @@ APP_DIR="${TMP_DIR}/app"
 STORE_DIR="${TMP_DIR}/store"
 ZIP_FILE="ironquest.zip"
 
-pushd ..
-
 TARGET=overwolf API=external npm run compile
-
-popd
 
 rm -rf "${TMP_DIR}"
 rm -f "${ZIP_FILE}"
