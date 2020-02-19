@@ -7,4 +7,4 @@ provided). A list of actions is then displayed in optimal order to complete. The
 completing quests, using xp lamps, and training skills, until all quests, miniquests, and sagas have
 been completed.
 
-[Try it out here!](https://iron-quest.herokuapp.com/)
+[Try it out here!](https://ironquest.co.uk)
