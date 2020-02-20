@@ -9950,21 +9950,9 @@
     "type": "MINIQUEST"
   },
   {
-    "access": "FREE",
-    "displayName": "Witch's Potion",
-    "id": 275,
-    "rewards": {
-      "xp": {
-        "MAGIC": 325
-      }
-    },
-    "title": "Witch's Potion (miniquest)",
-    "type": "MINIQUEST"
-  },
-  {
     "access": "MEMBERS",
     "displayName": "Flag Fall",
-    "id": 276,
+    "id": 275,
     "requirements": {
       "quests": [
         {
@@ -9978,7 +9966,7 @@
   {
     "access": "MEMBERS",
     "displayName": "Spiritual Enlightenment",
-    "id": 277,
+    "id": 276,
     "requirements": {
       "quests": [
         {
@@ -10009,7 +9997,7 @@
   {
     "access": "MEMBERS",
     "displayName": "Head of the Family",
-    "id": 278,
+    "id": 277,
     "requirements": {
       "quests": [
         {
@@ -10048,17 +10036,17 @@
   {
     "access": "MEMBERS",
     "displayName": "Jed Hunter",
-    "id": 279,
+    "id": 278,
     "requirements": {
       "quests": [
+        {
+          "quest": 275
+        },
         {
           "quest": 276
         },
         {
           "quest": 277
-        },
-        {
-          "quest": 278
         }
       ],
       "skills": [
@@ -10089,11 +10077,11 @@
   {
     "access": "MEMBERS",
     "displayName": "Eye for an Eye",
-    "id": 280,
+    "id": 279,
     "requirements": {
       "quests": [
         {
-          "quest": 279
+          "quest": 278
         }
       ],
       "skills": [
@@ -10120,11 +10108,11 @@
   {
     "access": "MEMBERS",
     "displayName": "Harbinger",
-    "id": 281,
+    "id": 280,
     "requirements": {
       "quests": [
         {
-          "quest": 280
+          "quest": 279
         }
       ]
     },
@@ -10145,11 +10133,11 @@
   {
     "access": "MEMBERS",
     "displayName": "Damage Control",
-    "id": 282,
+    "id": 281,
     "requirements": {
       "quests": [
         {
-          "quest": 281
+          "quest": 280
         }
       ]
     },
@@ -10170,11 +10158,11 @@
   {
     "access": "MEMBERS",
     "displayName": "Ghosts from the Past",
-    "id": 283,
+    "id": 282,
     "requirements": {
       "quests": [
         {
-          "quest": 281
+          "quest": 280
         }
       ]
     },
@@ -10206,11 +10194,11 @@
   {
     "access": "MEMBERS",
     "displayName": "Tuai Leit's Own",
-    "id": 284,
+    "id": 283,
     "requirements": {
       "quests": [
         {
-          "quest": 281
+          "quest": 280
         }
       ],
       "skills": [
@@ -10252,17 +10240,17 @@
   {
     "access": "MEMBERS",
     "displayName": "Final Destination",
-    "id": 285,
+    "id": 284,
     "requirements": {
       "quests": [
+        {
+          "quest": 281
+        },
         {
           "quest": 282
         },
         {
           "quest": 283
-        },
-        {
-          "quest": 284
         }
       ]
     },
@@ -10289,7 +10277,7 @@
   {
     "access": "MEMBERS",
     "displayName": "Hopespear's Will",
-    "id": 286,
+    "id": 285,
     "requirements": {
       "quests": [
         {
@@ -10324,7 +10312,7 @@
   {
     "access": "MEMBERS",
     "displayName": "Nadir",
-    "id": 287,
+    "id": 286,
     "requirements": {
       "skills": [
         {
@@ -10353,7 +10341,7 @@
   {
     "access": "MEMBERS",
     "displayName": "Thok It To 'Em",
-    "id": 288,
+    "id": 287,
     "requirements": {
       "skills": [
         {
@@ -10378,11 +10366,11 @@
   {
     "access": "MEMBERS",
     "displayName": "Thok Your Block Off",
-    "id": 289,
+    "id": 288,
     "requirements": {
       "quests": [
         {
-          "quest": 288
+          "quest": 287
         }
       ],
       "skills": [
@@ -10408,7 +10396,7 @@
   {
     "access": "FREE",
     "displayName": "Three's Company",
-    "id": 290,
+    "id": 289,
     "requirements": {
       "skills": [
         {
@@ -10451,7 +10439,7 @@
   {
     "access": "MEMBERS",
     "displayName": "Vengeance",
-    "id": 291,
+    "id": 290,
     "requirements": {
       "skills": [
         {
@@ -10488,7 +10476,7 @@
   },
   {
     "access": "MEMBERS",
-    "id": 292,
+    "id": 291,
     "rewards": {
       "lamps": [
         {
