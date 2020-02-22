@@ -3,7 +3,6 @@ package com.darrenswhite.rs.ironquest.quest.requirement;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -21,10 +20,10 @@ public class SkillRequirement extends Requirement {
   private final Skill skill;
   private final int level;
 
-  SkillRequirement(boolean ironman, boolean recommended, Skill skill, int level) {
-    super(ironman, recommended);
-    this.skill = skill;
-    this.level = level;
+  SkillRequirement(Builder builder) {
+    super(builder.ironman, builder.recommended);
+    this.skill = builder.skill;
+    this.level = builder.level;
   }
 
   /**
@@ -104,7 +103,6 @@ public class SkillRequirement extends Requirement {
     private boolean ironman = false;
     private boolean recommended = false;
 
-    @JsonCreator
     public Builder() {
     }
 
@@ -134,7 +132,7 @@ public class SkillRequirement extends Requirement {
     }
 
     public SkillRequirement build() {
-      return new SkillRequirement(ironman, recommended, skill, level);
+      return new SkillRequirement(this);
     }
   }
 }

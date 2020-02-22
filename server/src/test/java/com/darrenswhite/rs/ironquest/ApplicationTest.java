@@ -11,7 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {Application.class})
+@SpringBootTest(classes = Application.class)
 class ApplicationTest {
 
   @Nested

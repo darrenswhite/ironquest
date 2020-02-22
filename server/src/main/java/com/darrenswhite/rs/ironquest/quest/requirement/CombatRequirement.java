@@ -2,7 +2,6 @@ package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.quest.Quest;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Objects;
 
@@ -16,9 +15,9 @@ public class CombatRequirement extends Requirement {
 
   private final int level;
 
-  CombatRequirement(boolean ironman, boolean recommended, int level) {
-    super(ironman, recommended);
-    this.level = level;
+  CombatRequirement(Builder builder) {
+    super(builder.ironman, builder.recommended);
+    this.level = builder.level;
   }
 
   public int getLevel() {
@@ -64,7 +63,6 @@ public class CombatRequirement extends Requirement {
     private boolean ironman;
     private boolean recommended;
 
-    @JsonCreator
     public Builder() {
     }
 
@@ -88,7 +86,7 @@ public class CombatRequirement extends Requirement {
     }
 
     public CombatRequirement build() {
-      return new CombatRequirement(ironman, recommended, level);
+      return new CombatRequirement(this);
     }
   }
 }

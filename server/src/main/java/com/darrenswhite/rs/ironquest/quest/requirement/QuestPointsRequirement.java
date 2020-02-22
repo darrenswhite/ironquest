@@ -2,7 +2,6 @@ package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.quest.Quest;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Objects;
 
@@ -64,7 +63,6 @@ public class QuestPointsRequirement extends Requirement {
     private boolean ironman;
     private boolean recommended;
 
-    @JsonCreator
     public Builder() {
     }
 

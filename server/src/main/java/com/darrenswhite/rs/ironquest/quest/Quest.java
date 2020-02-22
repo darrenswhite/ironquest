@@ -2,7 +2,6 @@ package com.darrenswhite.rs.ironquest.quest;
 
 import com.darrenswhite.rs.ironquest.dto.QuestDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
-import com.darrenswhite.rs.ironquest.quest.Quest.Builder;
 import com.darrenswhite.rs.ironquest.quest.requirement.CombatRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestPointsRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
@@ -10,10 +9,9 @@ import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirements;
 import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -25,7 +23,6 @@ import java.util.stream.Collectors;
  *
  * @author Darren S. White
  */
-@JsonDeserialize(builder = Builder.class)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Quest {
 
@@ -36,6 +33,20 @@ public class Quest {
   private final QuestType type;
   private final QuestRequirements requirements;
   private final QuestRewards rewards;
+
+  public Quest(@JsonProperty("id") int id, @JsonProperty("title") String title,
+      @JsonProperty("displayName") String displayName, @JsonProperty("access") QuestAccess access,
+      @JsonProperty("type") QuestType type,
+      @JsonProperty("requirements") QuestRequirements requirements,
+      @JsonProperty("rewards") QuestRewards rewards) {
+    this.id = id;
+    this.title = title;
+    this.displayName = displayName;
+    this.access = access;
+    this.type = type;
+    this.requirements = requirements != null ? requirements : QuestRequirements.NONE;
+    this.rewards = rewards != null ? rewards : QuestRewards.NONE;
+  }
 
   Quest(Builder builder) {
     this.id = builder.id;
@@ -135,16 +146,8 @@ public class Quest {
    * @return remaining quest requirements
    */
   public Set<Quest> getRemainingQuestRequirements(Player player, boolean recursive) {
-    Set<Quest> remainingQuestRequirements = requirements.getQuests().stream()
-        .filter(q -> !q.test(player)).map(QuestRequirement::getQuest).collect(Collectors.toSet());
-
-    if (recursive) {
-      for (Quest quest : remainingQuestRequirements) {
-        remainingQuestRequirements.addAll(quest.getRemainingQuestRequirements(player, true));
-      }
-    }
-
-    return remainingQuestRequirements;
+    return getQuestRequirements(recursive).stream().filter(q -> !q.test(player))
+        .map(QuestRequirement::getQuest).collect(Collectors.toSet());
   }
 
   /**
@@ -254,11 +257,9 @@ public class Quest {
     private QuestRequirements requirements = QuestRequirements.NONE;
     private QuestRewards rewards = QuestRewards.NONE;
 
-    @JsonCreator
     public Builder() {
     }
 
-    @JsonCreator
     public Builder(int id) {
       this.id = id;
     }

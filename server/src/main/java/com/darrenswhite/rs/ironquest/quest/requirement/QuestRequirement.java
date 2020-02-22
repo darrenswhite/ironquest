@@ -2,7 +2,6 @@ package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.quest.Quest;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Objects;
 
@@ -16,9 +15,9 @@ public class QuestRequirement extends Requirement {
 
   private final Quest quest;
 
-  QuestRequirement(boolean ironman, boolean recommended, Quest quest) {
-    super(ironman, recommended);
-    this.quest = quest;
+  QuestRequirement(Builder builder) {
+    super(builder.ironman, builder.recommended);
+    this.quest = builder.quest;
   }
 
   public Quest getQuest() {
@@ -65,7 +64,6 @@ public class QuestRequirement extends Requirement {
     private boolean ironman;
     private boolean recommended;
 
-    @JsonCreator
     public Builder() {
     }
 
@@ -89,7 +87,7 @@ public class QuestRequirement extends Requirement {
     }
 
     public QuestRequirement build() {
-      return new QuestRequirement(ironman, recommended, quest);
+      return new QuestRequirement(this);
     }
   }
 }

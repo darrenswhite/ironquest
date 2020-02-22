@@ -28,8 +28,10 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.jupiter.api.BeforeAll;
@@ -40,7 +42,7 @@ import org.springframework.core.io.InputStreamResource;
 class QuestServiceTest {
 
   static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-  static final String QUESTS_FILE = "quests.json";
+  static final String QUESTS_FILE = "quests-minimal.json";
 
   static QuestService questService;
 
@@ -169,6 +171,50 @@ class QuestServiceTest {
       assertThat(loadedQuests,
           containsInAnyOrder(new QuestMatcher(questA), new QuestMatcher(questB),
               new QuestMatcher(questC), new QuestMatcher(questD)));
+    }
+
+    @Test
+    void shouldParseNestedQuestRequirements() {
+      Quest questB = new Quest.Builder(0).withAccess(QuestAccess.FREE).withRequirements(
+          new QuestRequirements.Builder()
+              .withCombat(new CombatRequirement.Builder().withLevel(40).withIronman(true).build())
+              .withSkills(new HashSet<>(Arrays.asList(
+                  new SkillRequirement.Builder().withLevel(50).withSkill(Skill.AGILITY).build(),
+                  new SkillRequirement.Builder().withLevel(60).withSkill(Skill.AGILITY)
+                      .withRecommended(true).build()))).build())
+          .withRewards(new QuestRewards.Builder().withQuestPoints(2).build()).withTitle("b")
+          .withType(QuestType.SAGA).build();
+      Quest questC = new Quest.Builder(1).withAccess(QuestAccess.MEMBERS).withRewards(
+          new QuestRewards.Builder().withLamps(new HashSet<>(Arrays.asList(
+              new LampReward.Builder().withExclusive(true).withRequirements(
+                  new MapBuilder<Set<Skill>, Integer>()
+                      .put(new HashSet<>(Arrays.asList(Skill.ATTACK, Skill.DEFENCE)), 1)
+                      .put(new HashSet<>(Arrays.asList(Skill.CONSTITUTION, Skill.STRENGTH)), 1)
+                      .build()).withType(LampType.XP).withXp(35000).build(),
+              new LampReward.Builder().withExclusive(true).withRequirements(
+                  new MapBuilder<Set<Skill>, Integer>()
+                      .put(new HashSet<>(Arrays.asList(Skill.ATTACK, Skill.DEFENCE)), 1)
+                      .put(new HashSet<>(Arrays.asList(Skill.CONSTITUTION, Skill.STRENGTH)), 1)
+                      .build()).withType(LampType.XP).withXp(20000).build()))).withQuestPoints(5)
+              .build()).withTitle("c").withType(QuestType.SAGA).build();
+
+      Set<Quest> loadedQuests = questService.getQuests().getQuests();
+
+      Quest questWithQuestRequirements = loadedQuests.stream().filter(quest -> quest.getId() == 2)
+          .findFirst().orElse(null);
+
+      assertThat(questWithQuestRequirements, notNullValue());
+
+      Set<QuestRequirement> questRequirements = questWithQuestRequirements.getRequirements()
+          .getQuests();
+
+      assertThat(questRequirements, notNullValue());
+      assertThat(questRequirements, hasSize(2));
+
+      List<Quest> quests = questRequirements.stream().map(QuestRequirement::getQuest)
+          .collect(Collectors.toList());
+
+      assertThat(quests, containsInAnyOrder(new QuestMatcher(questB), new QuestMatcher(questC)));
     }
   }
 
