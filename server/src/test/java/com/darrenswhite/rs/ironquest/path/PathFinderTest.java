@@ -5,24 +5,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import com.darrenswhite.rs.ironquest.player.HiscoreService;
 import com.darrenswhite.rs.ironquest.player.Player;
-import com.darrenswhite.rs.ironquest.player.QuestEntry;
-import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.QuestStatus;
-import com.darrenswhite.rs.ironquest.player.RuneMetricsService;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
-import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
-import com.darrenswhite.rs.ironquest.quest.QuestService;
-import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
-import com.darrenswhite.rs.ironquest.quest.Quests;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestPointsRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirements;
@@ -33,62 +20,29 @@ import com.darrenswhite.rs.ironquest.util.MapBuilder;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class PathFinderTest {
 
-  private QuestService questService;
-  private HiscoreService hiscoreService;
-  private RuneMetricsService runeMetricsService;
-  private PathFinder pathFinder;
-
-  @BeforeEach
-  void setUp() {
-    questService = mock(QuestService.class);
-    hiscoreService = mock(HiscoreService.class);
-    runeMetricsService = mock(RuneMetricsService.class);
-    pathFinder = new PathFinder(questService, hiscoreService, runeMetricsService);
-  }
+  static final PathFinder pathFinder = new PathFinder();
 
   @Nested
   class Find {
 
     @Test
-    void shouldCreatePlayerAndFindEmptyPathWhenGivenNoQuests() throws BestQuestNotFoundException {
-      Quests quests = new Quests(Collections.emptySet());
-
-      when(questService.getQuests()).thenReturn(quests);
-
-      Path path = pathFinder.find(null, QuestAccessFilter.ALL, false, false, Collections.emptySet(),
-          Collections.emptyMap(), QuestTypeFilter.ALL);
-
-      assertThat(path.getActions(), empty());
-      assertThat(path.getStats().getPercentComplete(), equalTo(0D));
-    }
-  }
-
-  @Nested
-  class FindForPlayer {
-
-    @Test
     void findForPlayer() throws BestQuestNotFoundException {
-      QuestEntry questNotStarted = new QuestEntry(
-          new Quest.Builder().withId(0).withTitle("questNotStarted").build(),
-          QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-      QuestEntry questCompleted = new QuestEntry(
-          new Quest.Builder().withId(1).withTitle("questCompleted").build(), QuestStatus.COMPLETED,
-          QuestPriority.NORMAL);
-      QuestEntry questInProgress = new QuestEntry(
-          new Quest.Builder().withId(2).withTitle("questInProgress").build(),
-          QuestStatus.IN_PROGRESS, QuestPriority.NORMAL);
+      Quest questNotStarted = new Quest.Builder().withId(0).withTitle("questNotStarted").build();
+      Quest questCompleted = new Quest.Builder().withId(1).withTitle("questCompleted").build();
+      Quest questInProgress = new Quest.Builder().withId(2).withTitle("questInProgress").build();
       Player player = new Player.Builder().withQuests(
           new HashSet<>(Arrays.asList(questNotStarted, questCompleted, questInProgress))).build();
 
-      Path path = pathFinder.findForPlayer(player);
+      player.setQuestStatus(questCompleted, QuestStatus.COMPLETED);
+      player.setQuestStatus(questInProgress, QuestStatus.IN_PROGRESS);
+
+      Path path = pathFinder.find(player);
 
       assertThat(path.getActions(), hasSize(2));
       assertThat(path.getActions().get(0).getMessage(), equalTo("questNotStarted"));
@@ -98,28 +52,26 @@ class PathFinderTest {
 
     @Test
     void shouldProcessFutureActions() throws BestQuestNotFoundException {
-      QuestEntry questWithXpLampReward = new QuestEntry(
-          new Quest.Builder().withId(0).withTitle("questWithXpLampReward").withRewards(
-              new QuestRewards.Builder().withLamps(Collections.singleton(
-                  new LampReward.Builder().withType(LampType.XP).withXp(1000).withRequirements(
-                      new MapBuilder<Set<Skill>, Integer>()
-                          .put(Collections.singleton(Skill.ATTACK), 2).build()).build())).build())
-              .build(), QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-      QuestEntry questCompleted = new QuestEntry(
-          new Quest.Builder().withId(1).withTitle("questCompleted").build(), QuestStatus.COMPLETED,
-          QuestPriority.NORMAL);
-      QuestEntry questWithQuestRequirementAndXpReward = new QuestEntry(
-          new Quest.Builder().withId(2).withTitle("questWithXpReward").withRequirements(
-              new QuestRequirements.Builder().withQuests(Collections.singleton(
-                  new QuestRequirement.Builder(questWithXpLampReward.getQuest()).build())).build())
-              .withRewards(new QuestRewards.Builder()
-                  .withXp(new MapBuilder<Skill, Double>().put(Skill.ATTACK, 500d).build()).build())
-              .build(), QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+      Quest questWithXpLampReward = new Quest.Builder().withId(0).withTitle("questWithXpLampReward")
+          .withRewards(new QuestRewards.Builder().withLamps(Collections.singleton(
+              new LampReward.Builder().withType(LampType.XP).withXp(1000).withRequirements(
+                  new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.ATTACK), 2)
+                      .build()).build())).build()).build();
+      Quest questCompleted = new Quest.Builder().withId(1).withTitle("questCompleted").build();
+      Quest questWithQuestRequirementAndXpReward = new Quest.Builder().withId(2)
+          .withTitle("questWithXpReward").withRequirements(new QuestRequirements.Builder()
+              .withQuests(Collections
+                  .singleton(new QuestRequirement.Builder(questWithXpLampReward).build())).build())
+          .withRewards(new QuestRewards.Builder()
+              .withXp(new MapBuilder<Skill, Double>().put(Skill.ATTACK, 500d).build()).build())
+          .build();
       Player player = new Player.Builder().withQuests(new HashSet<>(Arrays
           .asList(questWithXpLampReward, questCompleted, questWithQuestRequirementAndXpReward)))
           .build();
 
-      Path path = pathFinder.findForPlayer(player);
+      player.setQuestStatus(questCompleted, QuestStatus.COMPLETED);
+
+      Path path = pathFinder.find(player);
 
       assertThat(path.getActions(), hasSize(3));
       assertThat(path.getActions().get(0).getMessage(), equalTo("questWithXpLampReward"));
@@ -131,24 +83,20 @@ class PathFinderTest {
 
     @Test
     void shouldAddFutureActions() throws BestQuestNotFoundException {
-      QuestEntry questWithXpLampReward = new QuestEntry(
-          new Quest.Builder().withId(0).withTitle("questWithXpLampReward").withRewards(
-              new QuestRewards.Builder().withLamps(Collections.singleton(
-                  new LampReward.Builder().withType(LampType.XP).withXp(1000).withRequirements(
-                      new MapBuilder<Set<Skill>, Integer>()
-                          .put(Collections.singleton(Skill.ATTACK), 2).build()).build())).build())
-              .build(), QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-      QuestEntry questCompleted = new QuestEntry(
-          new Quest.Builder().withId(1).withTitle("questCompleted").build(), QuestStatus.COMPLETED,
-          QuestPriority.NORMAL);
-      QuestEntry questNotStarted = new QuestEntry(
-          new Quest.Builder().withId(2).withTitle("questNotStarted").build(),
-          QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+      Quest questWithXpLampReward = new Quest.Builder().withId(0).withTitle("questWithXpLampReward")
+          .withRewards(new QuestRewards.Builder().withLamps(Collections.singleton(
+              new LampReward.Builder().withType(LampType.XP).withXp(1000).withRequirements(
+                  new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.ATTACK), 2)
+                      .build()).build())).build()).build();
+      Quest questCompleted = new Quest.Builder().withId(1).withTitle("questCompleted").build();
+      Quest questNotStarted = new Quest.Builder().withId(2).withTitle("questNotStarted").build();
       Player player = new Player.Builder().withQuests(
           new HashSet<>(Arrays.asList(questWithXpLampReward, questCompleted, questNotStarted)))
           .build();
 
-      Path path = pathFinder.findForPlayer(player);
+      player.setQuestStatus(questCompleted, QuestStatus.COMPLETED);
+
+      Path path = pathFinder.find(player);
 
       assertThat(path.getActions(), hasSize(3));
       assertThat(path.getActions().get(0).getMessage(), equalTo("questWithXpLampReward"));
@@ -161,14 +109,13 @@ class PathFinderTest {
 
     @Test
     void shouldCompletePlaceholderQuests() throws BestQuestNotFoundException {
-      QuestEntry placeholderQuestWithQuestPointReward = new QuestEntry(
-          new Quest.Builder().withId(-1).withTitle("placeholderQuestWithQuestPointReward")
-              .withRewards(new QuestRewards.Builder().withQuestPoints(1).build()).build(),
-          QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+      Quest placeholderQuestWithQuestPointReward = new Quest.Builder().withId(-1)
+          .withTitle("placeholderQuestWithQuestPointReward")
+          .withRewards(new QuestRewards.Builder().withQuestPoints(1).build()).build();
       Player player = new Player.Builder().withQuests(
           new HashSet<>(Collections.singletonList(placeholderQuestWithQuestPointReward))).build();
 
-      Path path = pathFinder.findForPlayer(player);
+      Path path = pathFinder.find(player);
 
       assertThat(path.getActions(), empty());
       assertThat(path.getStats().getPercentComplete(), equalTo(0D));
@@ -177,74 +124,15 @@ class PathFinderTest {
 
     @Test
     void shouldThrowExceptionWhenBestQuestNotFound() {
-      QuestEntry questWithQuestPointRequirement = new QuestEntry(
-          new Quest.Builder().withId(0).withTitle("questWithQuestPointRequirement")
-              .withRequirements(new QuestRequirements.Builder()
-                  .withQuestPoints(new QuestPointsRequirement.Builder(4).build()).build()).build(),
-          QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+      Quest questWithQuestPointRequirement = new Quest.Builder().withId(0)
+          .withTitle("questWithQuestPointRequirement").withRequirements(
+              new QuestRequirements.Builder()
+                  .withQuestPoints(new QuestPointsRequirement.Builder(4).build()).build()).build();
       Player player = new Player.Builder()
           .withQuests(new HashSet<>(Collections.singletonList(questWithQuestPointRequirement)))
           .build();
 
-      assertThrows(BestQuestNotFoundException.class, () -> pathFinder.findForPlayer(player));
-    }
-  }
-
-  @Nested
-  class CreatePlayer {
-
-    @Test
-    void shouldCreateQuestEntriesAndLoadPlayerDataFromHiscoresAndRuneMetricsWhenGivenUsername() {
-      Quests quests = mock(Quests.class);
-      Map<Integer, QuestPriority> questPriorities = Collections.emptyMap();
-      QuestAccessFilter accessFilter = QuestAccessFilter.ALL;
-      QuestTypeFilter typeFilter = QuestTypeFilter.ALL;
-      String name = "username";
-
-      when(questService.getQuests()).thenReturn(quests);
-
-      Player player = pathFinder
-          .createPlayer(name, accessFilter, false, false, Collections.emptySet(), questPriorities,
-              typeFilter);
-
-      assertThat(player.getName(), equalTo(name));
-      verify(quests).createQuestEntries(questPriorities, accessFilter, typeFilter);
-      verify(hiscoreService).load(name);
-      verify(runeMetricsService).load(name);
-    }
-
-    @Test
-    void shouldNotLoadPlayerDataFromHiscoresAndRuneMetricsWhenUsernameIsNull() {
-      Quests quests = mock(Quests.class);
-      Map<Integer, QuestPriority> questPriorities = Collections.emptyMap();
-      QuestAccessFilter accessFilter = QuestAccessFilter.ALL;
-      QuestTypeFilter typeFilter = QuestTypeFilter.ALL;
-
-      when(questService.getQuests()).thenReturn(quests);
-
-      pathFinder
-          .createPlayer(null, accessFilter, false, false, Collections.emptySet(), questPriorities,
-              typeFilter);
-
-      verify(hiscoreService, never()).load(any());
-      verify(runeMetricsService, never()).load(any());
-    }
-
-    @Test
-    void shouldNotLoadPlayerDataFromHiscoresAndRuneMetricsWhenUsernameIsEmpty() {
-      Quests quests = mock(Quests.class);
-      Map<Integer, QuestPriority> questPriorities = Collections.emptyMap();
-      QuestAccessFilter accessFilter = QuestAccessFilter.ALL;
-      QuestTypeFilter typeFilter = QuestTypeFilter.ALL;
-
-      when(questService.getQuests()).thenReturn(quests);
-
-      pathFinder
-          .createPlayer("", accessFilter, false, false, Collections.emptySet(), questPriorities,
-              typeFilter);
-
-      verify(hiscoreService, never()).load(any());
-      verify(runeMetricsService, never()).load(any());
+      assertThrows(BestQuestNotFoundException.class, () -> pathFinder.find(player));
     }
   }
 }

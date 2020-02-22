@@ -3,6 +3,8 @@ package com.darrenswhite.rs.ironquest.controller;
 import com.darrenswhite.rs.ironquest.dto.PathDTO;
 import com.darrenswhite.rs.ironquest.path.BestQuestNotFoundException;
 import com.darrenswhite.rs.ironquest.path.PathFinder;
+import com.darrenswhite.rs.ironquest.player.Player;
+import com.darrenswhite.rs.ironquest.player.PlayerService;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
@@ -27,10 +29,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class QuestController {
 
   private final PathFinder pathFinder;
+  private final PlayerService playerService;
 
   @Autowired
-  public QuestController(PathFinder pathFinder) {
+  public QuestController(PathFinder pathFinder, PlayerService playerService) {
     this.pathFinder = pathFinder;
+    this.playerService = playerService;
   }
 
   /**
@@ -59,10 +63,15 @@ public class QuestController {
     if (lampSkills == null) {
       lampSkills = Collections.emptySet();
     }
+
     if (questPriorities == null) {
       questPriorities = Collections.emptyMap();
     }
-    return pathFinder
-        .find(name, accessFilter, ironman, recommended, lampSkills, questPriorities, typeFilter).createDTO();
+
+    Player player = playerService
+        .createPlayer(name, accessFilter, typeFilter, ironman, recommended, lampSkills,
+            questPriorities);
+
+    return pathFinder.find(player).createDTO();
   }
 }

@@ -1,70 +1,91 @@
-package com.darrenswhite.rs.ironquest.quest;
+package com.darrenswhite.rs.ironquest.player;
 
-import com.darrenswhite.rs.ironquest.player.QuestEntry;
-import com.darrenswhite.rs.ironquest.player.QuestPriority;
-import com.darrenswhite.rs.ironquest.player.QuestStatus;
+import com.darrenswhite.rs.ironquest.quest.Quest;
+import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
+import com.darrenswhite.rs.ironquest.quest.QuestService;
+import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
- * A class representing a {@link Set} of {@link Quest}s.
+ * {@link Service} for creating {@link Player}s.
  *
  * @author Darren S. White
  */
-public class Quests {
+@Service
+public class PlayerService {
 
-  private final Set<Quest> questSet;
+  private static final Logger LOG = LogManager.getLogger(PlayerService.class);
 
-  public Quests(Set<Quest> questSet) {
-    this.questSet = questSet;
-  }
+  private final QuestService questService;
+  private final HiscoreService hiscoreService;
+  private final RuneMetricsService runeMetricsService;
 
-  public Set<Quest> getQuests() {
-    return questSet;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public final boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof Quests)) {
-      return false;
-    }
-    Quests quests = (Quests) o;
-    return Objects.equals(questSet, quests.questSet);
+  @Autowired
+  public PlayerService(QuestService questService, HiscoreService hiscoreService,
+      RuneMetricsService runeMetricsService) {
+    this.questService = questService;
+    this.hiscoreService = hiscoreService;
+    this.runeMetricsService = runeMetricsService;
   }
 
   /**
-   * {@inheritDoc}
+   * Create a {@link Player} from the specified parameters.
+   *
+   * Quests will be filtered, prioritised and added to the player. Player data is loaded from the
+   * hiscores and runemetrics.
+   *
+   * @param name player name to load data for; can be null
+   * @param accessFilter filter quests by access
+   * @param ironman <tt>true</tt> to enable ironman quest requirements; <tt>false</tt> otherwise.
+   * @param recommended <tt>true</tt> to enable recommended quest requirements; <tt>false</tt>
+   * otherwise.
+   * @param lampSkills set of skills to use on lamps
+   * @param questPriorities prioritise quests by id
+   * @param typeFilter filter quests by type
+   * @see Player#load(HiscoreService, RuneMetricsService)
    */
-  @Override
-  public final int hashCode() {
-    return Objects.hash(questSet);
+  public Player createPlayer(String name, QuestAccessFilter accessFilter,
+      QuestTypeFilter typeFilter, boolean ironman, boolean recommended, Set<Skill> lampSkills,
+      Map<Integer, QuestPriority> questPriorities) {
+    LOG.debug("Creating player profile: {}", name);
+
+    Set<Quest> filteredQuests = getFilteredQuests(accessFilter, typeFilter);
+    Player player = new Player.Builder().withName(name).withIronman(ironman)
+        .withRecommended(recommended).withLampSkills(lampSkills).withQuests(filteredQuests).build();
+
+    for (Entry<Integer, QuestPriority> entry : questPriorities.entrySet()) {
+      player.setQuestPriority(entry.getKey(), entry.getValue());
+    }
+
+    player.load(hiscoreService, runeMetricsService);
+
+    return player;
   }
+
 
   /**
    * Create a {@link Set} of entries for the quests.
    *
-   * @param questPriorities the priorities to use for each quest
    * @param accessFilter the access filter for the quests
    * @param typeFilter the type filter for the quests
    * @return set of quest entries
    */
-  public Set<QuestEntry> createQuestEntries(Map<Integer, QuestPriority> questPriorities,
-      QuestAccessFilter accessFilter, QuestTypeFilter typeFilter) {
+  private Set<Quest> getFilteredQuests(QuestAccessFilter accessFilter, QuestTypeFilter typeFilter) {
     Predicate<Quest> accessAndTypeFilter = questMatchesAccessFilter(accessFilter)
         .and(questMatchesTypeFilter(typeFilter));
     Set<Integer> questRequirements = getQuestRequirements(accessAndTypeFilter);
 
-    return questSet.stream().filter(accessAndTypeFilter.or(questIsRequirement(questRequirements)))
-        .map(quest -> createQuestEntry(quest, questPriorities)).collect(Collectors.toSet());
+    return questService.getQuests().stream()
+        .filter(accessAndTypeFilter.or(questIsRequirement(questRequirements)))
+        .collect(Collectors.toSet());
   }
 
   /**
@@ -141,24 +162,8 @@ public class Quests {
    * @return set of quest ids
    */
   private Set<Integer> getQuestRequirements(Predicate<Quest> questFilter) {
-    return questSet.stream().filter(questFilter)
+    return questService.getQuests().stream().filter(questFilter)
         .flatMap(quest -> quest.getQuestRequirements(true).stream())
         .map(qr -> qr.getQuest().getId()).collect(Collectors.toSet());
-  }
-
-  /**
-   * Creates a {@link QuestEntry} for the specified {@link Quest}.
-   *
-   * If the quest id is found in the <tt>questPriorities</tt> map, then that priority will be used.
-   * Otherwise priority will be {@link QuestPriority#NORMAL}.
-   *
-   * @param quest the quest to create an entry for
-   * @param questPriorities the quest priorities
-   * @return the quest entry
-   */
-  private QuestEntry createQuestEntry(Quest quest, Map<Integer, QuestPriority> questPriorities) {
-    QuestPriority priority = questPriorities.getOrDefault(quest.getId(), QuestPriority.NORMAL);
-
-    return new QuestEntry(quest, QuestStatus.NOT_STARTED, priority);
   }
 }

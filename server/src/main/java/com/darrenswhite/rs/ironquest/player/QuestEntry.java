@@ -10,14 +10,18 @@ import java.util.Set;
  *
  * @author Darren S. White
  */
-public class QuestEntry {
+class QuestEntry {
 
   private final Set<Set<Skill>> previousLampSkills = new HashSet<>();
   private final Quest quest;
   private QuestStatus status;
   private QuestPriority priority;
 
-  public QuestEntry(Quest quest, QuestStatus status, QuestPriority priority) {
+  QuestEntry(Quest quest) {
+    this(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+  }
+
+  QuestEntry(Quest quest, QuestStatus status, QuestPriority priority) {
     this.quest = quest;
     this.status = status;
     this.priority = priority;
@@ -45,6 +49,16 @@ public class QuestEntry {
 
   public void setPriority(QuestPriority priority) {
     this.priority = priority;
+  }
+
+
+  /**
+   * Returns a copy of this {@link QuestEntry}.
+   *
+   * @return the new quest entry instance
+   */
+  public QuestEntry copy() {
+    return new QuestEntry(getQuest(), getStatus(), getPriority());
   }
 
   /**

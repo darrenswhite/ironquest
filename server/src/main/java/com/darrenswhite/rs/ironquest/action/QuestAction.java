@@ -2,7 +2,6 @@ package com.darrenswhite.rs.ironquest.action;
 
 import com.darrenswhite.rs.ironquest.dto.QuestActionDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
-import com.darrenswhite.rs.ironquest.player.QuestEntry;
 import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import java.util.Objects;
@@ -55,14 +54,13 @@ public class QuestAction extends Action {
   /**
    * {@inheritDoc}
    *
-   * Sets the {@link QuestEntry} status as completed and adds quest xp rewards to the {@link
-   * Player}.
+   * Sets the {@link Quest} status as completed and adds quest xp rewards to the {@link Player}.
    */
   @Override
   public void process(Player player) {
     LOG.debug("Completing quest: {}", quest.getDisplayName());
 
-    player.getQuestEntry(quest).setStatus(QuestStatus.COMPLETED);
+    player.setQuestStatus(quest, QuestStatus.COMPLETED);
     quest.getRewards().getXp().forEach(player::addSkillXP);
   }
 

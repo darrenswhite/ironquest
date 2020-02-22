@@ -4,10 +4,9 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.darrenswhite.rs.ironquest.player.Player;
-import com.darrenswhite.rs.ironquest.player.QuestEntry;
-import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.quest.Quest;
+import com.darrenswhite.rs.ironquest.quest.Quest.Builder;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -24,32 +23,29 @@ class QuestRequirementTest {
     void shouldMeetRequirement() {
       QuestRequirement questRequirement = new QuestRequirement.Builder(new Quest.Builder().build())
           .build();
-      QuestEntry requiredQuestEntry = new QuestEntry(questRequirement.getQuest(),
-          QuestStatus.COMPLETED, QuestPriority.NORMAL);
-      QuestEntry questWithRequirement = new QuestEntry(new Quest.Builder().withRequirements(
+      Quest requiredQuest = questRequirement.getQuest();
+      Quest questWithRequirement = new Quest.Builder().withRequirements(
           new QuestRequirements.Builder().withQuests(Collections.singleton(questRequirement))
-              .build()).build(), QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+              .build()).build();
 
       Player playerWithCompletedQuestRequirement = new Player.Builder()
-          .withQuests(new HashSet<>(Arrays.asList(requiredQuestEntry, questWithRequirement)))
-          .build();
+          .withQuests(new HashSet<>(Arrays.asList(requiredQuest, questWithRequirement))).build();
+
+      playerWithCompletedQuestRequirement.setQuestStatus(requiredQuest, QuestStatus.COMPLETED);
 
       assertThat(questRequirement.testPlayer(playerWithCompletedQuestRequirement), equalTo(true));
     }
 
     @Test
     void shouldNotMeetRequirement() {
-      QuestRequirement questRequirement = new QuestRequirement.Builder(new Quest.Builder().build())
-          .build();
-      QuestEntry requiredQuestEntry = new QuestEntry(questRequirement.getQuest(),
-          QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-      QuestEntry questWithRequirement = new QuestEntry(new Quest.Builder().withRequirements(
+      Quest requiredQuest = new Builder().build();
+      QuestRequirement questRequirement = new QuestRequirement.Builder(requiredQuest).build();
+      Quest questWithRequirement = new Quest.Builder().withRequirements(
           new QuestRequirements.Builder().withQuests(Collections.singleton(questRequirement))
-              .build()).build(), QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+              .build()).build();
 
       Player playerWithIncompleteQuestRequirement = new Player.Builder()
-          .withQuests(new HashSet<>(Arrays.asList(requiredQuestEntry, questWithRequirement)))
-          .build();
+          .withQuests(new HashSet<>(Arrays.asList(requiredQuest, questWithRequirement))).build();
 
       assertThat(questRequirement.testPlayer(playerWithIncompleteQuestRequirement), equalTo(false));
     }

@@ -4,8 +4,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.darrenswhite.rs.ironquest.player.Player;
-import com.darrenswhite.rs.ironquest.player.QuestEntry;
-import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
@@ -28,10 +26,12 @@ class QuestPointsRequirementTest {
     @ParameterizedTest
     @MethodSource("shouldMeetRequirement")
     void shouldMeetRequirement(int questPointsRequired, int playerQuestPoints) {
-      QuestEntry quest = new QuestEntry(new Quest.Builder()
+      Quest quest = new Quest.Builder()
           .withRewards(new QuestRewards.Builder().withQuestPoints(playerQuestPoints).build())
-          .build(), QuestStatus.COMPLETED, QuestPriority.NORMAL);
+          .build();
       Player player = new Player.Builder().withQuests(Collections.singleton(quest)).build();
+
+      player.setQuestStatus(quest, QuestStatus.COMPLETED);
 
       QuestPointsRequirement questPointsRequirement = new QuestPointsRequirement.Builder(
           questPointsRequired).build();
@@ -48,10 +48,12 @@ class QuestPointsRequirementTest {
     @ParameterizedTest
     @MethodSource("shouldNotMeetRequirement")
     void shouldNotMeetRequirement(int questPointsRequired, int playerQuestPoints) {
-      QuestEntry quest = new QuestEntry(new Quest.Builder()
+      Quest quest = new Quest.Builder()
           .withRewards(new QuestRewards.Builder().withQuestPoints(playerQuestPoints).build())
-          .build(), QuestStatus.COMPLETED, QuestPriority.NORMAL);
+          .build();
       Player player = new Player.Builder().withQuests(Collections.singleton(quest)).build();
+
+      player.setQuestStatus(quest, QuestStatus.COMPLETED);
 
       QuestPointsRequirement questPointsRequirement = new QuestPointsRequirement.Builder(
           questPointsRequired).build();

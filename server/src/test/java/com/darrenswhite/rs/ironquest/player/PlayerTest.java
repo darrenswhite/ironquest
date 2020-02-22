@@ -30,10 +30,8 @@ public class PlayerTest {
     @Test
     public void shouldReturnCopyWhichIsEqualButNotSameInstance() {
       Player original = new Player.Builder().withIronman(true).withRecommended(true)
-          .withName("username").withLampSkills(Collections.singleton(Skill.HERBLORE)).withQuests(
-              Collections.singleton(
-                  new QuestEntry(new Quest.Builder(0).build(), QuestStatus.NOT_STARTED,
-                      QuestPriority.NORMAL)))
+          .withName("username").withLampSkills(Collections.singleton(Skill.HERBLORE))
+          .withQuests(Collections.singleton(new Quest.Builder(0).build()))
           .withSkillXps(new MapBuilder<Skill, Double>().put(Skill.PRAYER, 500d).build()).build();
 
       Player copy = original.copy();
@@ -48,10 +46,11 @@ public class PlayerTest {
 
     @Test
     void shouldThrowExceptionWhenQuestAlreadyCompleted() {
-      QuestEntry completedQuest = new QuestEntry(new Quest.Builder(0).build(),
-          QuestStatus.COMPLETED, QuestPriority.NORMAL);
+      Quest completedQuest = new Quest.Builder(0).build();
       Player player = new Player.Builder().withQuests(Collections.singleton(completedQuest))
           .build();
+
+      player.setQuestStatus(completedQuest, QuestStatus.COMPLETED);
 
       assertThrows(QuestAlreadyCompletedException.class,
           () -> player.completeQuest(completedQuest));
@@ -59,9 +58,9 @@ public class PlayerTest {
 
     @Test
     void shouldThrowExceptionWhenMissingCombatRequirement() {
-      QuestEntry questWithCombatRequirement = new QuestEntry(new Quest.Builder(0).withRequirements(
+      Quest questWithCombatRequirement = new Quest.Builder(0).withRequirements(
           new QuestRequirements.Builder().withCombat(new CombatRequirement.Builder(138).build())
-              .build()).build(), QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+              .build()).build();
       Player player = new Player.Builder()
           .withQuests(Collections.singleton(questWithCombatRequirement)).build();
 
@@ -71,10 +70,9 @@ public class PlayerTest {
 
     @Test
     void shouldThrowExceptionWhenMissingQuestPointRequirement() {
-      QuestEntry questWithQuestPointRequirement = new QuestEntry(new Quest.Builder(0)
-          .withRequirements(new QuestRequirements.Builder()
-              .withQuestPoints(new QuestPointsRequirement.Builder(300).build()).build()).build(),
-          QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+      Quest questWithQuestPointRequirement = new Quest.Builder(0).withRequirements(
+          new QuestRequirements.Builder()
+              .withQuestPoints(new QuestPointsRequirement.Builder(300).build()).build()).build();
       Player player = new Player.Builder()
           .withQuests(Collections.singleton(questWithQuestPointRequirement)).build();
 
@@ -84,12 +82,11 @@ public class PlayerTest {
 
     @Test
     void shouldThrowExceptionWhenMissingQuestRequirement() {
-      QuestEntry requiredQuest = new QuestEntry(new Quest.Builder(0).build(),
-          QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-      QuestEntry questWithQuestRequirement = new QuestEntry(new Quest.Builder(1).withRequirements(
+      Quest requiredQuest = new Quest.Builder(0).build();
+      Quest questWithQuestRequirement = new Quest.Builder(1).withRequirements(
           new QuestRequirements.Builder().withQuests(
-              Collections.singleton(new QuestRequirement.Builder(requiredQuest.getQuest()).build()))
-              .build()).build(), QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
+              Collections.singleton(new QuestRequirement.Builder(requiredQuest).build())).build())
+          .build();
       Player player = new Player.Builder()
           .withQuests(new HashSet<>(Arrays.asList(requiredQuest, questWithQuestRequirement)))
           .build();

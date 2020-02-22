@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +37,7 @@ public class Player {
 
   private final String name;
   private final Map<Skill, Double> skillXps;
-  private final Set<QuestEntry> quests;
+  private final Map<Integer, QuestEntry> quests;
   private final Set<Skill> lampSkills;
   private final boolean ironman;
   private final boolean recommended;
@@ -44,7 +45,7 @@ public class Player {
   Player(Builder builder) {
     this.name = builder.name;
     this.skillXps = builder.skillXps;
-    this.quests = builder.quests;
+    this.quests = createQuestEntries(builder.quests);
     this.lampSkills = builder.lampSkills;
     this.ironman = builder.ironman;
     this.recommended = builder.recommended;
@@ -69,12 +70,12 @@ public class Player {
   }
 
   /**
-   * Returns the {@link QuestEntry}s.
+   * Returns a {@link Set} of {@link Quest}s.
    *
-   * @return set of entries
+   * @return set of quests
    */
-  public Set<QuestEntry> getQuests() {
-    return quests;
+  public Set<Quest> getQuests() {
+    return quests.values().stream().map(QuestEntry::getQuest).collect(Collectors.toSet());
   }
 
   /**
@@ -146,9 +147,8 @@ public class Player {
    * @return the new player instance
    */
   public Player copy() {
-    Set<QuestEntry> copiedQuests = quests.stream()
-        .map(e -> new QuestEntry(e.getQuest(), e.getStatus(), e.getPriority()))
-        .collect(Collectors.toSet());
+    Set<Quest> copiedQuests = quests.values().stream().map(QuestEntry::copy)
+        .map(QuestEntry::getQuest).collect(Collectors.toSet());
 
     return new Player.Builder().withName(name).withSkillXps(new EnumMap<>(skillXps))
         .withQuests(copiedQuests).withLampSkills(new LinkedHashSet<>(lampSkills))
@@ -171,28 +171,27 @@ public class Player {
    * @return number of quest points
    */
   public int getQuestPoints() {
-    return getCompletedQuests().stream().mapToInt(q -> q.getQuest().getRewards().getQuestPoints())
-        .sum();
+    return getCompletedQuests().stream().mapToInt(q -> q.getRewards().getQuestPoints()).sum();
   }
 
   /**
-   * Get all quest entries which are completed.
+   * Get all quests which are completed.
    *
    * @return set of complete quests
    */
-  public Set<QuestEntry> getCompletedQuests() {
-    return quests.stream().filter(e -> e.getStatus() == QuestStatus.COMPLETED)
-        .collect(Collectors.toSet());
+  public Set<Quest> getCompletedQuests() {
+    return quests.values().stream().filter(e -> e.getStatus() == QuestStatus.COMPLETED)
+        .map(QuestEntry::getQuest).collect(Collectors.toSet());
   }
 
   /**
-   * Get all quest entries which are not completed.
+   * Get all quests which are not completed.
    *
    * @return set of incomplete quests
    */
-  public Set<QuestEntry> getIncompleteQuests() {
-    return quests.stream().filter(e -> e.getStatus() != QuestStatus.COMPLETED)
-        .collect(Collectors.toSet());
+  public Set<Quest> getIncompleteQuests() {
+    return quests.values().stream().filter(e -> e.getStatus() != QuestStatus.COMPLETED)
+        .map(QuestEntry::getQuest).collect(Collectors.toSet());
   }
 
   /**
@@ -268,21 +267,19 @@ public class Player {
    * @return <tt>true</tt> if the quest is marked as completed; <tt>false</tt> otherwise.
    */
   public boolean isQuestCompleted(Quest quest) {
-    return quests.stream()
-        .anyMatch(e -> e.getQuest().equals(quest) && e.getStatus() == QuestStatus.COMPLETED);
+    return quests.get(quest.getId()).getStatus() == QuestStatus.COMPLETED;
   }
 
   /**
    * Complete the specified quest and create a list of {@link Action}s to be processed.
    *
-   * @param entry the quest entry to mark as completed
+   * @param quest the quest entry to mark as completed
    * @return actions to be processed upon quest completion
    * @throws QuestAlreadyCompletedException when the quest is already completed
    * @throws MissingQuestRequirementsException when there are unmet requirements for the quest
    */
-  public List<Action> completeQuest(QuestEntry entry) {
+  public List<Action> completeQuest(Quest quest) {
     List<Action> actions = new LinkedList<>();
-    Quest quest = entry.getQuest();
 
     if (isQuestCompleted(quest)) {
       throw new QuestAlreadyCompletedException("Quest already completed: " + quest.getId());
@@ -299,7 +296,7 @@ public class Player {
     actions.add(new QuestAction(this, quest));
 
     for (LampReward lampReward : quest.getRewards().getLamps()) {
-      LampAction lampAction = createLampAction(entry, lampReward);
+      LampAction lampAction = createLampAction(quest, lampReward);
 
       actions.add(lampAction);
     }
@@ -323,43 +320,43 @@ public class Player {
   }
 
   /**
-   * Gets the 'best' {@link QuestEntry} from the given {@link Collection} of {@link QuestEntry}s to
-   * be completed next if any. If no 'best' {@link QuestEntry} if available then the 'nearest'
-   * {@link QuestEntry} will be returned.
+   * Gets the 'best' {@link Quest} from the given {@link Collection} of {@link Quest}s to be
+   * completed next if any. If no 'best' {@link Quest} if available then the 'nearest' {@link Quest}
+   * will be returned.
    * <p>
-   * The 'best' {@link QuestEntry} is determined by this {@link Player} meeting all {@link
-   * Requirement}s for a {@link Quest} and then getting the maximum {@link QuestEntry} compared by
-   * {@link QuestPriority}.
+   * The 'best' {@link Quest} is determined by this {@link Player} meeting all {@link Requirement}s
+   * for a {@link Quest} and then getting the maximum {@link Quest} compared by {@link
+   * QuestPriority}.
    * <p>
-   * The 'nearest' {@link QuestEntry} is determined by this {@link Player} meeting all {@link
+   * The 'nearest' {@link Quest} is determined by this {@link Player} meeting all {@link
    * Requirement}s (including all {@link LampReward} {@link Requirement}s but excluding {@link
-   * SkillRequirement}s) and then getting the minimum {@link QuestEntry} compared by the total
-   * remaining {@link SkillRequirement}s.
+   * SkillRequirement}s) and then getting the minimum {@link Quest} compared by the total remaining
+   * {@link SkillRequirement}s.
    *
    * @param quests the collection of quests to search
-   * @return The best {@link QuestEntry} to be completed
+   * @return The best {@link Quest} to be completed
    */
-  public Optional<QuestEntry> getBestQuest(Collection<QuestEntry> quests) {
-    return quests.stream().filter(e -> e.getQuest().meetsCombatRequirement(this) && e.getQuest()
-        .meetsQuestPointRequirement(this) && e.getQuest().meetsQuestRequirements(this))
-        .reduce((first, second) -> {
-          boolean firstSkillRequirements = first.getQuest().meetsSkillRequirements(this);
-          boolean secondSkillRequirements = second.getQuest().meetsSkillRequirements(this);
+  public Optional<Quest> getBestQuest(Collection<Quest> quests) {
+    return quests.stream().filter(
+        quest -> quest.meetsCombatRequirement(this) && quest.meetsQuestPointRequirement(this)
+            && quest.meetsQuestRequirements(this)).reduce((first, second) -> {
+      boolean firstSkillRequirements = first.meetsSkillRequirements(this);
+      boolean secondSkillRequirements = second.meetsSkillRequirements(this);
 
-          if (firstSkillRequirements && secondSkillRequirements) {
-            return compareQuestByPriority(first, second);
-          } else if (firstSkillRequirements) {
-            return first;
-          } else if (secondSkillRequirements) {
-            return second;
-          } else {
-            return compareQuestBySkillRequirements(first, second);
-          }
-        });
+      if (firstSkillRequirements && secondSkillRequirements) {
+        return compareQuestByPriority(first, second);
+      } else if (firstSkillRequirements) {
+        return first;
+      } else if (secondSkillRequirements) {
+        return second;
+      } else {
+        return compareQuestBySkillRequirements(first, second);
+      }
+    });
   }
 
   /**
-   * Creates a {@link LampAction} to be processed for the specified {@link QuestEntry} and {@link
+   * Creates a {@link LampAction} to be processed for the specified {@link Quest} and {@link
    * LampReward}.
    *
    * If this {@link Player} does meet the lamp requirements, then a {@link Set} of "best" {@link
@@ -373,12 +370,12 @@ public class Player {
    * @see Player#getBestLampSkills(LampReward, Set)
    * @see QuestEntry#getPreviousLampSkills()
    */
-  public LampAction createLampAction(QuestEntry questEntry, LampReward lampReward) {
+  public LampAction createLampAction(Quest quest, LampReward lampReward) {
     Set<Skill> bestSkills = new HashSet<>();
     boolean future = true;
 
     if (lampReward.meetsRequirements(this)) {
-      Set<Set<Skill>> previous = questEntry.getPreviousLampSkills();
+      Set<Set<Skill>> previous = getQuestEntry(quest).getPreviousLampSkills();
 
       bestSkills = getBestLampSkills(lampReward, previous);
       future = false;
@@ -386,17 +383,73 @@ public class Player {
       previous.add(bestSkills);
     }
 
-    return new LampAction(this, future, questEntry, lampReward, bestSkills);
+    return new LampAction(this, future, quest, lampReward, bestSkills);
   }
 
   /**
-   * Returns the {@link QuestEntry} for the specified {@link Quest}.
+   * Set the {@link QuestPriority} for the given {@link Quest}.
    *
-   * @param quest the quest to find the entry for
-   * @return the quest entry or <tt>null</tt> if not found
+   * @param quest the quest
+   * @param priority the priority
+   * @see Player#setQuestPriority(int, QuestPriority)
    */
-  public QuestEntry getQuestEntry(Quest quest) {
-    return quests.stream().filter(entry -> entry.getQuest().equals(quest)).findFirst().orElse(null);
+  public void setQuestPriority(Quest quest, QuestPriority priority) {
+    setQuestPriority(quest.getId(), priority);
+  }
+
+  /**
+   * Set the {@link QuestPriority} for the given {@link Quest} id.
+   *
+   * @param questId the id of quest
+   * @param priority the priority
+   * @see QuestEntry#setPriority(QuestPriority)
+   */
+  public void setQuestPriority(int questId, QuestPriority priority) {
+    quests.get(questId).setPriority(priority);
+  }
+
+  /**
+   * Get the {@link QuestPriority} for the given {@link Quest}.
+   *
+   * @param quest the quest
+   * @return the priority
+   * @see Player#getQuestPriority(int)
+   */
+  public QuestPriority getQuestPriority(Quest quest) {
+    return getQuestPriority(quest.getId());
+  }
+
+  /**
+   * Get the {@link QuestPriority} for the given {@link Quest}.
+   *
+   * @param questId the id of quest
+   * @return the priority
+   * @see QuestEntry#getPriority()
+   */
+  public QuestPriority getQuestPriority(int questId) {
+    return quests.get(questId).getPriority();
+  }
+
+  /**
+   * Set the {@link QuestStatus} for the given {@link Quest}.
+   *
+   * @param quest the quest
+   * @param status the status
+   * @see Player#setQuestStatus(int, QuestStatus)
+   */
+  public void setQuestStatus(Quest quest, QuestStatus status) {
+    setQuestStatus(quest.getId(), status);
+  }
+
+  /**
+   * Set the {@link QuestStatus} for the given {@link Quest} id.
+   *
+   * @param questId the id of quest
+   * @param status the status
+   * @see QuestEntry#setStatus(QuestStatus)
+   */
+  public void setQuestStatus(int questId, QuestStatus status) {
+    quests.get(questId).setStatus(status);
   }
 
   /**
@@ -465,7 +518,7 @@ public class Player {
   }
 
   /**
-   * Compare two {@link QuestEntry}s by priority.
+   * Compare two {@link Quest}s by priority.
    *
    * First compare the two entries by {@link QuestPriority}, returning the higher priority entry if
    * the priorities are different.
@@ -477,9 +530,12 @@ public class Player {
    * @param first the first entry to be compared
    * @param second the second entry to be compared
    * @return the higher priority quest, or the second entry if they have the same priorities
+   * @see Player#getQuestPriority(Quest)
    */
-  private QuestEntry compareQuestByPriority(QuestEntry first, QuestEntry second) {
-    int priorityComparison = first.getPriority().compareTo(second.getPriority());
+  private Quest compareQuestByPriority(Quest first, Quest second) {
+    QuestPriority firstPriority = getQuestEntry(first).getPriority();
+    QuestPriority secondPriority = getQuestEntry(second).getPriority();
+    int priorityComparison = firstPriority.compareTo(secondPriority);
 
     if (priorityComparison != 0) {
       if (priorityComparison > 0) {
@@ -488,7 +544,7 @@ public class Player {
         return second;
       }
     } else {
-      return getQuestPriority(first.getQuest()) > getQuestPriority(second.getQuest()) ? first
+      return getCalculatedQuestPriority(first) > getCalculatedQuestPriority(second) ? first
           : second;
     }
   }
@@ -501,7 +557,7 @@ public class Player {
    * @param quest the quest to get priority of
    * @return the priority
    */
-  private double getQuestPriority(Quest quest) {
+  private double getCalculatedQuestPriority(Quest quest) {
     int requirements = quest.getTotalRemainingSkillRequirements(this, true);
     double rewards = getTotalQuestRewards(quest) / 100;
 
@@ -509,7 +565,7 @@ public class Player {
   }
 
   /**
-   * Compare two {@link QuestEntry}s by remaining {@link SkillRequirement}s.
+   * Compare two {@link Quest}s by remaining {@link SkillRequirement}s.
    *
    * If these requirements are the same, then return the second entry.
    *
@@ -517,8 +573,8 @@ public class Player {
    * @param second the second entry to be compared
    * @return the higher priority quest, or the second entry if they have the same requirements
    */
-  private QuestEntry compareQuestBySkillRequirements(QuestEntry first, QuestEntry second) {
-    return first.getQuest().getTotalRemainingSkillRequirements(this, true) > second.getQuest()
+  private Quest compareQuestBySkillRequirements(Quest first, Quest second) {
+    return first.getTotalRemainingSkillRequirements(this, true) > second
         .getTotalRemainingSkillRequirements(this, true) ? second : first;
   }
 
@@ -572,9 +628,9 @@ public class Player {
   private Set<SkillRequirement> getRemainingSkillRequirements() {
     Set<SkillRequirement> requirements = new HashSet<>();
 
-    for (QuestEntry entry : getIncompleteQuests()) {
+    for (Quest entry : getIncompleteQuests()) {
       requirements = SkillRequirement
-          .merge(requirements, entry.getQuest().getRemainingSkillRequirements(this, false));
+          .merge(requirements, entry.getRemainingSkillRequirements(this, false));
     }
 
     return requirements;
@@ -599,7 +655,7 @@ public class Player {
 
     for (RuneMetricsQuest rmq : rmQuests) {
       String title = rmq.getTitle();
-      Optional<QuestEntry> entry = quests.stream().filter(
+      Optional<QuestEntry> entry = quests.values().stream().filter(
           e -> e.getQuest().getTitle().equalsIgnoreCase(title) || e.getQuest().getDisplayName()
               .equalsIgnoreCase(title)).findAny();
 
@@ -625,11 +681,34 @@ public class Player {
     }
   }
 
+  /**
+   * Create a {@link Map} of {@link QuestEntry}s for the given {@link Quest}s.
+   *
+   * The key is the {@link Quest} id and the value is the {@link QuestEntry}.
+   *
+   * @param quests the quests to create entries for
+   * @return map of quest entries
+   */
+  private Map<Integer, QuestEntry> createQuestEntries(Set<Quest> quests) {
+    return quests.stream().map(QuestEntry::new)
+        .collect(Collectors.toMap(entry -> entry.getQuest().getId(), Function.identity()));
+  }
+
+  /**
+   * Returns the {@link QuestEntry} for the specified {@link Quest}.
+   *
+   * @param quest the quest to find the entry for
+   * @return the quest entry or <tt>null</tt> if not found
+   */
+  private QuestEntry getQuestEntry(Quest quest) {
+    return quests.get(quest.getId());
+  }
+
   public static class Builder {
 
     private String name;
     private Map<Skill, Double> skillXps = new EnumMap<>(Skill.INITIAL_XPS);
-    private Set<QuestEntry> quests = new HashSet<>();
+    private Set<Quest> quests = new HashSet<>();
     private Set<Skill> lampSkills = new LinkedHashSet<>();
     private boolean ironman = false;
     private boolean recommended = false;
@@ -644,7 +723,7 @@ public class Player {
       return this;
     }
 
-    public Builder withQuests(Set<QuestEntry> quests) {
+    public Builder withQuests(Set<Quest> quests) {
       this.quests = quests;
       return this;
     }

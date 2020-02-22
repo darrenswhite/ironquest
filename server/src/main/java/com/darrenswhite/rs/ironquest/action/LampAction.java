@@ -2,8 +2,8 @@ package com.darrenswhite.rs.ironquest.action;
 
 import com.darrenswhite.rs.ironquest.dto.LampActionDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
-import com.darrenswhite.rs.ironquest.player.QuestEntry;
 import com.darrenswhite.rs.ironquest.player.Skill;
+import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
 import java.util.Objects;
 import java.util.Set;
@@ -11,21 +11,21 @@ import java.util.stream.Collectors;
 
 /**
  * A class representing an {@link Action} to use a {@link LampReward} on a set of {@link Skill}s for
- * a given {@link QuestEntry}. The {@link LampReward} maybe used in the future when requirements
- * have been met.
+ * a given {@link Quest}. The {@link LampReward} maybe used in the future when requirements have
+ * been met.
  *
  * @author Darren S. White
  */
 public class LampAction extends Action {
 
-  private final QuestEntry questEntry;
+  private final Quest quest;
   private final LampReward lampReward;
   private final Set<Skill> skills;
 
-  public LampAction(Player player, boolean future, QuestEntry questEntry, LampReward lampReward,
+  public LampAction(Player player, boolean future, Quest quest, LampReward lampReward,
       Set<Skill> skills) {
     super(ActionType.LAMP, player, future);
-    this.questEntry = questEntry;
+    this.quest = quest;
     this.lampReward = lampReward;
     this.skills = skills;
   }
@@ -40,12 +40,12 @@ public class LampAction extends Action {
   }
 
   /**
-   * Returns the {@link QuestEntry} for this action.
+   * Returns the {@link Quest} for this action.
    *
    * @return the quest entry
    */
-  public QuestEntry getQuestEntry() {
-    return questEntry;
+  public Quest getQuest() {
+    return quest;
   }
 
   /**
@@ -76,7 +76,7 @@ public class LampAction extends Action {
     StringBuilder message = new StringBuilder();
     String xp = Skill.formatXp(lampReward.getXpForSkills(getPlayer(), skills));
 
-    message.append(questEntry.getQuest().getDisplayName());
+    message.append(quest.getDisplayName());
     message.append(": Use ");
     message.append(lampReward.getType().getDescription());
 
@@ -126,7 +126,7 @@ public class LampAction extends Action {
   @Override
   public LampActionDTO createDTO() {
     return new LampActionDTO.Builder().withPlayer(getPlayer().createDTO()).withFuture(isFuture())
-        .withMessage(getMessage()).withQuest(getQuestEntry().getQuest().createDTO()).build();
+        .withMessage(getMessage()).withQuest(getQuest().createDTO()).build();
   }
 
   /**
@@ -134,7 +134,7 @@ public class LampAction extends Action {
    */
   @Override
   public LampAction copyForPlayer(Player player) {
-    return new LampAction(player, isFuture(), getQuestEntry(), getLampReward(), getSkills());
+    return new LampAction(player, isFuture(), getQuest(), getLampReward(), getSkills());
   }
 
   /**
@@ -150,8 +150,8 @@ public class LampAction extends Action {
     }
     LampAction that = (LampAction) o;
     return future == that.future && type == that.type && Objects.equals(player, that.player)
-        && Objects.equals(questEntry, that.questEntry) && Objects
-        .equals(lampReward, that.lampReward) && Objects.equals(skills, that.skills);
+        && Objects.equals(quest, that.quest) && Objects.equals(lampReward, that.lampReward)
+        && Objects.equals(skills, that.skills);
   }
 
   /**
@@ -159,6 +159,6 @@ public class LampAction extends Action {
    */
   @Override
   public final int hashCode() {
-    return Objects.hash(future, type, player, questEntry, lampReward, skills);
+    return Objects.hash(future, type, player, quest, lampReward, skills);
   }
 }

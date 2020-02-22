@@ -21,7 +21,7 @@ public class QuestService {
 
   private static final Logger LOG = LogManager.getLogger(QuestService.class);
 
-  private final Quests quests;
+  private final Set<Quest> quests;
 
   /**
    * Create a new {@link QuestService}.
@@ -34,7 +34,7 @@ public class QuestService {
     this.quests = load(questsResource, objectMapper);
   }
 
-  public Quests getQuests() {
+  public Set<Quest> getQuests() {
     return quests;
   }
 
@@ -44,12 +44,12 @@ public class QuestService {
    * @param questsResource the resource to retrieve quest data from
    * @return the loaded quests
    */
-  private Quests load(Resource questsResource, ObjectMapper objectMapper) throws IOException {
+  private Set<Quest> load(Resource questsResource, ObjectMapper objectMapper) throws IOException {
     LOG.debug("Trying to retrieve quests from resource: {}", questsResource);
 
     try (InputStream in = questsResource.getInputStream()) {
-      return new Quests(objectMapper.readValue(in, new TypeReference<Set<Quest>>() {
-      }));
+      return objectMapper.readValue(in, new TypeReference<Set<Quest>>() {
+      });
     }
   }
 }

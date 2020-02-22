@@ -1,17 +1,10 @@
 package com.darrenswhite.rs.ironquest.quest;
 
-import static com.darrenswhite.rs.ironquest.Matchers.hasPropertyAtPath;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.everyItem;
-import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 
-import com.darrenswhite.rs.ironquest.player.QuestEntry;
-import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.requirement.CombatRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestPointsRequirement;
@@ -50,7 +43,8 @@ class QuestServiceTest {
   static void beforeAll() throws IOException {
     InputStream in = QuestServiceTest.class.getClassLoader().getResourceAsStream(QUESTS_FILE);
 
-    questService = new QuestService(new InputStreamResource(in), OBJECT_MAPPER);
+    questService = new QuestService(new InputStreamResource(Objects.requireNonNull(in)),
+        OBJECT_MAPPER);
   }
 
   static class QuestMatcher extends TypeSafeMatcher<Quest> {
@@ -164,7 +158,7 @@ class QuestServiceTest {
                   .withXp(100).build()))).withQuestPoints(3).build()).withTitle("d")
           .withType(QuestType.MINIQUEST).build();
 
-      Set<Quest> loadedQuests = questService.getQuests().getQuests();
+      Set<Quest> loadedQuests = questService.getQuests();
 
       assertThat(loadedQuests, notNullValue());
       assertThat(loadedQuests, hasSize(4));
@@ -198,7 +192,7 @@ class QuestServiceTest {
                       .build()).withType(LampType.XP).withXp(20000).build()))).withQuestPoints(5)
               .build()).withTitle("c").withType(QuestType.SAGA).build();
 
-      Set<Quest> loadedQuests = questService.getQuests().getQuests();
+      Set<Quest> loadedQuests = questService.getQuests();
 
       Quest questWithQuestRequirements = loadedQuests.stream().filter(quest -> quest.getId() == 2)
           .findFirst().orElse(null);
@@ -215,114 +209,6 @@ class QuestServiceTest {
           .collect(Collectors.toList());
 
       assertThat(quests, containsInAnyOrder(new QuestMatcher(questB), new QuestMatcher(questC)));
-    }
-  }
-
-  @Nested
-  class CreateQuestEntries {
-
-    @Test
-    void shouldCreateEntryForAllQuestsWithNormalPriority() {
-      Set<QuestEntry> questEntries = questService.getQuests()
-          .createQuestEntries(Collections.emptyMap(), QuestAccessFilter.ALL, QuestTypeFilter.ALL);
-
-      assertThat(questEntries, notNullValue());
-      assertThat(questEntries, hasSize(4));
-      assertThat(questEntries, everyItem(hasProperty("priority", equalTo(QuestPriority.NORMAL))));
-    }
-
-    @Test
-    void shouldCreateEntryForAllQuestsWithGivenPriority() {
-      QuestPriority priorityA = QuestPriority.MAXIMUM;
-      QuestPriority priorityB = QuestPriority.NORMAL;
-      QuestPriority priorityC = QuestPriority.LOW;
-      QuestPriority priorityD = QuestPriority.HIGH;
-
-      Set<QuestEntry> questEntries = questService.getQuests().createQuestEntries(
-          new MapBuilder<Integer, QuestPriority>().put(-1, priorityA).put(0, priorityB)
-              .put(1, priorityC).put(2, priorityD).build(), QuestAccessFilter.ALL,
-          QuestTypeFilter.ALL);
-
-      assertThat(questEntries, notNullValue());
-      assertThat(questEntries, hasSize(4));
-      assertThat(questEntries, containsInAnyOrder(allOf(hasPropertyAtPath("quest.id", equalTo(-1)),
-          hasProperty("priority", equalTo(QuestPriority.MAXIMUM))),
-          allOf(hasPropertyAtPath("quest.id", equalTo(0)),
-              hasProperty("priority", equalTo(QuestPriority.NORMAL))),
-          allOf(hasPropertyAtPath("quest.id", equalTo(1)),
-              hasProperty("priority", equalTo(QuestPriority.LOW))),
-          allOf(hasPropertyAtPath("quest.id", equalTo(2)),
-              hasProperty("priority", equalTo(QuestPriority.HIGH)))));
-    }
-
-    @Test
-    void shouldCreateEntryForAllFreeQuests() {
-      Set<QuestEntry> questEntries = questService.getQuests()
-          .createQuestEntries(Collections.emptyMap(), QuestAccessFilter.FREE, QuestTypeFilter.ALL);
-
-      assertThat(questEntries, notNullValue());
-      assertThat(questEntries, hasSize(2));
-      assertThat(questEntries,
-          everyItem(hasPropertyAtPath("quest.access", equalTo(QuestAccess.FREE))));
-    }
-
-    @Test
-    void shouldCreateEntryForAllMembersQuests() {
-      Set<QuestEntry> questEntries = questService.getQuests()
-          .createQuestEntries(Collections.emptyMap(), QuestAccessFilter.MEMBERS,
-              QuestTypeFilter.ALL);
-
-      assertThat(questEntries, notNullValue());
-      // quest requirements are also included
-      assertThat(questEntries, hasSize(3));
-      assertThat(questEntries, containsInAnyOrder(allOf(hasPropertyAtPath("quest.id", equalTo(0)),
-          hasPropertyAtPath("quest.access", equalTo(QuestAccess.FREE))),
-          allOf(hasPropertyAtPath("quest.id", equalTo(1)),
-              hasPropertyAtPath("quest.access", equalTo(QuestAccess.MEMBERS))),
-          allOf(hasPropertyAtPath("quest.id", equalTo(2)),
-              hasPropertyAtPath("quest.access", equalTo(QuestAccess.MEMBERS)))));
-    }
-
-    @Test
-    void shouldCreateEntryForAllMiniquests() {
-      Set<QuestEntry> questEntries = questService.getQuests()
-          .createQuestEntries(Collections.emptyMap(), QuestAccessFilter.ALL,
-              QuestTypeFilter.MINIQUESTS);
-
-      assertThat(questEntries, notNullValue());
-      // quest requirements are also included
-      assertThat(questEntries, hasSize(3));
-      assertThat(questEntries, containsInAnyOrder(allOf(hasPropertyAtPath("quest.id", equalTo(0)),
-          hasPropertyAtPath("quest.type", equalTo(QuestType.SAGA))),
-          allOf(hasPropertyAtPath("quest.id", equalTo(1)),
-              hasPropertyAtPath("quest.type", equalTo(QuestType.SAGA))),
-          allOf(hasPropertyAtPath("quest.id", equalTo(2)),
-              hasPropertyAtPath("quest.type", equalTo(QuestType.MINIQUEST)))));
-    }
-
-    @Test
-    void shouldCreateEntryForAllSagas() {
-      Set<QuestEntry> questEntries = questService.getQuests()
-          .createQuestEntries(Collections.emptyMap(), QuestAccessFilter.ALL, QuestTypeFilter.SAGAS);
-
-      assertThat(questEntries, notNullValue());
-      assertThat(questEntries, hasSize(2));
-      assertThat(questEntries, containsInAnyOrder(allOf(hasPropertyAtPath("quest.id", equalTo(0)),
-          hasPropertyAtPath("quest.type", equalTo(QuestType.SAGA))),
-          allOf(hasPropertyAtPath("quest.id", equalTo(1)),
-              hasPropertyAtPath("quest.type", equalTo(QuestType.SAGA)))));
-    }
-
-    @Test
-    void shouldCreateEntryForAllQuests() {
-      Set<QuestEntry> questEntries = questService.getQuests()
-          .createQuestEntries(Collections.emptyMap(), QuestAccessFilter.ALL,
-              QuestTypeFilter.QUESTS);
-
-      assertThat(questEntries, notNullValue());
-      assertThat(questEntries, hasSize(1));
-      assertThat(questEntries, containsInAnyOrder(allOf(hasPropertyAtPath("quest.id", equalTo(-1)),
-          hasPropertyAtPath("quest.type", equalTo(QuestType.QUEST)))));
     }
   }
 }

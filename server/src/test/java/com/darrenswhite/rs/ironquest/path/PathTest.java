@@ -9,9 +9,6 @@ import com.darrenswhite.rs.ironquest.action.QuestAction;
 import com.darrenswhite.rs.ironquest.action.TrainAction;
 import com.darrenswhite.rs.ironquest.dto.PathDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
-import com.darrenswhite.rs.ironquest.player.QuestEntry;
-import com.darrenswhite.rs.ironquest.player.QuestPriority;
-import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
@@ -33,11 +30,10 @@ class PathTest {
     @Test
     void shouldCreateWithCorrectFields() {
       Quest quest = new Quest.Builder().build();
-      QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
       Player player = new Player.Builder().build();
       LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(500).build();
       Set<Skill> skills = Collections.singleton(Skill.HERBLORE);
-      LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
+      LampAction lampAction = new LampAction(player, false, quest, lampReward, skills);
       QuestAction questAction = new QuestAction(player, quest);
       TrainAction trainAction = new TrainAction(player, Skill.ATTACK, 0, 100);
       List<Action> actions = new LinkedList<>(Arrays.asList(lampAction, questAction, trainAction));

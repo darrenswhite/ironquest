@@ -9,9 +9,6 @@ import static org.mockito.Mockito.verify;
 
 import com.darrenswhite.rs.ironquest.dto.QuestActionDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
-import com.darrenswhite.rs.ironquest.player.QuestEntry;
-import com.darrenswhite.rs.ironquest.player.QuestPriority;
-import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
@@ -79,14 +76,12 @@ class QuestActionTest {
           .put(Skill.AGILITY, 2500d).put(Skill.COOKING, 100d).build();
       QuestRewards rewards = new QuestRewards.Builder().withXp(xp).withQuestPoints(5).build();
       Quest quest = new Quest.Builder().withRewards(rewards).build();
-      QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-      Player player = new Player.Builder().withQuests(Collections.singleton(entry)).build();
+      Player player = new Player.Builder().withQuests(Collections.singleton(quest)).build();
 
       QuestAction questAction = new QuestAction(player, quest);
 
       questAction.process(player);
 
-      assertThat(entry.getStatus(), equalTo(QuestStatus.COMPLETED));
       assertThat(player.isQuestCompleted(quest), equalTo(true));
       assertThat(player.getXp(Skill.ATTACK), equalTo(5000D));
       assertThat(player.getXp(Skill.AGILITY), equalTo(2500D));
