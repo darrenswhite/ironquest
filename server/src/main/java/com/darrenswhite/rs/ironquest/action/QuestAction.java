@@ -18,20 +18,20 @@ public class QuestAction extends Action {
 
   private static final Logger LOG = LogManager.getLogger(QuestAction.class);
 
-  private final QuestEntry entry;
+  private final Quest quest;
 
-  public QuestAction(Player player, QuestEntry entry) {
+  public QuestAction(Player player, Quest quest) {
     super(ActionType.QUEST, player, false);
-    this.entry = entry;
+    this.quest = quest;
   }
 
   /**
-   * Returns the {@link QuestEntry} for this action.
+   * Returns the {@link Quest} for this action.
    *
    * @return the quest entry
    */
-  public QuestEntry getQuestEntry() {
-    return entry;
+  public Quest getQuest() {
+    return quest;
   }
 
   /**
@@ -41,7 +41,7 @@ public class QuestAction extends Action {
    */
   @Override
   public String getMessage() {
-    return entry.getQuest().getDisplayName();
+    return quest.getDisplayName();
   }
 
   /**
@@ -49,21 +49,21 @@ public class QuestAction extends Action {
    */
   @Override
   public boolean meetsRequirements(Player player) {
-    return entry.getQuest().meetsAllRequirements(player);
+    return quest.meetsAllRequirements(player);
   }
 
   /**
    * {@inheritDoc}
    *
-   * Sets the {@link QuestEntry} status as completed and adds quest xp rewards to the {@link}
-   * Player.
+   * Sets the {@link QuestEntry} status as completed and adds quest xp rewards to the {@link
+   * Player}.
    */
   @Override
   public void process(Player player) {
-    LOG.debug("Completing quest: {}", entry.getQuest().getDisplayName());
+    LOG.debug("Completing quest: {}", quest.getDisplayName());
 
-    entry.setStatus(QuestStatus.COMPLETED);
-    entry.getQuest().getRewards().getXp().forEach(player::addSkillXP);
+    player.getQuestEntry(quest).setStatus(QuestStatus.COMPLETED);
+    quest.getRewards().getXp().forEach(player::addSkillXP);
   }
 
   /**
@@ -72,7 +72,7 @@ public class QuestAction extends Action {
   @Override
   public QuestActionDTO createDTO() {
     return new QuestActionDTO.Builder().withPlayer(getPlayer().createDTO()).withFuture(isFuture())
-        .withMessage(getMessage()).withQuest(getQuestEntry().getQuest().createDTO()).build();
+        .withMessage(getMessage()).withQuest(getQuest().createDTO()).build();
   }
 
   /**
@@ -80,7 +80,7 @@ public class QuestAction extends Action {
    */
   @Override
   public QuestAction copyForPlayer(Player player) {
-    return new QuestAction(player, getQuestEntry());
+    return new QuestAction(player, getQuest());
   }
 
   /**
@@ -96,7 +96,7 @@ public class QuestAction extends Action {
     }
     QuestAction that = (QuestAction) o;
     return future == that.future && type == that.type && Objects.equals(player, that.player)
-        && Objects.equals(entry, that.entry);
+        && Objects.equals(quest, that.quest);
   }
 
   /**
@@ -104,6 +104,6 @@ public class QuestAction extends Action {
    */
   @Override
   public final int hashCode() {
-    return Objects.hash(future, type, player, entry);
+    return Objects.hash(future, type, player, quest);
   }
 }

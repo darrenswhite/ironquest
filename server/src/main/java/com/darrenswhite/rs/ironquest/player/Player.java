@@ -296,7 +296,7 @@ public class Player {
       }
     }
 
-    actions.add(new QuestAction(this, entry));
+    actions.add(new QuestAction(this, quest));
 
     for (LampReward lampReward : quest.getRewards().getLamps()) {
       LampAction lampAction = createLampAction(entry, lampReward);
@@ -387,6 +387,16 @@ public class Player {
     }
 
     return new LampAction(this, future, questEntry, lampReward, bestSkills);
+  }
+
+  /**
+   * Returns the {@link QuestEntry} for the specified {@link Quest}.
+   *
+   * @param quest the quest to find the entry for
+   * @return the quest entry or <tt>null</tt> if not found
+   */
+  public QuestEntry getQuestEntry(Quest quest) {
+    return quests.stream().filter(entry -> entry.getQuest().equals(quest)).findFirst().orElse(null);
   }
 
   /**
@@ -500,9 +510,6 @@ public class Player {
 
   /**
    * Compare two {@link QuestEntry}s by remaining {@link SkillRequirement}s.
-   *
-   * First compare the two entries by {@link QuestPriority}, returning the higher priority entry if
-   * the priorities are different.
    *
    * If these requirements are the same, then return the second entry.
    *

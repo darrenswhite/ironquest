@@ -16,6 +16,7 @@ import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
 import com.darrenswhite.rs.ironquest.util.MapBuilder;
+import java.util.Collections;
 import java.util.Map;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Nested;
@@ -29,10 +30,9 @@ class QuestActionTest {
     @Test
     void shouldReturnCorrectType() {
       Quest quest = new Quest.Builder().build();
-      QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
       Player player = new Player.Builder().build();
 
-      QuestAction questAction = new QuestAction(player, entry);
+      QuestAction questAction = new QuestAction(player, quest);
 
       assertThat(questAction.getType(), equalTo(ActionType.QUEST));
     }
@@ -45,10 +45,9 @@ class QuestActionTest {
     void shouldFormatMessage() {
       String title = "title";
       Quest quest = new Quest.Builder().withTitle(title).build();
-      QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
       Player player = new Player.Builder().build();
 
-      QuestAction questAction = new QuestAction(player, entry);
+      QuestAction questAction = new QuestAction(player, quest);
 
       assertThat(questAction.getMessage(), equalTo(title));
       assertThat(questAction.toString(), equalTo(questAction.getMessage()));
@@ -61,10 +60,9 @@ class QuestActionTest {
     @Test
     void shouldCallMeetsAllRequirementsOnQuest() {
       Quest quest = mock(Quest.class);
-      QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
       Player player = new Player.Builder().build();
 
-      QuestAction questAction = new QuestAction(player, entry);
+      QuestAction questAction = new QuestAction(player, quest);
 
       questAction.meetsRequirements(player);
 
@@ -82,13 +80,14 @@ class QuestActionTest {
       QuestRewards rewards = new QuestRewards.Builder().withXp(xp).withQuestPoints(5).build();
       Quest quest = new Quest.Builder().withRewards(rewards).build();
       QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
-      Player player = new Player.Builder().build();
+      Player player = new Player.Builder().withQuests(Collections.singleton(entry)).build();
 
-      QuestAction questAction = new QuestAction(player, entry);
+      QuestAction questAction = new QuestAction(player, quest);
 
       questAction.process(player);
 
       assertThat(entry.getStatus(), equalTo(QuestStatus.COMPLETED));
+      assertThat(player.isQuestCompleted(quest), equalTo(true));
       assertThat(player.getXp(Skill.ATTACK), equalTo(5000D));
       assertThat(player.getXp(Skill.AGILITY), equalTo(2500D));
       assertThat(player.getXp(Skill.COOKING), equalTo(100D));
@@ -102,10 +101,9 @@ class QuestActionTest {
     void shouldCreateWithCorrectFields() {
       String title = "title";
       Quest quest = new Quest.Builder().withTitle(title).build();
-      QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
       Player player = new Player.Builder().build();
 
-      QuestAction questAction = new QuestAction(player, entry);
+      QuestAction questAction = new QuestAction(player, quest);
 
       QuestActionDTO dto = questAction.createDTO();
 
@@ -123,15 +121,14 @@ class QuestActionTest {
     @Test
     void shouldCopyAllValues() {
       Quest quest = new Quest.Builder().build();
-      QuestEntry entry = new QuestEntry(quest, QuestStatus.NOT_STARTED, QuestPriority.NORMAL);
       Player player = new Player.Builder().withName("original").build();
       Player playerToCopy = new Player.Builder().withName("copy").build();
 
-      QuestAction questAction = new QuestAction(player, entry);
+      QuestAction questAction = new QuestAction(player, quest);
 
       QuestAction copied = questAction.copyForPlayer(playerToCopy);
 
-      assertThat(copied.getQuestEntry(), equalTo(entry));
+      assertThat(copied.getQuest(), equalTo(quest));
       assertThat(copied.getPlayer(), equalTo(playerToCopy));
       assertThat(copied, not(sameInstance(questAction)));
     }

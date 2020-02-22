@@ -38,7 +38,7 @@ class PathTest {
       LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(500).build();
       Set<Skill> skills = Collections.singleton(Skill.HERBLORE);
       LampAction lampAction = new LampAction(player, false, entry, lampReward, skills);
-      QuestAction questAction = new QuestAction(player, entry);
+      QuestAction questAction = new QuestAction(player, quest);
       TrainAction trainAction = new TrainAction(player, Skill.ATTACK, 0, 100);
       List<Action> actions = new LinkedList<>(Arrays.asList(lampAction, questAction, trainAction));
       PathStats stats = new PathStats(55);
