@@ -150,9 +150,16 @@ public class Player {
     Set<Quest> copiedQuests = quests.values().stream().map(QuestEntry::copy)
         .map(QuestEntry::getQuest).collect(Collectors.toSet());
 
-    return new Player.Builder().withName(name).withSkillXps(new EnumMap<>(skillXps))
+    Player copy = new Builder().withName(name).withSkillXps(new EnumMap<>(skillXps))
         .withQuests(copiedQuests).withLampSkills(new LinkedHashSet<>(lampSkills))
         .withIronman(ironman).withRecommended(recommended).build();
+
+    for (Map.Entry<Integer, QuestEntry> entry : quests.entrySet()) {
+      copy.quests.get(entry.getKey()).setPriority(entry.getValue().getPriority());
+      copy.quests.get(entry.getKey()).setStatus(entry.getValue().getStatus());
+    }
+
+    return copy;
   }
 
   /**
@@ -282,7 +289,8 @@ public class Player {
     List<Action> actions = new LinkedList<>();
 
     if (isQuestCompleted(quest)) {
-      throw new QuestAlreadyCompletedException("Quest already completed: " + quest.getId());
+      throw new QuestAlreadyCompletedException(
+          "Quest already completed: " + quest.getDisplayName() + " (" + quest.getId() + ")");
     } else if (!quest.meetsCombatRequirement(this) || !quest.meetsQuestPointRequirement(this)
         || !quest.meetsQuestRequirements(this)) {
       throw new MissingQuestRequirementsException(
@@ -453,6 +461,28 @@ public class Player {
   }
 
   /**
+   * Get the {@link QuestStatus} for the given {@link Quest}.
+   *
+   * @param quest the quest
+   * @return the status
+   * @see Player#getQuestStatus(int)
+   */
+  public QuestStatus getQuestStatus(Quest quest) {
+    return getQuestStatus(quest.getId());
+  }
+
+  /**
+   * Get the {@link QuestStatus} for the given {@link Quest}.
+   *
+   * @param questId the id of quest
+   * @return the status
+   * @see QuestEntry#getStatus()
+   */
+  public QuestStatus getQuestStatus(int questId) {
+    return quests.get(questId).getStatus();
+  }
+
+  /**
    * Get the "best" skill choices to be used on a {@link LampReward} from a {@link Quest}.
    *
    * If any of the lamp reward choices contains any of the player <tt>lampSkills</tt>, then that
@@ -584,18 +614,32 @@ public class Player {
    * @param quest the quest
    * @return the total rewards
    */
-  private double getTotalQuestRewards(Quest quest) {
-    double xpRewards = quest.getRewards().getXp().values().stream().mapToDouble(Double::doubleValue)
-        .sum();
-    Set<Set<Skill>> previousLampSkills = new HashSet<>();
-    double lampXpRewards = quest.getRewards().getLamps().stream()
-        .filter(l -> l.meetsRequirements(this)).mapToDouble(lampReward -> {
-          Set<Skill> skills = getBestLampSkills(lampReward, previousLampSkills);
-          previousLampSkills.add(skills);
-          return lampReward.getXpForSkills(this, skills);
-        }).sum();
+  public double getTotalQuestRewards(Quest quest) {
+    return getQuestRewards(quest).values().stream().mapToDouble(Double::doubleValue).sum();
+  }
 
-    return xpRewards + lampXpRewards;
+  /**
+   * Returns the skill xp and lamp rewards from the specified {@link Quest}.
+   *
+   * @param quest the quest
+   * @return the total rewards
+   */
+  private Map<Skill, Double> getQuestRewards(Quest quest) {
+    Map<Skill, Double> rewards = new EnumMap<>(Skill.class);
+    Set<Set<Skill>> previousLampSkills = new HashSet<>();
+
+    rewards.putAll(quest.getRewards().getXp());
+
+    quest.getRewards().getLamps().stream().filter(l -> l.meetsRequirements(this))
+        .forEach(lampReward -> {
+          Set<Skill> skills = getBestLampSkills(lampReward, previousLampSkills);
+          double xp = lampReward.getXpForSkills(this, skills);
+
+          previousLampSkills.add(skills);
+          skills.forEach(skill -> rewards.put(skill, xp));
+        });
+
+    return rewards;
   }
 
   /**

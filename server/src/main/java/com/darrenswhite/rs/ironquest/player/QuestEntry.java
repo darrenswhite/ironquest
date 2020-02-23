@@ -51,7 +51,6 @@ class QuestEntry {
     this.priority = priority;
   }
 
-
   /**
    * Returns a copy of this {@link QuestEntry}.
    *

@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.darrenswhite.rs.ironquest.quest.Quest;
+import com.darrenswhite.rs.ironquest.quest.Quest.Builder;
 import com.darrenswhite.rs.ironquest.quest.requirement.CombatRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestPointsRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
@@ -38,6 +39,34 @@ public class PlayerTest {
 
       assertThat(original, equalTo(copy));
       assertThat(original, not(sameInstance(copy)));
+    }
+
+    @Test
+    public void shouldCopyQuestEntryPriority() {
+      Quest quest = new Builder(0).build();
+      Player original = new Player.Builder().withQuests(Collections.singleton(quest)).build();
+
+      original.setQuestPriority(quest, QuestPriority.MAXIMUM);
+
+      Player copy = original.copy();
+
+      assertThat(original, equalTo(copy));
+      assertThat(original, not(sameInstance(copy)));
+      assertThat(copy.getQuestPriority(quest), equalTo(QuestPriority.MAXIMUM));
+    }
+
+    @Test
+    public void shouldCopyQuestEntryStatus() {
+      Quest quest = new Builder(0).build();
+      Player original = new Player.Builder().withQuests(Collections.singleton(quest)).build();
+
+      original.setQuestStatus(quest, QuestStatus.COMPLETED);
+
+      Player copy = original.copy();
+
+      assertThat(original, equalTo(copy));
+      assertThat(original, not(sameInstance(copy)));
+      assertThat(copy.getQuestStatus(quest), equalTo(QuestStatus.COMPLETED));
     }
   }
 
