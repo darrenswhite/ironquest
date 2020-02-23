@@ -72,7 +72,7 @@ const CONFIGS = {
 
 const APIS = {
   local: 'window.location.href',
-  external: JSON.stringify('https://ironquest.co.uk'),
+  external: JSON.stringify('https://api.ironquest.co.uk'),
 };
 
 const config = CONFIGS[process.env.TARGET] || CONFIGS.web;
