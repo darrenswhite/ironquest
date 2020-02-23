@@ -1,9 +1,9 @@
-import express from 'express';
-import path from 'path';
+const express = require('express');
+const path = require('path');
 
 const PORT = Number(process.env.PORT || 8080);
 
-const STATIC_DIR = path.resolve(__dirname, '..', 'build');
+const STATIC_DIR = path.resolve(__dirname, 'build');
 
 const app = express();
 

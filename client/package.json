@@ -2,7 +2,7 @@
   "name": "ironquest",
   "version": "1.0.0",
   "description": "IronQuest Web App",
-  "main": "build/index.js",
+  "main": "serve.js",
   "typings": "build/index.d.ts",
   "engines": {
     "node": "12.x"
@@ -15,7 +15,7 @@
     "fix": "gts fix",
     "pretest": "npm run compile",
     "posttest": "npm run check",
-    "start": "npm run compile && ts-node src/serve.ts",
+    "start": "node serve.js",
     "test": "nyc mocha"
   },
   "repository": {
