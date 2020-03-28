@@ -17,7 +17,7 @@ export class Windows {
   }
 
   async obtainWindow(name: string): Promise<unknown> {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       overwolf.windows.obtainDeclaredWindow(name, response => {
         if (response.status === 'success') {
           resolve();
@@ -29,7 +29,7 @@ export class Windows {
   }
 
   async getWindowState(name: string): Promise<unknown> {
-    return new Promise<unknown>(async (resolve, reject) => {
+    return new Promise<unknown>((resolve, reject) => {
       try {
         overwolf.windows.getWindowState(name, state => {
           if (state.status === 'success') {
@@ -44,67 +44,29 @@ export class Windows {
     });
   }
 
-  async close(name: string): Promise<unknown> {
-    return new Promise<unknown>(async (resolve, reject) => {
-      try {
-        await this.obtainWindow(name);
-        overwolf.windows.close(name, resolve);
-      } catch (e) {
-        reject(e);
-      }
-    });
+  async close(name: string): Promise<void> {
+    await this.obtainWindow(name);
+    overwolf.windows.close(name);
   }
 
-  async minimize(name: string): Promise<unknown> {
-    return new Promise<unknown>(async (resolve, reject) => {
-      try {
-        await this.obtainWindow(name);
-        overwolf.windows.minimize(name, result => {
-          if (result.status === 'success') {
-            resolve();
-          } else {
-            reject(result);
-          }
-        });
-      } catch (e) {
-        reject(e);
-      }
-    });
+  async minimize(name: string): Promise<void> {
+    await this.obtainWindow(name);
+    overwolf.windows.minimize(name);
   }
 
-  async restore(name: string): Promise<unknown> {
-    return new Promise<unknown>(async (resolve, reject) => {
-      try {
-        await this.obtainWindow(name);
-        overwolf.windows.restore(name, result => {
-          if (result.status === 'success') {
-            resolve();
-          } else {
-            reject(result);
-          }
-        });
-      } catch (e) {
-        reject(e);
-      }
-    });
+  async restore(name: string): Promise<void> {
+    await this.obtainWindow(name);
+    overwolf.windows.restore(name);
   }
 
-  async toggle(name: string): Promise<unknown> {
-    return new Promise<unknown>(async (resolve, reject) => {
-      try {
-        const state = await this.getWindowState(name);
+  async toggle(name: string): Promise<void> {
+    const state = await this.getWindowState(name);
 
-        if (state === 'minimized' || state === 'closed') {
-          await this.restore(name);
-        } else {
-          await this.minimize(name);
-        }
-
-        resolve();
-      } catch (e) {
-        reject(e);
-      }
-    });
+    if (state === 'minimized' || state === 'closed') {
+      await this.restore(name);
+    } else {
+      await this.minimize(name);
+    }
   }
 
   getMainWindow(): Window {

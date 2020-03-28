@@ -1,4 +1,4 @@
-import { RootState } from './RootState';
+import {RootState} from './RootState';
 import VuexPersistence from 'vuex-persist';
 import createMutationsSharer, {
   BroadcastChannelStrategy,
@@ -46,4 +46,4 @@ if (typeof overwolf !== 'undefined') {
   plugins.push(mutationsSharer);
 }
 
-export { plugins };
+export {plugins};

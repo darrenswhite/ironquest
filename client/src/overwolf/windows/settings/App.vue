@@ -2,15 +2,21 @@
   <v-app v-cloak>
     <v-content>
       <v-container fluid>
-        <settings></settings>
+        <settings />
         <v-row>
           <v-col col="6">
-            <v-btn v-on:click="close" block>
+            <v-btn
+              block
+              @click="close"
+            >
               Cancel
             </v-btn>
           </v-col>
           <v-col col="6">
-            <v-btn v-on:click="showResults" block>
+            <v-btn
+              block
+              @click="showResults"
+            >
               Save
             </v-btn>
           </v-col>
@@ -23,10 +29,13 @@
 <script lang="ts">
 import Vue from 'vue';
 import Settings from '@/components/Settings.vue';
-import { Windows } from '@/overwolf/scripts';
-import { constants, store } from '@/store';
+import {Windows} from '@/overwolf/scripts';
+import {constants} from '@/store';
 
 export default Vue.extend({
+  components: {
+    Settings,
+  },
   methods: {
     close(): void {
       Windows.getInstance().close(Windows.SETTINGS);
@@ -40,9 +49,6 @@ export default Vue.extend({
       Windows.getInstance().minimize(Windows.SETTINGS);
       Windows.getInstance().restore(Windows.RESULTS);
     },
-  },
-  components: {
-    Settings,
   },
 });
 </script>

@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Vuex, { ActionContext, ActionTree, MutationTree, Store } from 'vuex';
+import Vuex, {ActionContext, ActionTree, MutationTree, Store} from 'vuex';
 import {
   Path,
   PathFinderError,
@@ -7,12 +7,12 @@ import {
   QuestAccessFilter,
   QuestTypeFilter,
 } from 'ironquest';
-import { RootState } from './RootState';
+import {RootState} from './RootState';
 import * as constants from './constants';
-import { head } from 'lodash';
+import {head} from 'lodash';
 import querystring from 'querystring';
-import { getField, updateField } from 'vuex-map-fields';
-import { plugins } from './plugins';
+import {getField, updateField} from 'vuex-map-fields';
+import {plugins} from './plugins';
 
 const PATH_FINDER_URL = __API__ + '/api/quests/path';
 
@@ -108,4 +108,4 @@ const store = new Store<RootState>({
   actions,
 });
 
-export { RootState, constants, store };
+export {RootState, constants, store};

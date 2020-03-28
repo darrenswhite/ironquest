@@ -652,35 +652,35 @@ declare namespace overwolf {
      * @param windowId The id or name of the window to close.
      * @param callback Called after the window is closed.
      */
-    function close(windowId: string, callback: () => void): void;
+    function close(windowId: string, callback?: () => void): void;
 
     /**
      * Minimizes the window.
      * @param windowId The id or name of the window to minimize.
      * @param callback Called after the window is minimized.
      */
-    function minimize(windowId: string, callback: (result: any) => void): void;
+    function minimize(windowId: string, callback?: (result: any) => void): void;
 
     /**
      * Hides the window.
      * @param windowId The id or name of the window to hide.
      * @param callback Called after the window is hidden.
      */
-    function hide(windowId: string, callback: () => void): void;
+    function hide(windowId: string, callback?: () => void): void;
 
     /**
      * Maximizes the window.
      * @param windowId The id or name of the window to maximize.
      * @param callback Called after the window is maximized.
      */
-    function maximize(windowId: string, callback: () => void): void;
+    function maximize(windowId: string, callback?: () => void): void;
 
     /**
      * Restores a minimized window.
      * @param windowId The id or name of the window to restore.
      * @param callback Called after the window is restored.
      */
-    function restore(windowId: string, callback: (result: any) => void): void;
+    function restore(windowId: string, callback?: (result: any) => void): void;
 
     /**
      * Returns the state of the window (normal/minimized/maximized/closed).

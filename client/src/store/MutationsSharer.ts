@@ -1,4 +1,4 @@
-import { RootState } from './RootState';
+import {RootState} from './RootState';
 import createMutationsSharer, {
   BroadcastChannelStrategy,
   LocalStorageStratery,
@@ -32,4 +32,4 @@ const mutationsSharer = createMutationsSharer<RootState>({
   strategy: getStrategy(),
 });
 
-export { mutationsSharer };
+export {mutationsSharer};

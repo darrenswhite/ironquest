@@ -15,4 +15,4 @@ const vuetify = new Vuetify({
   },
 });
 
-export { vuetify };
+export {vuetify};

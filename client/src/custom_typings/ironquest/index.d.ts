@@ -1,4 +1,4 @@
-declare var __API__: string;
+declare let __API__: string;
 
 declare module 'ironquest' {
   export const enum ActionType {
@@ -64,7 +64,7 @@ declare module 'ironquest' {
     quest: Quest;
   }
 
-  export interface TrainAction extends Action {}
+  export type TrainAction = Action;
 
   export interface PathStats {
     percentComplete: number;

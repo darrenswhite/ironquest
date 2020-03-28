@@ -6,7 +6,7 @@
         label="Username"
         hint="Enter your RuneScape name to retrieve quest and skill information."
         clearable
-      ></v-text-field>
+      />
     </v-row>
 
     <v-row>
@@ -16,10 +16,22 @@
         hint="Filter by quests/miniquests/sagas."
         row
       >
-        <v-radio label="All" value="ALL"></v-radio>
-        <v-radio label="Quests" value="QUESTS"></v-radio>
-        <v-radio label="Miniquests" value="MINIQUESTS"></v-radio>
-        <v-radio label="Sagas" value="SAGAS"></v-radio>
+        <v-radio
+          label="All"
+          value="ALL"
+        />
+        <v-radio
+          label="Quests"
+          value="QUESTS"
+        />
+        <v-radio
+          label="Miniquests"
+          value="MINIQUESTS"
+        />
+        <v-radio
+          label="Sagas"
+          value="SAGAS"
+        />
       </v-radio-group>
     </v-row>
 
@@ -30,9 +42,18 @@
         hint="Filter by free/member quests."
         row
       >
-        <v-radio label="All" value="ALL"></v-radio>
-        <v-radio label="Free" value="FREE"></v-radio>
-        <v-radio label="Members" value="MEMBERS"></v-radio>
+        <v-radio
+          label="All"
+          value="ALL"
+        />
+        <v-radio
+          label="Free"
+          value="FREE"
+        />
+        <v-radio
+          label="Members"
+          value="MEMBERS"
+        />
       </v-radio-group>
     </v-row>
 
@@ -42,12 +63,12 @@
         label="Ironman"
         hint="Toggle ironman requirements for quests."
         class="mr-4"
-      ></v-checkbox>
+      />
       <v-checkbox
         v-model="recommended"
         label="Recommended"
         hint="Toggle recommended requirements for quests."
-      ></v-checkbox>
+      />
     </v-row>
 
     <v-row>
@@ -60,17 +81,16 @@
         multiple
         chips
         hint="Choose which skills xp lamps should be used on."
-      ></v-select>
+      />
     </v-row>
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Skill } from 'ironquest';
-import { capitalize, map } from 'lodash';
-import { mapState } from 'vuex';
-import { mapFields } from 'vuex-map-fields';
+import {Skill} from 'ironquest';
+import {capitalize, map} from 'lodash';
+import {mapFields} from 'vuex-map-fields';
 
 const SKILLS = [
   Skill.AGILITY,
@@ -103,7 +123,7 @@ const SKILLS = [
 ] as Skill[];
 
 export default Vue.extend({
-  name: 'settings',
+  name: 'Settings',
   computed: {
     skillOptions() {
       return map(SKILLS, skill => ({

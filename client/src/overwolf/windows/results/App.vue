@@ -3,7 +3,7 @@
     <v-content>
       <actions>
         <div id="settings">
-          <v-btn v-on:click="showSettings">
+          <v-btn @click="showSettings">
             Settings
           </v-btn>
         </div>
@@ -15,21 +15,21 @@
 <script lang="ts">
 import Vue from 'vue';
 import Actions from '@/components/Actions.vue';
-import { Windows } from '@/overwolf/scripts';
-import { constants, store } from '@/store';
+import {Windows} from '@/overwolf/scripts';
+import {constants} from '@/store';
 
 export default Vue.extend({
-  methods: {
-    showSettings(): void {
-      Windows.getInstance().minimize(Windows.RESULTS);
-      Windows.getInstance().restore(Windows.SETTINGS);
-    },
-  },
   components: {
     Actions,
   },
   mounted() {
     this.$store.dispatch(constants.FIND_PATH);
+  },
+  methods: {
+    showSettings(): void {
+      Windows.getInstance().minimize(Windows.RESULTS);
+      Windows.getInstance().restore(Windows.SETTINGS);
+    },
   },
 });
 </script>

@@ -12,7 +12,7 @@ declare module 'vuex-map-fields' {
   }
 
   export function mapFields(
-    fields: string[] | { [key: string]: string }
+    fields: string[] | {[key: string]: string}
   ): MappedFields;
 
   export function getField(state: unknown): unknown;

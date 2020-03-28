@@ -15,10 +15,11 @@
   "data": {
     "start_window": "controller",
     "externally_connectable": {
-      "matches": [
-        "http://ironquest.com",
-        "https://ironquest.com"
-      ]
+      "matches": ["http://ironquest.com", "https://ironquest.com"]
+    },
+    "game_targeting": {
+      "type": "dedicated",
+      "game_ids": [215941]
     },
     "hotkeys": {
       "toggle_IronQuest": {

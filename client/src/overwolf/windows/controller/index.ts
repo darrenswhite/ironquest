@@ -1,3 +1,3 @@
-import { Controller } from './Controller';
+import {Controller} from './Controller';
 
 Controller.init();

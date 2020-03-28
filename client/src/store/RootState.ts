@@ -1,4 +1,4 @@
-import { Action, Path, PathFinderError, PathFinderParameters } from 'ironquest';
+import {Action, Path, PathFinderError, PathFinderParameters} from 'ironquest';
 
 export interface RootState {
   actions: {
