@@ -6,7 +6,12 @@ export class Controller {
 
   static init(): void {
     Controller.registerHotkeys();
+    Controller.registerLaunchTrigger();
     Controller.toggleStartWindow();
+  }
+
+  static registerLaunchTrigger(): void {
+    overwolf.extensions.onAppLaunchTriggered.addListener(this.toggleStartWindow);
   }
 
   static registerHotkeys(): void {
