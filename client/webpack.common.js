@@ -4,6 +4,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const StylelintPlugin = require('stylelint-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const {filter, keys, map, mapValues} = require('lodash');
 
@@ -112,27 +113,17 @@ function styleLoaders(extract) {
       use: [
         styleLoader,
         cssLoader,
-        postCssLoader,
         {
           loader: 'sass-loader',
           options: {
+            implementation: require('sass'),
             sourceMap: true,
+            sassOptions: {
+              fiber: require('fibers'),
+            },
           },
         },
-      ],
-    },
-    {
-      test: /\.styl(us)?$/,
-      use: [
-        styleLoader,
-        cssLoader,
         postCssLoader,
-        {
-          loader: 'stylus-loader',
-          options: {
-            sourceMap: true,
-          },
-        },
       ],
     },
     {
@@ -185,6 +176,9 @@ module.exports = {
         __API__: api,
       }),
       new CopyWebpackPlugin(config.copyPatterns),
+      new StylelintPlugin({
+        files: '**/*.(s?(a|c)ss|vue)'
+      }),
     ],
     resolve: {
       alias: {

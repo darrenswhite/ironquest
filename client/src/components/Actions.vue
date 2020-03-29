@@ -207,7 +207,7 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="stylus" scoped>
+<style lang="scss" scoped>
 .error {
   color: #ee0000;
 }

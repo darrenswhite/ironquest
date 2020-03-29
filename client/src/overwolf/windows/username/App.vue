@@ -39,9 +39,3 @@ export default Vue.extend({
   },
 });
 </script>
-
-<style lang="stylus">
-#settings {
-  text-align: right;
-}
-</style>

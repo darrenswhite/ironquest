@@ -3,7 +3,7 @@ import Vue, {VueConstructor} from 'vue';
 import Vuetify from 'vuetify';
 
 import 'vuetify/dist/vuetify.min.css';
-import '@/styles/base.styl';
+import '@/styles/base.scss';
 
 Vue.config.productionTip = false;
 

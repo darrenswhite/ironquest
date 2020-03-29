@@ -2,7 +2,7 @@
   <v-app v-cloak>
     <v-content>
       <actions>
-        <div id="settings">
+        <div class="settings">
           <v-btn @click="showSettings">
             Settings
           </v-btn>
@@ -34,8 +34,8 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="stylus">
-#settings {
+<style scoped lang="scss">
+.settings {
   text-align: right;
 }
 </style>
