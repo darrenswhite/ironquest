@@ -8,6 +8,7 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["dom", "es2018"],
     "module": "commonjs",
+    "moduleResolution": "node",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
@@ -16,11 +17,10 @@
       "@/*": ["src/*"]
     },
     "pretty": true,
-    "rootDir": ".",
     "sourceMap": true,
     "strict": true,
-    "target": "es2018"
+    "target": "es5"
   },
   "exclude": ["node_modules"],
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "src/**/*.vue", "test/**/*.ts"]
 }

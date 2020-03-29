@@ -106,7 +106,9 @@
                       selectedAction.quest.displayName.replace(/ /g, '_')
                   "
                   target="_blank"
-                >View quest on wiki</a>
+                >
+                  View quest on wiki
+                </a>
               </td>
             </tr>
           </tbody>
@@ -164,7 +166,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Skill} from 'ironquest';
+import {Skill} from '@/common/types';
 import {capitalize, get} from 'lodash';
 import {mapFields} from 'vuex-map-fields';
 

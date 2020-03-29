@@ -6,7 +6,7 @@ import {
   PathFinderParameters,
   QuestAccessFilter,
   QuestTypeFilter,
-} from 'ironquest';
+} from '@/common/types';
 import {RootState} from './RootState';
 import * as constants from './constants';
 import {head} from 'lodash';

@@ -88,7 +88,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Skill} from 'ironquest';
+import {Skill} from '@/common/types';
 import {capitalize, map} from 'lodash';
 import {mapFields} from 'vuex-map-fields';
 

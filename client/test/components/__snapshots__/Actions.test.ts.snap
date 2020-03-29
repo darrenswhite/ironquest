@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Actions.vue should render component and match snapshot 1`] = `
+<v-container-stub tag="div"
+                  fluid="true"
+>
+  <v-row-stub tag="div"
+              align="center"
+              justify="center"
+  >
+    <v-alert-stub tag="div"
+                  transition="fade-transition"
+                  closelabel="$vuetify.close"
+                  dismissible="true"
+                  icon
+                  prominent="true"
+                  type="error"
+    >
+      <v-row-stub tag="div"
+                  align="center"
+      >
+        <v-col-stub tag="div"
+                    class="grow"
+        >
+          Something went wrong!
+        </v-col-stub>
+        <v-col-stub tag="div"
+                    class="shrink"
+        >
+          <v-btn-stub tag="button"
+                      activeclass
+                      href="https://github.com/darrenswhite/ironquest/issues/new"
+                      target="_blank"
+                      type="button"
+          >
+            Submit issue
+          </v-btn-stub>
+        </v-col-stub>
+      </v-row-stub>
+    </v-alert-stub>
+  </v-row-stub>
+</v-container-stub>
+`;
+
+exports[`Actions.vue should render loading indicator and match snapshot 1`] = `
+<v-container-stub tag="div"
+                  fluid="true"
+                  fill-height
+>
+  <v-row-stub tag="div"
+              align="center"
+              justify="center"
+  >
+    <v-progress-circular-stub color="primary"
+                              indeterminate="true"
+                              rotate="0"
+                              size="32"
+                              width="4"
+                              value="0"
+    >
+    </v-progress-circular-stub>
+  </v-row-stub>
+</v-container-stub>
+`;
