@@ -1,14 +1,11 @@
 import {store} from '@/store';
 import Vue, {VueConstructor} from 'vue';
 import Vuetify from 'vuetify';
-import {capitalize} from 'lodash';
 
 import 'vuetify/dist/vuetify.min.css';
 import '@/styles/base.styl';
 
 Vue.config.productionTip = false;
-
-Vue.filter('capitalize', capitalize);
 
 Vue.use(Vuetify);
 

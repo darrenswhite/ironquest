@@ -1,11 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const { filter, keys, map, mapValues } = require('lodash');
+const {filter, keys, map, mapValues} = require('lodash');
 
 const CONFIGS = {
   web: {
@@ -162,6 +162,12 @@ module.exports = {
     entry: config.entrypoints,
     module: {
       rules: [
+        {
+          enforce: 'pre',
+          test: /\.(ts|vue)$/,
+          loader: 'eslint-loader',
+          exclude: /node_modules/,
+        },
         {
           test: /\.(png|woff|woff2|eot|ttf|svg)$/,
           use: 'file-loader?limit=1024&name=[path][name].[ext]',
