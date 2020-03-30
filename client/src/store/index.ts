@@ -92,7 +92,6 @@ const actions: ActionTree<RootState, RootState> = {
       })
       .then(response => context.commit(constants.SET_PATH, response))
       .catch(response => {
-        console.log(response);
         context.commit(constants.SET_ERROR, {
           response: response,
           parameters: Object.assign({}, context.state.parameters),
