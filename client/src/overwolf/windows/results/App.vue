@@ -3,6 +3,9 @@
     <v-content>
       <actions>
         <div class="settings">
+          <v-btn @click="run">
+            Refresh
+          </v-btn>
           <v-btn @click="showSettings">
             Settings
           </v-btn>
@@ -23,9 +26,12 @@ export default Vue.extend({
     Actions,
   },
   mounted() {
-    this.$store.dispatch(constants.FIND_PATH);
+    this.run();
   },
   methods: {
+    run(): void {
+      this.$store.dispatch(constants.FIND_PATH);
+    },
     showSettings(): void {
       Windows.getInstance().minimize(Windows.RESULTS);
       Windows.getInstance().restore(Windows.SETTINGS);
