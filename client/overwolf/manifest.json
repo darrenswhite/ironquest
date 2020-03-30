@@ -19,7 +19,7 @@
     },
     "game_targeting": {
       "type": "dedicated",
-      "game_ids": [215941]
+      "game_ids": [21594]
     },
     "hotkeys": {
       "toggle_IronQuest": {
