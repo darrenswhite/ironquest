@@ -115,6 +115,11 @@
         </v-simple-table>
       </v-col>
     </v-row>
+    <v-row v-if="error">
+      <v-col>
+        <slot />
+      </v-col>
+    </v-row>
     <v-row
       justify="center"
       align="center"
