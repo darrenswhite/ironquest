@@ -17,6 +17,7 @@
     "externally_connectable": {
       "matches": ["http://ironquest.com", "https://ironquest.com"]
     },
+    "force_browser": "user",
     "game_targeting": {
       "type": "dedicated",
       "game_ids": [21594]
