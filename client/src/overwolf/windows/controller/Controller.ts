@@ -1,5 +1,6 @@
 import {Hotkeys, Windows} from '@/overwolf/scripts';
 import {store} from '@/store';
+import {each, every, filter} from 'lodash';
 
 export class Controller {
   private constructor() {}
@@ -11,7 +12,9 @@ export class Controller {
   }
 
   static registerLaunchTrigger(): void {
-    overwolf.extensions.onAppLaunchTriggered.addListener(this.toggleStartWindow);
+    overwolf.extensions.onAppLaunchTriggered.addListener(
+      this.toggleStartWindow
+    );
   }
 
   static registerHotkeys(): void {
@@ -22,13 +25,27 @@ export class Controller {
     Hotkeys.getInstance().setHotkey(Hotkeys.QUIT, Controller.relaunch);
   }
 
-  static toggleStartWindow(): void {
-    const parameters = store.state.parameters;
+  static async toggleStartWindow(): Promise<void> {
+    const windows = [Windows.USERNAME, Windows.RESULTS, Windows.SETTINGS];
+    const windowStates = await Windows.getInstance().getWindowStates(windows);
 
-    if (parameters.name) {
-      Windows.getInstance().toggle(Windows.RESULTS);
+    if (every(windowStates, ['state', 'closed'])) {
+      const parameters = store.state.parameters;
+
+      if (parameters.name) {
+        Windows.getInstance().toggle(Windows.RESULTS);
+      } else {
+        Windows.getInstance().toggle(Windows.USERNAME);
+      }
     } else {
-      Windows.getInstance().toggle(Windows.USERNAME);
+      const minimized = filter(
+        windowStates,
+        state => state.state === 'minimized'
+      );
+
+      each(minimized, windowState => {
+        Windows.getInstance().restore(windowState.name);
+      });
     }
   }
 

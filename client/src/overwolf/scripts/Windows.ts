@@ -1,3 +1,10 @@
+import {reduce} from 'lodash';
+
+export interface WindowState {
+  name: string;
+  state: string;
+}
+
 export class Windows {
   static readonly CONTROLLER = 'controller';
   static readonly RESULTS = 'results';
@@ -28,8 +35,8 @@ export class Windows {
     });
   }
 
-  async getWindowState(name: string): Promise<unknown> {
-    return new Promise<unknown>((resolve, reject) => {
+  async getWindowState(name: string): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
       try {
         overwolf.windows.getWindowState(name, state => {
           if (state.status === 'success') {
@@ -42,6 +49,21 @@ export class Windows {
         reject(e);
       }
     });
+  }
+
+  async getWindowStates(names: Array<string>): Promise<Array<WindowState>> {
+    return reduce(
+      names,
+      async (arr: Promise<Array<WindowState>>, name: string) => {
+        const act = await arr;
+        act.push({
+          name: name,
+          state: await Windows.getInstance().getWindowState(name),
+        });
+        return Promise.resolve(act);
+      },
+      Promise.resolve([])
+    );
   }
 
   async close(name: string): Promise<void> {
