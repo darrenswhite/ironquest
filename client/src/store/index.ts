@@ -81,19 +81,20 @@ const actions: ActionTree<RootState, RootState> = {
     );
 
     return fetch(url.toString())
-      .then(response => {
+      .then(async response => {
+        const json = await response.json();
+
         if (response.ok) {
-          return response.json();
+          return json;
         } else {
-          throw response;
+          throw json;
         }
       })
       .then(response => context.commit(constants.SET_PATH, response))
-      .catch(async response => {
-        const json = await response.json();
-
+      .catch(response => {
+        console.log(response);
         context.commit(constants.SET_ERROR, {
-          response: json,
+          response: response,
           parameters: Object.assign({}, context.state.parameters),
         });
       });
