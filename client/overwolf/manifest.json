@@ -8,7 +8,7 @@
     "author": "Darren S. White",
     "icon": "build/assets/icon-256x256.png",
     "icon_gray": "build/assets/icon-grayscale-256x256.png",
-    "launcher_icon": "build/assets/icon-256x256.ico",
+    "launcher_icon": "build/assets/icon.ico",
     "window_icon": "build/assets/icon-256x256.png",
     "description": "Quest planner for RuneScape"
   },

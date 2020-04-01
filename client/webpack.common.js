@@ -16,7 +16,7 @@ const CONFIGS = {
     outputPath: path.resolve(__dirname, 'build'),
     copyPatterns: [
       {
-        from: path.resolve(__dirname, 'assets', 'icon-16x16.ico'),
+        from: path.resolve(__dirname, 'assets', 'icon.ico'),
         to: path.resolve(__dirname, 'build', 'favicon.ico'),
       },
     ],
@@ -62,7 +62,7 @@ const CONFIGS = {
         from: path.resolve(
           __dirname,
           'assets',
-          '{icon-16x16.ico,icon-32x32.ico,icon-48x48.ico,icon-256x256.ico,icon-256x256.png,icon-grayscale-256x256.png}'
+          '{icon.ico,icon-256x256.png,icon-grayscale-256x256.png}'
         ),
         to: path.resolve(__dirname, 'overwolf', 'build'),
         toType: 'dir',
