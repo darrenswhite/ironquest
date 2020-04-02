@@ -9,6 +9,7 @@ import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
+import com.darrenswhite.rs.ironquest.quest.QuestRepository;
 import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
 import java.util.Collections;
 import java.util.Map;
@@ -30,11 +31,24 @@ public class QuestController {
 
   private final PathFinder pathFinder;
   private final PlayerService playerService;
+  private final QuestRepository questRepository;
 
   @Autowired
-  public QuestController(PathFinder pathFinder, PlayerService playerService) {
+  public QuestController(PathFinder pathFinder, PlayerService playerService,
+      QuestRepository questRepository) {
     this.pathFinder = pathFinder;
     this.playerService = playerService;
+    this.questRepository = questRepository;
+  }
+
+  /**
+   * Returns the loaded {@link Set} of {@link Quest}s.
+   *
+   * @return set of quests
+   */
+  @GetMapping
+  public Set<Quest> getQuests() {
+    return questRepository.getQuests();
   }
 
   /**

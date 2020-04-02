@@ -15,7 +15,7 @@ import static org.mockito.Mockito.verify;
 
 import com.darrenswhite.rs.ironquest.quest.QuestAccess;
 import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
-import com.darrenswhite.rs.ironquest.quest.QuestService;
+import com.darrenswhite.rs.ironquest.quest.QuestRepository;
 import com.darrenswhite.rs.ironquest.quest.QuestType;
 import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
 import com.darrenswhite.rs.ironquest.util.MapBuilder;
@@ -34,7 +34,7 @@ class PlayerServiceTest {
   static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
   static final String QUESTS_FILE = "quests-minimal.json";
 
-  static QuestService questService;
+  static QuestRepository questRepository;
   static HiscoreService hiscoreService;
   static RuneMetricsService runeMetricsService;
   static PlayerService playerService;
@@ -43,12 +43,12 @@ class PlayerServiceTest {
   static void beforeAll() throws IOException {
     InputStream in = PlayerServiceTest.class.getClassLoader().getResourceAsStream(QUESTS_FILE);
 
-    questService = new QuestService(new InputStreamResource(Objects.requireNonNull(in)),
+    questRepository = new QuestRepository(new InputStreamResource(Objects.requireNonNull(in)),
         OBJECT_MAPPER);
     hiscoreService = mock(HiscoreService.class);
     runeMetricsService = mock(RuneMetricsService.class);
 
-    playerService = new PlayerService(questService, hiscoreService, runeMetricsService);
+    playerService = new PlayerService(questRepository, hiscoreService, runeMetricsService);
   }
 
   @Nested

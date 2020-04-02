@@ -16,12 +16,15 @@ import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.PlayerService;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.Skill;
+import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
+import com.darrenswhite.rs.ironquest.quest.QuestRepository;
 import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -31,19 +34,38 @@ class QuestControllerTest {
 
   static PathFinder pathFinder;
   static PlayerService playerService;
+  static QuestRepository questRepository;
   static QuestController controller;
 
   @BeforeAll
   static void beforeAll() {
     pathFinder = mock(PathFinder.class);
     playerService = mock(PlayerService.class);
-    controller = new QuestController(pathFinder, playerService);
+    questRepository = mock(QuestRepository.class);
+    controller = new QuestController(pathFinder, playerService, questRepository);
   }
 
   @AfterEach
   void tearDown() {
     reset(pathFinder);
     reset(playerService);
+  }
+
+  @Nested
+  class GetQuests {
+
+    @Test
+    void shouldReturnAllQuests() {
+      Set<Quest> quests = Sets
+          .newLinkedHashSet(new Quest.Builder(1).build(), new Quest.Builder(2).build(),
+              new Quest.Builder(3).build());
+
+      when(questRepository.getQuests()).thenReturn(quests);
+
+      Set<Quest> result = controller.getQuests();
+
+      assertThat(result, equalTo(quests));
+    }
   }
 
   @Nested

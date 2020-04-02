@@ -2,7 +2,7 @@ package com.darrenswhite.rs.ironquest.player;
 
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
-import com.darrenswhite.rs.ironquest.quest.QuestService;
+import com.darrenswhite.rs.ironquest.quest.QuestRepository;
 import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,14 +24,14 @@ public class PlayerService {
 
   private static final Logger LOG = LogManager.getLogger(PlayerService.class);
 
-  private final QuestService questService;
+  private final QuestRepository questRepository;
   private final HiscoreService hiscoreService;
   private final RuneMetricsService runeMetricsService;
 
   @Autowired
-  public PlayerService(QuestService questService, HiscoreService hiscoreService,
+  public PlayerService(QuestRepository questRepository, HiscoreService hiscoreService,
       RuneMetricsService runeMetricsService) {
-    this.questService = questService;
+    this.questRepository = questRepository;
     this.hiscoreService = hiscoreService;
     this.runeMetricsService = runeMetricsService;
   }
@@ -83,7 +83,7 @@ public class PlayerService {
         .and(questMatchesTypeFilter(typeFilter));
     Set<Integer> questRequirements = getQuestRequirements(accessAndTypeFilter);
 
-    return questService.getQuests().stream()
+    return questRepository.getQuests().stream()
         .filter(accessAndTypeFilter.or(questIsRequirement(questRequirements)))
         .collect(Collectors.toSet());
   }
@@ -162,7 +162,7 @@ public class PlayerService {
    * @return set of quest ids
    */
   private Set<Integer> getQuestRequirements(Predicate<Quest> questFilter) {
-    return questService.getQuests().stream().filter(questFilter)
+    return questRepository.getQuests().stream().filter(questFilter)
         .flatMap(quest -> quest.getQuestRequirements(true).stream())
         .map(qr -> qr.getQuest().getId()).collect(Collectors.toSet());
   }

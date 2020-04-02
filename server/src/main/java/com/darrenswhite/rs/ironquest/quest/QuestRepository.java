@@ -9,27 +9,27 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 /**
- * {@link Service} for loading {@link Quests} from a {@link Resource}.
+ * {@link Repository} for retrieving {@link Quest}s from a {@link Resource}.
  *
  * @author Darren S. White
  */
-@Service
-public class QuestService {
+@Repository
+public class QuestRepository {
 
-  private static final Logger LOG = LogManager.getLogger(QuestService.class);
+  private static final Logger LOG = LogManager.getLogger(QuestRepository.class);
 
   private final Set<Quest> quests;
 
   /**
-   * Create a new {@link QuestService}.
+   * Create a new {@link QuestRepository}.
    *
    * @param questsResource the resource to retrieve quest data from
    * @param objectMapper an {@link ObjectMapper}
    */
-  public QuestService(@Value("${quests.resource}") Resource questsResource,
+  public QuestRepository(@Value("${quests.resource}") Resource questsResource,
       ObjectMapper objectMapper) throws IOException {
     this.quests = load(questsResource, objectMapper);
   }

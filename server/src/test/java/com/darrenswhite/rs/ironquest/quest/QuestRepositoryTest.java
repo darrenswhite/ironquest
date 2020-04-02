@@ -32,18 +32,18 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.InputStreamResource;
 
-class QuestServiceTest {
+class QuestRepositoryTest {
 
   static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
   static final String QUESTS_FILE = "quests-minimal.json";
 
-  static QuestService questService;
+  static QuestRepository questRepository;
 
   @BeforeAll
   static void beforeAll() throws IOException {
-    InputStream in = QuestServiceTest.class.getClassLoader().getResourceAsStream(QUESTS_FILE);
+    InputStream in = QuestRepositoryTest.class.getClassLoader().getResourceAsStream(QUESTS_FILE);
 
-    questService = new QuestService(new InputStreamResource(Objects.requireNonNull(in)),
+    questRepository = new QuestRepository(new InputStreamResource(Objects.requireNonNull(in)),
         OBJECT_MAPPER);
   }
 
@@ -158,7 +158,7 @@ class QuestServiceTest {
                   .withXp(100).build()))).withQuestPoints(3).build()).withTitle("d")
           .withType(QuestType.MINIQUEST).build();
 
-      Set<Quest> loadedQuests = questService.getQuests();
+      Set<Quest> loadedQuests = questRepository.getQuests();
 
       assertThat(loadedQuests, notNullValue());
       assertThat(loadedQuests, hasSize(4));
@@ -192,7 +192,7 @@ class QuestServiceTest {
                       .build()).withType(LampType.XP).withXp(20000).build()))).withQuestPoints(5)
               .build()).withTitle("c").withType(QuestType.SAGA).build();
 
-      Set<Quest> loadedQuests = questService.getQuests();
+      Set<Quest> loadedQuests = questRepository.getQuests();
 
       Quest questWithQuestRequirements = loadedQuests.stream().filter(quest -> quest.getId() == 2)
           .findFirst().orElse(null);
