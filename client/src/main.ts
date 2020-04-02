@@ -1,8 +1,7 @@
 import {store} from '@/store';
 import Vue, {VueConstructor} from 'vue';
-import Vuetify from 'vuetify';
+import Vuetify from 'vuetify/lib';
 
-import 'vuetify/dist/vuetify.min.css';
 import '@/styles/base.scss';
 
 Vue.config.productionTip = false;

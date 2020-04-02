@@ -26,7 +26,7 @@ module.exports = {
   },
   setupFiles: ['<rootDir>/jest.setup.ts'],
   snapshotSerializers: ['jest-serializer-html'],
-  testMatch: ['<rootDir>/test/**/*.ts'],
+  testMatch: ['<rootDir>/test/**/*.test.ts'],
   transform: {
     '\\.(sass|scss)$': 'jest-css-modules',
     '^.+\\.(j|t)s$': 'ts-jest',

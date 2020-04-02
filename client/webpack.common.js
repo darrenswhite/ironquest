@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 const {filter, keys, map, mapValues} = require('lodash');
 
 const CONFIGS = {
@@ -109,10 +110,11 @@ function styleLoaders(extract) {
 
   return [
     {
-      test: /\.(s(c|a)ss)$/,
+      test: /\.s[ac]ss$/i,
       use: [
         styleLoader,
         cssLoader,
+        postCssLoader,
         {
           loader: 'sass-loader',
           options: {
@@ -123,7 +125,6 @@ function styleLoaders(extract) {
             },
           },
         },
-        postCssLoader,
       ],
     },
     {
@@ -177,15 +178,16 @@ module.exports = {
       }),
       new CopyWebpackPlugin(config.copyPatterns),
       new StylelintPlugin({
-        files: '**/*.(s?(a|c)ss|vue)'
+        files: '**/*.(s?(a|c)ss|vue)',
       }),
+      new VuetifyLoaderPlugin(),
     ],
     resolve: {
       alias: {
         vue$: 'vue/dist/vue.esm.js',
         '@': path.resolve(__dirname, 'src'),
       },
-      extensions: ['.tsx', '.ts', '.js', '.styl', '.vue'],
+      extensions: ['.tsx', '.ts', '.js', '.vue'],
     },
     output: {
       filename: 'js/[name].js',

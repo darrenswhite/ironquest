@@ -13,7 +13,6 @@
   },
   "env": {
     "browser": true,
-    "jest": true,
     "node": true
   },
   "globals": {
@@ -34,5 +33,15 @@
       }
     ],
     "@typescript-eslint/explicit-function-return-type": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/test/**/*.test.ts"
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }
