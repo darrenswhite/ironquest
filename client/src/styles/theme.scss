@@ -1,15 +1,7 @@
-$main-bg: #222222;
+@use '~vuetify/src/styles/main.sass' as *;
 
-$main-fg: #dddddd;
-$main-fg-light: #eaeaea;
+$background: map-get($material-dark, 'background');
 
-$input-bg: #333333;
-$input-bg-light: #383838;
-
-$input-border: #111111;
-$input-border-light: #282828;
-
-$accent: #ff8c00;
-$accent-dark: #bb6700;
-
-$placeholder-fg: #808080;
+$scrollbar-background: map-get($material-dark-elevation-colors, '12');
+$scrollbar-background-hover: map-get($material-dark-elevation-colors, '24');
+$scrollbar-border: map-get($material-dark-elevation-colors, '1');

@@ -5,6 +5,8 @@
         v-model="name"
         label="Username"
         hint="Enter your RuneScape name to retrieve quest and skill information."
+        prepend-icon="mdi-account"
+        persistent-hint
         clearable
       />
     </v-row>
@@ -14,6 +16,8 @@
         v-model="typeFilter"
         label="Type Filter"
         hint="Filter by quests/miniquests/sagas."
+        prepend-icon="mdi-star-circle-outline"
+        persistent-hint
         row
       >
         <v-radio
@@ -40,6 +44,8 @@
         v-model="accessFilter"
         label="Member Filter"
         hint="Filter by free/member quests."
+        prepend-icon="mdi-star"
+        persistent-hint
         row
       >
         <v-radio
@@ -58,16 +64,21 @@
     </v-row>
 
     <v-row>
-      <v-checkbox
+      <v-switch
         v-model="ironman"
         label="Ironman"
         hint="Toggle ironman requirements for quests."
-        class="mr-4"
+        prepend-icon="mdi-dumbbell"
+        persistent-hint
       />
-      <v-checkbox
+    </v-row>
+    <v-row>
+      <v-switch
         v-model="recommended"
         label="Recommended"
         hint="Toggle recommended requirements for quests."
+        prepend-icon="mdi-shield-plus"
+        persistent-hint
       />
     </v-row>
 
@@ -78,9 +89,13 @@
         item-text="text"
         item-value="value"
         label="Lamp Skills"
+        class="mt-4"
+        prepend-icon="mdi-chart-bar"
+        hint="Choose which skills xp lamps should be used on."
+        persistent-hint
+        clearable
         multiple
         chips
-        hint="Choose which skills xp lamps should be used on."
       />
     </v-row>
   </v-container>
