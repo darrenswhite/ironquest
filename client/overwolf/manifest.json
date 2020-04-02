@@ -15,7 +15,7 @@
   "data": {
     "start_window": "controller",
     "externally_connectable": {
-      "matches": ["http://ironquest.com", "https://ironquest.com"]
+      "matches": ["http://api.ironquest.co.uk", "https://api.ironquest.co.uk"]
     },
     "force_browser": "user",
     "game_targeting": {
@@ -80,12 +80,12 @@
         "mute": true,
         "grab_keyboard_focus": true,
         "size": {
-          "width": 520,
-          "height": 520
+          "width": 550,
+          "height": 590
         },
         "min_size": {
-          "width": 520,
-          "height": 520
+          "width": 550,
+          "height": 590
         },
         "start_position": {
           "top": 0,
@@ -103,11 +103,11 @@
         "grab_keyboard_focus": true,
         "size": {
           "width": 300,
-          "height": 200
+          "height": 210
         },
         "min_size": {
           "width": 300,
-          "height": 200
+          "height": 210
         },
         "start_position": {
           "top": 0,

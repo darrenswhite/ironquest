@@ -7,6 +7,8 @@
             v-model="name"
             label="Username"
             hint="Enter your RuneScape name to retrieve quest and skill information."
+            prepend-icon="mdi-account"
+            persistent-hint
             clearable
             @keyup.enter="showResults"
           />
@@ -14,6 +16,7 @@
         <v-row no-gutters>
           <v-btn
             block
+            class="mt-4"
             @click="showResults"
           >
             Continue
