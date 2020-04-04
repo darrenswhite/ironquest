@@ -215,8 +215,8 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-.error {
-  color: #ee0000;
+pre {
+  white-space: pre-wrap;
 }
 
 .actions-list {

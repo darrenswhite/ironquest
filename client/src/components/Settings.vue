@@ -83,9 +83,9 @@
     </v-row>
 
     <v-row>
-      <v-select
+      <v-autocomplete
         v-model="lampSkills"
-        :items="skillOptions"
+        :items="skillItems"
         item-text="text"
         item-value="value"
         label="Lamp Skills"
@@ -96,6 +96,14 @@
         clearable
         multiple
         chips
+        deletable-chips
+      />
+    </v-row>
+
+    <v-row>
+      <quest-priorities
+        v-model="questPriorities"
+        class="mt-4"
       />
     </v-row>
   </v-container>
@@ -106,6 +114,7 @@ import Vue from 'vue';
 import {Skill} from '@/common/types';
 import {capitalize, map} from 'lodash';
 import {mapFields} from 'vuex-map-fields';
+import QuestPriorities from './QuestPriorities.vue';
 
 const SKILLS = [
   Skill.AGILITY,
@@ -139,8 +148,11 @@ const SKILLS = [
 
 export default Vue.extend({
   name: 'Settings',
+  components: {
+    QuestPriorities,
+  },
   computed: {
-    skillOptions() {
+    skillItems() {
       return map(SKILLS, skill => ({
         value: skill,
         text: capitalize(skill),
@@ -153,6 +165,7 @@ export default Vue.extend({
       'parameters.ironman',
       'parameters.recommended',
       'parameters.lampSkills',
+      'parameters.questPriorities',
     ]),
   },
 });

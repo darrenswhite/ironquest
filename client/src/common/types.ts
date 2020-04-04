@@ -93,17 +93,27 @@ export enum QuestTypeFilter {
   MINIQUESTS = 'MINIQUESTS',
 }
 
+export interface QuestPriorities {
+  [key: number]: QuestPriority;
+}
+
 export interface PathFinderParameters {
   name?: string;
   accessFilter?: QuestAccessFilter;
   ironman?: boolean;
   recommended?: boolean;
   lampSkills?: Skill[];
-  questPriorities?: Map<number, QuestPriority>;
+  questPriorities?: QuestPriorities;
   typeFilter?: QuestTypeFilter;
 }
 
 export interface PathFinderError {
   response: Response;
   parameters: PathFinderParameters;
+}
+
+export interface Quest {
+  id: number;
+  displayName: string;
+  priority: QuestPriority;
 }

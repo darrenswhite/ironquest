@@ -9,8 +9,9 @@ import {
 } from '@/common/types';
 import {RootState} from './RootState';
 import * as constants from './constants';
-import {head} from 'lodash';
-import querystring from 'querystring';
+import axios from 'axios';
+import qs from 'qs';
+import {extend, head} from 'lodash';
 import {getField, updateField} from 'vuex-map-fields';
 import {plugins} from './plugins';
 
@@ -33,19 +34,20 @@ const state: RootState = {
     ironman: false,
     recommended: false,
     lampSkills: [],
+    questPriorities: {},
   },
 };
 
 const getters = {
-  getField,
+  [constants.GET_FIELD]: getField,
 };
 
 const mutations: MutationTree<RootState> = {
-  updateField,
-  [constants.SET_ERROR](state: RootState, response: PathFinderError): void {
+  [constants.UPDATE_FIELD]: updateField,
+  [constants.SET_ERROR](state: RootState, error: PathFinderError): void {
     state.actions.loading = false;
     state.actions.error = true;
-    state.actions.errorResponse = response;
+    state.actions.errorResponse = error;
   },
   [constants.SET_PARAMETERS](
     state: RootState,
@@ -74,27 +76,21 @@ const actions: ActionTree<RootState, RootState> = {
   ): Promise<void> {
     context.commit(constants.SHOW_LOADER);
 
-    const url = new URL(PATH_FINDER_URL);
-
-    url.search = querystring.stringify(
-      context.state.parameters as querystring.ParsedUrlQueryInput
-    );
-
-    return fetch(url.toString())
-      .then(async response => {
-        const json = await response.json();
-
-        if (response.ok) {
-          return json;
-        } else {
-          throw json;
-        }
+    return axios
+      .get(PATH_FINDER_URL, {
+        params: context.state.parameters,
+        paramsSerializer(params) {
+          return qs.stringify(params, {
+            arrayFormat: 'repeat',
+          });
+        },
       })
-      .then(response => context.commit(constants.SET_PATH, response))
-      .catch(response => {
+      .then(response => context.commit(constants.SET_PATH, response.data))
+      .catch(error => {
+        console.error('Failed to find path', error);
         context.commit(constants.SET_ERROR, {
-          response: response,
-          parameters: Object.assign({}, context.state.parameters),
+          error: error,
+          parameters: extend({}, context.state.parameters),
         });
       });
   },

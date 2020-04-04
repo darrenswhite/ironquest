@@ -73,7 +73,7 @@ const CONFIGS = {
 };
 
 const APIS = {
-  local: 'window.location.href',
+  local: JSON.stringify('http://localhost:8080'),
   external: JSON.stringify('https://api.ironquest.co.uk'),
 };
 
