@@ -10,11 +10,11 @@ RUN mvn -T 1C clean install
 
 FROM openjdk:11-jre-slim
 
-RUN addgroup -S ironquest && adduser -S ironquest -G ironquest
+RUN groupadd -r ironquest && useradd -r ironquest -g ironquest
 USER ironquest:ironquest
 
 WORKDIR /home/ironquest
 
 COPY --from=maven target/*.jar ./
 
-CMD ["/bin/sh", "-c", "/usr/bin/java -jar /home/ironquest/*.jar --server.port=${PORT}"]
+CMD ["/bin/sh", "-c", "java -jar /home/ironquest/*.jar --server.port=${PORT}"]
