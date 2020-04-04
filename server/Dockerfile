@@ -1,4 +1,4 @@
-FROM maven:3.6.1-jdk-8-alpine as maven
+FROM maven:3.6.3-jdk-11-slim as maven
 
 ADD pom.xml ./
 
@@ -8,7 +8,7 @@ ADD src ./src
 
 RUN mvn -T 1C clean install
 
-FROM openjdk:8-jdk-alpine
+FROM openjdk:11-jre-slim
 
 RUN addgroup -S ironquest && adduser -S ironquest -G ironquest
 USER ironquest:ironquest

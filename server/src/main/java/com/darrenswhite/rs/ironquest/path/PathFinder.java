@@ -48,7 +48,7 @@ public class PathFinder {
     while (!player.getIncompleteQuests().isEmpty()) {
       Optional<Quest> bestQuest = player.getBestQuest(player.getIncompleteQuests());
 
-      if (!bestQuest.isPresent()) {
+      if (bestQuest.isEmpty()) {
         throw new BestQuestNotFoundException(
             "Unable to find best quest for player: " + player.getName());
       }

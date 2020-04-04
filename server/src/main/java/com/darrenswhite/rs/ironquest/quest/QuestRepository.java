@@ -48,7 +48,7 @@ public class QuestRepository {
     LOG.debug("Trying to retrieve quests from resource: {}", questsResource);
 
     try (InputStream in = questsResource.getInputStream()) {
-      return objectMapper.readValue(in, new TypeReference<Set<Quest>>() {
+      return objectMapper.readValue(in, new TypeReference<>() {
       });
     }
   }
