@@ -7,7 +7,6 @@ import com.darrenswhite.rs.ironquest.quest.Quest;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -46,14 +45,14 @@ public class PathFinder {
     completePlaceholderQuests(player);
 
     while (!player.getIncompleteQuests().isEmpty()) {
-      Optional<Quest> bestQuest = player.getBestQuest(player.getIncompleteQuests());
+      Quest bestQuest = player.getBestQuest(player.getIncompleteQuests());
 
-      if (bestQuest.isEmpty()) {
+      if (bestQuest == null) {
         throw new BestQuestNotFoundException(
             "Unable to find best quest for player: " + player.getName());
       }
 
-      actions.addAll(completeQuest(player, bestQuest.get()));
+      actions.addAll(completeQuest(player, bestQuest));
       processFutureActions(player, actions);
     }
 

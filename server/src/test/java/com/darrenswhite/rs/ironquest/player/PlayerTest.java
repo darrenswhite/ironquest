@@ -3,6 +3,7 @@ package com.darrenswhite.rs.ironquest.player;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -18,10 +19,16 @@ import com.darrenswhite.rs.ironquest.util.MapBuilder;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class PlayerTest {
 
@@ -148,6 +155,36 @@ public class PlayerTest {
       EqualsVerifier.forClass(Player.class)
           .withPrefabValues(Quest.class, new Quest.Builder(0).build(), new Quest.Builder(1).build())
           .verify();
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class GetBestQuest {
+
+    @ParameterizedTest
+    @MethodSource("shouldReturnHighestPriorityQuest")
+    void shouldReturnHighestPriorityQuest(Map<Quest, QuestPriority> quests, int expectedId) {
+      Player player = new Player.Builder().withQuests(quests.keySet()).build();
+
+      quests.forEach(player::setQuestPriority);
+
+      Quest bestQuest = player.getBestQuest(quests.keySet());
+
+      assertThat(bestQuest, notNullValue());
+      assertThat(bestQuest.getId(), equalTo(expectedId));
+    }
+
+    Stream<Arguments> shouldReturnHighestPriorityQuest() {
+      return Stream.of(Arguments.of(Map
+          .of(new Quest.Builder(0).build(), QuestPriority.MINIMUM, new Quest.Builder(1).build(),
+              QuestPriority.MAXIMUM), 1), Arguments.of(Map
+          .of(new Quest.Builder(0).build(), QuestPriority.LOW, new Quest.Builder(1).build(),
+              QuestPriority.MAXIMUM), 1), Arguments.of(Map
+          .of(new Quest.Builder(0).build(), QuestPriority.NORMAL, new Quest.Builder(1).build(),
+              QuestPriority.MAXIMUM), 1), Arguments.of(Map
+          .of(new Quest.Builder(0).build(), QuestPriority.HIGH, new Quest.Builder(1).build(),
+              QuestPriority.MAXIMUM), 1));
     }
   }
 }

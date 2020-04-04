@@ -342,9 +342,9 @@ public class Player {
    * {@link SkillRequirement}s.
    *
    * @param quests the collection of quests to search
-   * @return The best {@link Quest} to be completed
+   * @return The best {@link Quest} to be completed or null.
    */
-  public Optional<Quest> getBestQuest(Collection<Quest> quests) {
+  public Quest getBestQuest(Collection<Quest> quests) {
     return quests.stream().filter(
         quest -> quest.meetsCombatRequirement(this) && quest.meetsQuestPointRequirement(this)
             && quest.meetsQuestRequirements(this)).reduce((first, second) -> {
@@ -360,7 +360,7 @@ public class Player {
       } else {
         return compareQuestBySkillRequirements(first, second);
       }
-    });
+    }).orElse(null);
   }
 
   /**
@@ -568,7 +568,7 @@ public class Player {
     int priorityComparison = firstPriority.compareTo(secondPriority);
 
     if (priorityComparison != 0) {
-      if (priorityComparison > 0) {
+      if (priorityComparison < 0) {
         return first;
       } else {
         return second;
