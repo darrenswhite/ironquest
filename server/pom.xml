@@ -9,8 +9,8 @@
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
         <configuration>
           <release>${java.version}</release>
@@ -19,13 +19,13 @@
         </configuration>
       </plugin>
       <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven-surefire-plugin.version}</version>
       </plugin>
       <plugin>
-        <artifactId>spring-boot-maven-plugin</artifactId>
         <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
         <version>${org.springframework.boot.version}</version>
         <executions>
           <execution>
@@ -99,8 +99,8 @@
   </build>
   <dependencies>
     <dependency>
-      <artifactId>equalsverifier</artifactId>
       <groupId>nl.jqno.equalsverifier</groupId>
+      <artifactId>equalsverifier</artifactId>
       <scope>test</scope>
       <version>${nl.jqno.equalsverifier.version}</version>
     </dependency>
@@ -110,20 +110,20 @@
       <version>${org.apache.commons.version}</version>
     </dependency>
     <dependency>
-      <artifactId>hamcrest</artifactId>
       <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest</artifactId>
       <scope>test</scope>
       <version>${org.hamcrest.version}</version>
     </dependency>
     <dependency>
-      <artifactId>junit-jupiter-engine</artifactId>
       <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
       <scope>test</scope>
       <version>${org.junit.jupiter.version}</version>
     </dependency>
     <dependency>
-      <artifactId>junit-jupiter-params</artifactId>
       <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
       <scope>test</scope>
       <version>${org.junit.jupiter.version}</version>
     </dependency>
@@ -139,8 +139,8 @@
       </exclusions>
     </dependency>
     <dependency>
-      <artifactId>spring-boot-starter-log4j2</artifactId>
       <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
       <version>${org.springframework.boot.version}</version>
     </dependency>
     <dependency>
@@ -150,8 +150,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <artifactId>spring-boot-starter-web</artifactId>
       <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
       <version>${org.springframework.boot.version}</version>
       <exclusions>
         <exclusion>
@@ -166,12 +166,12 @@
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-    <nl.jqno.equalsverifier.version>3.1.12</nl.jqno.equalsverifier.version>
-    <org.apache.commons.version>1.7</org.apache.commons.version>
+    <nl.jqno.equalsverifier.version>3.1.13</nl.jqno.equalsverifier.version>
+    <org.apache.commons.version>1.8</org.apache.commons.version>
     <org.hamcrest.version>2.2</org.hamcrest.version>
     <org.jacoco.version>0.8.5</org.jacoco.version>
-    <org.junit.jupiter.version>5.6.0</org.junit.jupiter.version>
-    <org.springframework.boot.version>2.2.4.RELEASE</org.springframework.boot.version>
+    <org.junit.jupiter.version>5.6.1</org.junit.jupiter.version>
+    <org.springframework.boot.version>2.2.6.RELEASE</org.springframework.boot.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>
