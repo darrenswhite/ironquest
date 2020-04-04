@@ -11,8 +11,8 @@ import java.util.Objects;
  */
 public class TrainActionDTO extends ActionDTO {
 
-  TrainActionDTO(PlayerDTO player, boolean future, String message) {
-    super(ActionType.TRAIN, player, future, message);
+  TrainActionDTO(Builder builder) {
+    super(ActionType.TRAIN, builder.player, builder.future, builder.message);
   }
 
   /**
@@ -61,7 +61,7 @@ public class TrainActionDTO extends ActionDTO {
     }
 
     public TrainActionDTO build() {
-      return new TrainActionDTO(player, future, message);
+      return new TrainActionDTO(this);
     }
   }
 }

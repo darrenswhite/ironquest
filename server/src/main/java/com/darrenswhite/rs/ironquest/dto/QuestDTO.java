@@ -12,8 +12,8 @@ public class QuestDTO {
 
   private final String displayName;
 
-  QuestDTO(String displayName) {
-    this.displayName = displayName;
+  QuestDTO(Builder builder) {
+    this.displayName = builder.displayName;
   }
 
   public String getDisplayName() {
@@ -53,7 +53,7 @@ public class QuestDTO {
     }
 
     public QuestDTO build() {
-      return new QuestDTO(displayName);
+      return new QuestDTO(this);
     }
   }
 }

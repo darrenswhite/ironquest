@@ -13,9 +13,9 @@ public class LampActionDTO extends ActionDTO {
 
   private final QuestDTO quest;
 
-  LampActionDTO(PlayerDTO player, boolean future, String message, QuestDTO quest) {
-    super(ActionType.LAMP, player, future, message);
-    this.quest = quest;
+  LampActionDTO(Builder builder) {
+    super(ActionType.LAMP, builder.player, builder.future, builder.message);
+    this.quest = builder.quest;
   }
 
   public QuestDTO getQuest() {
@@ -74,7 +74,7 @@ public class LampActionDTO extends ActionDTO {
     }
 
     public LampActionDTO build() {
-      return new LampActionDTO(player, future, message, quest);
+      return new LampActionDTO(this);
     }
   }
 }

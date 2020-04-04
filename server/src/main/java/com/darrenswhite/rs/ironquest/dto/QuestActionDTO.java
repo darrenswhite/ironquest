@@ -13,9 +13,9 @@ public class QuestActionDTO extends ActionDTO {
 
   private final QuestDTO quest;
 
-  QuestActionDTO(PlayerDTO player, boolean future, String message, QuestDTO quest) {
-    super(ActionType.QUEST, player, future, message);
-    this.quest = quest;
+  QuestActionDTO(Builder builder) {
+    super(ActionType.QUEST, builder.player, builder.future, builder.message);
+    this.quest = builder.quest;
   }
 
   public QuestDTO getQuest() {
@@ -74,7 +74,7 @@ public class QuestActionDTO extends ActionDTO {
     }
 
     public QuestActionDTO build() {
-      return new QuestActionDTO(player, future, message, quest);
+      return new QuestActionDTO(this);
     }
   }
 }

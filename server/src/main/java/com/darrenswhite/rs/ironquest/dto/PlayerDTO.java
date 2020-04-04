@@ -18,13 +18,12 @@ public class PlayerDTO {
   private final int totalLevel;
   private final int combatLevel;
 
-  PlayerDTO(String name, Map<Skill, Integer> levels, int questPoints, int totalLevel,
-      int combatLevel) {
-    this.name = name;
-    this.levels = levels;
-    this.questPoints = questPoints;
-    this.totalLevel = totalLevel;
-    this.combatLevel = combatLevel;
+  PlayerDTO(Builder builder) {
+    this.name = builder.name;
+    this.levels = builder.levels;
+    this.questPoints = builder.questPoints;
+    this.totalLevel = builder.totalLevel;
+    this.combatLevel = builder.combatLevel;
   }
 
   public String getName() {
@@ -106,7 +105,7 @@ public class PlayerDTO {
     }
 
     public PlayerDTO build() {
-      return new PlayerDTO(name, levels, questPoints, totalLevel, combatLevel);
+      return new PlayerDTO(this);
     }
   }
 }

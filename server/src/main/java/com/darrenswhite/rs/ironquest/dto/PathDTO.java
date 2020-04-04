@@ -14,9 +14,9 @@ public class PathDTO {
   private final List<ActionDTO> actions;
   private final PathStatsDTO stats;
 
-  PathDTO(List<ActionDTO> actions, PathStatsDTO stats) {
-    this.actions = actions;
-    this.stats = stats;
+  PathDTO(Builder builder) {
+    this.actions = builder.actions;
+    this.stats = builder.stats;
   }
 
   public List<ActionDTO> getActions() {
@@ -66,7 +66,7 @@ public class PathDTO {
     }
 
     public PathDTO build() {
-      return new PathDTO(actions, stats);
+      return new PathDTO(this);
     }
   }
 }

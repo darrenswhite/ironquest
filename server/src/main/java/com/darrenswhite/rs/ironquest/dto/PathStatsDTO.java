@@ -12,8 +12,8 @@ public class PathStatsDTO {
 
   private final int percentComplete;
 
-  PathStatsDTO(int percentComplete) {
-    this.percentComplete = percentComplete;
+  PathStatsDTO(Builder builder) {
+    this.percentComplete = builder.percentComplete;
   }
 
   public double getPercentComplete() {
@@ -53,7 +53,7 @@ public class PathStatsDTO {
     }
 
     public PathStatsDTO build() {
-      return new PathStatsDTO(percentComplete);
+      return new PathStatsDTO(this);
     }
   }
 }

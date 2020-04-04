@@ -2,13 +2,13 @@ package com.darrenswhite.rs.ironquest.controller;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.darrenswhite.rs.ironquest.dto.PathDTO;
+import com.darrenswhite.rs.ironquest.dto.PathFinderParametersDTO;
 import com.darrenswhite.rs.ironquest.path.BestQuestNotFoundException;
 import com.darrenswhite.rs.ironquest.path.Path;
 import com.darrenswhite.rs.ironquest.path.PathFinder;
@@ -75,12 +75,21 @@ class QuestControllerTest {
     void shouldFindPathAndCreateDTO() throws BestQuestNotFoundException {
       String name = "username";
       QuestAccessFilter accessFilter = QuestAccessFilter.ALL;
+      QuestTypeFilter typeFilter = QuestTypeFilter.ALL;
       Set<Skill> lampSkills = new LinkedHashSet<>();
       Map<Integer, QuestPriority> questPriorities = new LinkedHashMap<>();
-      QuestTypeFilter typeFilter = QuestTypeFilter.ALL;
       Player player = mock(Player.class);
       Path path = mock(Path.class);
       PathDTO pathDTO = mock(PathDTO.class);
+      PathFinderParametersDTO parameters = new PathFinderParametersDTO();
+
+      parameters.setName(name);
+      parameters.setAccessFilter(accessFilter);
+      parameters.setTypeFilter(typeFilter);
+      parameters.setIronman(true);
+      parameters.setRecommended(true);
+      parameters.setLampSkills(lampSkills);
+      parameters.setQuestPriorities(questPriorities);
 
       when(playerService
           .createPlayer(name, accessFilter, typeFilter, true, true, lampSkills, questPriorities))
@@ -88,36 +97,10 @@ class QuestControllerTest {
       when(pathFinder.find(player)).thenReturn(path);
       when(path.createDTO()).thenReturn(pathDTO);
 
-      PathDTO result = controller
-          .getPath(name, accessFilter, true, true, lampSkills, questPriorities, typeFilter);
+      PathDTO result = controller.getPath(parameters);
 
       verify(playerService)
           .createPlayer(name, accessFilter, typeFilter, true, true, lampSkills, questPriorities);
-      verify(pathFinder).find(player);
-      verify(path).createDTO();
-      assertThat(result, equalTo(pathDTO));
-    }
-
-    @Test
-    void shouldUseEmptyCollectionsWhenNullValuesAreUsed() throws BestQuestNotFoundException {
-      String name = "username";
-      QuestAccessFilter accessFilter = QuestAccessFilter.ALL;
-      QuestTypeFilter typeFilter = QuestTypeFilter.ALL;
-      Player player = mock(Player.class);
-      Path path = mock(Path.class);
-      PathDTO pathDTO = mock(PathDTO.class);
-
-      when(playerService
-          .createPlayer(eq(name), eq(accessFilter), eq(typeFilter), eq(false), eq(false),
-              eq(new LinkedHashSet<>()), eq(new LinkedHashMap<>()))).thenReturn(player);
-      when(pathFinder.find(player)).thenReturn(path);
-      when(path.createDTO()).thenReturn(pathDTO);
-
-      PathDTO result = controller.getPath(name, accessFilter, false, false, null, null, typeFilter);
-
-      verify(playerService)
-          .createPlayer(eq(name), eq(accessFilter), eq(typeFilter), eq(false), eq(false),
-              eq(new LinkedHashSet<>()), eq(new LinkedHashMap<>()));
       verify(pathFinder).find(player);
       verify(path).createDTO();
       assertThat(result, equalTo(pathDTO));
