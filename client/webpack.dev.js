@@ -11,11 +11,8 @@ module.exports = merge.smart(common.webpack, {
     disableHostCheck: true,
     hot: true,
     open: false,
-    port: 3000,
+    port: 8080,
     writeToDisk: true,
-    proxy: {
-      '/api': 'http://localhost:8080',
-    },
   },
   module: {
     rules: [common.tsLoader('tsconfig.json'), ...common.styleLoaders(false)],
