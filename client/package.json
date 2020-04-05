@@ -91,6 +91,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "@mdi/font": "^5.0.45",
     "axios": "^0.19.2",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
