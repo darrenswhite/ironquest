@@ -1,6 +1,6 @@
 <template>
   <v-app v-cloak>
-    <v-app-bar app>
+    <v-app-bar app dense>
       <v-app-bar-nav-icon @click="drawer = !drawer" />
       <v-toolbar-title>IronQuest</v-toolbar-title>
     </v-app-bar>
@@ -67,6 +67,15 @@
         </v-row>
       </v-container>
     </v-content>
+    <v-footer padless>
+      <v-col
+        class="text-center"
+        cols="12"
+      >
+        {{ new Date().getFullYear() }} —
+        <strong>IronQuest</strong> created by Darren S. White
+      </v-col>
+    </v-footer>
   </v-app>
 </template>
 
