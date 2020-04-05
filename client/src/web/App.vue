@@ -80,6 +80,7 @@ import {mapFields} from 'vuex-map-fields';
 const GITHUB_URL = 'https://github.com/darrenswhite/ironquest';
 const PAYPAL_URL =
   'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ZJZ94RDWF6GU4&item_name=IronQuest&currency_code=GBP&source=url';
+const EMAIL_URL = 'mailto:info@ironquest.co.uk';
 
 export default Vue.extend({
   components: {
@@ -92,6 +93,7 @@ export default Vue.extend({
       items: [
         {title: 'GitHub', icon: 'mdi-github', link: GITHUB_URL},
         {title: 'Donate', icon: 'mdi-currency-usd-circle', link: PAYPAL_URL},
+        {title: 'Email', icon: 'mdi-email', link: EMAIL_URL},
       ],
     };
   },
