@@ -161,8 +161,21 @@ module.exports = {
           exclude: /node_modules/,
         },
         {
-          test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-          use: 'file-loader?limit=1024&name=[path][name].[ext]',
+          test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
+          use: [
+            {
+              loader: 'url-loader',
+              options: {
+                limit: 4096,
+                fallback: {
+                  loader: 'file-loader',
+                  options: {
+                    name: 'fonts/[name].[hash:8].[ext]',
+                  },
+                },
+              },
+            },
+          ],
         },
         {
           test: /\.vue$/,

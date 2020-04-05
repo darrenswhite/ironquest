@@ -7,7 +7,7 @@
             v-model="name"
             label="Username"
             hint="Enter your RuneScape name to retrieve quest and skill information."
-            prepend-icon="mdi-account"
+            :prepend-icon="mdiAccount"
             persistent-hint
             clearable
             @keyup.enter="showResults"
@@ -31,9 +31,13 @@
 import Vue from 'vue';
 import {Windows} from '@/overwolf/scripts';
 import {mapFields} from 'vuex-map-fields';
+import {mdiAccount} from '@mdi/js';
 
 export default Vue.extend({
-  computed: mapFields(['parameters.name']),
+  computed: {
+    mdiAccount: () => mdiAccount,
+    ...mapFields(['parameters.name']),
+  },
   methods: {
     showResults(): void {
       Windows.getInstance().close(Windows.USERNAME);

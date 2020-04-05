@@ -88,6 +88,7 @@ import Actions from '@/components/Actions.vue';
 import Settings from '@/components/Settings.vue';
 import {constants} from '@/store';
 import {mapFields} from 'vuex-map-fields';
+import {mdiCurrencyUsdCircle, mdiEmail, mdiGithub} from '@mdi/js';
 
 const GITHUB_URL = 'https://github.com/darrenswhite/ironquest';
 const PAYPAL_URL =
@@ -103,9 +104,9 @@ export default Vue.extend({
     return {
       drawer: false,
       items: [
-        {title: 'GitHub', icon: 'mdi-github', link: GITHUB_URL},
-        {title: 'Donate', icon: 'mdi-currency-usd-circle', link: PAYPAL_URL},
-        {title: 'Email', icon: 'mdi-email', link: EMAIL_URL},
+        {title: 'GitHub', icon: mdiGithub, link: GITHUB_URL},
+        {title: 'Donate', icon: mdiCurrencyUsdCircle, link: PAYPAL_URL},
+        {title: 'Email', icon: mdiEmail, link: EMAIL_URL},
       ],
     };
   },

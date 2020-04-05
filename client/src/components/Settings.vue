@@ -5,7 +5,7 @@
         v-model="name"
         label="Username"
         hint="Enter your RuneScape name to retrieve quest and skill information."
-        prepend-icon="mdi-account"
+        :prepend-icon="mdiAccount"
         persistent-hint
         clearable
       />
@@ -16,7 +16,7 @@
         v-model="typeFilter"
         label="Type Filter"
         hint="Filter by quests/miniquests/sagas."
-        prepend-icon="mdi-compass-rose"
+        :prepend-icon="mdiCompassRose"
         persistent-hint
         row
       >
@@ -44,7 +44,7 @@
         v-model="accessFilter"
         label="Member Filter"
         hint="Filter by free/member quests."
-        prepend-icon="mdi-star"
+        :prepend-icon="mdiStar"
         persistent-hint
         row
       >
@@ -68,7 +68,7 @@
         v-model="ironman"
         label="Ironman"
         hint="Toggle ironman requirements for quests."
-        prepend-icon="mdi-dumbbell"
+        :prepend-icon="mdiDumbbell"
         persistent-hint
       />
     </v-row>
@@ -77,7 +77,7 @@
         v-model="recommended"
         label="Recommended"
         hint="Toggle recommended requirements for quests."
-        prepend-icon="mdi-shield-plus"
+        :prepend-icon="mdiShieldPlus"
         persistent-hint
       />
     </v-row>
@@ -90,7 +90,7 @@
         item-value="value"
         label="Lamp Skills"
         class="mt-4"
-        prepend-icon="mdi-chart-bar"
+        :prepend-icon="mdiChartBar"
         hint="Choose which skills xp lamps should be used on."
         persistent-hint
         clearable
@@ -114,6 +114,14 @@ import Vue from 'vue';
 import {Skill} from '@/common/types';
 import {capitalize, map} from 'lodash';
 import {mapFields} from 'vuex-map-fields';
+import {
+  mdiAccount,
+  mdiChartBar,
+  mdiCompassRose,
+  mdiDumbbell,
+  mdiShieldPlus,
+  mdiStar,
+} from '@mdi/js';
 import QuestPriorities from './QuestPriorities.vue';
 
 const SKILLS = [
@@ -152,6 +160,12 @@ export default Vue.extend({
     QuestPriorities,
   },
   computed: {
+    mdiAccount: () => mdiAccount,
+    mdiChartBar: () => mdiChartBar,
+    mdiCompassRose: () => mdiCompassRose,
+    mdiDumbbell: () => mdiDumbbell,
+    mdiShieldPlus: () => mdiShieldPlus,
+    mdiStar: () => mdiStar,
     skillItems() {
       return map(SKILLS, skill => ({
         value: skill,

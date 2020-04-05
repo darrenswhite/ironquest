@@ -22,7 +22,7 @@
       <v-col>
         <v-chip color="green">
           <v-avatar left>
-            <v-icon>mdi-checkbox-marked-circle</v-icon>
+            <v-icon>{{ mdiCheckboxMarkedCircle }}</v-icon>
           </v-avatar>
           Completed: {{ path.stats.percentComplete }}%
         </v-chip>
@@ -174,6 +174,7 @@ import Vue from 'vue';
 import {Skill} from '@/common/types';
 import {capitalize, get} from 'lodash';
 import {mapFields} from 'vuex-map-fields';
+import {mdiCheckboxMarkedCircle} from '@mdi/js';
 
 const NEW_ISSUE_URL = 'https://github.com/darrenswhite/ironquest/issues/new';
 const RUNESCAPE_WIKI_URL = 'https://runescape.wiki/';
@@ -199,6 +200,7 @@ export default Vue.extend({
     };
   },
   computed: {
+    mdiCheckboxMarkedCircle: () => mdiCheckboxMarkedCircle,
     ...mapFields([
       'actions.error',
       'actions.errorResponse',

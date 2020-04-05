@@ -8,7 +8,7 @@
     item-text="displayName"
     item-value="id"
     label="Quest Priorities"
-    prepend-icon="mdi-priority-high"
+    :prepend-icon="mdiPriorityHigh"
     hint="Choose priorities for quests. Select a quest and click to change priority."
     persistent-hint
     clearable
@@ -49,6 +49,7 @@
 import Vue, {PropType} from 'vue';
 import {Quest, QuestPriorities, QuestPriority} from '@/common/types';
 import {capitalize, find, keys, map, reduce} from 'lodash';
+import {mdiPriorityHigh} from '@mdi/js';
 import axios from 'axios';
 
 const QUEST_PRIORITIES = [
@@ -80,6 +81,7 @@ export default Vue.extend({
     };
   },
   computed: {
+    mdiPriorityHigh: () => mdiPriorityHigh,
     questPriorityItems() {
       return map(QUEST_PRIORITIES, priority => ({
         value: priority,
