@@ -20,6 +20,19 @@ const CONFIGS = {
         from: path.resolve(__dirname, 'assets', 'icon.ico'),
         to: path.resolve(__dirname, 'build', 'favicon.ico'),
       },
+      {
+        from: path.resolve(
+          __dirname,
+          'assets',
+          '{icon-192x192.png,icon-512x512.png}'
+        ),
+        to: path.resolve(__dirname, 'build'),
+        toType: 'dir',
+      },
+      {
+        from: path.resolve(__dirname, 'static'),
+        to: path.resolve(__dirname, 'build'),
+      },
     ],
   },
   overwolf: {
@@ -63,7 +76,7 @@ const CONFIGS = {
         from: path.resolve(
           __dirname,
           'assets',
-          '{icon.ico,icon-256x256.png,icon-grayscale-256x256.png}'
+          '{icon.ico,icon-192x192.png,icon-256x256.png,icon-512x512.png,icon-grayscale-256x256.png}'
         ),
         to: path.resolve(__dirname, 'overwolf', 'build'),
         toType: 'dir',

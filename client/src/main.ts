@@ -9,6 +9,10 @@ Vue.config.productionTip = false;
 
 Vue.use(Vuetify);
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js');
+}
+
 const vuetify = new Vuetify({
   icons: {
     iconfont: 'mdiSvg',

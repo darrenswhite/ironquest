@@ -1,16 +1,20 @@
 const merge = require('webpack-merge');
 const webpack = require('webpack');
+const BrotliPlugin = require('brotli-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const CompressionPlugin = require('compression-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const common = require('./webpack.common.js');
 
 module.exports = merge.smart(common.webpack, {
   mode: 'production',
   optimization: {
+    mangleWasmImports: true,
+    mergeDuplicateChunks: true,
     minimize: true,
     minimizer: [
       new TerserPlugin({
@@ -29,6 +33,8 @@ module.exports = merge.smart(common.webpack, {
         },
       }),
     ],
+    removeAvailableModules: true,
+    removeEmptyChunks: true,
     runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
@@ -74,9 +80,30 @@ module.exports = merge.smart(common.webpack, {
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new CompressionPlugin({
-      filename: '[path].gz[query]',
       algorithm: 'gzip',
-      test: /\.(js|css)$/i,
+      filename: '[path].gz[query]',
+      minRatio: 0.8,
+      test: /\.(js|css|html|svg)$/i,
+      threshold: 10240,
+    }),
+    new BrotliPlugin({
+      asset: '[path].br[query]',
+      minRatio: 0.8,
+      test: /\.(js|css|html|svg)$/i,
+      threshold: 10240,
+    }),
+    new SWPrecacheWebpackPlugin({
+      cacheId: 'ironquest',
+      dontCacheBustUrlsMatching: /\.\w{8}\./,
+      filename: 'service-worker.js',
+      minify: true,
+      staticFileGlobs: [
+        'build/**/*.{js,css,png,txt,map,html}',
+        'index.html',
+        'manifest.json',
+      ],
+      staticFileGlobsIgnorePatterns: [/\.map$/],
+      stripPrefix: 'build/',
     }),
   ],
 });
