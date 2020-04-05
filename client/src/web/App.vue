@@ -1,6 +1,9 @@
 <template>
   <v-app v-cloak>
-    <v-app-bar app dense>
+    <v-app-bar
+      app
+      dense
+    >
       <v-app-bar-nav-icon @click="drawer = !drawer" />
       <v-toolbar-title>IronQuest</v-toolbar-title>
     </v-app-bar>
@@ -72,8 +75,8 @@
         class="text-center"
         cols="12"
       >
-        {{ new Date().getFullYear() }} —
-        <strong>IronQuest</strong> created by Darren S. White
+        {{ new Date().getFullYear() }} — <strong>IronQuest</strong> created by
+        Darren S. White
       </v-col>
     </v-footer>
   </v-app>
