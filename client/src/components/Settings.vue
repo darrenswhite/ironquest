@@ -16,7 +16,7 @@
         v-model="typeFilter"
         label="Type Filter"
         hint="Filter by quests/miniquests/sagas."
-        prepend-icon="mdi-star-circle-outline"
+        prepend-icon="mdi-compass-rose"
         persistent-hint
         row
       >

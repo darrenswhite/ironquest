@@ -8,7 +8,7 @@
     item-text="displayName"
     item-value="id"
     label="Quest Priorities"
-    prepend-icon="mdi-database-search"
+    prepend-icon="mdi-priority-high"
     hint="Choose priorities for quests. Select a quest and click to change priority."
     persistent-hint
     clearable
