@@ -18,6 +18,7 @@
           :key="index"
           :href="item.link"
           target="_blank"
+          rel="noopener"
           link
         >
           <v-list-item-icon>

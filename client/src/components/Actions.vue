@@ -106,6 +106,7 @@
                       selectedAction.quest.displayName.replace(/ /g, '_')
                   "
                   target="_blank"
+                  rel="noopener"
                 >
                   View quest on wiki
                 </a>
@@ -139,6 +140,7 @@
             <v-btn
               :href="NEW_ISSUE_URL"
               target="_blank"
+              rel="noopener"
             >
               Submit issue
             </v-btn>
