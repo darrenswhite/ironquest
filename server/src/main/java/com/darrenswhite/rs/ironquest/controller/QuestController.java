@@ -7,7 +7,6 @@ import com.darrenswhite.rs.ironquest.path.PathFinder;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.PlayerService;
 import com.darrenswhite.rs.ironquest.quest.Quest;
-import com.darrenswhite.rs.ironquest.quest.QuestRepository;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,41 +24,50 @@ public class QuestController {
 
   private final PathFinder pathFinder;
   private final PlayerService playerService;
-  private final QuestRepository questRepository;
 
   @Autowired
-  public QuestController(PathFinder pathFinder, PlayerService playerService,
-      QuestRepository questRepository) {
+  public QuestController(PathFinder pathFinder, PlayerService playerService) {
     this.pathFinder = pathFinder;
     this.playerService = playerService;
-    this.questRepository = questRepository;
   }
 
   /**
-   * Returns the loaded {@link Set} of {@link Quest}s.
+   * Returns a {@link Set} of {@link Quest}s which are not completed.
    *
-   * @return set of quests
+   * @param pathFinderParametersDTO the parameters
+   * @return set of incomplete quests
    */
   @GetMapping
-  public Set<Quest> getQuests() {
-    return questRepository.getQuests();
+  public Set<Quest> getRemainingQuests(PathFinderParametersDTO pathFinderParametersDTO) {
+    return createPlayer(pathFinderParametersDTO).getIncompleteQuests();
   }
 
   /**
    * Finds the optimal path.
    *
+   * @param pathFinderParametersDTO the parameters
    * @return the optimal path
    * @throws BestQuestNotFoundException if the "best" {@link Quest} can not be found
    */
   @GetMapping("/path")
   public PathDTO getPath(PathFinderParametersDTO pathFinderParametersDTO)
       throws BestQuestNotFoundException {
-    Player player = playerService
+    Player player = createPlayer(pathFinderParametersDTO);
+
+    return pathFinder.find(player).createDTO();
+  }
+
+  /**
+   * Create a {@link Player} from the given parameters.
+   *
+   * @param pathFinderParametersDTO the parameters
+   * @return the player
+   */
+  private Player createPlayer(PathFinderParametersDTO pathFinderParametersDTO) {
+    return playerService
         .createPlayer(pathFinderParametersDTO.getName(), pathFinderParametersDTO.getAccessFilter(),
             pathFinderParametersDTO.getTypeFilter(), pathFinderParametersDTO.isIronman(),
             pathFinderParametersDTO.isRecommended(), pathFinderParametersDTO.getLampSkills(),
             pathFinderParametersDTO.getQuestPriorities());
-
-    return pathFinder.find(player).createDTO();
   }
 }

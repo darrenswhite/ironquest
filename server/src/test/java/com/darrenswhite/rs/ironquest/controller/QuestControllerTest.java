@@ -18,7 +18,6 @@ import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
-import com.darrenswhite.rs.ironquest.quest.QuestRepository;
 import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -34,15 +33,13 @@ class QuestControllerTest {
 
   static PathFinder pathFinder;
   static PlayerService playerService;
-  static QuestRepository questRepository;
   static QuestController controller;
 
   @BeforeAll
   static void beforeAll() {
     pathFinder = mock(PathFinder.class);
     playerService = mock(PlayerService.class);
-    questRepository = mock(QuestRepository.class);
-    controller = new QuestController(pathFinder, playerService, questRepository);
+    controller = new QuestController(pathFinder, playerService);
   }
 
   @AfterEach
@@ -55,14 +52,32 @@ class QuestControllerTest {
   class GetQuests {
 
     @Test
-    void shouldReturnAllQuests() {
+    void shouldReturnIncompleteQuestsForPlayer() {
       Set<Quest> quests = Sets
           .newLinkedHashSet(new Quest.Builder(1).build(), new Quest.Builder(2).build(),
               new Quest.Builder(3).build());
+      String name = "username";
+      QuestAccessFilter accessFilter = QuestAccessFilter.ALL;
+      QuestTypeFilter typeFilter = QuestTypeFilter.ALL;
+      Set<Skill> lampSkills = new LinkedHashSet<>();
+      Map<Integer, QuestPriority> questPriorities = new LinkedHashMap<>();
+      Player player = mock(Player.class);
+      PathFinderParametersDTO parameters = new PathFinderParametersDTO();
 
-      when(questRepository.getQuests()).thenReturn(quests);
+      parameters.setName(name);
+      parameters.setAccessFilter(accessFilter);
+      parameters.setTypeFilter(typeFilter);
+      parameters.setIronman(true);
+      parameters.setRecommended(true);
+      parameters.setLampSkills(lampSkills);
+      parameters.setQuestPriorities(questPriorities);
 
-      Set<Quest> result = controller.getQuests();
+      when(playerService
+          .createPlayer(name, accessFilter, typeFilter, true, true, lampSkills, questPriorities))
+          .thenReturn(player);
+      when(player.getIncompleteQuests()).thenReturn(quests);
+
+      Set<Quest> result = controller.getRemainingQuests(parameters);
 
       assertThat(result, equalTo(quests));
     }
