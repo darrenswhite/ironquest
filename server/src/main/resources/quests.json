@@ -10489,5 +10489,23 @@
     },
     "title": "Father and Son",
     "type": "MINIQUEST"
+  },
+  {
+    "access": "FREE",
+    "id": 292,
+    "rewards": {
+      "lamps": [
+        {
+          "requirements": {
+            "COOKING": 1
+          },
+          "type": "XP",
+          "xp": 2500
+        }
+      ],
+      "questPoints": 1
+    },
+    "title": "Once Upon a Slime",
+    "type": "QUEST"
   }
 ]
