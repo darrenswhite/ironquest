@@ -11,7 +11,7 @@ module.exports = merge.smart(common.webpack, {
     disableHostCheck: true,
     hot: true,
     open: false,
-    port: 8080,
+    port: 8081,
     writeToDisk: true,
   },
   module: {

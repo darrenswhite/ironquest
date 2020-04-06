@@ -2,7 +2,7 @@ const express = require('express');
 const expressStaticGzip = require('express-static-gzip');
 const path = require('path');
 
-const PORT = Number(process.env.PORT || 8080);
+const PORT = Number(process.env.PORT || 8081);
 
 const STATIC_DIR = path.resolve(__dirname, 'build');
 
