@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,7 +45,8 @@ public class QuestRepository {
    * @param questsResource the resource to retrieve quest data from
    * @return the loaded quests
    */
-  private Set<Quest> load(Resource questsResource, ObjectMapper objectMapper) throws IOException {
+  private LinkedHashSet<Quest> load(Resource questsResource, ObjectMapper objectMapper)
+      throws IOException {
     LOG.debug("Trying to retrieve quests from resource: {}", questsResource);
 
     try (InputStream in = questsResource.getInputStream()) {

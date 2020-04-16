@@ -2,6 +2,7 @@ package com.darrenswhite.rs.ironquest.quest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -15,36 +16,56 @@ import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
 import com.darrenswhite.rs.ironquest.quest.reward.LampType;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
 import com.darrenswhite.rs.ironquest.util.MapBuilder;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
 
 class QuestRepositoryTest {
 
-  static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-  static final String QUESTS_FILE = "quests-minimal.json";
+  static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
+      .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+      .enable(SerializationFeature.INDENT_OUTPUT);
+  static final String QUESTS_MINIMAL_JSON = "quests-minimal.json";
+  static final String QUESTS_JSON = "quests.json";
 
+  static QuestRepository minimalQuestRepository;
   static QuestRepository questRepository;
 
   @BeforeAll
   static void beforeAll() throws IOException {
-    InputStream in = QuestRepositoryTest.class.getClassLoader().getResourceAsStream(QUESTS_FILE);
-
-    questRepository = new QuestRepository(new InputStreamResource(Objects.requireNonNull(in)),
+    minimalQuestRepository = new QuestRepository(
+        new InputStreamResource(loadFile(QUESTS_MINIMAL_JSON)), OBJECT_MAPPER);
+    questRepository = new QuestRepository(new InputStreamResource(loadFile(QUESTS_JSON)),
         OBJECT_MAPPER);
+  }
+
+  private static InputStream loadFile(String name) {
+    return Objects
+        .requireNonNull(QuestRepositoryTest.class.getClassLoader().getResourceAsStream(name));
   }
 
   static class QuestMatcher extends TypeSafeMatcher<Quest> {
@@ -71,6 +92,7 @@ class QuestRepositoryTest {
   }
 
   @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
   class GetQuests {
 
     @Test
@@ -158,7 +180,7 @@ class QuestRepositoryTest {
                   .withXp(100).build()))).withQuestPoints(3).build()).withTitle("d")
           .withType(QuestType.MINIQUEST).build();
 
-      Set<Quest> loadedQuests = questRepository.getQuests();
+      Set<Quest> loadedQuests = minimalQuestRepository.getQuests();
 
       assertThat(loadedQuests, notNullValue());
       assertThat(loadedQuests, hasSize(4));
@@ -192,7 +214,7 @@ class QuestRepositoryTest {
                       .build()).withType(LampType.XP).withXp(20000).build()))).withQuestPoints(5)
               .build()).withTitle("c").withType(QuestType.SAGA).build();
 
-      Set<Quest> loadedQuests = questRepository.getQuests();
+      Set<Quest> loadedQuests = minimalQuestRepository.getQuests();
 
       Quest questWithQuestRequirements = loadedQuests.stream().filter(quest -> quest.getId() == 2)
           .findFirst().orElse(null);
@@ -209,6 +231,29 @@ class QuestRepositoryTest {
           .collect(Collectors.toList());
 
       assertThat(quests, containsInAnyOrder(new QuestMatcher(questB), new QuestMatcher(questC)));
+    }
+
+    @ParameterizedTest
+    @MethodSource("shouldConvertBackToValidJSON")
+    void shouldConvertBackToValidJSON(QuestRepository questRepository, String file)
+        throws IOException {
+      Set<Quest> actualQuests = questRepository.getQuests();
+      String actualJson = OBJECT_MAPPER.writeValueAsString(actualQuests);
+
+      QuestRepository expectedQuestRepository = new QuestRepository(
+          new ByteArrayResource(actualJson.getBytes(StandardCharsets.UTF_8)), OBJECT_MAPPER);
+
+      LinkedList<Object> expected = OBJECT_MAPPER.readValue(loadFile(file), new TypeReference<>() {
+      });
+      String expectedJson = OBJECT_MAPPER.writeValueAsString(expected);
+
+      assertThat(expectedQuestRepository.getQuests(), equalTo(actualQuests));
+      assertThat(actualJson, equalTo(expectedJson));
+    }
+
+    Stream<Arguments> shouldConvertBackToValidJSON() {
+      return Stream.of(Arguments.of(minimalQuestRepository, QUESTS_MINIMAL_JSON),
+          Arguments.of(questRepository, QUESTS_JSON));
     }
   }
 }

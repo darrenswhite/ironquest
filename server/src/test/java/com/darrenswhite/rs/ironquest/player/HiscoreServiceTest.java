@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 import java.util.Map;
+import java.util.Objects;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,9 @@ class HiscoreServiceTest {
 
   @BeforeAll
   static void beforeAll() {
-    String url = HiscoreServiceTest.class.getClassLoader().getResource(HISCORES_FILE).toString();
+    String url = Objects
+        .requireNonNull(HiscoreServiceTest.class.getClassLoader().getResource(HISCORES_FILE))
+        .toString();
 
     hiscoreService = new HiscoreService(url);
   }

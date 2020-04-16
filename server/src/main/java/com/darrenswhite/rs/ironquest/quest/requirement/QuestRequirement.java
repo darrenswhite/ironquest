@@ -2,7 +2,12 @@ package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.quest.Quest;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -11,6 +16,7 @@ import java.util.Objects;
  * @author Darren S. White
  */
 @JsonDeserialize(builder = QuestRequirement.Builder.class)
+@JsonSerialize(using = QuestRequirement.Serializer.class)
 public class QuestRequirement extends Requirement {
 
   private final Quest quest;
@@ -88,6 +94,19 @@ public class QuestRequirement extends Requirement {
 
     public QuestRequirement build() {
       return new QuestRequirement(this);
+    }
+  }
+
+  public static class Serializer extends JsonSerializer<QuestRequirement> {
+
+    @Override
+    public void serialize(QuestRequirement questRequirement, JsonGenerator gen,
+        SerializerProvider serializers) throws IOException {
+      gen.writeStartObject();
+      gen.writeNumberField("quest", questRequirement.getQuest().getId());
+      gen.writeBooleanField("ironman", questRequirement.isIronman());
+      gen.writeBooleanField("recommended", questRequirement.isRecommended());
+      gen.writeEndObject();
     }
   }
 }

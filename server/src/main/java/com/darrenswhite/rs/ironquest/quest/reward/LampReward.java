@@ -3,17 +3,23 @@ package com.darrenswhite.rs.ironquest.quest.reward;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -101,6 +107,7 @@ public class LampReward {
     DEFAULT_REQUIREMENTS = Collections.unmodifiableMap(defaultRequirements);
   }
 
+  @JsonSerialize(using = LampRequirementsSerializer.class)
   private final Map<Set<Skill>, Integer> requirements;
   private final double xp;
   private final boolean exclusive;
@@ -313,7 +320,7 @@ public class LampReward {
     public Map<Set<Skill>, Integer> deserialize(JsonParser p, DeserializationContext ctxt)
         throws IOException {
       JsonNode node = p.getCodec().readTree(p);
-      Map<Set<Skill>, Integer> requirements = new HashMap<>();
+      Map<Set<Skill>, Integer> requirements = new LinkedHashMap<>();
       Set<Skill> skills;
 
       for (Iterator<Entry<String, JsonNode>> it = node.fields(); it.hasNext(); ) {
@@ -328,18 +335,58 @@ public class LampReward {
             }
             break;
           case ALL_SKILLS:
-            skills = new HashSet<>(Arrays.asList(Skill.values()));
+            skills = new LinkedHashSet<>(Arrays.asList(Skill.values()));
             requirements.put(skills, reqLvl);
             break;
           default:
             String[] keys = key.split(",");
-            skills = Arrays.stream(keys).map(Skill::valueOf).collect(Collectors.toSet());
+            skills = Arrays.stream(keys).map(Skill::valueOf)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
             requirements.put(skills, reqLvl);
             break;
         }
       }
 
       return requirements;
+    }
+  }
+
+  private static class LampRequirementsSerializer extends JsonSerializer<Map<Set<Skill>, Integer>> {
+
+    private static final int TOTAL_SKILLS = Skill.values().length;
+
+    @Override
+    public void serialize(Map<Set<Skill>, Integer> requirements, JsonGenerator jgen,
+        SerializerProvider provider) throws IOException {
+      if (!requirements.isEmpty()) {
+        jgen.writeStartObject();
+
+        if (requirements.size() == TOTAL_SKILLS) {
+          List<Integer> levels = requirements.values().stream().distinct()
+              .collect(Collectors.toList());
+
+          if (levels.size() > 1) {
+            provider.reportBadDefinition(handledType(), String.format(
+                "Invalid skill requirements, levels must match for requirements of any skill: %s",
+                requirements.toString()));
+          } else {
+            jgen.writeNumberField(ANY_SKILL, levels.get(0));
+          }
+        } else if (requirements.size() == 1
+            && requirements.keySet().iterator().next().size() == TOTAL_SKILLS) {
+          jgen.writeNumberField(ALL_SKILLS, requirements.values().iterator().next());
+        } else {
+          for (Entry<Set<Skill>, Integer> entry : requirements.entrySet()) {
+            Set<Skill> skills = entry.getKey();
+            Integer level = entry.getValue();
+
+            jgen.writeNumberField(skills.stream().map(Skill::name).collect(Collectors.joining(",")),
+                level);
+          }
+        }
+      }
+
+      jgen.writeEndObject();
     }
   }
 }

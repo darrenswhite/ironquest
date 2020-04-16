@@ -2,6 +2,8 @@ package com.darrenswhite.rs.ironquest.quest.reward;
 
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -16,6 +18,7 @@ import java.util.Set;
  * @author Darren S. White
  */
 @JsonDeserialize(builder = QuestRewards.Builder.class)
+@JsonInclude(Include.NON_EMPTY)
 public class QuestRewards {
 
   public static final QuestRewards NONE = new QuestRewards.Builder().build();

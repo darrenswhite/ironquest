@@ -1,6 +1,8 @@
 package com.darrenswhite.rs.ironquest.quest.requirement;
 
 import com.darrenswhite.rs.ironquest.quest.Quest;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -13,6 +15,7 @@ import java.util.Set;
  * @author Darren S. White
  */
 @JsonDeserialize(builder = QuestRequirements.Builder.class)
+@JsonInclude(Include.NON_EMPTY)
 public class QuestRequirements {
 
   public static final QuestRequirements NONE = new QuestRequirements.Builder().build();

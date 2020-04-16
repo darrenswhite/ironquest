@@ -2,6 +2,7 @@ package com.darrenswhite.rs.ironquest.quest;
 
 import com.darrenswhite.rs.ironquest.dto.QuestDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
+import com.darrenswhite.rs.ironquest.quest.Quest.Serializer;
 import com.darrenswhite.rs.ironquest.quest.requirement.CombatRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestPointsRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
@@ -12,6 +13,11 @@ import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -24,6 +30,7 @@ import java.util.stream.Collectors;
  * @author Darren S. White
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonSerialize(using = Serializer.class)
 public class Quest {
 
   private final int id;
@@ -125,7 +132,6 @@ public class Quest {
   public boolean meetsSkillRequirements(Player player) {
     return requirements.getSkills().stream().allMatch(r -> r.test(player));
   }
-
 
   /**
    * Test if the player meets all {@link Requirement}s.
@@ -301,6 +307,29 @@ public class Quest {
 
     public Quest build() {
       return new Quest(this);
+    }
+  }
+
+  public static class Serializer extends JsonSerializer<Quest> {
+
+    @Override
+    public void serialize(Quest quest, JsonGenerator gen, SerializerProvider provider)
+        throws IOException {
+      gen.writeStartObject();
+      provider.defaultSerializeField("access", quest.access, gen);
+      if (quest.displayName != null) {
+        provider.defaultSerializeField("displayName", quest.displayName, gen);
+      }
+      provider.defaultSerializeField("id", quest.id, gen);
+      if (quest.requirements != QuestRequirements.NONE) {
+        provider.defaultSerializeField("requirements", quest.requirements, gen);
+      }
+      if (quest.rewards != QuestRewards.NONE) {
+        provider.defaultSerializeField("rewards", quest.rewards, gen);
+      }
+      provider.defaultSerializeField("title", quest.title, gen);
+      provider.defaultSerializeField("type", quest.type, gen);
+      gen.writeEndObject();
     }
   }
 }

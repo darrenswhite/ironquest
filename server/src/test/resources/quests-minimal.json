@@ -14,14 +14,18 @@
     "requirements": {
       "combat": {
         "ironman": true,
-        "level": 40
+        "level": 40,
+        "recommended": false
       },
       "skills": [
         {
+          "ironman": false,
           "level": 50,
+          "recommended": false,
           "skill": "AGILITY"
         },
         {
+          "ironman": false,
           "level": 60,
           "recommended": true,
           "skill": "AGILITY"
@@ -41,21 +45,25 @@
       "lamps": [
         {
           "exclusive": true,
+          "multiplier": 1.0,
           "requirements": {
             "ATTACK,DEFENCE": 1,
             "CONSTITUTION,STRENGTH": 1
           },
+          "singleChoice": false,
           "type": "XP",
-          "xp": 35000
+          "xp": 35000.0
         },
         {
           "exclusive": true,
+          "multiplier": 1.0,
           "requirements": {
             "ATTACK,DEFENCE": 1,
             "CONSTITUTION,STRENGTH": 1
           },
+          "singleChoice": false,
           "type": "XP",
-          "xp": 20000
+          "xp": 20000.0
         }
       ],
       "questPoints": 5
@@ -68,26 +76,38 @@
     "id": 2,
     "requirements": {
       "combat": {
-        "level": 40
+        "ironman": false,
+        "level": 40,
+        "recommended": false
       },
       "questPoints": {
-        "amount": 2
+        "amount": 2,
+        "ironman": false,
+        "recommended": false
       },
       "quests": [
         {
-          "quest": 0
+          "quest": 0,
+          "ironman": false,
+          "recommended": false
         },
         {
-          "quest": 1
+          "quest": 1,
+          "ironman": false,
+          "recommended": false
         }
       ],
       "skills": [
         {
+          "ironman": false,
           "level": 30,
+          "recommended": false,
           "skill": "HERBLORE"
         },
         {
+          "ironman": false,
           "level": 50,
+          "recommended": false,
           "skill": "RANGED"
         }
       ]
@@ -95,39 +115,64 @@
     "rewards": {
       "lamps": [
         {
-          "type": "SMALL_XP"
+          "exclusive": false,
+          "multiplier": 1.0,
+          "requirements": {
+            "*": 1
+          },
+          "singleChoice": false,
+          "type": "SMALL_XP",
+          "xp": 0.0
         },
         {
+          "exclusive": false,
+          "multiplier": 1.0,
           "requirements": {
             "MINING,SMITHING": 10
           },
           "singleChoice": true,
           "type": "XP",
-          "xp": 1000
+          "xp": 1000.0
         },
         {
+          "exclusive": false,
           "multiplier": 1.5,
           "requirements": {
             "AGILITY": 1
           },
-          "type": "MEDIUM_XP"
+          "singleChoice": false,
+          "type": "MEDIUM_XP",
+          "xp": 0.0
         },
         {
-          "type": "DRAGONKIN"
+          "exclusive": false,
+          "multiplier": 1.0,
+          "requirements": {
+            "*": 1
+          },
+          "singleChoice": false,
+          "type": "DRAGONKIN",
+          "xp": 0.0
         },
         {
+          "exclusive": false,
+          "multiplier": 1.0,
           "requirements": {
             "*": 20
           },
+          "singleChoice": false,
           "type": "XP",
-          "xp": 1000
+          "xp": 1000.0
         },
         {
+          "exclusive": false,
+          "multiplier": 1.0,
           "requirements": {
             "&": 10
           },
+          "singleChoice": false,
           "type": "XP",
-          "xp": 100
+          "xp": 100.0
         }
       ],
       "questPoints": 3
