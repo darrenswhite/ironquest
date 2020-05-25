@@ -34,14 +34,7 @@
         "default": "Shift+Escape"
       }
     },
-    "permissions": [
-      "Extensions",
-      "GameInfo",
-      "Hotkeys",
-      "Profile",
-      "Streaming"
-    ],
-    "protocol_override_domains": { "googlesyndication": "http" },
+    "protocol_override_domains": {"googlesyndication": "http"},
     "windows": {
       "controller": {
         "file": "build/controller.html",
@@ -115,5 +108,13 @@
         }
       }
     }
-  }
+  },
+  "permissions": [
+    "Extensions",
+    "GameInfo",
+    "Hotkeys",
+    "Profile",
+    "Streaming",
+    "Tray"
+  ]
 }
