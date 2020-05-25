@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.darrenswhite.rs.ironquest.player.Player;
+import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
@@ -20,6 +21,7 @@ import com.darrenswhite.rs.ironquest.util.MapBuilder;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -120,7 +122,7 @@ class PathFinderTest {
     @Test
     void shouldCompletePlaceholderQuests() throws BestQuestNotFoundException {
       Quest placeholderQuestWithQuestPointReward = new Quest.Builder().withId(-1)
-          .withTitle("placeholderQuestWithQuestPointReward")
+          .withDisplayName("placeholderQuestWithQuestPointReward")
           .withRewards(new QuestRewards.Builder().withQuestPoints(1).build()).build();
       Player player = new Player.Builder().withQuests(
           new HashSet<>(Collections.singletonList(placeholderQuestWithQuestPointReward))).build();
@@ -135,7 +137,7 @@ class PathFinderTest {
     @Test
     void shouldThrowExceptionWhenBestQuestNotFound() {
       Quest questWithQuestPointRequirement = new Quest.Builder().withId(0)
-          .withTitle("questWithQuestPointRequirement").withRequirements(
+          .withDisplayName("questWithQuestPointRequirement").withRequirements(
               new QuestRequirements.Builder()
                   .withQuestPoints(new QuestPointsRequirement.Builder(4).build()).build()).build();
       Player player = new Player.Builder()
@@ -143,6 +145,46 @@ class PathFinderTest {
           .build();
 
       assertThrows(BestQuestNotFoundException.class, () -> pathFinder.find(player));
+    }
+
+    @Test
+    void shouldPrioritiseQuests() throws BestQuestNotFoundException {
+      Quest questWithMaximumPriority = new Quest.Builder().withId(0)
+          .withDisplayName("questWithMaximumPriority").build();
+      Quest questWithLargeXpReward = new Quest.Builder().withId(1)
+          .withDisplayName("questWithLargeXpReward").withRewards(
+              new QuestRewards.Builder().withXp(Map.of(Skill.FARMING, Skill.MAX_XP)).build())
+          .build();
+      Player player = new Player.Builder().withQuests(
+          new HashSet<>(Arrays.asList(questWithMaximumPriority, questWithLargeXpReward))).build();
+
+      Path path = pathFinder.find(player);
+
+      assertThat(path.getActions(), hasSize(2));
+      assertThat(path.getActions().get(0).getMessage(), equalTo("questWithLargeXpReward"));
+      assertThat(path.getActions().get(1).getMessage(), equalTo("questWithMaximumPriority"));
+
+      player = new Player.Builder().withQuests(
+          new HashSet<>(Arrays.asList(questWithMaximumPriority, questWithLargeXpReward))).build();
+      player.setQuestPriority(questWithMaximumPriority, QuestPriority.HIGH);
+      player.setQuestPriority(questWithLargeXpReward, QuestPriority.NORMAL);
+
+      path = pathFinder.find(player);
+
+      assertThat(path.getActions(), hasSize(2));
+      assertThat(path.getActions().get(0).getMessage(), equalTo("questWithMaximumPriority"));
+      assertThat(path.getActions().get(1).getMessage(), equalTo("questWithLargeXpReward"));
+
+      player = new Player.Builder().withQuests(
+          new HashSet<>(Arrays.asList(questWithMaximumPriority, questWithLargeXpReward))).build();
+      player.setQuestPriority(questWithMaximumPriority, QuestPriority.NORMAL);
+      player.setQuestPriority(questWithLargeXpReward, QuestPriority.LOW);
+
+      path = pathFinder.find(player);
+
+      assertThat(path.getActions(), hasSize(2));
+      assertThat(path.getActions().get(0).getMessage(), equalTo("questWithMaximumPriority"));
+      assertThat(path.getActions().get(1).getMessage(), equalTo("questWithLargeXpReward"));
     }
   }
 }

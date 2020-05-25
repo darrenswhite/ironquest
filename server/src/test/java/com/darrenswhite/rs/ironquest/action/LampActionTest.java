@@ -135,8 +135,8 @@ class LampActionTest {
 
     @Test
     void shouldCreateWithCorrectFields() {
-      String title = "title";
-      Quest quest = new Quest.Builder().withTitle(title).build();
+      String displayName = "displayName";
+      Quest quest = new Quest.Builder().withDisplayName(displayName).build();
       Player player = new Player.Builder().build();
       LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(500).build();
       Set<Skill> skills = Collections.singleton(Skill.PRAYER);
