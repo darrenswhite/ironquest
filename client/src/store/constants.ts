@@ -1,4 +1,5 @@
 export const GET_FIELD = 'getField';
+export const GET_PARAMETERS = 'getParameters';
 export const FIND_PATH = 'findPath';
 export const SET_ERROR = 'setError';
 export const SET_PARAMETERS = 'setParameters';

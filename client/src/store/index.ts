@@ -40,6 +40,7 @@ const state: RootState = {
 
 const getters = {
   [constants.GET_FIELD]: getField,
+  [constants.GET_PARAMETERS]: (state: RootState) => state.parameters,
 };
 
 const mutations: MutationTree<RootState> = {
