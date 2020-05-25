@@ -1,17 +1,10 @@
 <template>
   <v-app v-cloak>
-    <v-app-bar
-      app
-      dense
-    >
+    <v-app-bar app dense>
       <v-app-bar-nav-icon @click="drawer = !drawer" />
       <v-toolbar-title>IronQuest</v-toolbar-title>
     </v-app-bar>
-    <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      temporary
-    >
+    <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list dense>
         <v-list-item
           v-for="(item, index) in items"
@@ -34,48 +27,26 @@
     <v-content>
       <v-container fluid>
         <v-row>
-          <v-col
-            offset-lg="2"
-            lg="8"
-            offset-xl="2"
-            xl="8"
-          >
+          <v-col offset-lg="2" lg="8" offset-xl="2" xl="8">
             <settings />
           </v-col>
         </v-row>
         <v-row>
-          <v-col
-            offset-lg="2"
-            lg="8"
-            offset-xl="2"
-            xl="8"
-          >
-            <v-btn
-              :disabled="loading"
-              block
-              @click="run"
-            >
+          <v-col offset-lg="2" lg="8" offset-xl="2" xl="8">
+            <v-btn :disabled="loading" block @click="run">
               Run
             </v-btn>
           </v-col>
         </v-row>
         <v-row>
-          <v-col
-            offset-lg="2"
-            lg="8"
-            offset-xl="2"
-            xl="8"
-          >
+          <v-col offset-lg="2" lg="8" offset-xl="2" xl="8">
             <actions />
           </v-col>
         </v-row>
       </v-container>
     </v-content>
     <v-footer padless>
-      <v-col
-        class="text-center"
-        cols="12"
-      >
+      <v-col class="text-center" cols="12">
         {{ new Date().getFullYear() }} — <strong>IronQuest</strong> created by
         Darren S. White
       </v-col>
@@ -89,12 +60,19 @@ import Actions from '@/components/Actions.vue';
 import Settings from '@/components/Settings.vue';
 import {constants} from '@/store';
 import {mapFields} from 'vuex-map-fields';
-import {mdiCurrencyUsdCircle, mdiEmail, mdiGithub} from '@mdi/js';
+import {
+  mdiCurrencyUsdCircle,
+  mdiCloudDownload,
+  mdiEmail,
+  mdiGithub,
+} from '@mdi/js';
 
 const GITHUB_URL = 'https://github.com/darrenswhite/ironquest';
 const PAYPAL_URL =
   'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ZJZ94RDWF6GU4&item_name=IronQuest&currency_code=GBP&source=url';
 const EMAIL_URL = 'mailto:info@ironquest.co.uk';
+const OVERWOLF_URL =
+  'https://download.overwolf.com/install/Download?Name=IronQuest&ExtensionId=aoocepedmgaaclghioniggkdpapedngkmmfbdepc&Channel=website&utm_campaign=website';
 
 export default Vue.extend({
   components: {
@@ -108,6 +86,11 @@ export default Vue.extend({
         {title: 'GitHub', icon: mdiGithub, link: GITHUB_URL},
         {title: 'Donate', icon: mdiCurrencyUsdCircle, link: PAYPAL_URL},
         {title: 'Email', icon: mdiEmail, link: EMAIL_URL},
+        {
+          title: 'Download Overwolf App',
+          icon: mdiCloudDownload,
+          link: OVERWOLF_URL,
+        },
       ],
     };
   },
