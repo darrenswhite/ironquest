@@ -48,7 +48,7 @@
 <script lang="ts">
 import Vue, {PropType} from 'vue';
 import {Quest, QuestPriorities, QuestPriority} from '@/common/types';
-import {capitalize, find, keys, map, reduce} from 'lodash';
+import {capitalize, filter, find, keys, map, reduce} from 'lodash';
 import {mdiPriorityHigh} from '@mdi/js';
 import axios from 'axios';
 
@@ -143,11 +143,14 @@ export default Vue.extend({
         axios
           .get(QUESTS_URL)
           .then(response => {
-            this.quests = map(response.data, quest => {
-              quest.priority =
-                this.computedValue[quest.id] || QuestPriority.NORMAL;
-              return quest;
-            });
+            this.quests = map(
+              filter(response.data, quest => quest.id >= 0),
+              quest => {
+                quest.priority =
+                  this.computedValue[quest.id] || QuestPriority.NORMAL;
+                return quest;
+              }
+            );
           })
           .catch(error => {
             console.error('Failed to load quests', error);
