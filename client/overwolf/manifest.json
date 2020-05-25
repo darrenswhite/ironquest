@@ -4,7 +4,7 @@
   "meta": {
     "name": "IronQuest",
     "version": "1.2.0",
-    "minimum-overwolf-version": "0.77.10",
+    "minimum-overwolf-version": "0.147",
     "author": "Darren S. White",
     "icon": "build/assets/icon-256x256.png",
     "icon_gray": "build/assets/icon-grayscale-256x256.png",
