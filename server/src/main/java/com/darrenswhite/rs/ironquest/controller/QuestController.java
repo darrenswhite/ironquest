@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Darren S. White
  */
 @RestController
-@RequestMapping("/api/quests")
+@RequestMapping("/quests")
 public class QuestController {
 
   private final PathFinder pathFinder;

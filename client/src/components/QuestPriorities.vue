@@ -60,7 +60,7 @@ const QUEST_PRIORITIES = [
   QuestPriority.MINIMUM,
 ] as QuestPriority[];
 
-const QUESTS_URL = __API__ + '/api/quests';
+const QUESTS_URL = __API__ + '/quests';
 
 export default Vue.extend({
   name: 'QuestPriorities',

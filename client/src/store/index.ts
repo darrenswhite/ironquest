@@ -15,7 +15,7 @@ import {extend, head} from 'lodash';
 import {getField, updateField} from 'vuex-map-fields';
 import {plugins} from './plugins';
 
-const PATH_FINDER_URL = __API__ + '/api/quests/path';
+const PATH_FINDER_URL = __API__ + '/quests/path';
 
 Vue.use(Vuex);
 

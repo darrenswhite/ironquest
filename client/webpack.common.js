@@ -86,8 +86,8 @@ const CONFIGS = {
 };
 
 const APIS = {
-  local: JSON.stringify('http://localhost:8080'),
-  external: JSON.stringify('https://api.ironquest.co.uk'),
+  local: JSON.stringify('http://localhost:8080/api'),
+  external: JSON.stringify('https://api.ironquest.co.uk/api'),
 };
 
 const config = CONFIGS[process.env.TARGET] || CONFIGS.web;
