@@ -2,8 +2,8 @@ package com.darrenswhite.rs.ironquest.controller;
 
 import com.darrenswhite.rs.ironquest.dto.PathDTO;
 import com.darrenswhite.rs.ironquest.dto.PathFinderParametersDTO;
-import com.darrenswhite.rs.ironquest.path.BestQuestNotFoundException;
 import com.darrenswhite.rs.ironquest.path.PathFinder;
+import com.darrenswhite.rs.ironquest.path.QuestNotFoundException;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.PlayerService;
 import com.darrenswhite.rs.ironquest.quest.Quest;
@@ -47,11 +47,11 @@ public class QuestController {
    *
    * @param pathFinderParametersDTO the parameters
    * @return the optimal path
-   * @throws BestQuestNotFoundException if the "best" {@link Quest} can not be found
+   * @throws QuestNotFoundException if the optimal {@link Quest} can not be found
    */
   @GetMapping("/path")
   public PathDTO getPath(PathFinderParametersDTO pathFinderParametersDTO)
-      throws BestQuestNotFoundException {
+      throws QuestNotFoundException {
     Player player = createPlayer(pathFinderParametersDTO);
 
     return pathFinder.find(player).createDTO();

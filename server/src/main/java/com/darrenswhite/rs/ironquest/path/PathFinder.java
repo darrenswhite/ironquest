@@ -26,17 +26,19 @@ public class PathFinder {
    *
    * Initial stats for the player are calculated and incomplete placeholder quests are completed.
    *
-   * The best quest is found and marked as completed for the {@link Player} until all quests are
-   * completed or a {@link BestQuestNotFoundException} is thrown.
+   * The optimal quest is found and marked as completed for the {@link Player} until all quests are
+   * completed or a {@link QuestNotFoundException} is thrown.
    *
    * If there are any actions which can not be completed after all quests are completed, these are
    * added as future actions.
    *
+   * The default algorithm is used which is implemented by {@link DefaultPathFinderAlgorithm}.
+   *
    * @param player the player to find the path for
    * @return the optimal path
-   * @throws BestQuestNotFoundException if the best quest can not be found
+   * @throws QuestNotFoundException if the optimal quest can not be found
    */
-  public Path find(Player player) throws BestQuestNotFoundException {
+  public Path find(Player player) throws QuestNotFoundException {
     List<Action> actions = new LinkedList<>();
     PathStats stats = createStats(player);
 
@@ -44,16 +46,17 @@ public class PathFinder {
 
     completePlaceholderQuests(player);
 
-    while (!player.getIncompleteQuests().isEmpty()) {
-      Quest bestQuest = player.getBestQuest(player.getIncompleteQuests());
+    PathFinderAlgorithm algorithm = new DefaultPathFinderAlgorithm(player);
 
-      if (bestQuest == null) {
-        throw new BestQuestNotFoundException(
-            "Unable to find best quest for player: " + player.getName());
-      }
+    while (algorithm.hasNext()) {
+      Quest next = algorithm.next();
 
-      actions.addAll(completeQuest(player, bestQuest));
+      actions.addAll(completeQuest(player, next));
       processFutureActions(player, actions);
+    }
+
+    if (!player.getIncompleteQuests().isEmpty()) {
+      throw new QuestNotFoundException("Unable to find next quest for player: " + player.getName());
     }
 
     processFutureActions(player, actions);
@@ -85,9 +88,9 @@ public class PathFinder {
    *
    * @return the processed quest actions
    */
-  private List<Action> completeQuest(Player player, Quest bestQuest) {
+  private List<Action> completeQuest(Player player, Quest quest) {
     List<Action> processedActions = new LinkedList<>();
-    List<Action> questActions = player.completeQuest(bestQuest);
+    List<Action> questActions = player.completeQuest(quest);
 
     for (Action newAction : questActions) {
       if (newAction.isFuture()) {

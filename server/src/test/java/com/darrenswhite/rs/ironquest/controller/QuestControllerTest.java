@@ -9,9 +9,9 @@ import static org.mockito.Mockito.when;
 
 import com.darrenswhite.rs.ironquest.dto.PathDTO;
 import com.darrenswhite.rs.ironquest.dto.PathFinderParametersDTO;
-import com.darrenswhite.rs.ironquest.path.BestQuestNotFoundException;
 import com.darrenswhite.rs.ironquest.path.Path;
 import com.darrenswhite.rs.ironquest.path.PathFinder;
+import com.darrenswhite.rs.ironquest.path.QuestNotFoundException;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.PlayerService;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
@@ -87,7 +87,7 @@ class QuestControllerTest {
   class GetPath {
 
     @Test
-    void shouldFindPathAndCreateDTO() throws BestQuestNotFoundException {
+    void shouldFindPathAndCreateDTO() throws QuestNotFoundException {
       String name = "username";
       QuestAccessFilter accessFilter = QuestAccessFilter.ALL;
       QuestTypeFilter typeFilter = QuestTypeFilter.ALL;

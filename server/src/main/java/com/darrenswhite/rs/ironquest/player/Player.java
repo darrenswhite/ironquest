@@ -7,7 +7,7 @@ import com.darrenswhite.rs.ironquest.action.TrainAction;
 import com.darrenswhite.rs.ironquest.dto.PlayerDTO;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.RuneMetricsQuest;
-import com.darrenswhite.rs.ironquest.quest.requirement.Requirement;
+import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
 import java.util.Collection;
@@ -296,7 +296,7 @@ public class Player {
       throw new MissingQuestRequirementsException(
           "Missing requirements for quest: " + quest.getId());
     } else if (!quest.meetsSkillRequirements(this)) {
-      for (SkillRequirement sr : quest.getRemainingSkillRequirements(this, false)) {
+      for (SkillRequirement sr : getRemainingSkillRequirements(quest, false)) {
         actions.add(createTrainAction(sr));
       }
     }
@@ -328,70 +328,34 @@ public class Player {
   }
 
   /**
-   * Gets the 'best' {@link Quest} from the given {@link Collection} of {@link Quest}s to be
-   * completed next if any. If no 'best' {@link Quest} if available then the 'nearest' {@link Quest}
-   * will be returned.
-   * <p>
-   * The 'best' {@link Quest} is determined by this {@link Player} meeting all {@link Requirement}s
-   * for a {@link Quest} and then getting the maximum {@link Quest} compared by {@link
-   * QuestPriority}.
-   * <p>
-   * The 'nearest' {@link Quest} is determined by this {@link Player} meeting all {@link
-   * Requirement}s (including all {@link LampReward} {@link Requirement}s but excluding {@link
-   * SkillRequirement}s) and then getting the minimum {@link Quest} compared by the total remaining
-   * {@link SkillRequirement}s.
-   *
-   * @param quests the collection of quests to search
-   * @return The best {@link Quest} to be completed or null.
-   */
-  public Quest getBestQuest(Collection<Quest> quests) {
-    return quests.stream().filter(
-        quest -> quest.meetsCombatRequirement(this) && quest.meetsQuestPointRequirement(this)
-            && quest.meetsQuestRequirements(this)).reduce((first, second) -> {
-      boolean firstSkillRequirements = first.meetsSkillRequirements(this);
-      boolean secondSkillRequirements = second.meetsSkillRequirements(this);
-
-      if (firstSkillRequirements && secondSkillRequirements) {
-        return compareQuestByPriority(first, second);
-      } else if (firstSkillRequirements) {
-        return first;
-      } else if (secondSkillRequirements) {
-        return second;
-      } else {
-        return compareQuestBySkillRequirements(first, second);
-      }
-    }).orElse(null);
-  }
-
-  /**
    * Creates a {@link LampAction} to be processed for the specified {@link Quest} and {@link
    * LampReward}.
    *
-   * If this {@link Player} does meet the lamp requirements, then a {@link Set} of "best" {@link
-   * Skill}s to used for the new action. This set of "best" skills is added to {@link
+   * If this {@link Player} does meet the lamp requirements, then a {@link Set} of optimal {@link
+   * Skill}s to used for the new action. This set of optimal skills is added to {@link
    * QuestEntry#getPreviousLampSkills()}.
    *
    * If this {@link Player} does not meet the lamp requirements, then the lamp can be processed in
    * the future when requirements have been met.
    *
    * @return the lamp action
-   * @see Player#getBestLampSkills(LampReward, Set)
+   * @see Player#getOptimalLampSkills(LampReward, Set)
    * @see QuestEntry#getPreviousLampSkills()
    */
   public LampAction createLampAction(Quest quest, LampReward lampReward) {
-    Set<Skill> bestSkills = new HashSet<>();
+    Set<Skill> optimalSkills = new HashSet<>();
     boolean future = true;
 
     if (lampReward.meetsRequirements(this)) {
       Set<Set<Skill>> previous = getQuestEntry(quest).getPreviousLampSkills();
 
-      bestSkills = getBestLampSkills(lampReward, previous);
+      optimalSkills = getOptimalLampSkills(lampReward, previous);
       future = false;
 
-      previous.add(bestSkills);
+      previous.add(optimalSkills);
     }
 
-    return new LampAction(this, future, quest, lampReward, bestSkills);
+    return new LampAction(this, future, quest, lampReward, optimalSkills);
   }
 
   /**
@@ -483,12 +447,32 @@ public class Player {
   }
 
   /**
-   * Get the "best" skill choices to be used on a {@link LampReward} from a {@link Quest}.
+   * Returns a {@link Comparator<Quest>} that compares by {@link QuestPriority}.
+   *
+   * @return a comparator that compares by quest priority
+   */
+  public Comparator<Quest> questPriorityComparator() {
+    return Comparator.comparing(this::getQuestPriority);
+  }
+
+  /**
+   * Compare two {@link Quest}s by remaining {@link SkillRequirement}s.
+   *
+   * If these requirements are the same, then return the second entry.
+   *
+   * @return the higher priority quest, or the second entry if they have the same requirements
+   */
+  public Comparator<Quest> questSkillRequirementsComparator() {
+    return Comparator.comparing(quest -> getTotalRemainingSkillRequirements(quest, true));
+  }
+
+  /**
+   * Get the optimal skill choices to be used on a {@link LampReward} from a {@link Quest}.
    *
    * If any of the lamp reward choices contains any of the player <tt>lampSkills</tt>, then that
    * will be the set of skills returned.
    *
-   * The next choice for the best set of skills to use is determined by the highest skill
+   * The next choice for the optimal set of skills to use is determined by the highest skill
    * requirement needed to complete all remaining quests.
    *
    * If there are no remaining skill requirements then there is no preference to which set of skills
@@ -496,41 +480,98 @@ public class Player {
    *
    * @param lampReward the lamp reward from the quest
    * @param previous set of previous skill choices used for the quest
-   * @return the "best" choice of skills to use for the lamp reward
+   * @return the optimal choice of skills to use for the lamp reward
    * @throws LampSkillsNotFoundException if there are no skill choices found for the lamp reward
    * @see LampReward#getChoices(Player, Set)
    */
-  Set<Skill> getBestLampSkills(LampReward lampReward, Set<Set<Skill>> previous) {
-    Set<Skill> bestLampSkills = null;
+  public Set<Skill> getOptimalLampSkills(LampReward lampReward, Set<Set<Skill>> previous) {
+    Set<Skill> optimalLampSkills = null;
     Set<Set<Skill>> lampSkillChoices = lampReward.getChoices(this, previous);
 
     for (Skill lampSkill : lampSkills) {
-      bestLampSkills = lampSkillChoices.stream().filter(skills -> skills.contains(lampSkill))
+      optimalLampSkills = lampSkillChoices.stream().filter(skills -> skills.contains(lampSkill))
           .findFirst().orElse(null);
 
-      if (bestLampSkills != null) {
+      if (optimalLampSkills != null) {
         break;
       }
     }
 
-    if (bestLampSkills == null) {
+    if (optimalLampSkills == null) {
       Map<Skill, Double> xpRequirements = getRemainingXpRequirements();
 
       Map<Set<Skill>, Double> xpChoicesRequirements = lampSkillChoices.stream().collect(Collectors
           .toMap(s -> s,
               s -> s.stream().mapToDouble(sk -> xpRequirements.getOrDefault(sk, 0d)).sum()));
 
-      bestLampSkills = xpChoicesRequirements.entrySet().stream()
+      optimalLampSkills = xpChoicesRequirements.entrySet().stream()
           .max(Comparator.comparingDouble(Map.Entry::getValue)).map(Map.Entry::getKey).orElse(null);
     }
 
-    if (bestLampSkills == null) {
+    if (optimalLampSkills == null) {
       throw new LampSkillsNotFoundException(
           "Unable to use lampReward: no suitable skills found: lampReward=" + lampReward
               + ",previous=" + previous + ",lampSkills=" + lampSkills);
     }
 
-    return bestLampSkills;
+    return optimalLampSkills;
+  }
+
+  /**
+   * Get total levels required to complete this {@link Quest}.
+   *
+   * @param recursive <tt>true</tt> to get requirements recursively; <tt>false</tt> otherwise
+   * @return total skill level requirements remaining
+   */
+  public int getTotalRemainingSkillRequirements(Quest quest, boolean recursive) {
+    return getRemainingSkillRequirements(quest, recursive).stream()
+        .mapToInt(SkillRequirement::getLevel).sum();
+  }
+
+  /**
+   * Get remaining {@link Quest}s required to complete this {@link Quest}.
+   *
+   * @param recursive <tt>true</tt> to get requirements recursively; <tt>false</tt> otherwise
+   * @return remaining quest requirements
+   */
+  public Set<Quest> getRemainingQuestRequirements(Quest quest, boolean recursive) {
+    return quest.getQuestRequirements(recursive).stream().filter(q -> !q.test(this))
+        .map(QuestRequirement::getQuest).collect(Collectors.toSet());
+  }
+
+  /**
+   * Get remaining {@link SkillRequirement}s to complete this {@link Quest}.
+   *
+   * @param recursive <tt>true</tt> to get requirements recursively; <tt>false</tt> otherwise
+   * @return remaining skill requirements
+   */
+  public Set<SkillRequirement> getRemainingSkillRequirements(Quest quest, boolean recursive) {
+    Set<SkillRequirement> remainingSkillRequirements = new LinkedHashSet<>();
+
+    remainingSkillRequirements = SkillRequirement.merge(remainingSkillRequirements,
+        quest.getRequirements().getSkills().stream().filter(sr -> !sr.test(this))
+            .collect(Collectors.toCollection(LinkedHashSet::new)));
+
+    if (recursive) {
+      Set<Quest> remainingQuestRequirements = getRemainingQuestRequirements(quest, true);
+
+      for (Quest questRequirement : remainingQuestRequirements) {
+        remainingSkillRequirements = SkillRequirement.merge(remainingSkillRequirements,
+            getRemainingSkillRequirements(questRequirement, true));
+      }
+    }
+
+    return remainingSkillRequirements;
+  }
+
+  /**
+   * Returns the total xp and lamp rewards from the specified {@link Quest}.
+   *
+   * @param quest the quest
+   * @return the total rewards
+   */
+  public double getTotalQuestRewards(Quest quest) {
+    return getQuestRewards(quest).values().stream().mapToDouble(Double::doubleValue).sum();
   }
 
   /**
@@ -548,77 +589,6 @@ public class Player {
   }
 
   /**
-   * Compare two {@link Quest}s by priority.
-   *
-   * First compare the two entries by {@link QuestPriority}, returning the higher priority entry if
-   * the priorities are different.
-   *
-   * If the priorities are the same, then return the entry with the greatest priority determined by
-   * {@link Player#getQuestPriority(Quest)}. If these priorities are the same, then return the
-   * second entry.
-   *
-   * @param first the first entry to be compared
-   * @param second the second entry to be compared
-   * @return the higher priority quest, or the second entry if they have the same priorities
-   * @see Player#getQuestPriority(Quest)
-   */
-  private Quest compareQuestByPriority(Quest first, Quest second) {
-    QuestPriority firstPriority = getQuestEntry(first).getPriority();
-    QuestPriority secondPriority = getQuestEntry(second).getPriority();
-    int priorityComparison = firstPriority.compareTo(secondPriority);
-
-    if (priorityComparison != 0) {
-      if (priorityComparison < 0) {
-        return first;
-      } else {
-        return second;
-      }
-    } else {
-      return getCalculatedQuestPriority(first) > getCalculatedQuestPriority(second) ? first
-          : second;
-    }
-  }
-
-  /**
-   * Calculate the priority for the specified {@link Quest}.
-   *
-   * Priority is derived from low skill requirements and high rewards.
-   *
-   * @param quest the quest to get priority of
-   * @return the priority
-   */
-  private double getCalculatedQuestPriority(Quest quest) {
-    int requirements = quest.getTotalRemainingSkillRequirements(this, true);
-    double rewards = getTotalQuestRewards(quest) / 100;
-
-    return rewards - requirements;
-  }
-
-  /**
-   * Compare two {@link Quest}s by remaining {@link SkillRequirement}s.
-   *
-   * If these requirements are the same, then return the second entry.
-   *
-   * @param first the first entry to be compared
-   * @param second the second entry to be compared
-   * @return the higher priority quest, or the second entry if they have the same requirements
-   */
-  private Quest compareQuestBySkillRequirements(Quest first, Quest second) {
-    return first.getTotalRemainingSkillRequirements(this, true) > second
-        .getTotalRemainingSkillRequirements(this, true) ? second : first;
-  }
-
-  /**
-   * Returns the total xp and lamp rewards from the specified {@link Quest}.
-   *
-   * @param quest the quest
-   * @return the total rewards
-   */
-  public double getTotalQuestRewards(Quest quest) {
-    return getQuestRewards(quest).values().stream().mapToDouble(Double::doubleValue).sum();
-  }
-
-  /**
    * Returns the skill xp and lamp rewards from the specified {@link Quest}.
    *
    * @param quest the quest
@@ -632,7 +602,7 @@ public class Player {
 
     quest.getRewards().getLamps().stream().filter(l -> l.meetsRequirements(this))
         .forEach(lampReward -> {
-          Set<Skill> skills = getBestLampSkills(lampReward, previousLampSkills);
+          Set<Skill> skills = getOptimalLampSkills(lampReward, previousLampSkills);
           double xp = lampReward.getXpForSkills(this, skills);
 
           previousLampSkills.add(skills);
@@ -674,7 +644,7 @@ public class Player {
 
     for (Quest entry : getIncompleteQuests()) {
       requirements = SkillRequirement
-          .merge(requirements, entry.getRemainingSkillRequirements(this, false));
+          .merge(requirements, getRemainingSkillRequirements(entry, false));
     }
 
     return requirements;

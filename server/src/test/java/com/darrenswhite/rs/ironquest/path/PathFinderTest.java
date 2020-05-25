@@ -34,7 +34,7 @@ class PathFinderTest {
   class Find {
 
     @Test
-    void findForPlayer() throws BestQuestNotFoundException {
+    void findForPlayer() throws QuestNotFoundException {
       Quest questNotStarted = new Quest.Builder().withId(0).withDisplayName("questNotStarted")
           .build();
       Quest questCompleted = new Quest.Builder().withId(1).withDisplayName("questCompleted")
@@ -56,7 +56,7 @@ class PathFinderTest {
     }
 
     @Test
-    void shouldProcessFutureActions() throws BestQuestNotFoundException {
+    void shouldProcessFutureActions() throws QuestNotFoundException {
       Quest questWithXpLampReward = new Quest.Builder().withId(0)
           .withDisplayName("questWithXpLampReward").withRewards(new QuestRewards.Builder()
               .withLamps(Collections.singleton(
@@ -90,7 +90,7 @@ class PathFinderTest {
     }
 
     @Test
-    void shouldAddFutureActions() throws BestQuestNotFoundException {
+    void shouldAddFutureActions() throws QuestNotFoundException {
       Quest questWithXpLampReward = new Quest.Builder().withId(0)
           .withDisplayName("questWithXpLampReward").withRewards(new QuestRewards.Builder()
               .withLamps(Collections.singleton(
@@ -120,7 +120,7 @@ class PathFinderTest {
     }
 
     @Test
-    void shouldCompletePlaceholderQuests() throws BestQuestNotFoundException {
+    void shouldCompletePlaceholderQuests() throws QuestNotFoundException {
       Quest placeholderQuestWithQuestPointReward = new Quest.Builder().withId(-1)
           .withDisplayName("placeholderQuestWithQuestPointReward")
           .withRewards(new QuestRewards.Builder().withQuestPoints(1).build()).build();
@@ -135,7 +135,7 @@ class PathFinderTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenBestQuestNotFound() {
+    void shouldThrowExceptionWhenQuestNotFound() {
       Quest questWithQuestPointRequirement = new Quest.Builder().withId(0)
           .withDisplayName("questWithQuestPointRequirement").withRequirements(
               new QuestRequirements.Builder()
@@ -144,16 +144,16 @@ class PathFinderTest {
           .withQuests(new HashSet<>(Collections.singletonList(questWithQuestPointRequirement)))
           .build();
 
-      assertThrows(BestQuestNotFoundException.class, () -> pathFinder.find(player));
+      assertThrows(QuestNotFoundException.class, () -> pathFinder.find(player));
     }
 
     @Test
-    void shouldPrioritiseQuests() throws BestQuestNotFoundException {
+    void shouldPrioritiseQuests() throws QuestNotFoundException {
       Quest questWithMaximumPriority = new Quest.Builder().withId(0)
           .withDisplayName("questWithMaximumPriority").build();
       Quest questWithLargeXpReward = new Quest.Builder().withId(1)
           .withDisplayName("questWithLargeXpReward").withRewards(
-              new QuestRewards.Builder().withXp(Map.of(Skill.FARMING, Skill.MAX_XP)).build())
+              new QuestRewards.Builder().withXp(Map.of(Skill.STRENGTH, Skill.MAX_XP)).build())
           .build();
       Player player = new Player.Builder().withQuests(
           new HashSet<>(Arrays.asList(questWithMaximumPriority, questWithLargeXpReward))).build();

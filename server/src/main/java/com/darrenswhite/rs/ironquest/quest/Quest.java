@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -142,56 +141,6 @@ public class Quest {
   public boolean meetsAllRequirements(Player player) {
     return meetsCombatRequirement(player) && meetsQuestPointRequirement(player)
         && meetsQuestRequirements(player) && meetsSkillRequirements(player);
-  }
-
-  /**
-   * Get remaining {@link Quest}s required to complete this {@link Quest}.
-   *
-   * @param player the player
-   * @param recursive <tt>true</tt> to get requirements recursively; <tt>false</tt> otherwise
-   * @return remaining quest requirements
-   */
-  public Set<Quest> getRemainingQuestRequirements(Player player, boolean recursive) {
-    return getQuestRequirements(recursive).stream().filter(q -> !q.test(player))
-        .map(QuestRequirement::getQuest).collect(Collectors.toSet());
-  }
-
-  /**
-   * Get remaining {@link SkillRequirement}s to complete this {@link Quest}.
-   *
-   * @param player the player
-   * @param recursive <tt>true</tt> to get requirements recursively; <tt>false</tt> otherwise
-   * @return remaining skill requirements
-   */
-  public Set<SkillRequirement> getRemainingSkillRequirements(Player player, boolean recursive) {
-    Set<SkillRequirement> remainingSkillRequirements = new LinkedHashSet<>();
-
-    remainingSkillRequirements = SkillRequirement.merge(remainingSkillRequirements,
-        requirements.getSkills().stream().filter(sr -> !sr.test(player))
-            .collect(Collectors.toCollection(LinkedHashSet::new)));
-
-    if (recursive) {
-      Set<Quest> remainingQuestRequirements = getRemainingQuestRequirements(player, true);
-
-      for (Quest quest : remainingQuestRequirements) {
-        remainingSkillRequirements = SkillRequirement
-            .merge(remainingSkillRequirements, quest.getRemainingSkillRequirements(player, true));
-      }
-    }
-
-    return remainingSkillRequirements;
-  }
-
-  /**
-   * Get total levels required to complete this {@link Quest}.
-   *
-   * @param player the player
-   * @param recursive <tt>true</tt> to get requirements recursively; <tt>false</tt> otherwise
-   * @return total skill level requirements remaining
-   */
-  public int getTotalRemainingSkillRequirements(Player player, boolean recursive) {
-    return getRemainingSkillRequirements(player, recursive).stream()
-        .mapToInt(SkillRequirement::getLevel).sum();
   }
 
   /**
