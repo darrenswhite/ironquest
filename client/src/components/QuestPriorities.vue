@@ -48,20 +48,12 @@
 <script lang="ts">
 import Vue, {PropType} from 'vue';
 import {Quest, QuestPriorities, QuestPriority} from '@/common/types';
-import {
-  capitalize,
-  debounce,
-  filter,
-  find,
-  keys,
-  map,
-  pickBy,
-  reduce,
-} from 'lodash';
+import {capitalize, debounce, filter, find, keys, map, reduce} from 'lodash';
 import {mdiPriorityHigh} from '@mdi/js';
 import axios from 'axios';
 import qs from 'qs';
 import {constants} from '@/store';
+import {mapGetters} from 'vuex';
 
 const QUEST_PRIORITIES = [
   QuestPriority.MAXIMUM,
@@ -94,13 +86,10 @@ export default Vue.extend({
     };
   },
   computed: {
+    ...mapGetters({
+      parameters: constants.GET_PARAMETERS_WITHOUT_PRIORITIES,
+    }),
     mdiPriorityHigh: () => mdiPriorityHigh,
-    parameters(): unknown {
-      return pickBy(
-        this.$store.getters[constants.GET_PARAMETERS],
-        (_, key) => key !== 'questPriorities'
-      );
-    },
     questPriorityItems() {
       return map(QUEST_PRIORITIES, priority => ({
         value: priority,

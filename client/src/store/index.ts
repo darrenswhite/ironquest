@@ -40,7 +40,14 @@ const state: RootState = {
 
 const getters = {
   [constants.GET_FIELD]: getField,
-  [constants.GET_PARAMETERS]: (state: RootState) => state.parameters,
+  [constants.GET_PARAMETERS_WITHOUT_PRIORITIES]: (state: RootState) => ({
+    name: state.parameters.name,
+    typeFilter: state.parameters.typeFilter,
+    accessFilter: state.parameters.accessFilter,
+    ironman: state.parameters.ironman,
+    recommended: state.parameters.recommended,
+    lampSkills: state.parameters.lampSkills,
+  }),
 };
 
 const mutations: MutationTree<RootState> = {
