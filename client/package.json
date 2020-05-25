@@ -96,7 +96,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "@mdi/js": "^5.0.45",
+    "@mdi/js": "^5.3.45",
     "axios": "^0.19.2",
     "express": "^4.17.1",
     "express-static-gzip": "^2.0.6",

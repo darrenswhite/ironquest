@@ -54,6 +54,10 @@
               :key="i"
               :value="action"
             >
+              <v-list-item-icon class="mr-4">
+                <v-icon>{{ getActionIcon(action) }}</v-icon>
+              </v-list-item-icon>
+
               <v-list-item-content>
                 <v-list-item-title v-text="action.message" />
               </v-list-item-content>
@@ -173,10 +177,15 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Skill} from '@/common/types';
+import {Action, Skill} from '@/common/types';
 import {capitalize, get} from 'lodash';
 import {mapFields} from 'vuex-map-fields';
-import {mdiCheckboxMarkedCircle} from '@mdi/js';
+import {
+  mdiArrowUpBoldCircle,
+  mdiChartBar,
+  mdiCheckboxMarkedCircle,
+  mdiCompassRose,
+} from '@mdi/js';
 
 const NEW_ISSUE_URL = 'https://github.com/darrenswhite/ironquest/issues/new';
 const RUNESCAPE_WIKI_URL = 'https://runescape.wiki/';
@@ -214,6 +223,23 @@ export default Vue.extend({
   methods: {
     capitalize,
     get,
+    getActionIcon(action: Action) {
+      let icon = null;
+
+      switch (action.type) {
+        case 'LAMP':
+          icon = mdiChartBar;
+          break;
+        case 'QUEST':
+          icon = mdiCompassRose;
+          break;
+        case 'TRAIN':
+          icon = mdiArrowUpBoldCircle;
+          break;
+      }
+
+      return icon;
+    },
   },
 });
 </script>
