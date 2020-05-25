@@ -26,7 +26,7 @@ export class Windows {
   async obtainWindow(name: string): Promise<unknown> {
     return new Promise((resolve, reject) => {
       overwolf.windows.obtainDeclaredWindow(name, response => {
-        if (response.status === 'success') {
+        if (response.success) {
           resolve();
         } else {
           reject(response);
@@ -39,7 +39,7 @@ export class Windows {
     return new Promise<string>((resolve, reject) => {
       try {
         overwolf.windows.getWindowState(name, state => {
-          if (state.status === 'success') {
+          if (state.success) {
             resolve(state.window_state_ex);
           } else {
             reject(state);

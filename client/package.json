@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/darrenswhite/ironquest#readme",
   "devDependencies": {
+    "@overwolf/types": "^2.12.1",
     "@types/axios": "^0.14.0",
     "@types/express": "^4.17.4",
     "@types/jest": "^25.2.1",

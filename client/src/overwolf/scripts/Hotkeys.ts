@@ -16,7 +16,7 @@ export class Hotkeys {
 
   setHotkey(actionId: string, callback: () => void): void {
     overwolf.settings.registerHotKey(actionId, result => {
-      if (result.status === 'success') {
+      if (result.success) {
         callback();
       } else {
         console.error(`IronQuest: Failed to register hotkey ${actionId}`);
