@@ -55,7 +55,7 @@ class LampActionTest {
     @MethodSource("shouldFormatMessage")
     void shouldFormatMessage(String title, LampType lampType, int xp, Set<Skill> skills,
         boolean future, double multiplier, String message) {
-      Quest quest = new Quest.Builder().withTitle(title).build();
+      Quest quest = new Quest.Builder().withDisplayName(title).build();
       Map<Skill, Double> skillXps = new MapBuilder<Skill, Double>().put(Skill.DEFENCE, 50000d)
           .put(Skill.MAGIC, 750000d).put(Skill.RANGED, 1000000d).put(Skill.THIEVING, 5000000d)
           .put(Skill.HERBLORE, 9000000d).build();

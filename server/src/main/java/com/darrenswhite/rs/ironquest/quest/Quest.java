@@ -74,7 +74,7 @@ public class Quest {
   }
 
   public String getDisplayName() {
-    return displayName != null ? displayName : title;
+    return displayName;
   }
 
   public QuestAccess getAccess() {
@@ -317,9 +317,7 @@ public class Quest {
         throws IOException {
       gen.writeStartObject();
       provider.defaultSerializeField("access", quest.access, gen);
-      if (quest.displayName != null) {
-        provider.defaultSerializeField("displayName", quest.displayName, gen);
-      }
+      provider.defaultSerializeField("displayName", quest.displayName, gen);
       provider.defaultSerializeField("id", quest.id, gen);
       if (quest.requirements != QuestRequirements.NONE) {
         provider.defaultSerializeField("requirements", quest.requirements, gen);

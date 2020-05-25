@@ -99,7 +99,7 @@ class QuestRepositoryTest {
     void shouldParseAllQuests() {
       Quest questA = new Quest.Builder(-1).withAccess(QuestAccess.FREE)
           .withRewards(new QuestRewards.Builder().withQuestPoints(1).build()).withTitle("a")
-          .withType(QuestType.QUEST).build();
+          .withDisplayName("a").withType(QuestType.QUEST).build();
       Quest questB = new Quest.Builder(0).withAccess(QuestAccess.FREE).withRequirements(
           new QuestRequirements.Builder()
               .withCombat(new CombatRequirement.Builder().withLevel(40).withIronman(true).build())
@@ -108,7 +108,7 @@ class QuestRepositoryTest {
                   new SkillRequirement.Builder().withLevel(60).withSkill(Skill.AGILITY)
                       .withRecommended(true).build()))).build())
           .withRewards(new QuestRewards.Builder().withQuestPoints(2).build()).withTitle("b")
-          .withType(QuestType.SAGA).build();
+          .withDisplayName("b").withType(QuestType.SAGA).build();
       Quest questC = new Quest.Builder(1).withAccess(QuestAccess.MEMBERS).withRewards(
           new QuestRewards.Builder().withLamps(new HashSet<>(Arrays.asList(
               new LampReward.Builder().withExclusive(true).withRequirements(
@@ -121,7 +121,7 @@ class QuestRepositoryTest {
                       .put(new HashSet<>(Arrays.asList(Skill.ATTACK, Skill.DEFENCE)), 1)
                       .put(new HashSet<>(Arrays.asList(Skill.CONSTITUTION, Skill.STRENGTH)), 1)
                       .build()).withType(LampType.XP).withXp(20000).build()))).withQuestPoints(5)
-              .build()).withTitle("c").withType(QuestType.SAGA).build();
+              .build()).withTitle("c").withDisplayName("c").withType(QuestType.SAGA).build();
       Quest questD = new Quest.Builder(2).withAccess(QuestAccess.MEMBERS).withRequirements(
           new QuestRequirements.Builder()
               .withCombat(new CombatRequirement.Builder().withLevel(40).build())
@@ -178,7 +178,7 @@ class QuestRepositoryTest {
                           Skill.SLAYER, Skill.SMITHING, Skill.STRENGTH, Skill.SUMMONING,
                           Skill.THIEVING, Skill.WOODCUTTING)), 10).build()).withType(LampType.XP)
                   .withXp(100).build()))).withQuestPoints(3).build()).withTitle("d")
-          .withType(QuestType.MINIQUEST).build();
+          .withDisplayName("d").withType(QuestType.MINIQUEST).build();
 
       Set<Quest> loadedQuests = minimalQuestRepository.getQuests();
 
@@ -199,7 +199,7 @@ class QuestRepositoryTest {
                   new SkillRequirement.Builder().withLevel(60).withSkill(Skill.AGILITY)
                       .withRecommended(true).build()))).build())
           .withRewards(new QuestRewards.Builder().withQuestPoints(2).build()).withTitle("b")
-          .withType(QuestType.SAGA).build();
+          .withDisplayName("b").withType(QuestType.SAGA).build();
       Quest questC = new Quest.Builder(1).withAccess(QuestAccess.MEMBERS).withRewards(
           new QuestRewards.Builder().withLamps(new HashSet<>(Arrays.asList(
               new LampReward.Builder().withExclusive(true).withRequirements(
@@ -212,7 +212,7 @@ class QuestRepositoryTest {
                       .put(new HashSet<>(Arrays.asList(Skill.ATTACK, Skill.DEFENCE)), 1)
                       .put(new HashSet<>(Arrays.asList(Skill.CONSTITUTION, Skill.STRENGTH)), 1)
                       .build()).withType(LampType.XP).withXp(20000).build()))).withQuestPoints(5)
-              .build()).withTitle("c").withType(QuestType.SAGA).build();
+              .build()).withTitle("c").withDisplayName("c").withType(QuestType.SAGA).build();
 
       Set<Quest> loadedQuests = minimalQuestRepository.getQuests();
 

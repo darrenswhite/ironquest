@@ -1,6 +1,7 @@
 [
   {
     "access": "FREE",
+    "displayName": "a",
     "id": -1,
     "rewards": {
       "questPoints": 1
@@ -10,6 +11,7 @@
   },
   {
     "access": "FREE",
+    "displayName": "b",
     "id": 0,
     "requirements": {
       "combat": {
@@ -40,6 +42,7 @@
   },
   {
     "access": "MEMBERS",
+    "displayName": "c",
     "id": 1,
     "rewards": {
       "lamps": [
@@ -73,6 +76,7 @@
   },
   {
     "access": "MEMBERS",
+    "displayName": "d",
     "id": 2,
     "requirements": {
       "combat": {

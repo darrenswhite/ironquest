@@ -33,9 +33,12 @@ class PathFinderTest {
 
     @Test
     void findForPlayer() throws BestQuestNotFoundException {
-      Quest questNotStarted = new Quest.Builder().withId(0).withTitle("questNotStarted").build();
-      Quest questCompleted = new Quest.Builder().withId(1).withTitle("questCompleted").build();
-      Quest questInProgress = new Quest.Builder().withId(2).withTitle("questInProgress").build();
+      Quest questNotStarted = new Quest.Builder().withId(0).withDisplayName("questNotStarted")
+          .build();
+      Quest questCompleted = new Quest.Builder().withId(1).withDisplayName("questCompleted")
+          .build();
+      Quest questInProgress = new Quest.Builder().withId(2).withDisplayName("questInProgress")
+          .build();
       Player player = new Player.Builder().withQuests(
           new HashSet<>(Arrays.asList(questNotStarted, questCompleted, questInProgress))).build();
 
@@ -52,14 +55,17 @@ class PathFinderTest {
 
     @Test
     void shouldProcessFutureActions() throws BestQuestNotFoundException {
-      Quest questWithXpLampReward = new Quest.Builder().withId(0).withTitle("questWithXpLampReward")
-          .withRewards(new QuestRewards.Builder().withLamps(Collections.singleton(
-              new LampReward.Builder().withType(LampType.XP).withXp(1000).withRequirements(
-                  new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.ATTACK), 2)
-                      .build()).build())).build()).build();
-      Quest questCompleted = new Quest.Builder().withId(1).withTitle("questCompleted").build();
+      Quest questWithXpLampReward = new Quest.Builder().withId(0)
+          .withDisplayName("questWithXpLampReward").withRewards(new QuestRewards.Builder()
+              .withLamps(Collections.singleton(
+                  new LampReward.Builder().withType(LampType.XP).withXp(1000).withRequirements(
+                      new MapBuilder<Set<Skill>, Integer>()
+                          .put(Collections.singleton(Skill.ATTACK), 2).build()).build())).build())
+          .build();
+      Quest questCompleted = new Quest.Builder().withId(1).withDisplayName("questCompleted")
+          .build();
       Quest questWithQuestRequirementAndXpReward = new Quest.Builder().withId(2)
-          .withTitle("questWithXpReward").withRequirements(new QuestRequirements.Builder()
+          .withDisplayName("questWithXpReward").withRequirements(new QuestRequirements.Builder()
               .withQuests(Collections
                   .singleton(new QuestRequirement.Builder(questWithXpLampReward).build())).build())
           .withRewards(new QuestRewards.Builder()
@@ -83,13 +89,17 @@ class PathFinderTest {
 
     @Test
     void shouldAddFutureActions() throws BestQuestNotFoundException {
-      Quest questWithXpLampReward = new Quest.Builder().withId(0).withTitle("questWithXpLampReward")
-          .withRewards(new QuestRewards.Builder().withLamps(Collections.singleton(
-              new LampReward.Builder().withType(LampType.XP).withXp(1000).withRequirements(
-                  new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.ATTACK), 2)
-                      .build()).build())).build()).build();
-      Quest questCompleted = new Quest.Builder().withId(1).withTitle("questCompleted").build();
-      Quest questNotStarted = new Quest.Builder().withId(2).withTitle("questNotStarted").build();
+      Quest questWithXpLampReward = new Quest.Builder().withId(0)
+          .withDisplayName("questWithXpLampReward").withRewards(new QuestRewards.Builder()
+              .withLamps(Collections.singleton(
+                  new LampReward.Builder().withType(LampType.XP).withXp(1000).withRequirements(
+                      new MapBuilder<Set<Skill>, Integer>()
+                          .put(Collections.singleton(Skill.ATTACK), 2).build()).build())).build())
+          .build();
+      Quest questCompleted = new Quest.Builder().withId(1).withDisplayName("questCompleted")
+          .build();
+      Quest questNotStarted = new Quest.Builder().withId(2).withDisplayName("questNotStarted")
+          .build();
       Player player = new Player.Builder().withQuests(
           new HashSet<>(Arrays.asList(questWithXpLampReward, questCompleted, questNotStarted)))
           .build();

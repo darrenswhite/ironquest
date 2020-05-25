@@ -40,13 +40,13 @@ class QuestActionTest {
 
     @Test
     void shouldFormatMessage() {
-      String title = "title";
-      Quest quest = new Quest.Builder().withTitle(title).build();
+      String displayName = "displayName";
+      Quest quest = new Quest.Builder().withDisplayName(displayName).build();
       Player player = new Player.Builder().build();
 
       QuestAction questAction = new QuestAction(player, quest);
 
-      assertThat(questAction.getMessage(), equalTo(title));
+      assertThat(questAction.getMessage(), equalTo(displayName));
       assertThat(questAction.toString(), equalTo(questAction.getMessage()));
     }
   }
