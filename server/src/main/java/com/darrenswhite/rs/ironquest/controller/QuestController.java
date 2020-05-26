@@ -2,6 +2,7 @@ package com.darrenswhite.rs.ironquest.controller;
 
 import com.darrenswhite.rs.ironquest.dto.PathDTO;
 import com.darrenswhite.rs.ironquest.dto.PathFinderParametersDTO;
+import com.darrenswhite.rs.ironquest.dto.QuestParametersDTO;
 import com.darrenswhite.rs.ironquest.path.Path;
 import com.darrenswhite.rs.ironquest.path.PathFinderService;
 import com.darrenswhite.rs.ironquest.path.QuestNotFoundException;
@@ -40,8 +41,11 @@ public class QuestController {
    * @return set of incomplete quests
    */
   @GetMapping
-  public Set<Quest> getRemainingQuests(PathFinderParametersDTO parameters) {
-    return createPlayer(parameters).getIncompleteQuests();
+  public Set<Quest> getQuests(QuestParametersDTO parameters) {
+    Player player = playerService.createPlayer(parameters.getName(), parameters.getAccessFilter(),
+        parameters.getTypeFilter());
+
+    return player.getIncompleteQuests();
   }
 
   /**
@@ -53,21 +57,11 @@ public class QuestController {
    */
   @GetMapping("/path")
   public PathDTO getPath(PathFinderParametersDTO parameters) throws QuestNotFoundException {
-    Player player = createPlayer(parameters);
+    Player player = playerService.createPlayer(parameters.getName(), parameters.getAccessFilter(),
+        parameters.getTypeFilter(), parameters.isIronman(), parameters.isRecommended(),
+        parameters.getLampSkills(), parameters.getQuestPriorities());
     AlgorithmId algorithm = parameters.getAlgorithm();
 
     return pathFinderService.find(player, algorithm).createDTO();
-  }
-
-  /**
-   * Create a {@link Player} from the given parameters.
-   *
-   * @param parameters the parameters
-   * @return the player
-   */
-  private Player createPlayer(PathFinderParametersDTO parameters) {
-    return playerService.createPlayer(parameters.getName(), parameters.getAccessFilter(),
-        parameters.getTypeFilter(), parameters.isIronman(), parameters.isRecommended(),
-        parameters.getLampSkills(), parameters.getQuestPriorities());
   }
 }

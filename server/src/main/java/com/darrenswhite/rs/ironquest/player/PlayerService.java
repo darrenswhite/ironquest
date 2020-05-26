@@ -4,6 +4,7 @@ import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
 import com.darrenswhite.rs.ironquest.quest.QuestRepository;
 import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -39,22 +40,41 @@ public class PlayerService {
   /**
    * Create a {@link Player} from the specified parameters.
    *
+   * Quests will be filtered and added to the player. Player data is loaded from the hiscores and
+   * runemetrics.
+   *
+   * @param name player name to load data for; can be null
+   * @param accessFilter filter quests by access
+   * @param typeFilter filter quests by type
+   * @see PlayerService#createPlayer(String, QuestAccessFilter, QuestTypeFilter, boolean, boolean,
+   * Set, Map)
+   */
+  public Player createPlayer(String name, QuestAccessFilter accessFilter,
+      QuestTypeFilter typeFilter) {
+    return createPlayer(name, accessFilter, typeFilter, false, false, Collections.emptySet(),
+        Collections.emptyMap());
+  }
+
+  /**
+   * Create a {@link Player} from the specified parameters.
+   *
    * Quests will be filtered, prioritised and added to the player. Player data is loaded from the
    * hiscores and runemetrics.
    *
    * @param name player name to load data for; can be null
    * @param accessFilter filter quests by access
+   * @param typeFilter filter quests by type
    * @param ironman <tt>true</tt> to enable ironman quest requirements; <tt>false</tt> otherwise.
    * @param recommended <tt>true</tt> to enable recommended quest requirements; <tt>false</tt>
    * otherwise.
    * @param lampSkills set of skills to use on lamps
    * @param questPriorities prioritise quests by id
-   * @param typeFilter filter quests by type
    * @see Player#load(HiscoreService, RuneMetricsService)
    */
   public Player createPlayer(String name, QuestAccessFilter accessFilter,
       QuestTypeFilter typeFilter, boolean ironman, boolean recommended, Set<Skill> lampSkills,
       Map<Integer, QuestPriority> questPriorities) {
+
     LOG.debug("Creating player profile: {}", name);
 
     Set<Quest> filteredQuests = getFilteredQuests(accessFilter, typeFilter);

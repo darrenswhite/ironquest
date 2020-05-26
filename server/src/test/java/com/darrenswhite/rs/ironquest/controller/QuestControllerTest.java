@@ -60,25 +60,17 @@ class QuestControllerTest {
       String name = "username";
       QuestAccessFilter accessFilter = QuestAccessFilter.ALL;
       QuestTypeFilter typeFilter = QuestTypeFilter.ALL;
-      Set<Skill> lampSkills = new LinkedHashSet<>();
-      Map<Integer, QuestPriority> questPriorities = new LinkedHashMap<>();
       Player player = mock(Player.class);
       PathFinderParametersDTO parameters = new PathFinderParametersDTO();
 
       parameters.setName(name);
       parameters.setAccessFilter(accessFilter);
       parameters.setTypeFilter(typeFilter);
-      parameters.setIronman(true);
-      parameters.setRecommended(true);
-      parameters.setLampSkills(lampSkills);
-      parameters.setQuestPriorities(questPriorities);
 
-      when(playerService
-          .createPlayer(name, accessFilter, typeFilter, true, true, lampSkills, questPriorities))
-          .thenReturn(player);
+      when(playerService.createPlayer(name, accessFilter, typeFilter)).thenReturn(player);
       when(player.getIncompleteQuests()).thenReturn(quests);
 
-      Set<Quest> result = controller.getRemainingQuests(parameters);
+      Set<Quest> result = controller.getQuests(parameters);
 
       assertThat(result, equalTo(quests));
     }

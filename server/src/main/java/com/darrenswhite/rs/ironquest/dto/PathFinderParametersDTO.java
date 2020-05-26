@@ -4,8 +4,6 @@ import com.darrenswhite.rs.ironquest.path.PathFinder;
 import com.darrenswhite.rs.ironquest.path.algorithm.AlgorithmId;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.Skill;
-import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
-import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -16,22 +14,7 @@ import java.util.Set;
  *
  * @author Darren S. White
  */
-public class PathFinderParametersDTO {
-
-  /**
-   * Player name to load data for.
-   */
-  private String name;
-
-  /**
-   * Filter quests by access.
-   */
-  private QuestAccessFilter accessFilter = QuestAccessFilter.ALL;
-
-  /**
-   * Filter quests by type.
-   */
-  private QuestTypeFilter typeFilter = QuestTypeFilter.ALL;
+public class PathFinderParametersDTO extends QuestParametersDTO {
 
   /**
    * Toggle ironman requirements. Set to <tt>true</tt> to enable ironman quest requirements;
@@ -59,31 +42,7 @@ public class PathFinderParametersDTO {
   /**
    * Specify the algorithm to use.
    */
-  private AlgorithmId algorithm;
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public QuestAccessFilter getAccessFilter() {
-    return accessFilter;
-  }
-
-  public void setAccessFilter(QuestAccessFilter accessFilter) {
-    this.accessFilter = accessFilter;
-  }
-
-  public QuestTypeFilter getTypeFilter() {
-    return typeFilter;
-  }
-
-  public void setTypeFilter(QuestTypeFilter typeFilter) {
-    this.typeFilter = typeFilter;
-  }
+  private AlgorithmId algorithm = AlgorithmId.DEFAULT;
 
   public boolean isIronman() {
     return ironman;

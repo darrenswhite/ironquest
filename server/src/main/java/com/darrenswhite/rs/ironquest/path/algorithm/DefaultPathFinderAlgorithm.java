@@ -3,12 +3,14 @@ package com.darrenswhite.rs.ironquest.path.algorithm;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import java.util.Comparator;
+import org.springframework.stereotype.Component;
 
 /**
  * The default algorithm implementation for {@link PathFinderAlgorithm}.
  *
  * @author Darren S. White
  */
+@Component
 public class DefaultPathFinderAlgorithm extends PathFinderAlgorithm {
 
   /**
