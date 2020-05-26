@@ -447,26 +447,6 @@ public class Player {
   }
 
   /**
-   * Returns a {@link Comparator<Quest>} that compares by {@link QuestPriority}.
-   *
-   * @return a comparator that compares by quest priority
-   */
-  public Comparator<Quest> questPriorityComparator() {
-    return Comparator.comparing(this::getQuestPriority);
-  }
-
-  /**
-   * Compare two {@link Quest}s by remaining {@link SkillRequirement}s.
-   *
-   * If these requirements are the same, then return the second entry.
-   *
-   * @return the higher priority quest, or the second entry if they have the same requirements
-   */
-  public Comparator<Quest> questSkillRequirementsComparator() {
-    return Comparator.comparing(quest -> getTotalRemainingSkillRequirements(quest, true));
-  }
-
-  /**
    * Get the optimal skill choices to be used on a {@link LampReward} from a {@link Quest}.
    *
    * If any of the lamp reward choices contains any of the player <tt>lampSkills</tt>, then that
