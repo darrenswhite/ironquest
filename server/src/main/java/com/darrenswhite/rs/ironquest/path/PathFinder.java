@@ -2,6 +2,8 @@ package com.darrenswhite.rs.ironquest.path;
 
 import com.darrenswhite.rs.ironquest.action.Action;
 import com.darrenswhite.rs.ironquest.action.LampAction;
+import com.darrenswhite.rs.ironquest.path.algorithm.DefaultPathFinderAlgorithm;
+import com.darrenswhite.rs.ironquest.path.algorithm.PathFinderAlgorithm;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import java.util.Iterator;

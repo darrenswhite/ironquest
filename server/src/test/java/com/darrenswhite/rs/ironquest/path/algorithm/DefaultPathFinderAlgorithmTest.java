@@ -1,4 +1,4 @@
-package com.darrenswhite.rs.ironquest.path;
+package com.darrenswhite.rs.ironquest.path.algorithm;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;

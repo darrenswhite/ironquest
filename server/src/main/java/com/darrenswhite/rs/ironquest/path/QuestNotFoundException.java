@@ -1,5 +1,6 @@
 package com.darrenswhite.rs.ironquest.path;
 
+import com.darrenswhite.rs.ironquest.path.algorithm.PathFinderAlgorithm;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 
 /**

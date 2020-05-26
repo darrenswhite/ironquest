@@ -1,4 +1,4 @@
-package com.darrenswhite.rs.ironquest.path;
+package com.darrenswhite.rs.ironquest.path.algorithm;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.quest.Quest;
