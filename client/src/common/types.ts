@@ -97,23 +97,26 @@ export interface QuestPriorities {
   [key: number]: QuestPriority;
 }
 
-export interface PathFinderParameters {
+export interface QuestsParameters {
   name?: string;
   accessFilter?: QuestAccessFilter;
+  typeFilter?: QuestTypeFilter;
+}
+
+export interface PathFinderParameters extends QuestsParameters {
   ironman?: boolean;
   recommended?: boolean;
   lampSkills?: Skill[];
   questPriorities?: QuestPriorities;
-  typeFilter?: QuestTypeFilter;
-}
-
-export interface PathFinderError {
-  response: Response;
-  parameters: PathFinderParameters;
 }
 
 export interface Quest {
   id: number;
   displayName: string;
   priority: QuestPriority;
+}
+
+export interface AjaxError {
+  response: Response;
+  parameters: QuestsParameters | PathFinderParameters;
 }

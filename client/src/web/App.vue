@@ -18,7 +18,7 @@
           :key="index"
           :href="item.link"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           link
         >
           <v-list-item-icon>
@@ -126,7 +126,7 @@ export default Vue.extend({
   computed: mapFields(['actions.loading']),
   methods: {
     run(): void {
-      this.$store.dispatch(constants.FIND_PATH);
+      this.$store.dispatch(constants.ACTIONS.FIND_PATH);
     },
   },
 });

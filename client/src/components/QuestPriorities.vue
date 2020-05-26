@@ -2,9 +2,9 @@
   <v-autocomplete
     v-model="selectedQuests"
     :items="quests"
-    :loading="loadingQuests"
-    :error="errorLoadingQuests"
-    :error-messages="questsErrorResponse"
+    :loading="loading"
+    :error="error"
+    :error-messages="errorResponse"
     item-text="displayName"
     item-value="id"
     label="Quest Priorities"
@@ -47,13 +47,15 @@
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
-import {Quest, QuestPriorities, QuestPriority} from '@/common/types';
-import {capitalize, debounce, filter, find, keys, map, reduce} from 'lodash';
+import {
+  Quest,
+  QuestPriorities,
+  QuestPriority,
+} from '@/common/types';
+import {capitalize, debounce, find, keys, map, reduce} from 'lodash';
 import {mdiPriorityHigh} from '@mdi/js';
-import axios from 'axios';
-import qs from 'qs';
-import {constants} from '@/store';
-import {mapGetters} from 'vuex';
+import {ComputedMapper, RootState, constants} from '@/store';
+import {mapGetters, mapState} from 'vuex';
 
 const QUEST_PRIORITIES = [
   QuestPriority.MAXIMUM,
@@ -62,8 +64,6 @@ const QUEST_PRIORITIES = [
   QuestPriority.LOW,
   QuestPriority.MINIMUM,
 ] as QuestPriority[];
-
-const QUESTS_URL = __API__ + '/quests';
 
 const QUEST_PRIORITY_DEBOUNCE = 2000;
 
@@ -78,17 +78,19 @@ export default Vue.extend({
   data() {
     return {
       dataValue: this.value,
-      errorLoadingQuests: false,
-      loadingQuests: false,
-      quests: [] as Quest[],
-      questsErrorResponse: '',
       selectedQuests: map(keys(this.value), parseFloat),
     };
   },
   computed: {
     ...mapGetters({
-      parameters: constants.GET_PARAMETERS_WITHOUT_PRIORITIES,
+      questsParameters: constants.GETTERS.GET_QUESTS_PARAMETERS,
     }),
+    ...(mapState<RootState>({
+      error: (state: RootState) => state.quests.error,
+      errorResponse: (state: RootState) => state.quests.errorResponse,
+      loading: (state: RootState) => state.quests.loading,
+      quests: (state: RootState) => state.quests.quests,
+    }) as ComputedMapper<RootState['quests']>),
     mdiPriorityHigh: () => mdiPriorityHigh,
     questPriorityItems() {
       return map(QUEST_PRIORITIES, priority => ({
@@ -129,7 +131,7 @@ export default Vue.extend({
         this.computedValue = this.questPriorities;
       },
     },
-    parameters() {
+    questsParameters() {
       this.loadQuests();
     },
   },
@@ -147,37 +149,7 @@ export default Vue.extend({
       }
     },
     loadQuests() {
-      this.quests = [];
-      this.loadingQuests = true;
-      this.errorLoadingQuests = false;
-      this.questsErrorResponse = '';
-
-      axios
-        .get(QUESTS_URL, {
-          params: this.parameters,
-          paramsSerializer: params =>
-            qs.stringify(params, {
-              arrayFormat: 'repeat',
-            }),
-        })
-        .then(response => {
-          this.quests = map(
-            filter(response.data, quest => quest.id >= 0),
-            quest => {
-              quest.priority =
-                this.computedValue[quest.id] || QuestPriority.NORMAL;
-              return quest;
-            }
-          );
-        })
-        .catch(error => {
-          console.error('Failed to load quests', error);
-          this.questsErrorResponse = 'Failed to load quests.';
-          this.errorLoadingQuests = true;
-        })
-        .finally(() => {
-          this.loadingQuests = false;
-        });
+      this.$store.dispatch(constants.ACTIONS.LOAD_QUESTS);
     },
   },
 });

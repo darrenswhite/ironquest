@@ -123,6 +123,7 @@ import {
   mdiStar,
 } from '@mdi/js';
 import QuestPriorities from './QuestPriorities.vue';
+import {ComputedMapper, RootState} from '@/store';
 
 const SKILLS = [
   Skill.AGILITY,
@@ -172,7 +173,7 @@ export default Vue.extend({
         text: capitalize(skill),
       }));
     },
-    ...mapFields([
+    ...(mapFields([
       'parameters.name',
       'parameters.typeFilter',
       'parameters.accessFilter',
@@ -180,7 +181,7 @@ export default Vue.extend({
       'parameters.recommended',
       'parameters.lampSkills',
       'parameters.questPriorities',
-    ]),
+    ]) as ComputedMapper<RootState['parameters']>),
   },
 });
 </script>

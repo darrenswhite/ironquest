@@ -34,6 +34,12 @@ describe('Actions.vue', () => {
           recommended: false,
           lampSkills: [],
         },
+        quests: {
+          error: false,
+          errorResponse: undefined,
+          loading: false,
+          quests: [],
+        },
       },
       getters: {
         getField,

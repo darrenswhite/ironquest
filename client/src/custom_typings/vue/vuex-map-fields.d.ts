@@ -1,24 +1,17 @@
 declare module 'vuex-map-fields' {
+  import {Computed, Mapper} from 'vuex';
+
   export interface UpdateFieldOptions {
     field: string;
     value: unknown;
   }
 
-  export interface MappedFields {
-    [key: string]: {
-      get(): unknown;
-      set(value: unknown): void;
-    };
-  }
+  export const mapFields: Mapper<Computed>;
 
-  export function mapFields(
-    fields: string[] | {[key: string]: string}
-  ): MappedFields;
+  export function getField<S>(state: S): unknown;
 
-  export function getField(state: unknown): unknown;
-
-  export function updateField(
-    state: unknown,
+  export function updateField<S>(
+    state: S,
     options: UpdateFieldOptions
   ): void;
 }

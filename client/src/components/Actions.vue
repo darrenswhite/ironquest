@@ -110,7 +110,7 @@
                       selectedAction.quest.displayName.replace(/ /g, '_')
                   "
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                 >
                   View quest on wiki
                 </a>
@@ -144,7 +144,7 @@
             <v-btn
               :href="NEW_ISSUE_URL"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               Submit issue
             </v-btn>
@@ -180,6 +180,7 @@ import Vue from 'vue';
 import {Action, Skill} from '@/common/types';
 import {capitalize, get} from 'lodash';
 import {mapFields} from 'vuex-map-fields';
+import {ComputedMapper, RootState} from '@/store';
 import {
   mdiArrowUpBoldCircle,
   mdiChartBar,
@@ -212,13 +213,13 @@ export default Vue.extend({
   },
   computed: {
     mdiCheckboxMarkedCircle: () => mdiCheckboxMarkedCircle,
-    ...mapFields([
-      'actions.error',
-      'actions.errorResponse',
-      'actions.loading',
-      'actions.path',
-      'actions.selectedAction',
-    ]),
+    ...(mapFields({
+      error: 'actions.error',
+      errorResponse: 'actions.errorResponse',
+      loading: 'actions.loading',
+      path: 'actions.path',
+      selectedAction: 'actions.selectedAction',
+    }) as ComputedMapper<RootState['actions']>),
   },
   methods: {
     capitalize,

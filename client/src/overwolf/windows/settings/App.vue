@@ -43,7 +43,7 @@ export default Vue.extend({
     },
     showResults(): void {
       this.$store
-        .dispatch(constants.FIND_PATH)
+        .dispatch(constants.ACTIONS.FIND_PATH)
         .finally(() => Windows.getInstance().close(Windows.SETTINGS));
 
       Windows.getInstance().minimize(Windows.SETTINGS);
