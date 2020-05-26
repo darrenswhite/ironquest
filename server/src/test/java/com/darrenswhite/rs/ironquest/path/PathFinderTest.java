@@ -28,8 +28,6 @@ import org.junit.jupiter.api.Test;
 
 class PathFinderTest {
 
-  static final PathFinder pathFinder = new PathFinder();
-
   @Nested
   class Find {
 
@@ -47,7 +45,7 @@ class PathFinderTest {
       player.setQuestStatus(questCompleted, QuestStatus.COMPLETED);
       player.setQuestStatus(questInProgress, QuestStatus.IN_PROGRESS);
 
-      Path path = pathFinder.find(player);
+      Path path = new PathFinder(player).find();
 
       assertThat(path.getActions(), hasSize(2));
       assertThat(path.getActions().get(0).getMessage(), equalTo("questNotStarted"));
@@ -79,7 +77,7 @@ class PathFinderTest {
 
       player.setQuestStatus(questCompleted, QuestStatus.COMPLETED);
 
-      Path path = pathFinder.find(player);
+      Path path = new PathFinder(player).find();
 
       assertThat(path.getActions(), hasSize(3));
       assertThat(path.getActions().get(0).getMessage(), equalTo("questWithXpLampReward"));
@@ -108,7 +106,7 @@ class PathFinderTest {
 
       player.setQuestStatus(questCompleted, QuestStatus.COMPLETED);
 
-      Path path = pathFinder.find(player);
+      Path path = new PathFinder(player).find();
 
       assertThat(path.getActions(), hasSize(3));
       assertThat(path.getActions().get(0).getMessage(), equalTo("questWithXpLampReward"));
@@ -127,7 +125,7 @@ class PathFinderTest {
       Player player = new Player.Builder().withQuests(
           new HashSet<>(Collections.singletonList(placeholderQuestWithQuestPointReward))).build();
 
-      Path path = pathFinder.find(player);
+      Path path = new PathFinder(player).find();
 
       assertThat(path.getActions(), empty());
       assertThat(path.getStats().getPercentComplete(), equalTo(0D));
@@ -144,7 +142,7 @@ class PathFinderTest {
           .withQuests(new HashSet<>(Collections.singletonList(questWithQuestPointRequirement)))
           .build();
 
-      assertThrows(QuestNotFoundException.class, () -> pathFinder.find(player));
+      assertThrows(QuestNotFoundException.class, () -> new PathFinder(player).find());
     }
 
     @Test
@@ -158,7 +156,7 @@ class PathFinderTest {
       Player player = new Player.Builder().withQuests(
           new HashSet<>(Arrays.asList(questWithMaximumPriority, questWithLargeXpReward))).build();
 
-      Path path = pathFinder.find(player);
+      Path path = new PathFinder(player).find();
 
       assertThat(path.getActions(), hasSize(2));
       assertThat(path.getActions().get(0).getMessage(), equalTo("questWithLargeXpReward"));
@@ -169,7 +167,7 @@ class PathFinderTest {
       player.setQuestPriority(questWithMaximumPriority, QuestPriority.HIGH);
       player.setQuestPriority(questWithLargeXpReward, QuestPriority.NORMAL);
 
-      path = pathFinder.find(player);
+      path = new PathFinder(player).find();
 
       assertThat(path.getActions(), hasSize(2));
       assertThat(path.getActions().get(0).getMessage(), equalTo("questWithMaximumPriority"));
@@ -180,7 +178,7 @@ class PathFinderTest {
       player.setQuestPriority(questWithMaximumPriority, QuestPriority.NORMAL);
       player.setQuestPriority(questWithLargeXpReward, QuestPriority.LOW);
 
-      path = pathFinder.find(player);
+      path = new PathFinder(player).find();
 
       assertThat(path.getActions(), hasSize(2));
       assertThat(path.getActions().get(0).getMessage(), equalTo("questWithMaximumPriority"));

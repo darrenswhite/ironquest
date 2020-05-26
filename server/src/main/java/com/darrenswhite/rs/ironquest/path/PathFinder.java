@@ -11,20 +11,31 @@ import java.util.LinkedList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
 
 /**
- * {@link Service} for finding the optimal {@link Path} for a given set of parameters.
+ * Find the optimal {@link Path} for a given set of parameters.
  *
  * @author Darren S. White
  */
-@Service
 public class PathFinder {
 
   private static final Logger LOG = LogManager.getLogger(PathFinder.class);
 
+  private final Player player;
+  private final PathFinderAlgorithm algorithm;
+
+  public PathFinder(Player player) {
+    this(player, new DefaultPathFinderAlgorithm());
+  }
+
+  public PathFinder(Player player, PathFinderAlgorithm algorithm) {
+    this.player = player;
+    this.algorithm = algorithm;
+  }
+
   /**
-   * Find the optimal {@link Path} for the specified {@link Player}.
+   * Find the optimal {@link Path} for the specified {@link Player} and the given {@link
+   * PathFinderAlgorithm}.
    *
    * Initial stats for the player are calculated and incomplete placeholder quests are completed.
    *
@@ -36,22 +47,20 @@ public class PathFinder {
    *
    * The default algorithm is used which is implemented by {@link DefaultPathFinderAlgorithm}.
    *
-   * @param player the player to find the path for
    * @return the optimal path
    * @throws QuestNotFoundException if the optimal quest can not be found
    */
-  public Path find(Player player) throws QuestNotFoundException {
+  public Path find() throws QuestNotFoundException {
+    LOG.debug("Finding optimal quest path for player: {}", player.getName());
+
     List<Action> actions = new LinkedList<>();
     PathStats stats = createStats(player);
-
-    LOG.debug("Finding optimal quest path for player: {}", player.getName());
+    QuestIterator iterator = new QuestIterator(player, algorithm);
 
     completePlaceholderQuests(player);
 
-    PathFinderAlgorithm algorithm = new DefaultPathFinderAlgorithm(player);
-
-    while (algorithm.hasNext()) {
-      Quest next = algorithm.next();
+    while (iterator.hasNext()) {
+      Quest next = iterator.next();
 
       actions.addAll(completeQuest(player, next));
       processFutureActions(player, actions);

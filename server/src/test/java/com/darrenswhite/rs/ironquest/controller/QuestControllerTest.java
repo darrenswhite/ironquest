@@ -10,8 +10,9 @@ import static org.mockito.Mockito.when;
 import com.darrenswhite.rs.ironquest.dto.PathDTO;
 import com.darrenswhite.rs.ironquest.dto.PathFinderParametersDTO;
 import com.darrenswhite.rs.ironquest.path.Path;
-import com.darrenswhite.rs.ironquest.path.PathFinder;
+import com.darrenswhite.rs.ironquest.path.PathFinderService;
 import com.darrenswhite.rs.ironquest.path.QuestNotFoundException;
+import com.darrenswhite.rs.ironquest.path.algorithm.AlgorithmId;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.PlayerService;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
@@ -31,21 +32,21 @@ import org.junit.jupiter.api.Test;
 
 class QuestControllerTest {
 
-  static PathFinder pathFinder;
   static PlayerService playerService;
+  static PathFinderService pathFinderService;
   static QuestController controller;
 
   @BeforeAll
   static void beforeAll() {
-    pathFinder = mock(PathFinder.class);
     playerService = mock(PlayerService.class);
-    controller = new QuestController(pathFinder, playerService);
+    pathFinderService = mock(PathFinderService.class);
+    controller = new QuestController(playerService, pathFinderService);
   }
 
   @AfterEach
   void tearDown() {
-    reset(pathFinder);
     reset(playerService);
+    reset(pathFinderService);
   }
 
   @Nested
@@ -97,6 +98,7 @@ class QuestControllerTest {
       Path path = mock(Path.class);
       PathDTO pathDTO = mock(PathDTO.class);
       PathFinderParametersDTO parameters = new PathFinderParametersDTO();
+      AlgorithmId algorithm = AlgorithmId.DEFAULT;
 
       parameters.setName(name);
       parameters.setAccessFilter(accessFilter);
@@ -105,18 +107,19 @@ class QuestControllerTest {
       parameters.setRecommended(true);
       parameters.setLampSkills(lampSkills);
       parameters.setQuestPriorities(questPriorities);
+      parameters.setAlgorithm(algorithm);
 
       when(playerService
           .createPlayer(name, accessFilter, typeFilter, true, true, lampSkills, questPriorities))
           .thenReturn(player);
-      when(pathFinder.find(player)).thenReturn(path);
+      when(pathFinderService.find(player, algorithm)).thenReturn(path);
       when(path.createDTO()).thenReturn(pathDTO);
 
       PathDTO result = controller.getPath(parameters);
 
       verify(playerService)
           .createPlayer(name, accessFilter, typeFilter, true, true, lampSkills, questPriorities);
-      verify(pathFinder).find(player);
+      verify(pathFinderService).find(player, algorithm);
       verify(path).createDTO();
       assertThat(result, equalTo(pathDTO));
     }

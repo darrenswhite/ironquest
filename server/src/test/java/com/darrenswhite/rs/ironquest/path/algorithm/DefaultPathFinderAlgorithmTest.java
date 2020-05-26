@@ -2,12 +2,13 @@ package com.darrenswhite.rs.ironquest.path.algorithm;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.quest.Quest;
-import java.util.Map;
+import com.darrenswhite.rs.ironquest.quest.Quest.Builder;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.TestInstance;
@@ -17,36 +18,46 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class DefaultPathFinderAlgorithmTest {
 
+  static final DefaultPathFinderAlgorithm algorithm = new DefaultPathFinderAlgorithm();
+
   @Nested
   @TestInstance(TestInstance.Lifecycle.PER_CLASS)
   class NextQuest {
 
     @ParameterizedTest
     @MethodSource("shouldReturnHighestPriorityQuest")
-    void shouldReturnHighestPriorityQuest(Map<Quest, QuestPriority> quests, int expectedId) {
-      Player player = new Player.Builder().withQuests(quests.keySet()).build();
-      DefaultPathFinderAlgorithm algorithm = new DefaultPathFinderAlgorithm(player);
+    void shouldReturnHighestPriorityQuest(Quest first, QuestPriority firstPriority, Quest second,
+        QuestPriority secondPriority, int expected) {
+      Player player = new Player.Builder().withQuests(new HashSet<>(Arrays.asList(first, second)))
+          .build();
 
-      quests.forEach(player::setQuestPriority);
+      player.setQuestPriority(first, firstPriority);
+      player.setQuestPriority(second, secondPriority);
 
-      assertThat(algorithm.hasNext(), equalTo(true));
+      int compare = algorithm.comparator(player).compare(first, second);
 
-      Quest next = algorithm.next();
-
-      assertThat(next, notNullValue());
-      assertThat(next.getId(), equalTo(expectedId));
+      assertThat(compare, equalTo(expected));
     }
 
     Stream<Arguments> shouldReturnHighestPriorityQuest() {
-      return Stream.of(Arguments.of(Map
-          .of(new Quest.Builder(0).build(), QuestPriority.MINIMUM, new Quest.Builder(1).build(),
-              QuestPriority.MAXIMUM), 1), Arguments.of(Map
-          .of(new Quest.Builder(0).build(), QuestPriority.LOW, new Quest.Builder(1).build(),
-              QuestPriority.MAXIMUM), 1), Arguments.of(Map
-          .of(new Quest.Builder(0).build(), QuestPriority.NORMAL, new Quest.Builder(1).build(),
-              QuestPriority.MAXIMUM), 1), Arguments.of(Map
-          .of(new Quest.Builder(0).build(), QuestPriority.HIGH, new Quest.Builder(1).build(),
-              QuestPriority.MAXIMUM), 1));
+      Quest first = new Builder(0).build();
+      Quest second = new Builder(1).build();
+
+      return Stream.of(Arguments.of(first, QuestPriority.MINIMUM, second, QuestPriority.MAXIMUM, 4),
+          Arguments.of(first, QuestPriority.LOW, second, QuestPriority.MAXIMUM, 3),
+          Arguments.of(first, QuestPriority.NORMAL, second, QuestPriority.MAXIMUM, 2),
+          Arguments.of(first, QuestPriority.HIGH, second, QuestPriority.MAXIMUM, 1),
+
+          Arguments.of(first, QuestPriority.MAXIMUM, second, QuestPriority.MINIMUM, -4),
+          Arguments.of(first, QuestPriority.MAXIMUM, second, QuestPriority.LOW, -3),
+          Arguments.of(first, QuestPriority.MAXIMUM, second, QuestPriority.NORMAL, -2),
+          Arguments.of(first, QuestPriority.MAXIMUM, second, QuestPriority.HIGH, -1),
+
+          Arguments.of(first, QuestPriority.MINIMUM, second, QuestPriority.MINIMUM, 0),
+          Arguments.of(first, QuestPriority.LOW, second, QuestPriority.LOW, 0),
+          Arguments.of(first, QuestPriority.NORMAL, second, QuestPriority.NORMAL, 0),
+          Arguments.of(first, QuestPriority.HIGH, second, QuestPriority.HIGH, 0),
+          Arguments.of(first, QuestPriority.MAXIMUM, second, QuestPriority.MAXIMUM, 0));
     }
   }
 }

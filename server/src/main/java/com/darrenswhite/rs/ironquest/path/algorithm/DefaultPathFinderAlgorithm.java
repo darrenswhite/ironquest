@@ -9,11 +9,7 @@ import java.util.Comparator;
  *
  * @author Darren S. White
  */
-public class DefaultPathFinderAlgorithm extends BasePathFinderAlgorithm {
-
-  public DefaultPathFinderAlgorithm(Player player) {
-    super(player);
-  }
+public class DefaultPathFinderAlgorithm extends PathFinderAlgorithm {
 
   /**
    * Return a comparator for comparing {@link Quest}s.
@@ -21,13 +17,21 @@ public class DefaultPathFinderAlgorithm extends BasePathFinderAlgorithm {
    * The order in which quests are compared is: priority, calculated priority, skill requirements.
    *
    * @see Player#questPriorityComparator()
-   * @see DefaultPathFinderAlgorithm#calculatedQuestPriorityComparator()
+   * @see DefaultPathFinderAlgorithm#calculatedQuestPriorityComparator(Player)
    * @see Player#questSkillRequirementsComparator()
    */
   @Override
-  public Comparator<Quest> getQuestComparator() {
-    return player.questPriorityComparator().thenComparing(calculatedQuestPriorityComparator())
+  public Comparator<Quest> comparator(Player player) {
+    return player.questPriorityComparator().thenComparing(calculatedQuestPriorityComparator(player))
         .thenComparing(player.questSkillRequirementsComparator());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public AlgorithmId getId() {
+    return AlgorithmId.DEFAULT;
   }
 
   /**
@@ -37,7 +41,7 @@ public class DefaultPathFinderAlgorithm extends BasePathFinderAlgorithm {
    *
    * @return a comparator that compares by calculated priority
    */
-  private Comparator<Quest> calculatedQuestPriorityComparator() {
+  private Comparator<Quest> calculatedQuestPriorityComparator(Player player) {
     Comparator<Quest> comparing = Comparator.comparing(quest -> {
       int requirements = player.getTotalRemainingSkillRequirements(quest, true);
       double rewards = player.getTotalQuestRewards(quest) / 100;

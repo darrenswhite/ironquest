@@ -1,6 +1,7 @@
 package com.darrenswhite.rs.ironquest.dto;
 
 import com.darrenswhite.rs.ironquest.path.PathFinder;
+import com.darrenswhite.rs.ironquest.path.algorithm.AlgorithmId;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
@@ -54,6 +55,11 @@ public class PathFinderParametersDTO {
    * Prioritise quests by id.
    */
   private Map<Integer, QuestPriority> questPriorities = new LinkedHashMap<>();
+
+  /**
+   * Specify the algorithm to use.
+   */
+  private AlgorithmId algorithm;
 
   public String getName() {
     return name;
@@ -109,5 +115,13 @@ public class PathFinderParametersDTO {
 
   public void setQuestPriorities(Map<Integer, QuestPriority> questPriorities) {
     this.questPriorities = questPriorities;
+  }
+
+  public AlgorithmId getAlgorithm() {
+    return algorithm;
+  }
+
+  public void setAlgorithm(AlgorithmId algorithm) {
+    this.algorithm = algorithm;
   }
 }
