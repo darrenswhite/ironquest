@@ -17,7 +17,6 @@ import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirements;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
 import com.darrenswhite.rs.ironquest.quest.reward.LampType;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
-import com.darrenswhite.rs.ironquest.util.MapBuilder;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -56,17 +55,14 @@ class PathFinderTest {
       Quest questWithXpLampReward = new Quest.Builder().withId(0)
           .withDisplayName("questWithXpLampReward").withRewards(new QuestRewards.Builder()
               .withLamps(Set.of(new LampReward.Builder().withType(LampType.XP).withXp(1000)
-                  .withRequirements(
-                      new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.ATTACK), 2).build())
-                  .build())).build()).build();
+                  .withRequirements(Map.of(Set.of(Skill.ATTACK), 2)).build())).build()).build();
       Quest questCompleted = new Quest.Builder().withId(1).withDisplayName("questCompleted")
           .build();
       Quest questWithQuestRequirementAndXpReward = new Quest.Builder().withId(2)
           .withDisplayName("questWithXpReward").withRequirements(new QuestRequirements.Builder()
               .withQuests(Collections
                   .singleton(new QuestRequirement.Builder(questWithXpLampReward).build())).build())
-          .withRewards(new QuestRewards.Builder()
-              .withXp(new MapBuilder<Skill, Double>().put(Skill.ATTACK, 500d).build()).build())
+          .withRewards(new QuestRewards.Builder().withXp(Map.of(Skill.ATTACK, 500d)).build())
           .build();
       Player player = new Player.Builder().withQuests(
           Set.of(questWithXpLampReward, questCompleted, questWithQuestRequirementAndXpReward))
@@ -89,9 +85,7 @@ class PathFinderTest {
       Quest questWithXpLampReward = new Quest.Builder().withId(0)
           .withDisplayName("questWithXpLampReward").withRewards(new QuestRewards.Builder()
               .withLamps(Set.of(new LampReward.Builder().withType(LampType.XP).withXp(1000)
-                  .withRequirements(
-                      new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.ATTACK), 2).build())
-                  .build())).build()).build();
+                  .withRequirements(Map.of(Set.of(Skill.ATTACK), 2)).build())).build()).build();
       Quest questCompleted = new Quest.Builder().withId(1).withDisplayName("questCompleted")
           .build();
       Quest questNotStarted = new Quest.Builder().withId(2).withDisplayName("questNotStarted")

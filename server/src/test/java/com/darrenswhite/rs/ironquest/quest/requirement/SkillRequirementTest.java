@@ -6,8 +6,8 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
-import com.darrenswhite.rs.ironquest.util.MapBuilder;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -27,9 +27,8 @@ class SkillRequirementTest {
     @ParameterizedTest
     @MethodSource("shouldMeetRequirement")
     void shouldMeetRequirement(int levelRequired, int playerLevel) {
-      Player player = new Player.Builder().withSkillXps(
-          new MapBuilder<Skill, Double>().put(Skill.RANGED, Skill.RANGED.getXpAtLevel(playerLevel))
-              .build()).build();
+      Player player = new Player.Builder()
+          .withSkillXps(Map.of(Skill.RANGED, Skill.RANGED.getXpAtLevel(playerLevel))).build();
 
       SkillRequirement skillRequirement = new SkillRequirement.Builder(Skill.RANGED, levelRequired)
           .build();
@@ -44,9 +43,8 @@ class SkillRequirementTest {
     @ParameterizedTest
     @MethodSource("shouldNotMeetRequirement")
     void shouldNotMeetRequirement(int levelRequired, int playerLevel) {
-      Player player = new Player.Builder().withSkillXps(
-          new MapBuilder<Skill, Double>().put(Skill.RANGED, Skill.RANGED.getXpAtLevel(playerLevel))
-              .build()).build();
+      Player player = new Player.Builder()
+          .withSkillXps(Map.of(Skill.RANGED, Skill.RANGED.getXpAtLevel(playerLevel))).build();
 
       SkillRequirement skillRequirement = new SkillRequirement.Builder(Skill.RANGED, levelRequired)
           .build();

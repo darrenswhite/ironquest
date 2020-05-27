@@ -15,7 +15,6 @@ import com.darrenswhite.rs.ironquest.quest.requirement.SkillRequirement;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
 import com.darrenswhite.rs.ironquest.quest.reward.LampType;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
-import com.darrenswhite.rs.ironquest.util.MapBuilder;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +24,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -108,15 +108,13 @@ class QuestRepositoryTest {
           .withDisplayName("b").withType(QuestType.SAGA).build();
       Quest questC = new Quest.Builder(1).withAccess(QuestAccess.MEMBERS).withRewards(
           new QuestRewards.Builder().withLamps(Set.of(new LampReward.Builder().withExclusive(true)
-                  .withRequirements(
-                      new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.ATTACK, Skill.DEFENCE), 1)
-                          .put(Set.of(Skill.CONSTITUTION, Skill.STRENGTH), 1).build())
-                  .withType(LampType.XP).withXp(35000).build(),
-              new LampReward.Builder().withExclusive(true).withRequirements(
-                  new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.ATTACK, Skill.DEFENCE), 1)
-                      .put(Set.of(Skill.CONSTITUTION, Skill.STRENGTH), 1).build())
-                  .withType(LampType.XP).withXp(20000).build())).withQuestPoints(5).build())
-          .withTitle("c").withDisplayName("c").withType(QuestType.SAGA).build();
+              .withRequirements(Map.of(Set.of(Skill.ATTACK, Skill.DEFENCE), 1,
+                  Set.of(Skill.CONSTITUTION, Skill.STRENGTH), 1)).withType(LampType.XP)
+              .withXp(35000).build(), new LampReward.Builder().withExclusive(true).withRequirements(
+              Map.of(Set.of(Skill.ATTACK, Skill.DEFENCE), 1,
+                  Set.of(Skill.CONSTITUTION, Skill.STRENGTH), 1)).withType(LampType.XP)
+              .withXp(20000).build())).withQuestPoints(5).build()).withTitle("c")
+          .withDisplayName("c").withType(QuestType.SAGA).build();
       Quest questD = new Quest.Builder(2).withAccess(QuestAccess.MEMBERS).withRequirements(
           new QuestRequirements.Builder()
               .withCombat(new CombatRequirement.Builder().withLevel(40).build())
@@ -127,39 +125,41 @@ class QuestRepositoryTest {
                   new SkillRequirement.Builder().withLevel(50).withSkill(Skill.RANGED).build()))
               .build()).withRewards(new QuestRewards.Builder().withLamps(
           Set.of(new LampReward.Builder().withType(LampType.SMALL_XP).build(),
-              new LampReward.Builder().withRequirements(new MapBuilder<Set<Skill>, Integer>()
-                  .put(Set.of(Skill.MINING, Skill.SMITHING), 10).build()).withSingleChoice(true)
-                  .withType(LampType.XP).withXp(1000).build(),
-              new LampReward.Builder().withMultiplier(1.5).withRequirements(
-                  new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.AGILITY), 1).build())
-                  .withType(LampType.MEDIUM_XP).build(),
-              new LampReward.Builder().withType(LampType.DRAGONKIN).build(),
+              new LampReward.Builder()
+                  .withRequirements(Map.of(Set.of(Skill.MINING, Skill.SMITHING), 10))
+                  .withSingleChoice(true).withType(LampType.XP).withXp(1000).build(),
+              new LampReward.Builder().withMultiplier(1.5)
+                  .withRequirements(Map.of(Set.of(Skill.AGILITY), 1)).withType(LampType.MEDIUM_XP)
+                  .build(), new LampReward.Builder().withType(LampType.DRAGONKIN).build(),
               new LampReward.Builder().withRequirements(
-                  new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.AGILITY), 20)
-                      .put(Set.of(Skill.ATTACK), 20).put(Set.of(Skill.CONSTITUTION), 20)
-                      .put(Set.of(Skill.CONSTRUCTION), 20).put(Set.of(Skill.COOKING), 20)
-                      .put(Set.of(Skill.CRAFTING), 20).put(Set.of(Skill.DEFENCE), 20)
-                      .put(Set.of(Skill.DIVINATION), 20).put(Set.of(Skill.DUNGEONEERING), 20)
-                      .put(Set.of(Skill.FARMING), 20).put(Set.of(Skill.FIREMAKING), 20)
-                      .put(Set.of(Skill.FISHING), 20).put(Set.of(Skill.FLETCHING), 20)
-                      .put(Set.of(Skill.HERBLORE), 20).put(Set.of(Skill.HUNTER), 20)
-                      .put(Set.of(Skill.INVENTION), 20).put(Set.of(Skill.MAGIC), 20)
-                      .put(Set.of(Skill.MINING), 20).put(Set.of(Skill.PRAYER), 20)
-                      .put(Set.of(Skill.RANGED), 20).put(Set.of(Skill.RUNECRAFTING), 20)
-                      .put(Set.of(Skill.SLAYER), 20).put(Set.of(Skill.SMITHING), 20)
-                      .put(Set.of(Skill.STRENGTH), 20).put(Set.of(Skill.SUMMONING), 20)
-                      .put(Set.of(Skill.THIEVING), 20).put(Set.of(Skill.WOODCUTTING), 20).build())
-                  .withType(LampType.XP).withXp(1000).build(), new LampReward.Builder()
-                  .withRequirements(new MapBuilder<Set<Skill>, Integer>().put(
-                      Set.of(Skill.AGILITY, Skill.ATTACK, Skill.CONSTITUTION, Skill.CONSTRUCTION,
-                          Skill.COOKING, Skill.CRAFTING, Skill.DEFENCE, Skill.DIVINATION,
-                          Skill.DUNGEONEERING, Skill.FARMING, Skill.FIREMAKING, Skill.FISHING,
-                          Skill.FLETCHING, Skill.HERBLORE, Skill.HUNTER, Skill.INVENTION,
-                          Skill.MAGIC, Skill.MINING, Skill.PRAYER, Skill.RANGED, Skill.RUNECRAFTING,
-                          Skill.SLAYER, Skill.SMITHING, Skill.STRENGTH, Skill.SUMMONING,
-                          Skill.THIEVING, Skill.WOODCUTTING), 10).build()).withType(LampType.XP)
-                  .withXp(100).build())).withQuestPoints(3).build()).withTitle("d")
-          .withDisplayName("d").withType(QuestType.MINIQUEST).build();
+                  Map.ofEntries(Map.entry(Set.of(Skill.AGILITY), 20),
+                      Map.entry(Set.of(Skill.ATTACK), 20),
+                      Map.entry(Set.of(Skill.CONSTITUTION), 20),
+                      Map.entry(Set.of(Skill.CONSTRUCTION), 20),
+                      Map.entry(Set.of(Skill.COOKING), 20), Map.entry(Set.of(Skill.CRAFTING), 20),
+                      Map.entry(Set.of(Skill.DEFENCE), 20), Map.entry(Set.of(Skill.DIVINATION), 20),
+                      Map.entry(Set.of(Skill.DUNGEONEERING), 20),
+                      Map.entry(Set.of(Skill.FARMING), 20), Map.entry(Set.of(Skill.FIREMAKING), 20),
+                      Map.entry(Set.of(Skill.FISHING), 20), Map.entry(Set.of(Skill.FLETCHING), 20),
+                      Map.entry(Set.of(Skill.HERBLORE), 20), Map.entry(Set.of(Skill.HUNTER), 20),
+                      Map.entry(Set.of(Skill.INVENTION), 20), Map.entry(Set.of(Skill.MAGIC), 20),
+                      Map.entry(Set.of(Skill.MINING), 20), Map.entry(Set.of(Skill.PRAYER), 20),
+                      Map.entry(Set.of(Skill.RANGED), 20),
+                      Map.entry(Set.of(Skill.RUNECRAFTING), 20),
+                      Map.entry(Set.of(Skill.SLAYER), 20), Map.entry(Set.of(Skill.SMITHING), 20),
+                      Map.entry(Set.of(Skill.STRENGTH), 20), Map.entry(Set.of(Skill.SUMMONING), 20),
+                      Map.entry(Set.of(Skill.THIEVING), 20),
+                      Map.entry(Set.of(Skill.WOODCUTTING), 20))).withType(LampType.XP).withXp(1000)
+                  .build(), new LampReward.Builder().withRequirements(Map.of(
+                  Set.of(Skill.AGILITY, Skill.ATTACK, Skill.CONSTITUTION, Skill.CONSTRUCTION,
+                      Skill.COOKING, Skill.CRAFTING, Skill.DEFENCE, Skill.DIVINATION,
+                      Skill.DUNGEONEERING, Skill.FARMING, Skill.FIREMAKING, Skill.FISHING,
+                      Skill.FLETCHING, Skill.HERBLORE, Skill.HUNTER, Skill.INVENTION, Skill.MAGIC,
+                      Skill.MINING, Skill.PRAYER, Skill.RANGED, Skill.RUNECRAFTING, Skill.SLAYER,
+                      Skill.SMITHING, Skill.STRENGTH, Skill.SUMMONING, Skill.THIEVING,
+                      Skill.WOODCUTTING), 10)).withType(LampType.XP).withXp(100).build()))
+          .withQuestPoints(3).build()).withTitle("d").withDisplayName("d")
+          .withType(QuestType.MINIQUEST).build();
 
       Set<Quest> loadedQuests = minimalQuestRepository.getQuests();
 
@@ -183,15 +183,13 @@ class QuestRepositoryTest {
           .withDisplayName("b").withType(QuestType.SAGA).build();
       Quest questC = new Quest.Builder(1).withAccess(QuestAccess.MEMBERS).withRewards(
           new QuestRewards.Builder().withLamps(Set.of(new LampReward.Builder().withExclusive(true)
-                  .withRequirements(
-                      new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.ATTACK, Skill.DEFENCE), 1)
-                          .put(Set.of(Skill.CONSTITUTION, Skill.STRENGTH), 1).build())
-                  .withType(LampType.XP).withXp(35000).build(),
-              new LampReward.Builder().withExclusive(true).withRequirements(
-                  new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.ATTACK, Skill.DEFENCE), 1)
-                      .put(Set.of(Skill.CONSTITUTION, Skill.STRENGTH), 1).build())
-                  .withType(LampType.XP).withXp(20000).build())).withQuestPoints(5).build())
-          .withTitle("c").withDisplayName("c").withType(QuestType.SAGA).build();
+              .withRequirements(Map.of(Set.of(Skill.ATTACK, Skill.DEFENCE), 1,
+                  Set.of(Skill.CONSTITUTION, Skill.STRENGTH), 1)).withType(LampType.XP)
+              .withXp(35000).build(), new LampReward.Builder().withExclusive(true).withRequirements(
+              Map.of(Set.of(Skill.ATTACK, Skill.DEFENCE), 1,
+                  Set.of(Skill.CONSTITUTION, Skill.STRENGTH), 1)).withType(LampType.XP)
+              .withXp(20000).build())).withQuestPoints(5).build()).withTitle("c")
+          .withDisplayName("c").withType(QuestType.SAGA).build();
 
       Set<Quest> loadedQuests = minimalQuestRepository.getQuests();
 

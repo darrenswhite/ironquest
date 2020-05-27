@@ -14,8 +14,8 @@ import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirement;
 import com.darrenswhite.rs.ironquest.quest.requirement.QuestRequirements;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
 import com.darrenswhite.rs.ironquest.quest.reward.LampType;
-import com.darrenswhite.rs.ironquest.util.MapBuilder;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Nested;
@@ -30,8 +30,8 @@ public class PlayerTest {
     public void shouldReturnCopyWhichIsEqualButNotSameInstance() {
       Player original = new Player.Builder().withIronman(true).withRecommended(true)
           .withName("username").withLampSkills(Set.of(Skill.HERBLORE))
-          .withQuests(Set.of(new Quest.Builder(0).build()))
-          .withSkillXps(new MapBuilder<Skill, Double>().put(Skill.PRAYER, 500d).build()).build();
+          .withQuests(Set.of(new Quest.Builder(0).build())).withSkillXps(Map.of(Skill.PRAYER, 500d))
+          .build();
 
       Player copy = original.copy();
 
@@ -113,8 +113,7 @@ public class PlayerTest {
               .withQuests(Set.of(new QuestRequirement.Builder(requiredQuest).build())).build())
           .build();
       Player player = new Player.Builder()
-          .withQuests(Set.of(requiredQuest, questWithQuestRequirement))
-          .build();
+          .withQuests(Set.of(requiredQuest, questWithQuestRequirement)).build();
 
       assertThrows(MissingQuestRequirementsException.class,
           () -> player.completeQuest(questWithQuestRequirement));
@@ -126,9 +125,9 @@ public class PlayerTest {
 
     @Test
     void shouldThrowExceptionWhenRequirementsNotMet() {
-      LampReward lampReward = new LampReward.Builder().withRequirements(
-          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.CRAFTING), 99)
-              .build()).withXp(100).withType(LampType.XP).build();
+      LampReward lampReward = new LampReward.Builder()
+          .withRequirements(Map.of(Set.of(Skill.CRAFTING), 99)).withXp(100).withType(LampType.XP)
+          .build();
       Player player = new Player.Builder().build();
 
       assertThrows(LampSkillsNotFoundException.class,

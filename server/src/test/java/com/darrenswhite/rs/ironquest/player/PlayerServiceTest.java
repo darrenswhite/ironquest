@@ -18,11 +18,11 @@ import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
 import com.darrenswhite.rs.ironquest.quest.QuestRepository;
 import com.darrenswhite.rs.ironquest.quest.QuestType;
 import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
-import com.darrenswhite.rs.ironquest.util.MapBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -64,8 +64,7 @@ class PlayerServiceTest {
       Player player = playerService
           .createPlayer(null, QuestAccessFilter.ALL, QuestTypeFilter.ALL, false, false,
               Collections.emptySet(),
-              new MapBuilder<Integer, QuestPriority>().put(-1, priorityA).put(0, priorityB)
-                  .put(1, priorityC).put(2, priorityD).build());
+              Map.of(-1, priorityA, 0, priorityB, 1, priorityC, 2, priorityD));
 
       assertThat(player.getQuestPriority(-1), equalTo(priorityA));
       assertThat(player.getQuestPriority(0), equalTo(priorityB));

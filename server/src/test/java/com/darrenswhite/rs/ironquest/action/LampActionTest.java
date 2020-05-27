@@ -13,7 +13,6 @@ import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
 import com.darrenswhite.rs.ironquest.quest.reward.LampType;
-import com.darrenswhite.rs.ironquest.util.MapBuilder;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -53,9 +52,9 @@ class LampActionTest {
     void shouldFormatMessage(String title, LampType lampType, int xp, Set<Skill> skills,
         boolean future, double multiplier, String message) {
       Quest quest = new Quest.Builder().withDisplayName(title).build();
-      Map<Skill, Double> skillXps = new MapBuilder<Skill, Double>().put(Skill.DEFENCE, 50000d)
-          .put(Skill.MAGIC, 750000d).put(Skill.RANGED, 1000000d).put(Skill.THIEVING, 5000000d)
-          .put(Skill.HERBLORE, 9000000d).build();
+      Map<Skill, Double> skillXps = Map
+          .of(Skill.DEFENCE, 50000d, Skill.MAGIC, 750000d, Skill.RANGED, 1000000d, Skill.THIEVING,
+              5000000d, Skill.HERBLORE, 9000000d);
       Player player = new Player.Builder().withSkillXps(skillXps).build();
       LampReward lampReward = new LampReward.Builder().withType(lampType).withXp(xp)
           .withMultiplier(multiplier).build();

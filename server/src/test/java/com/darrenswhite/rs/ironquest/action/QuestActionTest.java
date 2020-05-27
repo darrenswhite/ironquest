@@ -12,7 +12,6 @@ import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
-import com.darrenswhite.rs.ironquest.util.MapBuilder;
 import java.util.Map;
 import java.util.Set;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -72,8 +71,8 @@ class QuestActionTest {
 
     @Test
     void shouldSetStatusToCompletedAndAddSkillXPRewardsToPlayer() {
-      Map<Skill, Double> xp = new MapBuilder<Skill, Double>().put(Skill.ATTACK, 5000d)
-          .put(Skill.AGILITY, 2500d).put(Skill.COOKING, 100d).build();
+      Map<Skill, Double> xp = Map
+          .of(Skill.ATTACK, 5000d, Skill.AGILITY, 2500d, Skill.COOKING, 100d);
       QuestRewards rewards = new QuestRewards.Builder().withXp(xp).withQuestPoints(5).build();
       Quest quest = new Quest.Builder().withRewards(rewards).build();
       Player player = new Player.Builder().withQuests(Set.of(quest)).build();
