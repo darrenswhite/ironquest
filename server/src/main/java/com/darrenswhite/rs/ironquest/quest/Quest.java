@@ -194,6 +194,14 @@ public class Quest {
   }
 
   /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String toString() {
+    return "Quest{" + "id=" + id + ", displayName='" + displayName + '\'' + '}';
+  }
+
+  /**
    * Returns a DTO for this {@link Quest}.
    *
    * @return the DTO
