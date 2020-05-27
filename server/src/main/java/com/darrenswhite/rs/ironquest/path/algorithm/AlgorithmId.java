@@ -7,5 +7,6 @@ package com.darrenswhite.rs.ironquest.path.algorithm;
  */
 public enum AlgorithmId {
 
-  DEFAULT
+  DEFAULT,
+  SMART_PRIORITIES
 }

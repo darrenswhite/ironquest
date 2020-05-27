@@ -498,14 +498,14 @@ public class Player {
   }
 
   /**
-   * Get total levels required to complete this {@link Quest}.
+   * Get total xp required to complete this {@link Quest}.
    *
    * @param recursive <tt>true</tt> to get requirements recursively; <tt>false</tt> otherwise
    * @return total skill level requirements remaining
    */
-  public int getTotalRemainingSkillRequirements(Quest quest, boolean recursive) {
+  public double getTotalRemainingSkillRequirements(Quest quest, boolean recursive) {
     return getRemainingSkillRequirements(quest, recursive).stream()
-        .mapToInt(SkillRequirement::getLevel).sum();
+        .mapToDouble(sr -> sr.getSkill().getXpAtLevel(sr.getLevel()) - getXp(sr.getSkill())).sum();
   }
 
   /**
@@ -555,26 +555,12 @@ public class Player {
   }
 
   /**
-   * Creates a {@link TrainAction} to be processed for the specified {@link SkillRequirement}.
-   *
-   * @param skillRequirement the skill requirement
-   * @return the train action
-   */
-  private TrainAction createTrainAction(SkillRequirement skillRequirement) {
-    Skill skill = skillRequirement.getSkill();
-    double currentXp = getXp(skill);
-    double requirementXp = skill.getXpAtLevel(skillRequirement.getLevel());
-
-    return new TrainAction(this, skill, currentXp, requirementXp);
-  }
-
-  /**
    * Returns the skill xp and lamp rewards from the specified {@link Quest}.
    *
    * @param quest the quest
    * @return the total rewards
    */
-  private Map<Skill, Double> getQuestRewards(Quest quest) {
+  public Map<Skill, Double> getQuestRewards(Quest quest) {
     Map<Skill, Double> rewards = new EnumMap<>(Skill.class);
     Set<Set<Skill>> previousLampSkills = new HashSet<>();
 
@@ -590,6 +576,32 @@ public class Player {
         });
 
     return rewards;
+  }
+
+  /**
+   * Returns a {@link Set<Quest>} which have been prioritised. This is all quests which do not have
+   * a priority of {@link QuestPriority#NORMAL}.
+   *
+   * @return a set of prioritised quests
+   */
+  public Set<Quest> getPrioritisedQuests() {
+    return getIncompleteQuests().stream()
+        .filter(quest -> getQuestPriority(quest) != QuestPriority.NORMAL)
+        .collect(Collectors.toSet());
+  }
+
+  /**
+   * Creates a {@link TrainAction} to be processed for the specified {@link SkillRequirement}.
+   *
+   * @param skillRequirement the skill requirement
+   * @return the train action
+   */
+  private TrainAction createTrainAction(SkillRequirement skillRequirement) {
+    Skill skill = skillRequirement.getSkill();
+    double currentXp = getXp(skill);
+    double requirementXp = skill.getXpAtLevel(skillRequirement.getLevel());
+
+    return new TrainAction(this, skill, currentXp, requirementXp);
   }
 
   /**

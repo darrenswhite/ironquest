@@ -952,13 +952,6 @@
     "displayName": "The Grand Tree",
     "id": 39,
     "requirements": {
-      "quests": [
-        {
-          "quest": 30,
-          "ironman": false,
-          "recommended": false
-        }
-      ],
       "skills": [
         {
           "ironman": false,

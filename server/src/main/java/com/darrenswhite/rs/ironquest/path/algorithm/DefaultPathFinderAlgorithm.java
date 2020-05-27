@@ -24,7 +24,7 @@ public class DefaultPathFinderAlgorithm extends PathFinderAlgorithm {
   /**
    * Return a comparator for comparing {@link Quest}s.
    *
-   * The order in which quests are compared is: priority, skill requirements, skill rewards.
+   * The order in which quests are compared is: priority, skill requirements, rewards.
    *
    * @see Comparators#priority(Player)
    * @see Comparators#remainingSkillRequirements(Player)

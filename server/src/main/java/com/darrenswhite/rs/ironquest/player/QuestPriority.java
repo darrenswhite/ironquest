@@ -7,9 +7,19 @@ package com.darrenswhite.rs.ironquest.player;
  */
 public enum QuestPriority {
 
-  MAXIMUM,
-  HIGH,
-  NORMAL,
-  LOW,
-  MINIMUM
+  MAXIMUM(5),
+  HIGH(4),
+  NORMAL(3),
+  LOW(2),
+  MINIMUM(1);
+
+  private final int weight;
+
+  QuestPriority(int weight) {
+    this.weight = weight;
+  }
+
+  public int getWeight() {
+    return weight;
+  }
 }
