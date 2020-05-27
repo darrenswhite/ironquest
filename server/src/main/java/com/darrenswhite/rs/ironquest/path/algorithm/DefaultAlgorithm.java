@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @author Darren S. White
  */
 @Component
-public class DefaultPathFinderAlgorithm extends PathFinderAlgorithm {
+public class DefaultAlgorithm extends PathFinderAlgorithm {
 
   /**
    * {@inheritDoc}

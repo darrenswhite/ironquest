@@ -2,7 +2,7 @@ package com.darrenswhite.rs.ironquest.path;
 
 import com.darrenswhite.rs.ironquest.action.Action;
 import com.darrenswhite.rs.ironquest.action.LampAction;
-import com.darrenswhite.rs.ironquest.path.algorithm.DefaultPathFinderAlgorithm;
+import com.darrenswhite.rs.ironquest.path.algorithm.DefaultAlgorithm;
 import com.darrenswhite.rs.ironquest.path.algorithm.PathFinderAlgorithm;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.quest.Quest;
@@ -25,7 +25,7 @@ public class PathFinder {
   private final PathFinderAlgorithm algorithm;
 
   public PathFinder(Player player) {
-    this(player, new DefaultPathFinderAlgorithm());
+    this(player, new DefaultAlgorithm());
   }
 
   public PathFinder(Player player, PathFinderAlgorithm algorithm) {
@@ -45,7 +45,7 @@ public class PathFinder {
    * If there are any actions which can not be completed after all quests are completed, these are
    * added as future actions.
    *
-   * The default algorithm is used which is implemented by {@link DefaultPathFinderAlgorithm}.
+   * The default algorithm is used which is implemented by {@link DefaultAlgorithm}.
    *
    * @return the optimal path
    * @throws QuestNotFoundException if the optimal quest can not be found

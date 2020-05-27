@@ -3,7 +3,7 @@ package com.darrenswhite.rs.ironquest.path;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-import com.darrenswhite.rs.ironquest.path.algorithm.DefaultPathFinderAlgorithm;
+import com.darrenswhite.rs.ironquest.path.algorithm.DefaultAlgorithm;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import java.util.Collections;
@@ -25,7 +25,7 @@ class QuestIteratorTest {
     @MethodSource("shouldReturnHighestPriorityQuest")
     void shouldHaveNextQuest(Set<Quest> quests, boolean hasNext) {
       Player player = new Player.Builder().withQuests(quests).build();
-      QuestIterator iterator = new QuestIterator(player, new DefaultPathFinderAlgorithm());
+      QuestIterator iterator = new QuestIterator(player, new DefaultAlgorithm());
 
       assertThat(iterator.hasNext(), equalTo(hasNext));
     }

@@ -16,9 +16,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class DefaultPathFinderAlgorithmTest {
+class DefaultAlgorithmTest {
 
-  static final DefaultPathFinderAlgorithm algorithm = new DefaultPathFinderAlgorithm();
+  static final DefaultAlgorithm algorithm = new DefaultAlgorithm();
 
   @Nested
   @TestInstance(TestInstance.Lifecycle.PER_CLASS)
