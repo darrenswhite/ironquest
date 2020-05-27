@@ -93,6 +93,11 @@ export enum QuestTypeFilter {
   MINIQUESTS = 'MINIQUESTS',
 }
 
+export enum PathFinderAlgorithm {
+  DEFAULT = 'DEFAULT',
+  SMART_PRIORITIES = 'SMART_PRIORITIES',
+}
+
 export interface QuestPriorities {
   [key: number]: QuestPriority;
 }
@@ -108,6 +113,7 @@ export interface PathFinderParameters extends QuestsParameters {
   recommended?: boolean;
   lampSkills?: Skill[];
   questPriorities?: QuestPriorities;
+  algorithm?: PathFinderAlgorithm;
 }
 
 export interface Quest {

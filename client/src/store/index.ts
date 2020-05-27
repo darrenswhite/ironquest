@@ -9,6 +9,7 @@ import Vuex, {
 import {
   AjaxError,
   Path,
+  PathFinderAlgorithm,
   PathFinderParameters,
   Quest,
   QuestAccessFilter,
@@ -16,7 +17,7 @@ import {
   QuestTypeFilter,
 } from '@/common/types';
 import {RootState} from './RootState';
-import * as constants from './constants';
+import constants from './constants';
 import axios from 'axios';
 import qs from 'qs';
 import {extend, filter, head, map} from 'lodash';
@@ -44,6 +45,7 @@ const state: RootState = {
     recommended: false,
     lampSkills: [],
     questPriorities: {},
+    algorithm: PathFinderAlgorithm.DEFAULT
   },
   quests: {
     error: false,
