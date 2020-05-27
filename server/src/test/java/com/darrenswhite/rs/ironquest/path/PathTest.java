@@ -13,8 +13,6 @@ import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
 import com.darrenswhite.rs.ironquest.quest.reward.LampType;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -32,11 +30,11 @@ class PathTest {
       Quest quest = new Quest.Builder().build();
       Player player = new Player.Builder().build();
       LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(500).build();
-      Set<Skill> skills = Collections.singleton(Skill.HERBLORE);
+      Set<Skill> skills = Set.of(Skill.HERBLORE);
       LampAction lampAction = new LampAction(player, false, quest, lampReward, skills);
       QuestAction questAction = new QuestAction(player, quest);
       TrainAction trainAction = new TrainAction(player, Skill.ATTACK, 0, 100);
-      List<Action> actions = new LinkedList<>(Arrays.asList(lampAction, questAction, trainAction));
+      List<Action> actions = new LinkedList<>(List.of(lampAction, questAction, trainAction));
       PathStats stats = new PathStats(55);
       Path path = new Path(actions, stats);
 

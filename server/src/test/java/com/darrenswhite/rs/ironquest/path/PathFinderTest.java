@@ -18,9 +18,7 @@ import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
 import com.darrenswhite.rs.ironquest.quest.reward.LampType;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
 import com.darrenswhite.rs.ironquest.util.MapBuilder;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.Nested;
@@ -39,8 +37,8 @@ class PathFinderTest {
           .build();
       Quest questInProgress = new Quest.Builder().withId(2).withDisplayName("questInProgress")
           .build();
-      Player player = new Player.Builder().withQuests(
-          new HashSet<>(Arrays.asList(questNotStarted, questCompleted, questInProgress))).build();
+      Player player = new Player.Builder()
+          .withQuests(Set.of(questNotStarted, questCompleted, questInProgress)).build();
 
       player.setQuestStatus(questCompleted, QuestStatus.COMPLETED);
       player.setQuestStatus(questInProgress, QuestStatus.IN_PROGRESS);
@@ -57,11 +55,10 @@ class PathFinderTest {
     void shouldProcessFutureActions() throws QuestNotFoundException {
       Quest questWithXpLampReward = new Quest.Builder().withId(0)
           .withDisplayName("questWithXpLampReward").withRewards(new QuestRewards.Builder()
-              .withLamps(Collections.singleton(
-                  new LampReward.Builder().withType(LampType.XP).withXp(1000).withRequirements(
-                      new MapBuilder<Set<Skill>, Integer>()
-                          .put(Collections.singleton(Skill.ATTACK), 2).build()).build())).build())
-          .build();
+              .withLamps(Set.of(new LampReward.Builder().withType(LampType.XP).withXp(1000)
+                  .withRequirements(
+                      new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.ATTACK), 2).build())
+                  .build())).build()).build();
       Quest questCompleted = new Quest.Builder().withId(1).withDisplayName("questCompleted")
           .build();
       Quest questWithQuestRequirementAndXpReward = new Quest.Builder().withId(2)
@@ -71,8 +68,8 @@ class PathFinderTest {
           .withRewards(new QuestRewards.Builder()
               .withXp(new MapBuilder<Skill, Double>().put(Skill.ATTACK, 500d).build()).build())
           .build();
-      Player player = new Player.Builder().withQuests(new HashSet<>(Arrays
-          .asList(questWithXpLampReward, questCompleted, questWithQuestRequirementAndXpReward)))
+      Player player = new Player.Builder().withQuests(
+          Set.of(questWithXpLampReward, questCompleted, questWithQuestRequirementAndXpReward))
           .build();
 
       player.setQuestStatus(questCompleted, QuestStatus.COMPLETED);
@@ -91,18 +88,16 @@ class PathFinderTest {
     void shouldAddFutureActions() throws QuestNotFoundException {
       Quest questWithXpLampReward = new Quest.Builder().withId(0)
           .withDisplayName("questWithXpLampReward").withRewards(new QuestRewards.Builder()
-              .withLamps(Collections.singleton(
-                  new LampReward.Builder().withType(LampType.XP).withXp(1000).withRequirements(
-                      new MapBuilder<Set<Skill>, Integer>()
-                          .put(Collections.singleton(Skill.ATTACK), 2).build()).build())).build())
-          .build();
+              .withLamps(Set.of(new LampReward.Builder().withType(LampType.XP).withXp(1000)
+                  .withRequirements(
+                      new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.ATTACK), 2).build())
+                  .build())).build()).build();
       Quest questCompleted = new Quest.Builder().withId(1).withDisplayName("questCompleted")
           .build();
       Quest questNotStarted = new Quest.Builder().withId(2).withDisplayName("questNotStarted")
           .build();
-      Player player = new Player.Builder().withQuests(
-          new HashSet<>(Arrays.asList(questWithXpLampReward, questCompleted, questNotStarted)))
-          .build();
+      Player player = new Player.Builder()
+          .withQuests(Set.of(questWithXpLampReward, questCompleted, questNotStarted)).build();
 
       player.setQuestStatus(questCompleted, QuestStatus.COMPLETED);
 
@@ -122,8 +117,8 @@ class PathFinderTest {
       Quest placeholderQuestWithQuestPointReward = new Quest.Builder().withId(-1)
           .withDisplayName("placeholderQuestWithQuestPointReward")
           .withRewards(new QuestRewards.Builder().withQuestPoints(1).build()).build();
-      Player player = new Player.Builder().withQuests(
-          new HashSet<>(Collections.singletonList(placeholderQuestWithQuestPointReward))).build();
+      Player player = new Player.Builder().withQuests(Set.of(placeholderQuestWithQuestPointReward))
+          .build();
 
       Path path = new PathFinder(player).find();
 
@@ -138,8 +133,7 @@ class PathFinderTest {
           .withDisplayName("questWithQuestPointRequirement").withRequirements(
               new QuestRequirements.Builder()
                   .withQuestPoints(new QuestPointsRequirement.Builder(4).build()).build()).build();
-      Player player = new Player.Builder()
-          .withQuests(new HashSet<>(Collections.singletonList(questWithQuestPointRequirement)))
+      Player player = new Player.Builder().withQuests(Set.of(questWithQuestPointRequirement))
           .build();
 
       assertThrows(QuestNotFoundException.class, () -> new PathFinder(player).find());
@@ -153,8 +147,8 @@ class PathFinderTest {
           .withDisplayName("questWithLargeXpReward").withRewards(
               new QuestRewards.Builder().withXp(Map.of(Skill.STRENGTH, Skill.MAX_XP)).build())
           .build();
-      Player player = new Player.Builder().withQuests(
-          new HashSet<>(Arrays.asList(questWithMaximumPriority, questWithLargeXpReward))).build();
+      Player player = new Player.Builder()
+          .withQuests(Set.of(questWithMaximumPriority, questWithLargeXpReward)).build();
 
       Path path = new PathFinder(player).find();
 
@@ -162,8 +156,8 @@ class PathFinderTest {
       assertThat(path.getActions().get(0).getMessage(), equalTo("questWithLargeXpReward"));
       assertThat(path.getActions().get(1).getMessage(), equalTo("questWithMaximumPriority"));
 
-      player = new Player.Builder().withQuests(
-          new HashSet<>(Arrays.asList(questWithMaximumPriority, questWithLargeXpReward))).build();
+      player = new Player.Builder()
+          .withQuests(Set.of(questWithMaximumPriority, questWithLargeXpReward)).build();
       player.setQuestPriority(questWithMaximumPriority, QuestPriority.HIGH);
       player.setQuestPriority(questWithLargeXpReward, QuestPriority.NORMAL);
 
@@ -173,8 +167,8 @@ class PathFinderTest {
       assertThat(path.getActions().get(0).getMessage(), equalTo("questWithMaximumPriority"));
       assertThat(path.getActions().get(1).getMessage(), equalTo("questWithLargeXpReward"));
 
-      player = new Player.Builder().withQuests(
-          new HashSet<>(Arrays.asList(questWithMaximumPriority, questWithLargeXpReward))).build();
+      player = new Player.Builder()
+          .withQuests(Set.of(questWithMaximumPriority, questWithLargeXpReward)).build();
       player.setQuestPriority(questWithMaximumPriority, QuestPriority.NORMAL);
       player.setQuestPriority(questWithLargeXpReward, QuestPriority.LOW);
 

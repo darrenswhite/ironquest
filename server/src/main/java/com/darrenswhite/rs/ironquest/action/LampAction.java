@@ -82,7 +82,8 @@ public class LampAction extends Action {
 
     if (!skills.isEmpty()) {
       message.append(" on ");
-      message.append(skills.stream().map(Skill::toString).collect(Collectors.joining(", ")));
+      message
+          .append(skills.stream().map(Skill::toString).sorted().collect(Collectors.joining(", ")));
     }
 
     message.append(" to gain ");

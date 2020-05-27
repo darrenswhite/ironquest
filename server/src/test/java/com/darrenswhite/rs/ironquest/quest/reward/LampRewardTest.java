@@ -8,9 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.util.MapBuilder;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -32,15 +30,13 @@ class LampRewardTest {
       Player player = new Player.Builder().build();
 
       LampReward lampReward = new LampReward.Builder().withRequirements(
-          new MapBuilder<Set<Skill>, Integer>()
-              .put(new HashSet<>(Arrays.asList(Skill.ATTACK, Skill.DEFENCE)), 1)
-              .put(new HashSet<>(Arrays.asList(Skill.SUMMONING, Skill.PRAYER)), 1).build()).build();
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.ATTACK, Skill.DEFENCE), 1)
+              .put(Set.of(Skill.SUMMONING, Skill.PRAYER), 1).build()).build();
 
       Set<Set<Skill>> choices = lampReward.getChoices(player, Collections.emptySet());
 
-      assertThat(choices,
-          containsInAnyOrder(new HashSet<>(Arrays.asList(Skill.ATTACK, Skill.DEFENCE)),
-              new HashSet<>(Arrays.asList(Skill.SUMMONING, Skill.PRAYER))));
+      assertThat(choices, containsInAnyOrder(Set.of(Skill.ATTACK, Skill.DEFENCE),
+          Set.of(Skill.SUMMONING, Skill.PRAYER)));
     }
 
     @Test
@@ -48,12 +44,12 @@ class LampRewardTest {
       Player player = new Player.Builder().build();
 
       LampReward lampReward = new LampReward.Builder().withRequirements(
-          new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.COOKING), 2)
-              .put(Collections.singleton(Skill.MAGIC), 1).build()).build();
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.COOKING), 2)
+              .put(Set.of(Skill.MAGIC), 1).build()).build();
 
       Set<Set<Skill>> choices = lampReward.getChoices(player, Collections.emptySet());
 
-      assertThat(choices, equalTo(Collections.singleton(Collections.singleton(Skill.MAGIC))));
+      assertThat(choices, equalTo(Set.of(Set.of(Skill.MAGIC))));
     }
 
     @Test
@@ -61,13 +57,12 @@ class LampRewardTest {
       Player player = new Player.Builder().build();
 
       LampReward lampReward = new LampReward.Builder().withSingleChoice(true).withRequirements(
-          new MapBuilder<Set<Skill>, Integer>()
-              .put(new HashSet<>(Arrays.asList(Skill.ATTACK, Skill.DEFENCE)), 1).build()).build();
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.ATTACK, Skill.DEFENCE), 1).build())
+          .build();
 
       Set<Set<Skill>> choices = lampReward.getChoices(player, Collections.emptySet());
 
-      assertThat(choices, containsInAnyOrder(Collections.singleton(Skill.ATTACK),
-          Collections.singleton(Skill.DEFENCE)));
+      assertThat(choices, containsInAnyOrder(Set.of(Skill.ATTACK), Set.of(Skill.DEFENCE)));
     }
 
     @Test
@@ -75,13 +70,12 @@ class LampRewardTest {
       Player player = new Player.Builder().build();
 
       LampReward lampReward = new LampReward.Builder().withExclusive(true).withRequirements(
-          new MapBuilder<Set<Skill>, Integer>()
-              .put(new HashSet<>(Arrays.asList(Skill.ATTACK, Skill.DEFENCE)), 1).build()).build();
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.ATTACK, Skill.DEFENCE), 1).build())
+          .build();
 
       Set<Set<Skill>> choices = lampReward.getChoices(player, Collections.emptySet());
 
-      assertThat(choices, equalTo(
-          Collections.singleton(new HashSet<>(Arrays.asList(Skill.ATTACK, Skill.DEFENCE)))));
+      assertThat(choices, equalTo(Set.of(Set.of(Skill.ATTACK, Skill.DEFENCE))));
     }
 
     @Test
@@ -89,16 +83,14 @@ class LampRewardTest {
       Player player = new Player.Builder().build();
 
       LampReward lampReward = new LampReward.Builder().withExclusive(true).withRequirements(
-          new MapBuilder<Set<Skill>, Integer>()
-              .put(new HashSet<>(Arrays.asList(Skill.ATTACK, Skill.DEFENCE)), 1)
-              .put(new HashSet<>(Arrays.asList(Skill.STRENGTH, Skill.CONSTITUTION)), 1).build())
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.ATTACK, Skill.DEFENCE), 1)
+              .put(Set.of(Skill.STRENGTH, Skill.CONSTITUTION), 1).build())
           .build();
 
-      Set<Set<Skill>> choices = lampReward.getChoices(player,
-          Collections.singleton(new HashSet<>(Arrays.asList(Skill.ATTACK, Skill.DEFENCE))));
+      Set<Set<Skill>> choices = lampReward
+          .getChoices(player, Set.of(Set.of(Skill.ATTACK, Skill.DEFENCE)));
 
-      assertThat(choices, equalTo(
-          Collections.singleton(new HashSet<>(Arrays.asList(Skill.STRENGTH, Skill.CONSTITUTION)))));
+      assertThat(choices, equalTo(Set.of(Set.of(Skill.STRENGTH, Skill.CONSTITUTION))));
     }
   }
 
@@ -111,11 +103,11 @@ class LampRewardTest {
       Player player = new Player.Builder().build();
 
       LampReward lampReward = new LampReward.Builder().withType(LampType.SMALL_XP).withRequirements(
-          new MapBuilder<Set<Skill>, Integer>()
-              .put(new HashSet<>(Arrays.asList(Skill.ATTACK, Skill.DEFENCE)), 1).build()).build();
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.ATTACK, Skill.DEFENCE), 1).build())
+          .build();
 
-      assertThrows(DynamicLampRewardException.class, () -> lampReward.getXpForSkills(player,
-          new HashSet<>(Arrays.asList(Skill.DUNGEONEERING, Skill.CONSTITUTION))));
+      assertThrows(DynamicLampRewardException.class,
+          () -> lampReward.getXpForSkills(player, Set.of(Skill.DUNGEONEERING, Skill.CONSTITUTION)));
     }
 
     @ParameterizedTest
@@ -136,38 +128,34 @@ class LampRewardTest {
 
     Stream<Arguments> shouldReturnXpForLamp() {
       return Stream.of(Arguments.of(LampType.XP, 100, 1,
-          new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.RANGED), 1).build(),
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.RANGED), 1).build(),
           Collections.emptySet(), 100), Arguments.of(LampType.XP, 100, 1.5,
-          new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.RANGED), 1).build(),
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.RANGED), 1).build(),
           Collections.emptySet(), 150), Arguments.of(LampType.SMALL_XP, 0, 1,
-          new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.RANGED), 1).build(),
-          Collections.singleton(Skill.RANGED), 62), Arguments.of(LampType.MEDIUM_XP, 0, 1,
-          new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.RANGED), 1).build(),
-          Collections.singleton(Skill.RANGED), 125), Arguments.of(LampType.LARGE_XP, 0, 1,
-          new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.RANGED), 1).build(),
-          Collections.singleton(Skill.RANGED), 250), Arguments.of(LampType.HUGE_XP, 0, 1,
-          new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.RANGED), 1).build(),
-          Collections.singleton(Skill.RANGED), 500), Arguments.of(LampType.DRAGONKIN, 0, 1,
-          new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.RANGED), 1).build(),
-          Collections.singleton(Skill.RANGED), 4), Arguments.of(LampType.XP, 100, 1,
-          new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.DIVINATION), 1)
-              .build(), Collections.emptySet(), 100), Arguments.of(LampType.XP, 100, 1.5,
-          new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.DIVINATION), 1)
-              .build(), Collections.emptySet(), 150), Arguments.of(LampType.SMALL_XP, 0, 1,
-          new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.DIVINATION), 1)
-              .build(), Collections.singleton(Skill.DIVINATION), 8602), Arguments
-          .of(LampType.MEDIUM_XP, 0, 1,
-              new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.DIVINATION), 1)
-                  .build(), Collections.singleton(Skill.DIVINATION), 17204), Arguments
-          .of(LampType.LARGE_XP, 0, 1,
-              new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.DIVINATION), 1)
-                  .build(), Collections.singleton(Skill.DIVINATION), 34408), Arguments
-          .of(LampType.HUGE_XP, 0, 1,
-              new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.DIVINATION), 1)
-                  .build(), Collections.singleton(Skill.DIVINATION), 68816), Arguments
-          .of(LampType.DRAGONKIN, 0, 1,
-              new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.DIVINATION), 1)
-                  .build(), Collections.singleton(Skill.DIVINATION), 48029));
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.RANGED), 1).build(),
+          Set.of(Skill.RANGED), 62), Arguments.of(LampType.MEDIUM_XP, 0, 1,
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.RANGED), 1).build(),
+          Set.of(Skill.RANGED), 125), Arguments.of(LampType.LARGE_XP, 0, 1,
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.RANGED), 1).build(),
+          Set.of(Skill.RANGED), 250), Arguments.of(LampType.HUGE_XP, 0, 1,
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.RANGED), 1).build(),
+          Set.of(Skill.RANGED), 500), Arguments.of(LampType.DRAGONKIN, 0, 1,
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.RANGED), 1).build(),
+          Set.of(Skill.RANGED), 4), Arguments.of(LampType.XP, 100, 1,
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.DIVINATION), 1).build(),
+          Collections.emptySet(), 100), Arguments.of(LampType.XP, 100, 1.5,
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.DIVINATION), 1).build(),
+          Collections.emptySet(), 150), Arguments.of(LampType.SMALL_XP, 0, 1,
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.DIVINATION), 1).build(),
+          Set.of(Skill.DIVINATION), 8602), Arguments.of(LampType.MEDIUM_XP, 0, 1,
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.DIVINATION), 1).build(),
+          Set.of(Skill.DIVINATION), 17204), Arguments.of(LampType.LARGE_XP, 0, 1,
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.DIVINATION), 1).build(),
+          Set.of(Skill.DIVINATION), 34408), Arguments.of(LampType.HUGE_XP, 0, 1,
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.DIVINATION), 1).build(),
+          Set.of(Skill.DIVINATION), 68816), Arguments.of(LampType.DRAGONKIN, 0, 1,
+          new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.DIVINATION), 1).build(),
+          Set.of(Skill.DIVINATION), 48029));
     }
   }
 
@@ -196,8 +184,7 @@ class LampRewardTest {
           .build()).build();
 
       LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(100)
-          .withRequirements(
-              new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.INVENTION), 1)
+          .withRequirements(new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.INVENTION), 1)
                   .build()).build();
 
       assertThat(lampReward.meetsRequirements(player), equalTo(meetsRequirements));
@@ -218,8 +205,7 @@ class LampRewardTest {
               .build()).build();
 
       LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(100)
-          .withRequirements(
-              new MapBuilder<Set<Skill>, Integer>().put(Collections.singleton(Skill.HERBLORE), 80)
+          .withRequirements(new MapBuilder<Set<Skill>, Integer>().put(Set.of(Skill.HERBLORE), 80)
                   .build()).build();
 
       assertThat(lampReward.meetsRequirements(player), equalTo(false));

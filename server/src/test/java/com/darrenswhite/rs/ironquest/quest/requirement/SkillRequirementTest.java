@@ -7,7 +7,6 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.util.MapBuilder;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -65,12 +64,12 @@ class SkillRequirementTest {
 
     @Test
     void shouldCreateMapWithHighestRequirementFromBothCollections() {
-      List<SkillRequirement> first = Arrays
-          .asList(new SkillRequirement.Builder(Skill.SUMMONING, 10).build(),
+      List<SkillRequirement> first = List
+          .of(new SkillRequirement.Builder(Skill.SUMMONING, 10).build(),
               new SkillRequirement.Builder(Skill.HERBLORE, 20).build(),
               new SkillRequirement.Builder(Skill.STRENGTH, 30).build());
-      List<SkillRequirement> second = Arrays
-          .asList(new SkillRequirement.Builder(Skill.SUMMONING, 20).build(),
+      List<SkillRequirement> second = List
+          .of(new SkillRequirement.Builder(Skill.SUMMONING, 20).build(),
               new SkillRequirement.Builder(Skill.HERBLORE, 10).build(),
               new SkillRequirement.Builder(Skill.DIVINATION, 30).build());
 

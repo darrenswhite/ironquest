@@ -13,8 +13,8 @@ import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
 import com.darrenswhite.rs.ironquest.util.MapBuilder;
-import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -76,7 +76,7 @@ class QuestActionTest {
           .put(Skill.AGILITY, 2500d).put(Skill.COOKING, 100d).build();
       QuestRewards rewards = new QuestRewards.Builder().withXp(xp).withQuestPoints(5).build();
       Quest quest = new Quest.Builder().withRewards(rewards).build();
-      Player player = new Player.Builder().withQuests(Collections.singleton(quest)).build();
+      Player player = new Player.Builder().withQuests(Set.of(quest)).build();
 
       QuestAction questAction = new QuestAction(player, quest);
 

@@ -14,10 +14,7 @@ import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.LampReward;
 import com.darrenswhite.rs.ironquest.quest.reward.LampType;
 import com.darrenswhite.rs.ironquest.util.MapBuilder;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -70,25 +67,23 @@ class LampActionTest {
     }
 
     Stream<Arguments> shouldFormatMessage() {
-      return Stream.of(Arguments
-          .of("playerA", LampType.XP, 500, Collections.singleton(Skill.ATTACK), false, 1.0,
-              "playerA: Use XP Lamp on Attack to gain 500 xp"), Arguments
+      return Stream.of(Arguments.of("playerA", LampType.XP, 500, Set.of(Skill.ATTACK), false, 1.0,
+          "playerA: Use XP Lamp on Attack to gain 500 xp"), Arguments
           .of("playerB", LampType.XP, 1000, Collections.emptySet(), true, 1.0,
               "playerB: Use XP Lamp to gain 1k xp (when requirements are met)"), Arguments
-          .of("playerC", LampType.SMALL_XP, 0, Collections.singleton(Skill.DEFENCE), false, 1.0,
+          .of("playerC", LampType.SMALL_XP, 0, Set.of(Skill.DEFENCE), false, 1.0,
               "playerC: Use Small XP Lamp on Defence to gain 784 xp"), Arguments
-          .of("playerD", LampType.MEDIUM_XP, 0, Collections.singleton(Skill.MAGIC), false, 1.0,
+          .of("playerD", LampType.MEDIUM_XP, 0, Set.of(Skill.MAGIC), false, 1.0,
               "playerD: Use Medium XP Lamp on Magic to gain 5.185k xp"), Arguments
-          .of("playerE", LampType.LARGE_XP, 0, Collections.singleton(Skill.RANGED), false, 1.0,
+          .of("playerE", LampType.LARGE_XP, 0, Set.of(Skill.RANGED), false, 1.0,
               "playerE: Use Large XP Lamp on Ranged to gain 11.786k xp"), Arguments
-          .of("playerF", LampType.HUGE_XP, 0, Collections.singleton(Skill.THIEVING), false, 1.0,
+          .of("playerF", LampType.HUGE_XP, 0, Set.of(Skill.THIEVING), false, 1.0,
               "playerF: Use Huge XP Lamp on Thieving to gain 47.38k xp"), Arguments
-          .of("playerG", LampType.DRAGONKIN, 0, Collections.singleton(Skill.HERBLORE), false, 1.0,
+          .of("playerG", LampType.DRAGONKIN, 0, Set.of(Skill.HERBLORE), false, 1.0,
               "playerG: Use Dragonkin Lamp on Herblore to gain 42.441k xp"), Arguments
-          .of("playerH", LampType.XP, 150,
-              new LinkedHashSet<>(Arrays.asList(Skill.SUMMONING, Skill.DIVINATION)), false, 1.0,
-              "playerH: Use XP Lamp on Summoning, Divination to gain 150 xp"), Arguments
-          .of("playerI", LampType.XP, 125, Collections.singleton(Skill.CONSTRUCTION), false, 1.5,
+          .of("playerH", LampType.XP, 150, Set.of(Skill.SUMMONING, Skill.DIVINATION), false, 1.0,
+              "playerH: Use XP Lamp on Divination, Summoning to gain 150 xp"), Arguments
+          .of("playerI", LampType.XP, 125, Set.of(Skill.CONSTRUCTION), false, 1.5,
               "playerI: Use XP Lamp on Construction to gain 187.5 xp"));
     }
   }
@@ -119,7 +114,7 @@ class LampActionTest {
       Quest quest = new Quest.Builder().build();
       Player player = new Player.Builder().build();
       LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(1000).build();
-      Set<Skill> skills = new HashSet<>(Arrays.asList(Skill.DEFENCE, Skill.STRENGTH));
+      Set<Skill> skills = Set.of(Skill.DEFENCE, Skill.STRENGTH);
 
       LampAction lampAction = new LampAction(player, false, quest, lampReward, skills);
 
@@ -139,7 +134,7 @@ class LampActionTest {
       Quest quest = new Quest.Builder().withDisplayName(displayName).build();
       Player player = new Player.Builder().build();
       LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(500).build();
-      Set<Skill> skills = Collections.singleton(Skill.PRAYER);
+      Set<Skill> skills = Set.of(Skill.PRAYER);
 
       LampAction lampAction = new LampAction(player, false, quest, lampReward, skills);
 
@@ -163,7 +158,7 @@ class LampActionTest {
       Player playerToCopy = new Player.Builder().withName("copy").build();
 
       LampReward lampReward = new LampReward.Builder().build();
-      Set<Skill> skills = Collections.singleton(Skill.ATTACK);
+      Set<Skill> skills = Set.of(Skill.ATTACK);
 
       LampAction lampAction = new LampAction(player, false, quest, lampReward, skills);
 

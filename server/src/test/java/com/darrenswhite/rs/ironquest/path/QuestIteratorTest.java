@@ -35,7 +35,7 @@ class QuestIteratorTest {
           .withDisplayName("questWithNoRequirements").build();
 
       return Stream.of(Arguments.of(Collections.emptySet(), false),
-          Arguments.of(Collections.singleton(questWithNoRequirements), true));
+          Arguments.of(Set.of(questWithNoRequirements), true));
     }
   }
 }

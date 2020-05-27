@@ -6,10 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.quest.Quest;
-import com.darrenswhite.rs.ironquest.quest.Quest.Builder;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.Set;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -21,15 +18,14 @@ class QuestRequirementTest {
 
     @Test
     void shouldMeetRequirement() {
-      QuestRequirement questRequirement = new QuestRequirement.Builder(new Quest.Builder().build())
-          .build();
+      QuestRequirement questRequirement = new QuestRequirement.Builder(
+          new Quest.Builder().withId(0).build()).build();
       Quest requiredQuest = questRequirement.getQuest();
-      Quest questWithRequirement = new Quest.Builder().withRequirements(
-          new QuestRequirements.Builder().withQuests(Collections.singleton(questRequirement))
-              .build()).build();
+      Quest questWithRequirement = new Quest.Builder().withId(1).withRequirements(
+          new QuestRequirements.Builder().withQuests(Set.of(questRequirement)).build()).build();
 
       Player playerWithCompletedQuestRequirement = new Player.Builder()
-          .withQuests(new HashSet<>(Arrays.asList(requiredQuest, questWithRequirement))).build();
+          .withQuests(Set.of(requiredQuest, questWithRequirement)).build();
 
       playerWithCompletedQuestRequirement.setQuestStatus(requiredQuest, QuestStatus.COMPLETED);
 
@@ -38,14 +34,13 @@ class QuestRequirementTest {
 
     @Test
     void shouldNotMeetRequirement() {
-      Quest requiredQuest = new Builder().build();
+      Quest requiredQuest = new Quest.Builder().withId(0).build();
       QuestRequirement questRequirement = new QuestRequirement.Builder(requiredQuest).build();
-      Quest questWithRequirement = new Quest.Builder().withRequirements(
-          new QuestRequirements.Builder().withQuests(Collections.singleton(questRequirement))
-              .build()).build();
+      Quest questWithRequirement = new Quest.Builder().withId(1).withRequirements(
+          new QuestRequirements.Builder().withQuests(Set.of(questRequirement)).build()).build();
 
       Player playerWithIncompleteQuestRequirement = new Player.Builder()
-          .withQuests(new HashSet<>(Arrays.asList(requiredQuest, questWithRequirement))).build();
+          .withQuests(Set.of(requiredQuest, questWithRequirement)).build();
 
       assertThat(questRequirement.testPlayer(playerWithIncompleteQuestRequirement), equalTo(false));
     }

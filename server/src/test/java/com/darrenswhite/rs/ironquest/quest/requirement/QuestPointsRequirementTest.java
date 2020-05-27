@@ -7,7 +7,7 @@ import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.reward.QuestRewards;
-import java.util.Collections;
+import java.util.Set;
 import java.util.stream.Stream;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Nested;
@@ -29,7 +29,7 @@ class QuestPointsRequirementTest {
       Quest quest = new Quest.Builder()
           .withRewards(new QuestRewards.Builder().withQuestPoints(playerQuestPoints).build())
           .build();
-      Player player = new Player.Builder().withQuests(Collections.singleton(quest)).build();
+      Player player = new Player.Builder().withQuests(Set.of(quest)).build();
 
       player.setQuestStatus(quest, QuestStatus.COMPLETED);
 
@@ -51,7 +51,7 @@ class QuestPointsRequirementTest {
       Quest quest = new Quest.Builder()
           .withRewards(new QuestRewards.Builder().withQuestPoints(playerQuestPoints).build())
           .build();
-      Player player = new Player.Builder().withQuests(Collections.singleton(quest)).build();
+      Player player = new Player.Builder().withQuests(Set.of(quest)).build();
 
       player.setQuestStatus(quest, QuestStatus.COMPLETED);
 

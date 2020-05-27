@@ -7,8 +7,7 @@ import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import com.darrenswhite.rs.ironquest.quest.Quest.Builder;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.TestInstance;
@@ -28,8 +27,7 @@ class DefaultAlgorithmTest {
     @MethodSource("shouldReturnHighestPriorityQuest")
     void shouldReturnHighestPriorityQuest(Quest first, QuestPriority firstPriority, Quest second,
         QuestPriority secondPriority, int expected) {
-      Player player = new Player.Builder().withQuests(new HashSet<>(Arrays.asList(first, second)))
-          .build();
+      Player player = new Player.Builder().withQuests(Set.of(first, second)).build();
 
       player.setQuestPriority(first, firstPriority);
       player.setQuestPriority(second, secondPriority);
