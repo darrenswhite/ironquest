@@ -6,7 +6,7 @@
     </Console>
   </Appenders>
   <Loggers>
-    <Logger additivity="false" level="trace" name="com.darrenswhite.rs.ironquest">
+    <Logger additivity="false" level="info" name="com.darrenswhite.rs.ironquest">
       <AppenderRef ref="Console"/>
     </Logger>
     <Root level="error">

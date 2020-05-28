@@ -448,13 +448,16 @@ public class Player {
 
   /**
    * Get the optimal skill choices to be used on a {@link LampReward} from a {@link Quest}.
-   *
-   * If any of the lamp reward choices contains any of the player <tt>lampSkills</tt>, then that
+   * <p>
+   * If any of the lamp reward choices contains any of the player <code>lampSkills</code>, then that
    * will be the set of skills returned.
-   *
+   * <p>
+   * The next choice for the optimal set of skills to use is determined by the highest skill
+   * requirement needed to complete all remaining <em><b>prioritised</b></em> quests.
+   * <p>
    * The next choice for the optimal set of skills to use is determined by the highest skill
    * requirement needed to complete all remaining quests.
-   *
+   * <p>
    * If there are no remaining skill requirements then there is no preference to which set of skills
    * will be returned.
    *
@@ -478,7 +481,14 @@ public class Player {
     }
 
     if (optimalLampSkills == null) {
-      Map<Skill, Double> xpRequirements = getRemainingXpRequirements();
+      Set<Quest> prioritisedQuests = getPrioritisedQuests();
+      Map<Skill, Double> xpRequirements;
+
+      if (prioritisedQuests.isEmpty()) {
+        xpRequirements = getRemainingXpRequirements(getIncompleteQuests());
+      } else {
+        xpRequirements = getRemainingXpRequirements(prioritisedQuests);
+      }
 
       Map<Set<Skill>, Double> xpChoicesRequirements = lampSkillChoices.stream().collect(Collectors
           .toMap(s -> s,
@@ -579,15 +589,15 @@ public class Player {
   }
 
   /**
-   * Returns a {@link Set<Quest>} which have been prioritised. This is all quests which do not have
-   * a priority of {@link QuestPriority#NORMAL}.
+   * Returns a {@link Set<Quest>} which have been prioritised. This is all quests which have a
+   * priority greater than normal and are not completed.
    *
    * @return a set of prioritised quests
+   * @see QuestPriority#greaterThanNormal()
    */
   public Set<Quest> getPrioritisedQuests() {
     return getIncompleteQuests().stream()
-        .filter(quest -> getQuestPriority(quest) != QuestPriority.NORMAL)
-        .collect(Collectors.toSet());
+        .filter(quest -> getQuestPriority(quest).greaterThanNormal()).collect(Collectors.toSet());
   }
 
   /**
@@ -605,38 +615,34 @@ public class Player {
   }
 
   /**
-   * Returns the xp required for each {@link Skill} needed to complete all quests.
+   * Returns the xp required for each {@link Skill} needed to complete the given quests.
    *
    * If the skill has no requirements left then it will not be present in the returned map.
    *
    * @return xp required for each skill
    */
-  private Map<Skill, Double> getRemainingXpRequirements() {
-    Map<Skill, Double> remaining = new EnumMap<>(Skill.class);
-    Set<SkillRequirement> maxRequirements = getRemainingSkillRequirements();
+  private Map<Skill, Double> getRemainingXpRequirements(Set<Quest> quests) {
+    Set<SkillRequirement> maxRequirements = getRemainingSkillRequirements(quests);
 
-    maxRequirements.forEach(r -> {
-      Skill s = r.getSkill();
-      int lvl = r.getLevel();
+    return maxRequirements.stream().collect(Collectors.toMap(SkillRequirement::getSkill, sr -> {
+      Skill skill = sr.getSkill();
 
-      remaining.put(s, s.getXpAtLevel(lvl) - getXp(s));
-    });
-
-    return remaining;
+      return skill.getXpAtLevel(sr.getLevel()) - getXp(skill);
+    }));
   }
 
   /**
-   * Returns the highest {@link SkillRequirement}s required to complete all remaining quests.
+   * Returns the highest {@link SkillRequirement}s required to complete the given quests.
    *
    * @return the maximum skill requirements for all quests
    * @see SkillRequirement#merge(Collection, Collection)
    */
-  private Set<SkillRequirement> getRemainingSkillRequirements() {
+  private Set<SkillRequirement> getRemainingSkillRequirements(Set<Quest> quests) {
     Set<SkillRequirement> requirements = new HashSet<>();
 
-    for (Quest entry : getIncompleteQuests()) {
+    for (Quest quest : quests) {
       requirements = SkillRequirement
-          .merge(requirements, getRemainingSkillRequirements(entry, false));
+          .merge(requirements, getRemainingSkillRequirements(quest, false));
     }
 
     return requirements;

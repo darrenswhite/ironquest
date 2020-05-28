@@ -1,5 +1,6 @@
 package com.darrenswhite.rs.ironquest.path.algorithm;
 
+import com.darrenswhite.rs.ironquest.path.QuestNotFoundException;
 import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import java.util.Map;
 import org.junit.jupiter.api.Nested;
@@ -8,53 +9,52 @@ import org.junit.jupiter.api.TestInstance;
 
 class DefaultAlgorithmTest extends PathFinderAlgorithmTest {
 
-  static final DefaultAlgorithm algorithm = new DefaultAlgorithm();
+  static final DefaultAlgorithm ALGORITHM = new DefaultAlgorithm();
 
   @Nested
   @TestInstance(TestInstance.Lifecycle.PER_CLASS)
   class GetQuestComparator {
 
     @Test
-    void shouldReturnCorrectQuestOrderGivenNoPriorities() {
-      assertQuestOrder(algorithm, NO_REQUIREMENTS_HIGH_REWARDS_NAME,
-          NO_REQUIREMENTS_MEDIUM_REWARDS_NAME, NO_REQUIREMENTS_LOW_REWARDS_NAME,
-          NO_REQUIREMENTS_NO_REWARDS_NAME, LOW_REQUIREMENTS_LOW_REWARDS_NAME,
-          LOW_REQUIREMENTS_NO_REWARDS_NAME, MEDIUM_REQUIREMENTS_MEDIUM_REWARDS_NAME,
-          MEDIUM_REQUIREMENTS_NO_REWARDS_NAME, HIGH_REQUIREMENTS_HIGH_REWARDS_NAME,
-          HIGH_REQUIREMENTS_NO_REWARDS_NAME);
+    void shouldPrioritiseLowRequirementsAndHighRewards() throws QuestNotFoundException {
+      assertQuestOrder(ALGORITHM, QUEST_NO_REQUIREMENTS_200K_DEFENCE_REWARD,
+          QUEST_NO_REQUIREMENTS_50K_MAGIC_REWARD, QUEST_NO_REQUIREMENTS_45K_MAGIC_REWARD,
+          QUEST_49_MAGIC_REQUIREMENT_NO_REWARDS);
     }
 
     @Test
-    void shouldReturnMaximumPriorityQuestFirst() {
-      assertQuestOrder(algorithm, Map.of(HIGH_REQUIREMENTS_NO_REWARDS_NAME, QuestPriority.MAXIMUM),
-          HIGH_REQUIREMENTS_NO_REWARDS_NAME, NO_REQUIREMENTS_HIGH_REWARDS_NAME,
-          NO_REQUIREMENTS_MEDIUM_REWARDS_NAME, NO_REQUIREMENTS_LOW_REWARDS_NAME,
-          NO_REQUIREMENTS_NO_REWARDS_NAME, LOW_REQUIREMENTS_LOW_REWARDS_NAME,
-          LOW_REQUIREMENTS_NO_REWARDS_NAME, MEDIUM_REQUIREMENTS_MEDIUM_REWARDS_NAME,
-          MEDIUM_REQUIREMENTS_NO_REWARDS_NAME, HIGH_REQUIREMENTS_HIGH_REWARDS_NAME);
+    void shouldPrioritiseMaximumQuestWithHighRequirementsAndNoRewards()
+        throws QuestNotFoundException {
+      Map<String, QuestPriority> priorities = Map
+          .of(QUEST_49_MAGIC_REQUIREMENT_NO_REWARDS, QuestPriority.MAXIMUM);
+
+      assertQuestOrder(ALGORITHM, priorities, QUEST_49_MAGIC_REQUIREMENT_NO_REWARDS,
+          QUEST_NO_REQUIREMENTS_200K_DEFENCE_REWARD, QUEST_NO_REQUIREMENTS_50K_MAGIC_REWARD,
+          QUEST_NO_REQUIREMENTS_45K_MAGIC_REWARD);
     }
 
     @Test
-    void shouldReturnMinimumPriorityQuestLast() {
-      assertQuestOrder(algorithm, Map.of(NO_REQUIREMENTS_HIGH_REWARDS_NAME, QuestPriority.MINIMUM),
-          NO_REQUIREMENTS_MEDIUM_REWARDS_NAME, NO_REQUIREMENTS_LOW_REWARDS_NAME,
-          NO_REQUIREMENTS_NO_REWARDS_NAME, LOW_REQUIREMENTS_LOW_REWARDS_NAME,
-          LOW_REQUIREMENTS_NO_REWARDS_NAME, MEDIUM_REQUIREMENTS_MEDIUM_REWARDS_NAME,
-          MEDIUM_REQUIREMENTS_NO_REWARDS_NAME, HIGH_REQUIREMENTS_HIGH_REWARDS_NAME,
-          HIGH_REQUIREMENTS_NO_REWARDS_NAME, NO_REQUIREMENTS_HIGH_REWARDS_NAME);
+    void shouldPrioritiseMinimumQuestWithNoRequirementsAndHighRewards()
+        throws QuestNotFoundException {
+      Map<String, QuestPriority> priorities = Map
+          .of(QUEST_NO_REQUIREMENTS_200K_DEFENCE_REWARD, QuestPriority.MINIMUM);
+
+      assertQuestOrder(ALGORITHM, priorities, QUEST_NO_REQUIREMENTS_50K_MAGIC_REWARD,
+          QUEST_NO_REQUIREMENTS_45K_MAGIC_REWARD, QUEST_49_MAGIC_REQUIREMENT_NO_REWARDS,
+          QUEST_NO_REQUIREMENTS_200K_DEFENCE_REWARD);
     }
 
     @Test
-    void shouldReturnPriorityQuestsInDescendingOrder() {
-      assertQuestOrder(algorithm, Map.of(LOW_REQUIREMENTS_LOW_REWARDS_NAME, QuestPriority.MINIMUM,
-          LOW_REQUIREMENTS_NO_REWARDS_NAME, QuestPriority.LOW,
-          MEDIUM_REQUIREMENTS_MEDIUM_REWARDS_NAME, QuestPriority.HIGH,
-          MEDIUM_REQUIREMENTS_NO_REWARDS_NAME, QuestPriority.MAXIMUM),
-          MEDIUM_REQUIREMENTS_NO_REWARDS_NAME, MEDIUM_REQUIREMENTS_MEDIUM_REWARDS_NAME,
-          NO_REQUIREMENTS_HIGH_REWARDS_NAME, NO_REQUIREMENTS_MEDIUM_REWARDS_NAME,
-          NO_REQUIREMENTS_LOW_REWARDS_NAME, NO_REQUIREMENTS_NO_REWARDS_NAME,
-          HIGH_REQUIREMENTS_HIGH_REWARDS_NAME, HIGH_REQUIREMENTS_NO_REWARDS_NAME,
-          LOW_REQUIREMENTS_NO_REWARDS_NAME, LOW_REQUIREMENTS_LOW_REWARDS_NAME);
+    void shouldPrioritiseQuestPriorityInDescendingOrder() throws QuestNotFoundException {
+      Map<String, QuestPriority> priorities = Map
+          .of(QUEST_NO_REQUIREMENTS_200K_DEFENCE_REWARD, QuestPriority.MINIMUM,
+              QUEST_NO_REQUIREMENTS_50K_MAGIC_REWARD, QuestPriority.LOW,
+              QUEST_NO_REQUIREMENTS_45K_MAGIC_REWARD, QuestPriority.HIGH,
+              QUEST_49_MAGIC_REQUIREMENT_NO_REWARDS, QuestPriority.MAXIMUM);
+
+      assertQuestOrder(ALGORITHM, priorities, QUEST_49_MAGIC_REQUIREMENT_NO_REWARDS,
+          QUEST_NO_REQUIREMENTS_45K_MAGIC_REWARD, QUEST_NO_REQUIREMENTS_50K_MAGIC_REWARD,
+          QUEST_NO_REQUIREMENTS_200K_DEFENCE_REWARD);
     }
   }
 }

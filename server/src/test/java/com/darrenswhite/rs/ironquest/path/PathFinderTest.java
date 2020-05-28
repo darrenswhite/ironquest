@@ -7,7 +7,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.darrenswhite.rs.ironquest.player.Player;
-import com.darrenswhite.rs.ironquest.player.QuestPriority;
 import com.darrenswhite.rs.ironquest.player.QuestStatus;
 import com.darrenswhite.rs.ironquest.player.Skill;
 import com.darrenswhite.rs.ironquest.quest.Quest;
@@ -45,8 +44,8 @@ class PathFinderTest {
       Path path = new PathFinder(player).find();
 
       assertThat(path.getActions(), hasSize(2));
-      assertThat(path.getActions().get(0).getMessage(), equalTo("questNotStarted"));
-      assertThat(path.getActions().get(1).getMessage(), equalTo("questInProgress"));
+      assertThat(path.getActions().get(0).getMessage(), equalTo("questInProgress"));
+      assertThat(path.getActions().get(1).getMessage(), equalTo("questNotStarted"));
       assertThat(path.getStats().getPercentComplete(), equalTo(33D));
     }
 
@@ -98,11 +97,11 @@ class PathFinderTest {
       Path path = new PathFinder(player).find();
 
       assertThat(path.getActions(), hasSize(3));
-      assertThat(path.getActions().get(0).getMessage(), equalTo("questWithXpLampReward"));
-      assertThat(path.getActions().get(1).getMessage(),
+      assertThat(path.getActions().get(0).getMessage(), equalTo("questNotStarted"));
+      assertThat(path.getActions().get(1).getMessage(), equalTo("questWithXpLampReward"));
+      assertThat(path.getActions().get(2).getMessage(),
           equalTo("questWithXpLampReward: Use XP Lamp to gain 1k xp (when requirements are met)"));
-      assertThat(path.getActions().get(1).isFuture(), equalTo(true));
-      assertThat(path.getActions().get(2).getMessage(), equalTo("questNotStarted"));
+      assertThat(path.getActions().get(2).isFuture(), equalTo(true));
       assertThat(path.getStats().getPercentComplete(), equalTo(33D));
     }
 
@@ -131,46 +130,6 @@ class PathFinderTest {
           .build();
 
       assertThrows(QuestNotFoundException.class, () -> new PathFinder(player).find());
-    }
-
-    @Test
-    void shouldPrioritiseQuests() throws QuestNotFoundException {
-      Quest questWithMaximumPriority = new Quest.Builder().withId(0)
-          .withDisplayName("questWithMaximumPriority").build();
-      Quest questWithLargeXpReward = new Quest.Builder().withId(1)
-          .withDisplayName("questWithLargeXpReward").withRewards(
-              new QuestRewards.Builder().withXp(Map.of(Skill.STRENGTH, Skill.MAX_XP)).build())
-          .build();
-      Player player = new Player.Builder()
-          .withQuests(Set.of(questWithMaximumPriority, questWithLargeXpReward)).build();
-
-      Path path = new PathFinder(player).find();
-
-      assertThat(path.getActions(), hasSize(2));
-      assertThat(path.getActions().get(0).getMessage(), equalTo("questWithLargeXpReward"));
-      assertThat(path.getActions().get(1).getMessage(), equalTo("questWithMaximumPriority"));
-
-      player = new Player.Builder()
-          .withQuests(Set.of(questWithMaximumPriority, questWithLargeXpReward)).build();
-      player.setQuestPriority(questWithMaximumPriority, QuestPriority.HIGH);
-      player.setQuestPriority(questWithLargeXpReward, QuestPriority.NORMAL);
-
-      path = new PathFinder(player).find();
-
-      assertThat(path.getActions(), hasSize(2));
-      assertThat(path.getActions().get(0).getMessage(), equalTo("questWithMaximumPriority"));
-      assertThat(path.getActions().get(1).getMessage(), equalTo("questWithLargeXpReward"));
-
-      player = new Player.Builder()
-          .withQuests(Set.of(questWithMaximumPriority, questWithLargeXpReward)).build();
-      player.setQuestPriority(questWithMaximumPriority, QuestPriority.NORMAL);
-      player.setQuestPriority(questWithLargeXpReward, QuestPriority.LOW);
-
-      path = new PathFinder(player).find();
-
-      assertThat(path.getActions(), hasSize(2));
-      assertThat(path.getActions().get(0).getMessage(), equalTo("questWithMaximumPriority"));
-      assertThat(path.getActions().get(1).getMessage(), equalTo("questWithLargeXpReward"));
     }
   }
 }

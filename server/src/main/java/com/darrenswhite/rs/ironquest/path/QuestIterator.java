@@ -60,7 +60,7 @@ public class QuestIterator implements Iterator<Quest> {
   private Quest find() {
     return player.getIncompleteQuests().stream().filter(
         quest -> quest.meetsCombatRequirement(player) && quest.meetsQuestPointRequirement(player)
-            && quest.meetsQuestRequirements(player)).min(algorithm.getQuestComparator(player))
+            && quest.meetsQuestRequirements(player)).max(algorithm.getQuestComparator(player))
         .orElse(null);
   }
 }
