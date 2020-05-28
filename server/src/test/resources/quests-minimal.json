@@ -1,17 +1,17 @@
 [
   {
     "access": "FREE",
-    "displayName": "a",
+    "displayName": "Display Name -1",
     "id": -1,
     "rewards": {
       "questPoints": 1
     },
-    "title": "a",
+    "title": "Title -1",
     "type": "QUEST"
   },
   {
     "access": "FREE",
-    "displayName": "b",
+    "displayName": "Display Name 0",
     "id": 0,
     "requirements": {
       "combat": {
@@ -37,12 +37,12 @@
     "rewards": {
       "questPoints": 2
     },
-    "title": "b",
+    "title": "Title 0",
     "type": "SAGA"
   },
   {
     "access": "MEMBERS",
-    "displayName": "c",
+    "displayName": "Display Name 1",
     "id": 1,
     "rewards": {
       "lamps": [
@@ -69,14 +69,17 @@
           "xp": 20000.0
         }
       ],
-      "questPoints": 5
+      "questPoints": 5,
+      "xp": {
+        "STRENGTH": 3000.0
+      }
     },
-    "title": "c",
+    "title": "Title 1",
     "type": "SAGA"
   },
   {
     "access": "MEMBERS",
-    "displayName": "d",
+    "displayName": "Display Name 2",
     "id": 2,
     "requirements": {
       "combat": {
@@ -181,7 +184,7 @@
       ],
       "questPoints": 3
     },
-    "title": "d",
+    "title": "Title 2",
     "type": "MINIQUEST"
   }
 ]

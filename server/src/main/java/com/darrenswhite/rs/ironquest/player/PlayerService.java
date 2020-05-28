@@ -6,7 +6,6 @@ import com.darrenswhite.rs.ironquest.quest.QuestRepository;
 import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -81,9 +80,7 @@ public class PlayerService {
     Player player = new Player.Builder().withName(name).withIronman(ironman)
         .withRecommended(recommended).withLampSkills(lampSkills).withQuests(filteredQuests).build();
 
-    for (Entry<Integer, QuestPriority> entry : questPriorities.entrySet()) {
-      player.setQuestPriority(entry.getKey(), entry.getValue());
-    }
+    questPriorities.forEach(player::setQuestPriority);
 
     player.load(hiscoreService, runeMetricsService);
 

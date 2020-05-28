@@ -20,7 +20,6 @@ import com.darrenswhite.rs.ironquest.quest.QuestType;
 import com.darrenswhite.rs.ironquest.quest.QuestTypeFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
@@ -41,13 +40,11 @@ class PlayerServiceTest {
 
   @BeforeAll
   static void beforeAll() throws IOException {
-    InputStream in = PlayerServiceTest.class.getClassLoader().getResourceAsStream(QUESTS_FILE);
-
-    questRepository = new QuestRepository(new InputStreamResource(Objects.requireNonNull(in)),
+    questRepository = new QuestRepository(new InputStreamResource(Objects
+        .requireNonNull(PlayerServiceTest.class.getClassLoader().getResourceAsStream(QUESTS_FILE))),
         OBJECT_MAPPER);
     hiscoreService = mock(HiscoreService.class);
     runeMetricsService = mock(RuneMetricsService.class);
-
     playerService = new PlayerService(questRepository, hiscoreService, runeMetricsService);
   }
 

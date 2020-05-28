@@ -37,13 +37,13 @@ class RuneMetricsServiceTest {
     void shouldParseAllQuests() {
       String name = "user";
 
-      RuneMetricsQuest questA = new RuneMetricsQuest.Builder().withTitle("a")
+      RuneMetricsQuest quest1 = new RuneMetricsQuest.Builder().withTitle("Title 0")
           .withStatus(Status.NOT_STARTED).withDifficulty(1).withMembers(false).withQuestPoints(10)
           .withUserEligible(false).build();
-      RuneMetricsQuest questB = new RuneMetricsQuest.Builder().withTitle("b")
+      RuneMetricsQuest quest2 = new RuneMetricsQuest.Builder().withTitle("Title 1")
           .withStatus(Status.STARTED).withDifficulty(2).withMembers(true).withQuestPoints(20)
           .withUserEligible(false).build();
-      RuneMetricsQuest questC = new RuneMetricsQuest.Builder().withTitle("c")
+      RuneMetricsQuest quest3 = new RuneMetricsQuest.Builder().withTitle("Title 2")
           .withStatus(Status.COMPLETED).withDifficulty(3).withMembers(false).withQuestPoints(30)
           .withUserEligible(true).build();
 
@@ -51,7 +51,7 @@ class RuneMetricsServiceTest {
 
       assertThat(loadedQuests, notNullValue());
       assertThat(loadedQuests, hasSize(3));
-      assertThat(loadedQuests, containsInAnyOrder(questA, questB, questC));
+      assertThat(loadedQuests, containsInAnyOrder(quest1, quest2, quest3));
     }
   }
 }

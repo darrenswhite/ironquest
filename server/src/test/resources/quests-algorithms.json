@@ -1,0 +1,242 @@
+[
+  {
+    "access": "FREE",
+    "displayName": "No Requirements, No Rewards",
+    "id": 0,
+    "title": "No Requirements, No Rewards",
+    "type": "QUEST"
+  },
+  {
+    "access": "FREE",
+    "displayName": "Low Requirements, No Rewards",
+    "id": 1,
+    "requirements": {
+      "skills": [
+        {
+          "ironman": false,
+          "level": 2,
+          "recommended": false,
+          "skill": "AGILITY"
+        },
+        {
+          "ironman": false,
+          "level": 2,
+          "recommended": false,
+          "skill": "THIEVING"
+        }
+      ]
+    },
+    "title": "Low Requirements, No Rewards",
+    "type": "QUEST"
+  },
+  {
+    "access": "FREE",
+    "displayName": "Medium Requirements, No Rewards",
+    "id": 2,
+    "requirements": {
+      "skills": [
+        {
+          "ironman": false,
+          "level": 50,
+          "recommended": false,
+          "skill": "SUMMONING"
+        },
+        {
+          "ironman": false,
+          "level": 50,
+          "recommended": false,
+          "skill": "PRAYER"
+        }
+      ]
+    },
+    "title": "Medium Requirements, No Rewards",
+    "type": "QUEST"
+  },
+  {
+    "access": "FREE",
+    "displayName": "High Requirements, No Rewards",
+    "id": 3,
+    "requirements": {
+      "skills": [
+        {
+          "ironman": false,
+          "level": 92,
+          "recommended": false,
+          "skill": "HERBLORE"
+        },
+        {
+          "ironman": false,
+          "level": 92,
+          "recommended": false,
+          "skill": "CONSTRUCTION"
+        }
+      ]
+    },
+    "title": "High Requirements, No Rewards",
+    "type": "QUEST"
+  },
+  {
+    "access": "FREE",
+    "displayName": "No Requirements, Low Rewards",
+    "id": 4,
+    "rewards": {
+      "xp": {
+        "STRENGTH": 100.0
+      }
+    },
+    "title": "No Requirements, Low Rewards",
+    "type": "QUEST"
+  },
+  {
+    "access": "FREE",
+    "displayName": "No Requirements, Medium Rewards",
+    "id": 5,
+    "rewards": {
+      "lamps": [
+        {
+          "exclusive": false,
+          "multiplier": 1.0,
+          "requirements": {
+            "*": 1
+          },
+          "singleChoice": false,
+          "type": "XP",
+          "xp": 20000.0
+        }
+      ]
+    },
+    "title": "No Requirements, Medium Rewards",
+    "type": "QUEST"
+  },
+  {
+    "access": "FREE",
+    "displayName": "No Requirements, High Rewards",
+    "id": 6,
+    "rewards": {
+      "lamps": [
+        {
+          "exclusive": false,
+          "multiplier": 1.0,
+          "requirements": {
+            "*": 1
+          },
+          "singleChoice": false,
+          "type": "XP",
+          "xp": 300000.0
+        }
+      ],
+      "xp": {
+        "CONSTITUTION": 45000.0,
+        "FLETCHING": 75000.0
+      }
+    },
+    "title": "No Requirements, High Rewards",
+    "type": "QUEST"
+  },
+  {
+    "access": "FREE",
+    "displayName": "Low Requirements, Low Rewards",
+    "id": 7,
+    "requirements": {
+      "skills": [
+        {
+          "ironman": false,
+          "level": 2,
+          "recommended": false,
+          "skill": "AGILITY"
+        },
+        {
+          "ironman": false,
+          "level": 2,
+          "recommended": false,
+          "skill": "THIEVING"
+        }
+      ]
+    },
+    "rewards": {
+      "xp": {
+        "STRENGTH": 100.0
+      }
+    },
+    "title": "Low Requirements, Low Rewards",
+    "type": "QUEST"
+  },
+  {
+    "access": "FREE",
+    "displayName": "Medium Requirements, Medium Rewards",
+    "id": 8,
+    "requirements": {
+      "skills": [
+        {
+          "ironman": false,
+          "level": 50,
+          "recommended": false,
+          "skill": "SUMMONING"
+        },
+        {
+          "ironman": false,
+          "level": 50,
+          "recommended": false,
+          "skill": "PRAYER"
+        }
+      ]
+    },
+    "rewards": {
+      "lamps": [
+        {
+          "exclusive": false,
+          "multiplier": 1.0,
+          "requirements": {
+            "*": 1
+          },
+          "singleChoice": false,
+          "type": "XP",
+          "xp": 20000.0
+        }
+      ]
+    },
+    "title": "Medium Requirements, Medium Rewards",
+    "type": "QUEST"
+  },
+  {
+    "access": "FREE",
+    "displayName": "High Requirements, High Rewards",
+    "id": 9,
+    "requirements": {
+      "skills": [
+        {
+          "ironman": false,
+          "level": 92,
+          "recommended": false,
+          "skill": "HERBLORE"
+        },
+        {
+          "ironman": false,
+          "level": 92,
+          "recommended": false,
+          "skill": "CONSTRUCTION"
+        }
+      ]
+    },
+    "rewards": {
+      "lamps": [
+        {
+          "exclusive": false,
+          "multiplier": 1.0,
+          "requirements": {
+            "*": 1
+          },
+          "singleChoice": false,
+          "type": "XP",
+          "xp": 300000.0
+        }
+      ],
+      "xp": {
+        "CONSTITUTION": 45000.0,
+        "FLETCHING": 75000.0
+      }
+    },
+    "title": "High Requirements, High Rewards",
+    "type": "QUEST"
+  }
+]

@@ -1,7 +1,7 @@
 {
   "quests": [
     {
-      "title": "a",
+      "title": "Title 0",
       "status": "NOT_STARTED",
       "difficulty": 1,
       "members": false,
@@ -9,7 +9,7 @@
       "userEligible": false
     },
     {
-      "title": "b",
+      "title": "Title 1",
       "status": "STARTED",
       "difficulty": 2,
       "members": true,
@@ -17,7 +17,7 @@
       "userEligible": false
     },
     {
-      "title": "c",
+      "title": "Title 2",
       "status": "COMPLETED",
       "difficulty": 3,
       "members": false,
