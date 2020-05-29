@@ -106,13 +106,28 @@
         class="mt-4"
       />
     </v-row>
+
+    <v-row>
+      <v-autocomplete
+        v-model="algorithm"
+        :items="algorithms"
+        item-text="text"
+        item-value="value"
+        label="Algorithm"
+        class="mt-4"
+        :prepend-icon="mdiChartBar"
+        hint="Choose which algorithm to use."
+        persistent-hint
+        mandatory
+      />
+    </v-row>
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import {Skill} from '@/common/types';
-import {capitalize, map} from 'lodash';
+import {PathFinderAlgorithm, Skill} from '@/common/types';
+import {capitalize, map, startCase, toLower} from 'lodash';
 import {mapFields} from 'vuex-map-fields';
 import {
   mdiAccount,
@@ -155,6 +170,11 @@ const SKILLS = [
   Skill.WOODCUTTING,
 ] as Skill[];
 
+const ALGORITHMS = [
+  PathFinderAlgorithm.DEFAULT,
+  PathFinderAlgorithm.SMART_PRIORITIES,
+];
+
 export default Vue.extend({
   name: 'Settings',
   components: {
@@ -173,6 +193,12 @@ export default Vue.extend({
         text: capitalize(skill),
       }));
     },
+    algorithms() {
+      return map(ALGORITHMS, algorithm => ({
+        value: algorithm,
+        text: startCase(toLower(algorithm)),
+      }));
+    },
     ...(mapFields([
       'parameters.name',
       'parameters.typeFilter',
@@ -181,6 +207,7 @@ export default Vue.extend({
       'parameters.recommended',
       'parameters.lampSkills',
       'parameters.questPriorities',
+      'parameters.algorithm',
     ]) as ComputedMapper<RootState['parameters']>),
   },
 });
