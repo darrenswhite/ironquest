@@ -45,7 +45,7 @@ const state: RootState = {
     recommended: false,
     lampSkills: [],
     questPriorities: {},
-    algorithm: PathFinderAlgorithm.DEFAULT
+    algorithm: PathFinderAlgorithm.DEFAULT,
   },
   quests: {
     error: false,
@@ -102,13 +102,14 @@ const mutations: MutationTree<RootState> = {
   },
   [constants.MUTATIONS.SET_QUESTS_LOADING](state: RootState): void {
     state.quests.loading = true;
-    state.quests.quests = [];
     state.actions.error = false;
   },
   [constants.MUTATIONS.SET_QUESTS](state: RootState, quests: Quest[]): void {
+    const priorities = state.parameters.questPriorities || {};
+
     quests = filter(quests, quest => quest.id >= 0);
     quests = map(quests, quest => {
-      quest.priority = QuestPriority.NORMAL;
+      quest.priority = priorities[quest.id] || QuestPriority.NORMAL;
       return quest;
     });
 
@@ -171,6 +172,7 @@ const actions: ActionTree<RootState, RootState> = {
           error: error,
           parameters: extend({}, params),
         });
+        context.state.quests.quests = [];
       });
   },
 };
