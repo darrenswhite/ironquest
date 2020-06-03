@@ -628,7 +628,7 @@ public class Player {
       Skill skill = sr.getSkill();
 
       return skill.getXpAtLevel(sr.getLevel()) - getXp(skill);
-    }));
+    }, Math::max));
   }
 
   /**

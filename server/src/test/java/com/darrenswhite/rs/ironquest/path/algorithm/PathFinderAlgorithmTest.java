@@ -32,9 +32,10 @@ abstract class PathFinderAlgorithmTest {
   static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   static final String QUEST_49_MAGIC_REQUIREMENT_NO_REWARDS = "49 Magic Requirement, No Rewards";
-  static final String QUEST_NO_REQUIREMENTS_45K_MAGIC_REWARD = "No Requirements, 45k Magic Reward";
+  static final String QUEST_NO_REQUIREMENTS_45K_MAGIC_LAMP_REWARD = "No Requirements, 45k Magic Lamp Reward";
   static final String QUEST_NO_REQUIREMENTS_50K_MAGIC_REWARD = "No Requirements, 50k Magic Reward";
   static final String QUEST_NO_REQUIREMENTS_200K_DEFENCE_REWARD = "No Requirements, 200k Defence Reward";
+  static final String QUEST_50_RUNECRAFTING_REQUIREMENT_59_RUNECRAFTING_IRONMAN_REQUIREMENT_NO_REWARDS = "50 Runecrafting Requirement, 59 Runecrafting Ironman Requirement, No Rewards";
 
   static QuestRepository questRepository;
 
@@ -50,11 +51,22 @@ abstract class PathFinderAlgorithmTest {
     assertQuestOrder(algorithm, Collections.emptyMap(), displayNameOrder);
   }
 
+  static void assertQuestOrder(PathFinderAlgorithm algorithm, boolean ironman,
+      String... displayNameOrder) throws QuestNotFoundException {
+    assertQuestOrder(algorithm, Collections.emptyMap(), ironman, displayNameOrder);
+  }
+
   static void assertQuestOrder(PathFinderAlgorithm algorithm,
       Map<String, QuestPriority> questPriorities, String... displayNameOrder)
       throws QuestNotFoundException {
+    assertQuestOrder(algorithm, questPriorities, false, displayNameOrder);
+  }
+
+  static void assertQuestOrder(PathFinderAlgorithm algorithm,
+      Map<String, QuestPriority> questPriorities, boolean ironman, String... displayNameOrder)
+      throws QuestNotFoundException {
     Map<String, Quest> expectedQuestOrder = mapDisplayNamesToQuests(displayNameOrder);
-    Player player = createPlayer(questPriorities);
+    Player player = createPlayer(questPriorities, ironman);
 
     PathFinder pathFinder = new PathFinder(player, algorithm);
 
@@ -67,8 +79,9 @@ abstract class PathFinderAlgorithmTest {
         expectedQuestOrder.values().stream().map(Matchers::equalTo).collect(Collectors.toList())));
   }
 
-  static Player createPlayer(Map<String, QuestPriority> priorities) {
-    Player player = new Player.Builder().withQuests(questRepository.getQuests()).build();
+  static Player createPlayer(Map<String, QuestPriority> priorities, boolean ironman) {
+    Player player = new Player.Builder().withQuests(questRepository.getQuests())
+        .withIronman(ironman).build();
 
     priorities.forEach((displayName, priority) -> player
         .setQuestPriority(getQuestByDisplayName(displayName), priority));

@@ -18,14 +18,17 @@
   },
   {
     "access": "FREE",
-    "displayName": "No Requirements, 45k Magic Reward",
+    "displayName": "No Requirements, 45k Magic Lamp Reward",
     "id": 1,
     "rewards": {
-      "xp": {
-        "MAGIC": 45000.0
-      }
+      "lamps": [
+        {
+          "type": "XP",
+          "xp": 45000.0
+        }
+      ]
     },
-    "title": "No Requirements, 45k Magic Reward",
+    "title": "No Requirements, 45k Magic Lamp Reward",
     "type": "QUEST"
   },
   {
@@ -50,6 +53,29 @@
       }
     },
     "title": "No Requirements, 200k Defence Reward",
+    "type": "QUEST"
+  },
+  {
+    "access": "FREE",
+    "displayName": "50 Runecrafting Requirement, 59 Runecrafting Ironman Requirement, No Rewards",
+    "id": 4,
+    "requirements": {
+      "skills": [
+        {
+          "ironman": false,
+          "level": 50,
+          "recommended": false,
+          "skill": "RUNECRAFTING"
+        },
+        {
+          "ironman": true,
+          "level": 59,
+          "recommended": false,
+          "skill": "RUNECRAFTING"
+        }
+      ]
+    },
+    "title": "50 Runecrafting Requirement, 59 Runecrafting Ironman Requirement, No Rewards",
     "type": "QUEST"
   }
 ]
