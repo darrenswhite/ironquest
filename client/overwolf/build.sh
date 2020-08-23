@@ -39,7 +39,7 @@ function parseArgs() {
         usage
         exit 0
         ;;
-      -s)
+      -s | --update-store)
         UPDATE_STORE='true'
         ;;
       --)
