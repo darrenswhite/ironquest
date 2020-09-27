@@ -1,6 +1,6 @@
 <template>
   <v-app v-cloak>
-    <v-content>
+    <v-main>
       <actions>
         <div class="settings">
           <v-btn @click="run">
@@ -11,7 +11,7 @@
           </v-btn>
         </div>
       </actions>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

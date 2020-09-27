@@ -17,6 +17,7 @@
       "@/*": ["src/*"]
     },
     "pretty": true,
+    "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
     "target": "es5",

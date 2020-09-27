@@ -1,6 +1,6 @@
 <template>
   <v-app v-cloak>
-    <v-content>
+    <v-main>
       <v-container fluid>
         <settings />
         <v-row>
@@ -22,7 +22,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

@@ -31,7 +31,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-content>
+    <v-main>
       <v-container fluid>
         <v-row>
           <v-col
@@ -70,7 +70,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-content>
+    </v-main>
     <v-footer padless>
       <v-col
         class="text-center"

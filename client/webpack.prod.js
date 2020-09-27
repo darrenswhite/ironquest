@@ -73,7 +73,6 @@ module.exports = merge.smart(common.webpack, {
         collapseWhitespace: true,
         removeAttributeQuotes: true,
       },
-      chunksSortMode: 'dependency',
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[chunkhash].css',
