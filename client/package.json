@@ -1,6 +1,6 @@
 {
   "name": "ironquest",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "IronQuest Web App",
   "main": "serve.js",
   "engines": {
