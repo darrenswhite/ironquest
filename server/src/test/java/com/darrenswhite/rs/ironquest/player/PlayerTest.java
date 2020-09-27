@@ -1,7 +1,7 @@
 package com.darrenswhite.rs.ironquest.player;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -35,7 +35,7 @@ public class PlayerTest {
 
       Player copy = original.copy();
 
-      assertThat(original, equalTo(copy));
+      assertThat(original, is(copy));
       assertThat(original, not(sameInstance(copy)));
     }
 
@@ -48,9 +48,9 @@ public class PlayerTest {
 
       Player copy = original.copy();
 
-      assertThat(original, equalTo(copy));
+      assertThat(original, is(copy));
       assertThat(original, not(sameInstance(copy)));
-      assertThat(copy.getQuestPriority(quest), equalTo(QuestPriority.MAXIMUM));
+      assertThat(copy.getQuestPriority(quest), is(QuestPriority.MAXIMUM));
     }
 
     @Test
@@ -62,9 +62,9 @@ public class PlayerTest {
 
       Player copy = original.copy();
 
-      assertThat(original, equalTo(copy));
+      assertThat(original, is(copy));
       assertThat(original, not(sameInstance(copy)));
-      assertThat(copy.getQuestStatus(quest), equalTo(QuestStatus.COMPLETED));
+      assertThat(copy.getQuestStatus(quest), is(QuestStatus.COMPLETED));
     }
   }
 

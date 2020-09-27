@@ -1,7 +1,7 @@
 package com.darrenswhite.rs.ironquest.quest.requirement;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.QuestStatus;
@@ -29,7 +29,7 @@ class QuestRequirementTest {
 
       playerWithCompletedQuestRequirement.setQuestStatus(requiredQuest, QuestStatus.COMPLETED);
 
-      assertThat(questRequirement.testPlayer(playerWithCompletedQuestRequirement), equalTo(true));
+      assertThat(questRequirement.testPlayer(playerWithCompletedQuestRequirement), is(true));
     }
 
     @Test
@@ -42,7 +42,7 @@ class QuestRequirementTest {
       Player playerWithIncompleteQuestRequirement = new Player.Builder()
           .withQuests(Set.of(requiredQuest, questWithRequirement)).build();
 
-      assertThat(questRequirement.testPlayer(playerWithIncompleteQuestRequirement), equalTo(false));
+      assertThat(questRequirement.testPlayer(playerWithIncompleteQuestRequirement), is(false));
     }
   }
 

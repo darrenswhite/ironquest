@@ -1,7 +1,7 @@
 package com.darrenswhite.rs.ironquest.dto;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 import com.darrenswhite.rs.ironquest.quest.QuestAccessFilter;
@@ -21,12 +21,12 @@ class PathFinderParametersDTOTest {
       PathFinderParametersDTO pathFinderParametersDTO = new PathFinderParametersDTO();
 
       assertThat(pathFinderParametersDTO.getName(), nullValue());
-      assertThat(pathFinderParametersDTO.getAccessFilter(), equalTo(QuestAccessFilter.ALL));
-      assertThat(pathFinderParametersDTO.getTypeFilter(), equalTo(QuestTypeFilter.ALL));
-      assertThat(pathFinderParametersDTO.isIronman(), equalTo(false));
-      assertThat(pathFinderParametersDTO.isRecommended(), equalTo(false));
-      assertThat(pathFinderParametersDTO.getLampSkills(), equalTo(new LinkedHashSet<>()));
-      assertThat(pathFinderParametersDTO.getQuestPriorities(), equalTo(new LinkedHashMap<>()));
+      assertThat(pathFinderParametersDTO.getAccessFilter(), is(QuestAccessFilter.ALL));
+      assertThat(pathFinderParametersDTO.getTypeFilter(), is(QuestTypeFilter.ALL));
+      assertThat(pathFinderParametersDTO.isIronman(), is(false));
+      assertThat(pathFinderParametersDTO.isRecommended(), is(false));
+      assertThat(pathFinderParametersDTO.getLampSkills(), is(new LinkedHashSet<>()));
+      assertThat(pathFinderParametersDTO.getQuestPriorities(), is(new LinkedHashMap<>()));
     }
   }
 }

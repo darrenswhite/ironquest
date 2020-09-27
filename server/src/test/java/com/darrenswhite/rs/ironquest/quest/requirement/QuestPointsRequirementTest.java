@@ -1,7 +1,7 @@
 package com.darrenswhite.rs.ironquest.quest.requirement;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.QuestStatus;
@@ -36,7 +36,7 @@ class QuestPointsRequirementTest {
       QuestPointsRequirement questPointsRequirement = new QuestPointsRequirement.Builder(
           questPointsRequired).build();
 
-      assertThat(questPointsRequirement.testPlayer(player), equalTo(true));
+      assertThat(questPointsRequirement.testPlayer(player), is(true));
     }
 
     Stream<Arguments> shouldMeetRequirement() {
@@ -58,7 +58,7 @@ class QuestPointsRequirementTest {
       QuestPointsRequirement questPointsRequirement = new QuestPointsRequirement.Builder(
           questPointsRequired).build();
 
-      assertThat(questPointsRequirement.testPlayer(player), equalTo(false));
+      assertThat(questPointsRequirement.testPlayer(player), is(false));
     }
 
     Stream<Arguments> shouldNotMeetRequirement() {

@@ -1,7 +1,7 @@
 package com.darrenswhite.rs.ironquest.quest.requirement;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
@@ -43,7 +43,7 @@ class CombatRequirementTest {
 
       CombatRequirement combatRequirement = new CombatRequirement.Builder(combatLevel).build();
 
-      assertThat(combatRequirement.testPlayer(player), equalTo(true));
+      assertThat(combatRequirement.testPlayer(player), is(true));
     }
 
     Stream<Arguments> shouldMeetRequirement() {
@@ -58,7 +58,7 @@ class CombatRequirementTest {
 
       CombatRequirement combatRequirement = new CombatRequirement.Builder(combatLevel).build();
 
-      assertThat(combatRequirement.testPlayer(player), equalTo(false));
+      assertThat(combatRequirement.testPlayer(player), is(false));
     }
 
     Stream<Arguments> shouldNotMeetRequirement() {

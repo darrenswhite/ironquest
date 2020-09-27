@@ -1,8 +1,8 @@
 package com.darrenswhite.rs.ironquest.quest.requirement;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.is;
 
 import com.darrenswhite.rs.ironquest.player.Player;
 import com.darrenswhite.rs.ironquest.player.Skill;
@@ -33,7 +33,7 @@ class SkillRequirementTest {
       SkillRequirement skillRequirement = new SkillRequirement.Builder(Skill.RANGED, levelRequired)
           .build();
 
-      assertThat(skillRequirement.testPlayer(player), equalTo(true));
+      assertThat(skillRequirement.testPlayer(player), is(true));
     }
 
     Stream<Arguments> shouldMeetRequirement() {
@@ -49,7 +49,7 @@ class SkillRequirementTest {
       SkillRequirement skillRequirement = new SkillRequirement.Builder(Skill.RANGED, levelRequired)
           .build();
 
-      assertThat(skillRequirement.testPlayer(player), equalTo(false));
+      assertThat(skillRequirement.testPlayer(player), is(false));
     }
 
     Stream<Arguments> shouldNotMeetRequirement() {

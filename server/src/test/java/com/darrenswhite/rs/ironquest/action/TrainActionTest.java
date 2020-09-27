@@ -1,9 +1,9 @@
 package com.darrenswhite.rs.ironquest.action;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.sameInstance;
 
 import com.darrenswhite.rs.ironquest.dto.TrainActionDTO;
 import com.darrenswhite.rs.ironquest.player.Player;
@@ -24,7 +24,7 @@ class TrainActionTest {
 
       TrainAction trainAction = new TrainAction(player, Skill.CONSTITUTION, 40000, 55250);
 
-      assertThat(trainAction.getType(), equalTo(ActionType.TRAIN));
+      assertThat(trainAction.getType(), is(ActionType.TRAIN));
     }
   }
 
@@ -38,8 +38,8 @@ class TrainActionTest {
       TrainAction trainAction = new TrainAction(player, Skill.CONSTITUTION, 40000, 55250);
 
       assertThat(trainAction.getMessage(),
-          equalTo("Train Constitution to level 43, requiring 15.25k xp"));
-      assertThat(trainAction.toString(), equalTo(trainAction.getMessage()));
+          is("Train Constitution to level 43, requiring 15.25k xp"));
+      assertThat(trainAction.toString(), is(trainAction.getMessage()));
     }
   }
 
@@ -52,7 +52,7 @@ class TrainActionTest {
 
       TrainAction trainAction = new TrainAction(player, Skill.PRAYER, 0, 100);
 
-      assertThat(trainAction.meetsRequirements(player), equalTo(true));
+      assertThat(trainAction.meetsRequirements(player), is(true));
     }
   }
 
@@ -67,7 +67,7 @@ class TrainActionTest {
 
       trainAction.process(player);
 
-      assertThat(player.getXp(Skill.MAGIC), equalTo(10000D));
+      assertThat(player.getXp(Skill.MAGIC), is(10000D));
     }
   }
 
@@ -82,10 +82,10 @@ class TrainActionTest {
 
       TrainActionDTO dto = trainAction.createDTO();
 
-      assertThat(dto.getMessage(), equalTo(trainAction.getMessage()));
-      assertThat(dto.getPlayer(), equalTo(player.createDTO()));
-      assertThat(dto.getType(), equalTo(ActionType.TRAIN));
-      assertThat(dto.isFuture(), equalTo(false));
+      assertThat(dto.getMessage(), is(trainAction.getMessage()));
+      assertThat(dto.getPlayer(), is(player.createDTO()));
+      assertThat(dto.getType(), is(ActionType.TRAIN));
+      assertThat(dto.isFuture(), is(false));
     }
   }
 
@@ -101,10 +101,10 @@ class TrainActionTest {
 
       TrainAction copied = trainAction.copyForPlayer(playerToCopy);
 
-      assertThat(copied.getSkill(), equalTo(trainAction.getSkill()));
-      assertThat(copied.getStartXp(), equalTo(trainAction.getStartXp()));
-      assertThat(copied.getEndXp(), equalTo(trainAction.getEndXp()));
-      assertThat(copied.getPlayer(), equalTo(playerToCopy));
+      assertThat(copied.getSkill(), is(trainAction.getSkill()));
+      assertThat(copied.getStartXp(), is(trainAction.getStartXp()));
+      assertThat(copied.getEndXp(), is(trainAction.getEndXp()));
+      assertThat(copied.getPlayer(), is(playerToCopy));
       assertThat(copied, not(sameInstance(trainAction)));
     }
   }

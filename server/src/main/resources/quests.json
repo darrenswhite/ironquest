@@ -12792,5 +12792,80 @@
     },
     "title": "Once Upon a Slime",
     "type": "QUEST"
+  },
+  {
+    "access": "MEMBERS",
+    "displayName": "Desperate Measures",
+    "id": 293,
+    "requirements": {
+      "combat": {
+        "ironman": false,
+        "level": 95,
+        "recommended": true
+      },
+      "quests": [
+        {
+          "quest": 205,
+          "ironman": false,
+          "recommended": true
+        },
+        {
+          "quest": 230,
+          "ironman": false,
+          "recommended": true
+        },
+        {
+          "quest": 242,
+          "ironman": false,
+          "recommended": true
+        },
+        {
+          "quest": 243,
+          "ironman": false,
+          "recommended": false
+        }
+      ],
+      "skills": [
+        {
+          "ironman": false,
+          "level": 50,
+          "recommended": false,
+          "skill": "AGILITY"
+        },
+        {
+          "ironman": false,
+          "level": 50,
+          "recommended": false,
+          "skill": "ARCHAEOLOGY"
+        }
+      ]
+    },
+    "rewards": {
+      "lamps": [
+        {
+          "exclusive": false,
+          "multiplier": 1.0,
+          "requirements": {
+            "ARCHAEOLOGY": 1
+          },
+          "singleChoice": false,
+          "type": "XP",
+          "xp": 20000.0
+        },
+        {
+          "exclusive": false,
+          "multiplier": 1.0,
+          "requirements": {
+            "ATTACK,CONSTITUTION,DEFENCE,MAGIC,PRAYER,RANGED,STRENGTH": 1
+          },
+          "singleChoice": true,
+          "type": "XP",
+          "xp": 20000.0
+        }
+      ],
+      "questPoints": 3
+    },
+    "title": "Desperate Measures",
+    "type": "QUEST"
   }
 ]

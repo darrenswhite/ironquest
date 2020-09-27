@@ -1,7 +1,7 @@
 package com.darrenswhite.rs.ironquest.controller;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -72,7 +72,7 @@ class QuestControllerTest {
 
       Set<Quest> result = controller.getQuests(parameters);
 
-      assertThat(result, equalTo(quests));
+      assertThat(result, is(quests));
     }
   }
 
@@ -113,7 +113,7 @@ class QuestControllerTest {
           .createPlayer(name, accessFilter, typeFilter, true, true, lampSkills, questPriorities);
       verify(pathFinderService).find(player, algorithm);
       verify(path).createDTO();
-      assertThat(result, equalTo(pathDTO));
+      assertThat(result, is(pathDTO));
     }
   }
 }

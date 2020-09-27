@@ -1,9 +1,9 @@
 package com.darrenswhite.rs.ironquest.path;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.darrenswhite.rs.ironquest.player.Player;
@@ -44,9 +44,9 @@ class PathFinderTest {
       Path path = new PathFinder(player).find();
 
       assertThat(path.getActions(), hasSize(2));
-      assertThat(path.getActions().get(0).getMessage(), equalTo("questInProgress"));
-      assertThat(path.getActions().get(1).getMessage(), equalTo("questNotStarted"));
-      assertThat(path.getStats().getPercentComplete(), equalTo(33D));
+      assertThat(path.getActions().get(0).getMessage(), is("questInProgress"));
+      assertThat(path.getActions().get(1).getMessage(), is("questNotStarted"));
+      assertThat(path.getStats().getPercentComplete(), is(33D));
     }
 
     @Test
@@ -72,11 +72,11 @@ class PathFinderTest {
       Path path = new PathFinder(player).find();
 
       assertThat(path.getActions(), hasSize(3));
-      assertThat(path.getActions().get(0).getMessage(), equalTo("questWithXpLampReward"));
-      assertThat(path.getActions().get(1).getMessage(), equalTo("questWithXpReward"));
+      assertThat(path.getActions().get(0).getMessage(), is("questWithXpLampReward"));
+      assertThat(path.getActions().get(1).getMessage(), is("questWithXpReward"));
       assertThat(path.getActions().get(2).getMessage(),
-          equalTo("questWithXpLampReward: Use XP Lamp on Attack to gain 1k xp"));
-      assertThat(path.getStats().getPercentComplete(), equalTo(33D));
+          is("questWithXpLampReward: Use XP Lamp on Attack to gain 1k xp"));
+      assertThat(path.getStats().getPercentComplete(), is(33D));
     }
 
     @Test
@@ -97,12 +97,12 @@ class PathFinderTest {
       Path path = new PathFinder(player).find();
 
       assertThat(path.getActions(), hasSize(3));
-      assertThat(path.getActions().get(0).getMessage(), equalTo("questNotStarted"));
-      assertThat(path.getActions().get(1).getMessage(), equalTo("questWithXpLampReward"));
+      assertThat(path.getActions().get(0).getMessage(), is("questNotStarted"));
+      assertThat(path.getActions().get(1).getMessage(), is("questWithXpLampReward"));
       assertThat(path.getActions().get(2).getMessage(),
-          equalTo("questWithXpLampReward: Use XP Lamp to gain 1k xp (when requirements are met)"));
-      assertThat(path.getActions().get(2).isFuture(), equalTo(true));
-      assertThat(path.getStats().getPercentComplete(), equalTo(33D));
+          is("questWithXpLampReward: Use XP Lamp to gain 1k xp (when requirements are met)"));
+      assertThat(path.getActions().get(2).isFuture(), is(true));
+      assertThat(path.getStats().getPercentComplete(), is(33D));
     }
 
     @Test
@@ -116,8 +116,8 @@ class PathFinderTest {
       Path path = new PathFinder(player).find();
 
       assertThat(path.getActions(), empty());
-      assertThat(path.getStats().getPercentComplete(), equalTo(0D));
-      assertThat(player.getQuestPoints(), equalTo(1));
+      assertThat(path.getStats().getPercentComplete(), is(0D));
+      assertThat(player.getQuestPoints(), is(1));
     }
 
     @Test

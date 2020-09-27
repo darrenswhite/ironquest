@@ -76,7 +76,7 @@ abstract class PathFinderAlgorithmTest {
         .map(QuestAction::getQuest).collect(Collectors.toList());
 
     assertThat(questActions, contains(
-        expectedQuestOrder.values().stream().map(Matchers::equalTo).collect(Collectors.toList())));
+        expectedQuestOrder.values().stream().map(Matchers::is).collect(Collectors.toList())));
   }
 
   static Player createPlayer(Map<String, QuestPriority> priorities, boolean ironman) {

@@ -1,9 +1,9 @@
 package com.darrenswhite.rs.ironquest.action;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.sameInstance;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -39,7 +39,7 @@ class LampActionTest {
 
       LampAction lampAction = new LampAction(player, false, quest, lampReward, skills);
 
-      assertThat(lampAction.getType(), equalTo(ActionType.LAMP));
+      assertThat(lampAction.getType(), is(ActionType.LAMP));
     }
   }
 
@@ -61,8 +61,8 @@ class LampActionTest {
 
       LampAction lampAction = new LampAction(player, future, quest, lampReward, skills);
 
-      assertThat(lampAction.getMessage(), equalTo(message));
-      assertThat(lampAction.toString(), equalTo(lampAction.getMessage()));
+      assertThat(lampAction.getMessage(), is(message));
+      assertThat(lampAction.toString(), is(lampAction.getMessage()));
     }
 
     Stream<Arguments> shouldFormatMessage() {
@@ -119,8 +119,8 @@ class LampActionTest {
 
       lampAction.process(player);
 
-      assertThat(player.getXp(Skill.DEFENCE), equalTo(1000D));
-      assertThat(player.getXp(Skill.STRENGTH), equalTo(1000D));
+      assertThat(player.getXp(Skill.DEFENCE), is(1000D));
+      assertThat(player.getXp(Skill.STRENGTH), is(1000D));
     }
   }
 
@@ -139,11 +139,11 @@ class LampActionTest {
 
       LampActionDTO dto = lampAction.createDTO();
 
-      assertThat(dto.getMessage(), equalTo(lampAction.getMessage()));
-      assertThat(dto.getQuest(), equalTo(quest.createDTO()));
-      assertThat(dto.getPlayer(), equalTo(player.createDTO()));
-      assertThat(dto.getType(), equalTo(ActionType.LAMP));
-      assertThat(dto.isFuture(), equalTo(false));
+      assertThat(dto.getMessage(), is(lampAction.getMessage()));
+      assertThat(dto.getQuest(), is(quest.createDTO()));
+      assertThat(dto.getPlayer(), is(player.createDTO()));
+      assertThat(dto.getType(), is(ActionType.LAMP));
+      assertThat(dto.isFuture(), is(false));
     }
   }
 
@@ -163,10 +163,10 @@ class LampActionTest {
 
       LampAction copied = lampAction.copyForPlayer(playerToCopy);
 
-      assertThat(copied.getQuest(), equalTo(quest));
-      assertThat(copied.getLampReward(), equalTo(lampReward));
-      assertThat(copied.getSkills(), equalTo(skills));
-      assertThat(copied.getPlayer(), equalTo(playerToCopy));
+      assertThat(copied.getQuest(), is(quest));
+      assertThat(copied.getLampReward(), is(lampReward));
+      assertThat(copied.getSkills(), is(skills));
+      assertThat(copied.getPlayer(), is(playerToCopy));
       assertThat(copied, not(sameInstance(lampAction)));
     }
   }

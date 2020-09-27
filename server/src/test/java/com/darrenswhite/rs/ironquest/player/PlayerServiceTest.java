@@ -3,10 +3,10 @@ package com.darrenswhite.rs.ironquest.player;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -63,10 +63,10 @@ class PlayerServiceTest {
               Collections.emptySet(),
               Map.of(-1, priorityA, 0, priorityB, 1, priorityC, 2, priorityD));
 
-      assertThat(player.getQuestPriority(-1), equalTo(priorityA));
-      assertThat(player.getQuestPriority(0), equalTo(priorityB));
-      assertThat(player.getQuestPriority(1), equalTo(priorityC));
-      assertThat(player.getQuestPriority(2), equalTo(priorityD));
+      assertThat(player.getQuestPriority(-1), is(priorityA));
+      assertThat(player.getQuestPriority(0), is(priorityB));
+      assertThat(player.getQuestPriority(1), is(priorityC));
+      assertThat(player.getQuestPriority(2), is(priorityD));
     }
 
     @Test
@@ -77,7 +77,7 @@ class PlayerServiceTest {
 
       assertThat(player.getQuests(), notNullValue());
       assertThat(player.getQuests(), hasSize(2));
-      assertThat(player.getQuests(), everyItem(hasProperty("access", equalTo(QuestAccess.FREE))));
+      assertThat(player.getQuests(), everyItem(hasProperty("access", is(QuestAccess.FREE))));
     }
 
     @Test
@@ -90,10 +90,9 @@ class PlayerServiceTest {
       // quest requirements are also included
       assertThat(player.getQuests(), hasSize(3));
       assertThat(player.getQuests(), containsInAnyOrder(
-          allOf(hasProperty("id", equalTo(0)), hasProperty("access", equalTo(QuestAccess.FREE))),
-          allOf(hasProperty("id", equalTo(1)), hasProperty("access", equalTo(QuestAccess.MEMBERS))),
-          allOf(hasProperty("id", equalTo(2)),
-              hasProperty("access", equalTo(QuestAccess.MEMBERS)))));
+          allOf(hasProperty("id", is(0)), hasProperty("access", is(QuestAccess.FREE))),
+          allOf(hasProperty("id", is(1)), hasProperty("access", is(QuestAccess.MEMBERS))),
+          allOf(hasProperty("id", is(2)), hasProperty("access", is(QuestAccess.MEMBERS)))));
     }
 
     @Test
@@ -106,9 +105,9 @@ class PlayerServiceTest {
       // quest requirements are also included
       assertThat(player.getQuests(), hasSize(3));
       assertThat(player.getQuests(), containsInAnyOrder(
-          allOf(hasProperty("id", equalTo(0)), hasProperty("type", equalTo(QuestType.SAGA))),
-          allOf(hasProperty("id", equalTo(1)), hasProperty("type", equalTo(QuestType.SAGA))),
-          allOf(hasProperty("id", equalTo(2)), hasProperty("type", equalTo(QuestType.MINIQUEST)))));
+          allOf(hasProperty("id", is(0)), hasProperty("type", is(QuestType.SAGA))),
+          allOf(hasProperty("id", is(1)), hasProperty("type", is(QuestType.SAGA))),
+          allOf(hasProperty("id", is(2)), hasProperty("type", is(QuestType.MINIQUEST)))));
     }
 
     @Test
@@ -120,8 +119,8 @@ class PlayerServiceTest {
       assertThat(player.getQuests(), notNullValue());
       assertThat(player.getQuests(), hasSize(2));
       assertThat(player.getQuests(), containsInAnyOrder(
-          allOf(hasProperty("id", equalTo(0)), hasProperty("type", equalTo(QuestType.SAGA))),
-          allOf(hasProperty("id", equalTo(1)), hasProperty("type", equalTo(QuestType.SAGA)))));
+          allOf(hasProperty("id", is(0)), hasProperty("type", is(QuestType.SAGA))),
+          allOf(hasProperty("id", is(1)), hasProperty("type", is(QuestType.SAGA)))));
     }
 
     @Test
@@ -133,7 +132,7 @@ class PlayerServiceTest {
       assertThat(player.getQuests(), notNullValue());
       assertThat(player.getQuests(), hasSize(1));
       assertThat(player.getQuests(), containsInAnyOrder(
-          allOf(hasProperty("id", equalTo(-1)), hasProperty("type", equalTo(QuestType.QUEST)))));
+          allOf(hasProperty("id", is(-1)), hasProperty("type", is(QuestType.QUEST)))));
     }
 
     @Test

@@ -2,7 +2,7 @@ package com.darrenswhite.rs.ironquest.quest.reward;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.darrenswhite.rs.ironquest.player.Player;
@@ -47,7 +47,7 @@ class LampRewardTest {
 
       Set<Set<Skill>> choices = lampReward.getChoices(player, Collections.emptySet());
 
-      assertThat(choices, equalTo(Set.of(Set.of(Skill.MAGIC))));
+      assertThat(choices, is(Set.of(Set.of(Skill.MAGIC))));
     }
 
     @Test
@@ -71,7 +71,7 @@ class LampRewardTest {
 
       Set<Set<Skill>> choices = lampReward.getChoices(player, Collections.emptySet());
 
-      assertThat(choices, equalTo(Set.of(Set.of(Skill.ATTACK, Skill.DEFENCE))));
+      assertThat(choices, is(Set.of(Set.of(Skill.ATTACK, Skill.DEFENCE))));
     }
 
     @Test
@@ -85,7 +85,7 @@ class LampRewardTest {
       Set<Set<Skill>> choices = lampReward
           .getChoices(player, Set.of(Set.of(Skill.ATTACK, Skill.DEFENCE)));
 
-      assertThat(choices, equalTo(Set.of(Set.of(Skill.STRENGTH, Skill.CONSTITUTION))));
+      assertThat(choices, is(Set.of(Set.of(Skill.STRENGTH, Skill.CONSTITUTION))));
     }
   }
 
@@ -116,7 +116,7 @@ class LampRewardTest {
 
       double actualXp = lampReward.getXpForSkills(player, skills);
 
-      assertThat(actualXp, equalTo(expectedXp));
+      assertThat(actualXp, is(expectedXp));
     }
 
     Stream<Arguments> shouldReturnXpForLamp() {
@@ -162,7 +162,7 @@ class LampRewardTest {
       LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(100)
           .withRequirements(Collections.emptyMap()).build();
 
-      assertThat(lampReward.meetsRequirements(player), equalTo(true));
+      assertThat(lampReward.meetsRequirements(player), is(true));
     }
 
     @ParameterizedTest
@@ -177,7 +177,7 @@ class LampRewardTest {
       LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(100)
           .withRequirements(Map.of(Set.of(Skill.INVENTION), 1)).build();
 
-      assertThat(lampReward.meetsRequirements(player), equalTo(meetsRequirements));
+      assertThat(lampReward.meetsRequirements(player), is(meetsRequirements));
     }
 
     Stream<Arguments> shouldCheckEliteSkillHasMissingRequirements() {
@@ -196,7 +196,7 @@ class LampRewardTest {
       LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(100)
           .withRequirements(Map.of(Set.of(Skill.HERBLORE), 80)).build();
 
-      assertThat(lampReward.meetsRequirements(player), equalTo(false));
+      assertThat(lampReward.meetsRequirements(player), is(false));
     }
   }
 

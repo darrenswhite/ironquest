@@ -1,7 +1,7 @@
 package com.darrenswhite.rs.ironquest.player;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 import com.darrenswhite.rs.ironquest.quest.Quest;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -17,8 +17,8 @@ public class QuestEntryTest {
     void shouldSetDefaultPriorityAndStatus() {
       QuestEntry questEntry = new QuestEntry(null);
 
-      assertThat(questEntry.getPriority(), equalTo(QuestPriority.NORMAL));
-      assertThat(questEntry.getStatus(), equalTo(QuestStatus.NOT_STARTED));
+      assertThat(questEntry.getPriority(), is(QuestPriority.NORMAL));
+      assertThat(questEntry.getStatus(), is(QuestStatus.NOT_STARTED));
     }
   }
 

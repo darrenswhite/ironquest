@@ -1,7 +1,7 @@
 package com.darrenswhite.rs.ironquest.path;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 import com.darrenswhite.rs.ironquest.path.algorithm.DefaultAlgorithm;
 import com.darrenswhite.rs.ironquest.player.Player;
@@ -27,7 +27,7 @@ class QuestIteratorTest {
       Player player = new Player.Builder().withQuests(quests).build();
       QuestIterator iterator = new QuestIterator(player, new DefaultAlgorithm());
 
-      assertThat(iterator.hasNext(), equalTo(hasNext));
+      assertThat(iterator.hasNext(), is(hasNext));
     }
 
     Stream<Arguments> shouldReturnHighestPriorityQuest() {

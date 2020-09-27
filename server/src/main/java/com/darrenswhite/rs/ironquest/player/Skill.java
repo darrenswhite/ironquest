@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 public enum Skill {
 
   AGILITY(17, SkillType.SUPPORT, true),
+  ARCHAEOLOGY(28, SkillType.GATHERING, true, 120),
   ATTACK(1, SkillType.COMBAT, false),
   CONSTITUTION(4, SkillType.COMBAT, false),
   CONSTRUCTION(23, SkillType.ARTISAN, true),

@@ -2,8 +2,8 @@ package com.darrenswhite.rs.ironquest.quest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 import com.darrenswhite.rs.ironquest.player.Skill;
@@ -124,8 +124,8 @@ class QuestRepositoryTest {
                   new QuestRequirement.Builder(questC).build())).withSkills(
               Set.of(new SkillRequirement.Builder().withLevel(30).withSkill(Skill.HERBLORE).build(),
                   new SkillRequirement.Builder().withLevel(50).withSkill(Skill.RANGED).build()))
-              .build()).withRewards(new QuestRewards.Builder()
-          .withLamps(Set.of(new LampReward.Builder().withType(LampType.SMALL_XP).build(),
+              .build()).withRewards(new QuestRewards.Builder().withLamps(
+          Set.of(new LampReward.Builder().withType(LampType.SMALL_XP).build(),
               new LampReward.Builder()
                   .withRequirements(Map.of(Set.of(Skill.MINING, Skill.SMITHING), 10))
                   .withSingleChoice(true).withType(LampType.XP).withXp(1000).build(),
@@ -134,7 +134,7 @@ class QuestRepositoryTest {
                   .build(), new LampReward.Builder().withType(LampType.DRAGONKIN).build(),
               new LampReward.Builder().withRequirements(
                   Map.ofEntries(Map.entry(Set.of(Skill.AGILITY), 20),
-                      Map.entry(Set.of(Skill.ATTACK), 20),
+                      Map.entry(Set.of(Skill.ARCHAEOLOGY), 20), Map.entry(Set.of(Skill.ATTACK), 20),
                       Map.entry(Set.of(Skill.CONSTITUTION), 20),
                       Map.entry(Set.of(Skill.CONSTRUCTION), 20),
                       Map.entry(Set.of(Skill.COOKING), 20), Map.entry(Set.of(Skill.CRAFTING), 20),
@@ -152,12 +152,12 @@ class QuestRepositoryTest {
                       Map.entry(Set.of(Skill.THIEVING), 20),
                       Map.entry(Set.of(Skill.WOODCUTTING), 20))).withType(LampType.XP).withXp(1000)
                   .build(), new LampReward.Builder().withRequirements(Map.of(
-                  Set.of(Skill.AGILITY, Skill.ATTACK, Skill.CONSTITUTION, Skill.CONSTRUCTION,
-                      Skill.COOKING, Skill.CRAFTING, Skill.DEFENCE, Skill.DIVINATION,
-                      Skill.DUNGEONEERING, Skill.FARMING, Skill.FIREMAKING, Skill.FISHING,
-                      Skill.FLETCHING, Skill.HERBLORE, Skill.HUNTER, Skill.INVENTION, Skill.MAGIC,
-                      Skill.MINING, Skill.PRAYER, Skill.RANGED, Skill.RUNECRAFTING, Skill.SLAYER,
-                      Skill.SMITHING, Skill.STRENGTH, Skill.SUMMONING, Skill.THIEVING,
+                  Set.of(Skill.AGILITY, Skill.ARCHAEOLOGY, Skill.ATTACK, Skill.CONSTITUTION,
+                      Skill.CONSTRUCTION, Skill.COOKING, Skill.CRAFTING, Skill.DEFENCE,
+                      Skill.DIVINATION, Skill.DUNGEONEERING, Skill.FARMING, Skill.FIREMAKING,
+                      Skill.FISHING, Skill.FLETCHING, Skill.HERBLORE, Skill.HUNTER, Skill.INVENTION,
+                      Skill.MAGIC, Skill.MINING, Skill.PRAYER, Skill.RANGED, Skill.RUNECRAFTING,
+                      Skill.SLAYER, Skill.SMITHING, Skill.STRENGTH, Skill.SUMMONING, Skill.THIEVING,
                       Skill.WOODCUTTING), 10)).withType(LampType.XP).withXp(100).build()))
           .withQuestPoints(3).build()).withTitle("Title 2").withDisplayName("Display Name 2")
           .withType(QuestType.MINIQUEST).build();
@@ -226,8 +226,8 @@ class QuestRepositoryTest {
       });
       String expectedJson = OBJECT_MAPPER.writeValueAsString(expected);
 
-      assertThat(expectedQuestRepository.getQuests(), equalTo(actualQuests));
-      assertThat(actualJson, equalTo(expectedJson));
+      assertThat(expectedQuestRepository.getQuests(), is(actualQuests));
+      assertThat(actualJson, is(expectedJson));
     }
 
     Stream<Arguments> shouldConvertBackToValidJSON() {
