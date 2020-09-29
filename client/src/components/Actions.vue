@@ -81,7 +81,7 @@
             >
               <template v-for="cell in row">
                 <td :key="`${cell}-name`">
-                  {{ capitalize(row[0]) }}
+                  {{ capitalize(cell) }}
                 </td>
                 <td :key="`${cell}-level`">
                   {{ get(selectedAction.player.levels, cell) }}
