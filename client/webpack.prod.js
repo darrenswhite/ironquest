@@ -10,7 +10,14 @@ const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const common = require('./webpack.common.js');
 
-module.exports = merge.smart(common.webpack, {
+module.exports = merge.mergeWithCustomize({
+  customizeArray: merge.customizeArray({
+    'entry.*': 'append'
+  }),
+  customizeObject: merge.customizeObject({
+    entry: 'append'
+  })
+})(common.webpack, {
   mode: 'production',
   optimization: {
     mangleWasmImports: true,

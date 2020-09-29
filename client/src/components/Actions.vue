@@ -79,20 +79,33 @@
               v-for="(row, index) in SKILLS_TABLE"
               :key="index"
             >
-              <td>{{ capitalize(row[0]) }}:</td>
-              <td>{{ get(selectedAction.player.levels, row[0]) }}</td>
-              <td>{{ capitalize(row[1]) }}:</td>
-              <td>{{ get(selectedAction.player.levels, row[1]) }}</td>
-              <td>{{ capitalize(row[2]) }}:</td>
-              <td>{{ get(selectedAction.player.levels, row[2]) }}</td>
+              <template v-for="cell in row">
+                <td :key="`${cell}-name`">
+                  {{ capitalize(row[0]) }}</td>
+                <td :key="`${cell}-level`">
+                  {{ get(selectedAction.player.levels, cell) }}
+                </td>
+              </template>
             </tr>
             <tr>
-              <td>Total level:</td>
-              <td>{{ selectedAction.player.totalLevel }}</td>
-              <td>Combat level:</td>
-              <td>{{ selectedAction.player.combatLevel }}</td>
-              <td>Quest points:</td>
-              <td>{{ selectedAction.player.questPoints }}</td>
+              <td>
+                Total level
+              </td>
+              <td>
+                {{ selectedAction.player.totalLevel }}
+              </td>
+              <td>
+                Combat level
+              </td>
+              <td>
+                {{ selectedAction.player.combatLevel }}
+              </td>
+              <td>
+                Quest points
+              </td>
+              <td>
+                {{ selectedAction.player.questPoints }}
+              </td>
             </tr>
             <tr
               v-if="

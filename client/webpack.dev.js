@@ -2,7 +2,14 @@ const merge = require('webpack-merge');
 const webpack = require('webpack');
 const common = require('./webpack.common.js');
 
-module.exports = merge.smart(common.webpack, {
+module.exports = merge.mergeWithCustomize({
+  customizeArray: merge.customizeArray({
+    'entry.*': 'append'
+  }),
+  customizeObject: merge.customizeObject({
+    entry: 'append'
+  })
+})(common.webpack, {
   mode: 'development',
   devtool: 'cheap-module-eval-source-map',
   devServer: {
@@ -11,6 +18,7 @@ module.exports = merge.smart(common.webpack, {
     disableHostCheck: true,
     hot: true,
     open: false,
+    overlay: true,
     port: 8081,
     writeToDisk: true,
   },

@@ -35,8 +35,6 @@ export class Controller {
   }
 
   static registerTray(): void {
-    /* eslint-disable @typescript-eslint/camelcase */
-
     overwolf.os.tray.setMenu(
       {
         menu_items: map(Controller.MENU, item => ({
