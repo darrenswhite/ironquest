@@ -10,7 +10,7 @@
     "compile": "webpack --config webpack.prod.js --progress --colors",
     "dev": "webpack-dev-server --config webpack.dev.js --progress --colors",
     "fix": "concurrently \"eslint --fix '**/*.{ts,vue}'\" \"stylelint --fix '**/*.{scss,vue}'\"",
-    "lint": "concurrently --kill-others-on-fail \"eslint '**/*.{ts,vue}'\" \"stylelint '**/*.{scss,vue}'\"",
+    "lint": "concurrently --kill-others-on-fail \"eslint '**/*.{ts,vue}' --max-warnings=0\" \"stylelint '**/*.{scss,vue}' --max-warnings=0\"",
     "prepare": "npm run tsc",
     "pretest": "npm run tsc",
     "posttest": "npm run lint",
