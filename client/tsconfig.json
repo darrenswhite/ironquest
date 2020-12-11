@@ -23,7 +23,8 @@
     "target": "es5",
     "types": [
       "jest",
-      "@overwolf/types"
+      "@overwolf/types",
+      "vuetify"
     ]
   },
   "exclude": ["node_modules"],

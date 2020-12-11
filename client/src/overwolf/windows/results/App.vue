@@ -3,12 +3,8 @@
     <v-main>
       <actions>
         <div class="settings">
-          <v-btn @click="run">
-            Refresh
-          </v-btn>
-          <v-btn @click="showSettings">
-            Settings
-          </v-btn>
+          <v-btn @click="run"> Refresh </v-btn>
+          <v-btn @click="showSettings"> Settings </v-btn>
         </div>
       </actions>
     </v-main>

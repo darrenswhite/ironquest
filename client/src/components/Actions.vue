@@ -1,23 +1,10 @@
 <template>
-  <v-container
-    v-if="loading"
-    fluid
-    fill-height
-  >
-    <v-row
-      justify="center"
-      align="center"
-    >
-      <v-progress-circular
-        indeterminate
-        color="primary"
-      />
+  <v-container v-if="loading" fluid fill-height>
+    <v-row justify="center" align="center">
+      <v-progress-circular indeterminate color="primary" />
     </v-row>
   </v-container>
-  <v-container
-    v-else
-    fluid
-  >
+  <v-container v-else fluid>
     <v-row v-if="path">
       <v-col>
         <v-chip color="green">
@@ -35,20 +22,9 @@
       <p>None</p>
     </v-row>
     <v-row v-if="path && path.actions">
-      <v-col
-        cols="12"
-        md="6"
-        lg="6"
-        xl="6"
-      >
-        <v-list
-          class="actions-list"
-          dense
-        >
-          <v-list-item-group
-            v-model="selectedAction"
-            mandatory
-          >
+      <v-col cols="12" md="6" lg="6" xl="6">
+        <v-list class="actions-list" dense>
+          <v-list-item-group v-model="selectedAction" mandatory>
             <v-list-item
               v-for="(action, i) in path.actions"
               :key="i"
@@ -75,10 +51,7 @@
       >
         <v-simple-table dense>
           <tbody>
-            <tr
-              v-for="(row, index) in SKILLS_TABLE"
-              :key="index"
-            >
+            <tr v-for="(row, index) in SKILLS_TABLE" :key="index">
               <template v-for="cell in row">
                 <td :key="`${cell}-name`">
                   {{ capitalize(cell) }}
@@ -89,40 +62,23 @@
               </template>
             </tr>
             <tr>
-              <td>
-                Total level
-              </td>
+              <td>Total level</td>
               <td>
                 {{ selectedAction.player.totalLevel }}
               </td>
-              <td>
-                Combat level
-              </td>
+              <td>Combat level</td>
               <td>
                 {{ selectedAction.player.combatLevel }}
               </td>
-              <td>
-                Quest points
-              </td>
+              <td>Quest points</td>
               <td>
                 {{ selectedAction.player.questPoints }}
               </td>
             </tr>
-            <tr
-              v-if="
-                selectedAction.type === 'QUEST' ||
-                  selectedAction.type === 'LAMP'
-              "
-            >
-              <td
-                colspan="6"
-                class="view-quest"
-              >
+            <tr v-if="showViewQuest(selectedAction)">
+              <td colspan="6" class="view-quest">
                 <a
-                  :href="
-                    RUNESCAPE_WIKI_URL +
-                      selectedAction.quest.displayName.replace(/ /g, '_')
-                  "
+                  :href="getActionQuestUrl(selectedAction)"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -139,10 +95,7 @@
         <slot />
       </v-col>
     </v-row>
-    <v-row
-      justify="center"
-      align="center"
-    >
+    <v-row justify="center" align="center">
       <v-alert
         :value="error"
         type="error"
@@ -151,9 +104,7 @@
         prominent
       >
         <v-row align="center">
-          <v-col class="grow">
-            Something went wrong!
-          </v-col>
+          <v-col class="grow"> Something went wrong! </v-col>
           <v-col class="shrink">
             <v-btn
               :href="NEW_ISSUE_URL"
@@ -164,10 +115,7 @@
             </v-btn>
           </v-col>
         </v-row>
-        <v-row
-          v-if="errorResponse"
-          align="center"
-        >
+        <v-row v-if="errorResponse" align="center">
           <v-col>
             <v-expansion-panels>
               <v-expansion-panel>
@@ -191,7 +139,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Action, Skill} from '@/common/types';
+import {Action, ActionType, Skill} from '@/common/types';
 import {capitalize, get} from 'lodash';
 import {mapFields} from 'vuex-map-fields';
 import {ComputedMapper, RootState} from '@/store';
@@ -218,14 +166,9 @@ const SKILLS_TABLE = [
 
 export default Vue.extend({
   name: 'Actions',
-  data() {
-    return {
-      NEW_ISSUE_URL,
-      RUNESCAPE_WIKI_URL,
-      SKILLS_TABLE,
-    };
-  },
   computed: {
+    NEW_ISSUE_URL: () => NEW_ISSUE_URL,
+    SKILLS_TABLE: () => SKILLS_TABLE,
     mdiCheckboxMarkedCircle: () => mdiCheckboxMarkedCircle,
     ...(mapFields({
       error: 'actions.error',
@@ -238,22 +181,30 @@ export default Vue.extend({
   methods: {
     capitalize,
     get,
-    getActionIcon(action: Action) {
+    getActionIcon(action: Action): string {
       let icon = null;
 
       switch (action.type) {
-        case 'LAMP':
+        case ActionType.LAMP:
           icon = mdiChartBar;
           break;
-        case 'QUEST':
+        case ActionType.QUEST:
           icon = mdiCompassRose;
           break;
-        case 'TRAIN':
+        case ActionType.TRAIN:
           icon = mdiArrowUpBoldCircle;
           break;
       }
 
       return icon;
+    },
+    getActionQuestUrl(action: Action): string {
+      return RUNESCAPE_WIKI_URL + action.quest.displayName.replace(/ /g, '_');
+    },
+    showViewQuest(action: Action): boolean {
+      return (
+        action.type === ActionType.QUEST || action.type === ActionType.LAMP
+      );
     },
   },
 });

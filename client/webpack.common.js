@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
-const {filter, keys, map, mapValues} = require('lodash');
+const {filter, keys, map} = require('lodash');
 
 const CONFIGS = {
   web: {
@@ -84,13 +84,10 @@ const CONFIGS = {
   },
 };
 
-const APIS = {
-  local: JSON.stringify('http://localhost:8080/api'),
-  external: JSON.stringify('https://api.ironquest.co.uk/api'),
-};
+const DEFAULT_LOCAL_API = 'http://localhost:8080/api';
 
 const config = CONFIGS[process.env.TARGET] || CONFIGS.web;
-const api = APIS[process.env.API] || APIS.external;
+const api = process.env.API || DEFAULT_LOCAL_API;
 
 function entrypoints(options) {
   return map(config.entrypoints, (entrypoint, name) => {
@@ -197,7 +194,7 @@ module.exports = {
         __API__: api,
       }),
       new CopyWebpackPlugin({
-        patterns: config.copyPatterns
+        patterns: config.copyPatterns,
       }),
       new VuetifyLoaderPlugin(),
     ],
@@ -211,7 +208,7 @@ module.exports = {
     },
     output: {
       filename: 'js/[name].js',
-      path: config.outputPath
+      path: config.outputPath,
     },
     node: {
       setImmediate: false,

@@ -5,20 +5,10 @@
         <settings />
         <v-row>
           <v-col col="6">
-            <v-btn
-              block
-              @click="close"
-            >
-              Cancel
-            </v-btn>
+            <v-btn block @click="close"> Cancel </v-btn>
           </v-col>
           <v-col col="6">
-            <v-btn
-              block
-              @click="showResults"
-            >
-              Save
-            </v-btn>
+            <v-btn block @click="showResults"> Save </v-btn>
           </v-col>
         </v-row>
       </v-container>

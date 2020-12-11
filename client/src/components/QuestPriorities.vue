@@ -17,16 +17,9 @@
     deletable-chips
   >
     <template v-slot:selection="data">
-      <v-menu
-        right
-        offset-x
-      >
+      <v-menu right offset-x>
         <template v-slot:activator="{on}">
-          <v-chip
-            close
-            v-on="on"
-            @click:close="remove(data.item)"
-          >
+          <v-chip close v-on="on" @click:close="remove(data.item)">
             {{ `${data.item.displayName} (${capitalize(data.item.priority)})` }}
           </v-chip>
         </template>
@@ -47,11 +40,7 @@
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
-import {
-  Quest,
-  QuestPriorities,
-  QuestPriority,
-} from '@/common/types';
+import {Quest, QuestPriorities, QuestPriority} from '@/common/types';
 import {capitalize, debounce, find, keys, map, reduce} from 'lodash';
 import {mdiPriorityHigh} from '@mdi/js';
 import {ComputedMapper, RootState, constants} from '@/store';

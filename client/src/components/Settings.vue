@@ -20,22 +20,10 @@
         persistent-hint
         row
       >
-        <v-radio
-          label="All"
-          value="ALL"
-        />
-        <v-radio
-          label="Quests"
-          value="QUESTS"
-        />
-        <v-radio
-          label="Miniquests"
-          value="MINIQUESTS"
-        />
-        <v-radio
-          label="Sagas"
-          value="SAGAS"
-        />
+        <v-radio label="All" value="ALL" />
+        <v-radio label="Quests" value="QUESTS" />
+        <v-radio label="Miniquests" value="MINIQUESTS" />
+        <v-radio label="Sagas" value="SAGAS" />
       </v-radio-group>
     </v-row>
 
@@ -48,18 +36,9 @@
         persistent-hint
         row
       >
-        <v-radio
-          label="All"
-          value="ALL"
-        />
-        <v-radio
-          label="Free"
-          value="FREE"
-        />
-        <v-radio
-          label="Members"
-          value="MEMBERS"
-        />
+        <v-radio label="All" value="ALL" />
+        <v-radio label="Free" value="FREE" />
+        <v-radio label="Members" value="MEMBERS" />
       </v-radio-group>
     </v-row>
 
@@ -101,10 +80,7 @@
     </v-row>
 
     <v-row>
-      <quest-priorities
-        v-model="questPriorities"
-        class="mt-4"
-      />
+      <quest-priorities v-model="questPriorities" class="mt-4" />
     </v-row>
 
     <v-row>

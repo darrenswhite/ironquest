@@ -1,14 +1,7 @@
 declare module 'vuex-shared-mutations' {
   import {Plugin} from 'vuex';
 
-  export type Predicate =
-    | string[]
-    | ((mutation: {type: string; payload: unknown}, state: unknown) => void);
-
-  export interface Strategy {
-    addEventListener(fn: Function): unknown;
-    share(message: unknown): unknown;
-  }
+  export type Strategy = unknown;
 
   export interface Options {
     predicate: Predicate;
@@ -20,14 +13,10 @@ declare module 'vuex-shared-mutations' {
   export class BroadcastChannelStrategy implements Strategy {
     static available(): boolean;
     constructor(options: {key: string});
-    addEventListener(fn: Function): unknown;
-    share(message: unknown): unknown;
   }
 
   export class LocalStorageStratery implements Strategy {
     static available(): boolean;
     constructor(options: {key: string});
-    addEventListener(fn: Function): unknown;
-    share(message: unknown): unknown;
   }
 }

@@ -10,8 +10,5 @@ declare module 'vuex-map-fields' {
 
   export function getField<S>(state: S): unknown;
 
-  export function updateField<S>(
-    state: S,
-    options: UpdateFieldOptions
-  ): void;
+  export function updateField<S>(state: S, options: UpdateFieldOptions): void;
 }

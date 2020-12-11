@@ -14,13 +14,7 @@
           />
         </v-row>
         <v-row no-gutters>
-          <v-btn
-            block
-            class="mt-4"
-            @click="showResults"
-          >
-            Continue
-          </v-btn>
+          <v-btn block class="mt-4" @click="showResults"> Continue </v-btn>
         </v-row>
       </v-container>
     </v-main>

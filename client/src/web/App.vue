@@ -1,17 +1,10 @@
 <template>
   <v-app v-cloak>
-    <v-app-bar
-      app
-      dense
-    >
+    <v-app-bar app dense>
       <v-app-bar-nav-icon @click="drawer = !drawer" />
       <v-toolbar-title>IronQuest</v-toolbar-title>
     </v-app-bar>
-    <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      temporary
-    >
+    <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list dense>
         <v-list-item
           v-for="(item, index) in items"
@@ -34,48 +27,24 @@
     <v-main>
       <v-container fluid>
         <v-row>
-          <v-col
-            offset-lg="2"
-            lg="8"
-            offset-xl="2"
-            xl="8"
-          >
+          <v-col offset-lg="2" lg="8" offset-xl="2" xl="8">
             <settings />
           </v-col>
         </v-row>
         <v-row>
-          <v-col
-            offset-lg="2"
-            lg="8"
-            offset-xl="2"
-            xl="8"
-          >
-            <v-btn
-              :disabled="loading"
-              block
-              @click="run"
-            >
-              Run
-            </v-btn>
+          <v-col offset-lg="2" lg="8" offset-xl="2" xl="8">
+            <v-btn :disabled="loading" block @click="run"> Run </v-btn>
           </v-col>
         </v-row>
         <v-row>
-          <v-col
-            offset-lg="2"
-            lg="8"
-            offset-xl="2"
-            xl="8"
-          >
+          <v-col offset-lg="2" lg="8" offset-xl="2" xl="8">
             <actions />
           </v-col>
         </v-row>
       </v-container>
     </v-main>
     <v-footer padless>
-      <v-col
-        class="text-center"
-        cols="12"
-      >
+      <v-col class="text-center" cols="12">
         {{ new Date().getFullYear() }} — <strong>IronQuest</strong> created by
         Darren S. White
       </v-col>

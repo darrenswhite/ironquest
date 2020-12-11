@@ -4,11 +4,11 @@ const common = require('./webpack.common.js');
 
 module.exports = merge.mergeWithCustomize({
   customizeArray: merge.customizeArray({
-    'entry.*': 'append'
+    'entry.*': 'append',
   }),
   customizeObject: merge.customizeObject({
-    entry: 'append'
-  })
+    entry: 'append',
+  }),
 })(common.webpack, {
   mode: 'development',
   devtool: 'cheap-module-eval-source-map',
