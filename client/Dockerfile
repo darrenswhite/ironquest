@@ -21,6 +21,7 @@ WORKDIR /ironquest
 
 COPY . .
 COPY --from=deps /ironquest/node_modules ./node_modules
+ARG API
 RUN npm run build
 
 FROM node:14-alpine AS runner

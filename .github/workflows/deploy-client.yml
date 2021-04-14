@@ -30,7 +30,7 @@ jobs:
           run: gcloud auth configure-docker
         - name: Build and Push Container
           run: |-
-            docker build -t ${{ env.IMAGE_NAME }} client/
+            docker build -t ${{ env.IMAGE_NAME }} --build-arg API client/
             docker push ${{ env.IMAGE_NAME }}
           env:
             API: ${{ secrets.CLIENT_ENV_API }}
