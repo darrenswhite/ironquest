@@ -15,7 +15,7 @@
       <v-radio-group
         v-model="typeFilter"
         label="Type Filter"
-        hint="Filter by quests/miniquests/sagas."
+        hint="Filter by quests/miniquests/sagas. Any requirements will still be included regardless of the type selected."
         :prepend-icon="mdiCompassRose"
         persistent-hint
         row
