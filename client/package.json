@@ -8,7 +8,7 @@
     "dev": "webpack serve --config webpack.dev.js --progress --color",
     "format": "prettier --write .",
     "lint": "eslint . --max-warnings 0",
-    "lint:fix": "eslint . --fix",
+    "lint:fix": "eslint . --max-warnings 0 --fix",
     "start": "node serve.js",
     "test": "jest",
     "prepare": "husky install"
