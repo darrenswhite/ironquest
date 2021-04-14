@@ -139,7 +139,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Action, ActionType, Skill} from '@/common/types';
+import {
+  Action,
+  ActionType,
+  LampAction,
+  QuestAction,
+  Skill,
+} from '@/common/types';
 import {capitalize, get} from 'lodash';
 import {mapFields} from 'vuex-map-fields';
 import {ComputedMapper, RootState} from '@/store';
@@ -198,7 +204,7 @@ export default Vue.extend({
 
       return icon;
     },
-    getActionQuestUrl(action: Action): string {
+    getActionQuestUrl(action: LampAction | QuestAction): string {
       return RUNESCAPE_WIKI_URL + action.quest.displayName.replace(/ /g, '_');
     },
     showViewQuest(action: Action): boolean {

@@ -191,7 +191,7 @@ module.exports = {
       new CleanWebpackPlugin(),
       new VueLoaderPlugin(),
       new webpack.DefinePlugin({
-        __API__: api,
+        __API__: JSON.stringify(api),
       }),
       new CopyWebpackPlugin({
         patterns: config.copyPatterns,
