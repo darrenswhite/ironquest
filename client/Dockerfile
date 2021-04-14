@@ -1,21 +1,37 @@
-FROM node:12-alpine
+FROM node:14-alpine AS deps
 
-WORKDIR /home/ironquest
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
 
-COPY package*.json ./
+WORKDIR /ironquest
 
-RUN npm install
+COPY package.json package-lock.json ./
+RUN npm ci
 
-COPY . ./
+FROM node:14-alpine AS proddeps
 
-RUN npm run compile
+WORKDIR /ironquest
 
-RUN mkdir /tmp/ironquest && \
-    mv build package*.json serve.js /tmp/ironquest && \
-    rm -rf ./* && \
-    mv /tmp/ironquest/* . && \
-    rm -rf /tmp/ironquest
+COPY package.json package-lock.json ./
+RUN npm ci --only=production
 
-RUN npm install --only=production
+FROM node:14-alpine AS builder
+
+WORKDIR /ironquest
+
+COPY . .
+COPY --from=deps /ironquest/node_modules ./node_modules
+RUN npm run build
+
+FROM node:14-alpine AS runner
+
+WORKDIR /ironquest
+
+COPY --from=builder /ironquest/build ./build
+COPY --from=proddeps /ironquest/node_modules ./node_modules
+COPY --from=builder /ironquest/serve.js ./
+COPY --from=builder /ironquest/package.json ./
+
+EXPOSE 8081
 
 CMD [ "npm", "start" ]

@@ -17,7 +17,14 @@ module.exports = merge.mergeWithCustomize({
     entry: 'append',
   }),
 })(common.webpack, {
+  devtool: 'source-map',
   mode: 'production',
+  module: {
+    rules: [
+      common.tsLoader('tsconfig.prod.json'),
+      ...common.styleLoaders(true),
+    ],
+  },
   optimization: {
     mangleWasmImports: true,
     mergeDuplicateChunks: true,
@@ -35,6 +42,7 @@ module.exports = merge.mergeWithCustomize({
     removeAvailableModules: true,
     removeEmptyChunks: true,
     runtimeChunk: 'single',
+    sideEffects: false,
     splitChunks: {
       chunks: 'all',
       maxInitialRequests: Infinity,
@@ -52,13 +60,6 @@ module.exports = merge.mergeWithCustomize({
         },
       },
     },
-  },
-  devtool: 'source-map',
-  module: {
-    rules: [
-      common.tsLoader('tsconfig.prod.json'),
-      ...common.styleLoaders(true),
-    ],
   },
   output: {
     filename: 'js/[name].[chunkhash].js',
