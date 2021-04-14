@@ -1,0 +1,43 @@
+name: Deploy server
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'server/**'
+      - '!server/**.md'
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  SERVICE: ${{ secrets.GCP_SERVER_APP_NAME }}
+  IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_SERVER_APP_NAME }}:${{  github.sha }}
+  REGION: europe-west1
+
+jobs:
+    deploy:
+        name: Deploy to Google Cloud Run
+        runs-on: ubuntu-20.04
+        steps:
+        - uses: actions/checkout@v2
+        - name: Setup Cloud SDK
+          uses: google-github-actions/setup-gcloud@v0.2.0
+          with:
+            project_id: ${{ env.PROJECT_ID }}
+            service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+            export_default_credentials: true
+        - name: Authorize Docker push
+          run: gcloud auth configure-docker
+        - name: Build and Push Container
+          run: |-
+            docker build -t ${{ env.IMAGE_NAME }} server/
+            docker push ${{ env.IMAGE_NAME }}
+        - name: Deploy to Cloud Run
+          id: deploy
+          uses: google-github-actions/deploy-cloudrun@v0.4.0
+          with:
+            service: ${{ env.SERVICE }}
+            image: ${{ env.IMAGE_NAME }}
+            region: ${{ env.REGION }}
+        - name: Show Output
+          run: echo ${{ steps.deploy.outputs.url }}
