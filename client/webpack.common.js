@@ -1,12 +1,13 @@
 const path = require('path');
-const webpack = require('webpack');
+
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const {filter, keys, map} = require('lodash');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
-const {filter, keys, map} = require('lodash');
+const webpack = require('webpack');
 
 const CONFIGS = {
   web: {
@@ -148,7 +149,7 @@ function tsLoader(configFile) {
   return {
     test: /\.tsx?$/,
     loader: 'ts-loader',
-    exclude: /node_modules|vue\/src/,
+    exclude: /node_modules/,
     options: {
       appendTsSuffixTo: [/\.vue$/],
       configFile: configFile,
@@ -187,6 +188,10 @@ module.exports = {
         },
       ],
     },
+    output: {
+      filename: 'js/[name].js',
+      path: config.outputPath,
+    },
     plugins: [
       new CleanWebpackPlugin(),
       new VueLoaderPlugin(),
@@ -201,22 +206,17 @@ module.exports = {
     resolve: {
       alias: {
         vue$: 'vue/dist/vue.esm.js',
-        '@': path.resolve(__dirname, 'src'),
       },
-      extensions: ['.tsx', '.ts', '.js', '.vue'],
+      extensions: ['.ts', '.tsx', '.js', '.jsx', '.vue'],
+      fallback: {
+        setImmediate: false,
+        dgram: 'empty',
+        fs: 'empty',
+        net: 'empty',
+        tls: 'empty',
+        child_process: 'empty',
+      },
       symlinks: false,
-    },
-    output: {
-      filename: 'js/[name].js',
-      path: config.outputPath,
-    },
-    node: {
-      setImmediate: false,
-      dgram: 'empty',
-      fs: 'empty',
-      net: 'empty',
-      tls: 'empty',
-      child_process: 'empty',
     },
   },
 };

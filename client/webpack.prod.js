@@ -1,11 +1,12 @@
-const merge = require('webpack-merge');
-const webpack = require('webpack');
 const BrotliPlugin = require('brotli-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const {GenerateSW} = require('workbox-webpack-plugin');
+
 const common = require('./webpack.common.js');
 
 module.exports = merge.mergeWithCustomize({
@@ -24,20 +25,13 @@ module.exports = merge.mergeWithCustomize({
     minimizer: [
       new TerserPlugin({
         parallel: true,
-        sourceMap: true,
         terserOptions: {
           warnings: false,
         },
       }),
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorOptions: {
-          safe: true,
-          map: {
-            inline: false,
-          },
-        },
-      }),
+      new CssMinimizerPlugin(),
     ],
+    moduleIds: 'deterministic',
     removeAvailableModules: true,
     removeEmptyChunks: true,
     runtimeChunk: 'single',
@@ -70,7 +64,6 @@ module.exports = merge.mergeWithCustomize({
     filename: 'js/[name].[chunkhash].js',
   },
   plugins: [
-    new webpack.HashedModuleIdsPlugin(),
     ...common.entrypoints({
       inject: true,
       minify: {
@@ -85,7 +78,7 @@ module.exports = merge.mergeWithCustomize({
     new webpack.optimize.ModuleConcatenationPlugin(),
     new CompressionPlugin({
       algorithm: 'gzip',
-      filename: '[path].gz[query]',
+      filename: '[path][base].gz[query]',
       minRatio: 0.8,
       test: /\.(js|css|html|svg)$/i,
       threshold: 10240,
@@ -96,18 +89,15 @@ module.exports = merge.mergeWithCustomize({
       test: /\.(js|css|html|svg)$/i,
       threshold: 10240,
     }),
-    new SWPrecacheWebpackPlugin({
+    new GenerateSW({
       cacheId: 'ironquest',
-      dontCacheBustUrlsMatching: /\.\w{8}\./,
-      filename: 'service-worker.js',
-      minify: true,
-      staticFileGlobs: [
-        'build/**/*.{js,css,png,txt,map,html}',
-        'index.html',
-        'manifest.json',
-      ],
-      staticFileGlobsIgnorePatterns: [/\.map$/],
-      stripPrefix: 'build/',
+      clientsClaim: true,
+      dontCacheBustURLsMatching: /\.\w{8}\./,
+      modifyURLPrefix: {
+        'build/': '',
+      },
+      skipWaiting: true,
+      swDest: 'service-worker.js',
     }),
   ],
 });

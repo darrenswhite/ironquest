@@ -54,9 +54,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Actions from '@/components/Actions.vue';
-import Settings from '@/components/Settings.vue';
-import {constants} from '@/store';
+import Actions from '../components/Actions.vue';
+import Settings from '../components/Settings.vue';
+import {constants} from '../store';
 import {mapFields} from 'vuex-map-fields';
 import {
   mdiCurrencyUsdCircle,

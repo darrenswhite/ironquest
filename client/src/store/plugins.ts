@@ -1,6 +1,7 @@
-import {RootState} from './RootState';
 import VuexPersistence from 'vuex-persist';
+
 import {mutationsSharer} from './MutationsSharer';
+import {RootState} from './RootState';
 
 const vuexLocal = new VuexPersistence<RootState>({
   storage: window.localStorage,

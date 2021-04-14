@@ -4,7 +4,7 @@
     :items="quests"
     :loading="loading"
     :error="error"
-    :error-messages="errorResponse"
+    :error-messages="error ? 'Failed to load quests.' : null"
     item-text="displayName"
     item-value="id"
     label="Quest Priorities"
@@ -16,9 +16,9 @@
     chips
     deletable-chips
   >
-    <template v-slot:selection="data">
+    <template #selection="data">
       <v-menu right offset-x>
-        <template v-slot:activator="{on}">
+        <template #activator="{on}">
           <v-chip close v-on="on" @click:close="remove(data.item)">
             {{ `${data.item.displayName} (${capitalize(data.item.priority)})` }}
           </v-chip>
@@ -40,10 +40,10 @@
 
 <script lang="ts">
 import Vue, {PropType} from 'vue';
-import {Quest, QuestPriorities, QuestPriority} from '@/common/types';
+import {Quest, QuestPriorities, QuestPriority} from '../common/types';
 import {capitalize, debounce, find, keys, map, reduce} from 'lodash';
 import {mdiPriorityHigh} from '@mdi/js';
-import {ComputedMapper, RootState, constants} from '@/store';
+import {ComputedMapper, RootState, constants} from '../store';
 import {mapGetters, mapState} from 'vuex';
 
 const QUEST_PRIORITIES = [
@@ -76,7 +76,6 @@ export default Vue.extend({
     }),
     ...(mapState<RootState>({
       error: (state: RootState) => state.quests.error,
-      errorResponse: (state: RootState) => state.quests.errorResponse,
       loading: (state: RootState) => state.quests.loading,
       quests: (state: RootState) => state.quests.quests,
     }) as ComputedMapper<RootState['quests']>),

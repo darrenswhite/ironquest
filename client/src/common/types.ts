@@ -49,10 +49,6 @@ export interface Action {
   message: string;
 }
 
-export interface Quest {
-  displayName: string;
-}
-
 export interface LampAction extends Action {
   quest: Quest;
 }

@@ -4,7 +4,7 @@ import {
   Path,
   PathFinderParameters,
   Quest,
-} from '@/common/types';
+} from '../common/types';
 
 export interface RootState {
   actions: {

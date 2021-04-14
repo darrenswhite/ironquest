@@ -21,7 +21,6 @@ module.exports = {
   moduleDirectories: ['node_modules'],
   moduleFileExtensions: ['js', 'ts', 'vue'],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(css|sass|scss)$': 'identity-obj-proxy',
   },
   setupFiles: ['<rootDir>/jest.setup.ts'],

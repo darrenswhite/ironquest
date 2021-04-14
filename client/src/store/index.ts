@@ -1,3 +1,6 @@
+import axios from 'axios';
+import {extend, filter, head, map} from 'lodash';
+import qs from 'qs';
 import Vue from 'vue';
 import Vuex, {
   ActionContext,
@@ -6,6 +9,8 @@ import Vuex, {
   MutationTree,
   Store,
 } from 'vuex';
+import {getField, updateField} from 'vuex-map-fields';
+
 import {
   AjaxError,
   Path,
@@ -15,14 +20,11 @@ import {
   QuestAccessFilter,
   QuestPriority,
   QuestTypeFilter,
-} from '@/common/types';
-import {RootState} from './RootState';
+} from '../common/types';
+
 import constants from './constants';
-import axios from 'axios';
-import qs from 'qs';
-import {extend, filter, head, map} from 'lodash';
-import {getField, updateField} from 'vuex-map-fields';
 import {plugins} from './plugins';
+import {RootState} from './RootState';
 
 const QUESTS_URL = __API__ + '/quests';
 const PATH_FINDER_URL = QUESTS_URL + '/path';

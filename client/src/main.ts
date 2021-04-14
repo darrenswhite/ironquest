@@ -1,9 +1,10 @@
-import {store} from '@/store';
 import Vue, {VueConstructor} from 'vue';
 import Vuetify from 'vuetify/lib';
 import colors from 'vuetify/lib/util/colors';
 
-import '@/styles/base.scss';
+import {store} from './store';
+
+import './styles/base.scss';
 
 Vue.config.productionTip = false;
 

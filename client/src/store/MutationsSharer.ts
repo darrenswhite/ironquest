@@ -1,9 +1,10 @@
-import {RootState} from './RootState';
 import createMutationsSharer, {
   BroadcastChannelStrategy,
   LocalStorageStratery,
   Strategy,
 } from 'vuex-shared-mutations';
+
+import {RootState} from './RootState';
 
 function getStrategy(): Strategy {
   let strategy;

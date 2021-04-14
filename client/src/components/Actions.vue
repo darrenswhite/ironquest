@@ -145,10 +145,10 @@ import {
   LampAction,
   QuestAction,
   Skill,
-} from '@/common/types';
+} from '../common/types';
 import {capitalize, get} from 'lodash';
 import {mapFields} from 'vuex-map-fields';
-import {ComputedMapper, RootState} from '@/store';
+import {ComputedMapper, RootState} from '../store';
 import {
   mdiArrowUpBoldCircle,
   mdiChartBar,

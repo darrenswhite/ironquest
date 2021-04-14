@@ -27,7 +27,7 @@ export class Windows {
     return new Promise((resolve, reject) => {
       overwolf.windows.obtainDeclaredWindow(name, response => {
         if (response.success) {
-          resolve();
+          resolve(undefined);
         } else {
           reject(response);
         }
@@ -40,7 +40,7 @@ export class Windows {
       try {
         overwolf.windows.getWindowState(name, state => {
           if (state.success) {
-            resolve(state.window_state_ex);
+            resolve(state.window_state_ex as string);
           } else {
             reject(state);
           }

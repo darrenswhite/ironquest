@@ -1,6 +1,7 @@
-import {Hotkeys, Windows} from '@/overwolf/scripts';
-import {store} from '@/store';
 import {each, every, filter, find, isFunction, map, noop} from 'lodash';
+
+import {store} from '../../../store';
+import {Hotkeys, Windows} from '../../scripts';
 
 export class Controller {
   static readonly MENU = [

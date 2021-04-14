@@ -1,5 +1,6 @@
-const merge = require('webpack-merge');
 const webpack = require('webpack');
+const merge = require('webpack-merge');
+
 const common = require('./webpack.common.js');
 
 module.exports = merge.mergeWithCustomize({
@@ -11,7 +12,7 @@ module.exports = merge.mergeWithCustomize({
   }),
 })(common.webpack, {
   mode: 'development',
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval-cheap-module-source-map',
   devServer: {
     clientLogLevel: 'warning',
     contentBase: './build',
@@ -25,9 +26,11 @@ module.exports = merge.mergeWithCustomize({
   module: {
     rules: [common.tsLoader('tsconfig.json'), ...common.styleLoaders(false)],
   },
+  optimization: {
+    moduleIds: 'named',
+  },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     ...common.entrypoints({
       inject: true,

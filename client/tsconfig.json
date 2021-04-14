@@ -13,19 +13,12 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "outDir": "build",
-    "paths": {
-      "@/*": ["src/*"]
-    },
     "pretty": true,
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
     "target": "es5",
-    "types": [
-      "jest",
-      "@overwolf/types",
-      "vuetify"
-    ]
+    "types": ["jest", "@overwolf/types", "vuetify"]
   },
   "exclude": ["node_modules"],
   "include": ["src/**/*.ts", "src/**/*.vue", "test/**/*.ts"]

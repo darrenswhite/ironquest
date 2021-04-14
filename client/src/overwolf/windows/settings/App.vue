@@ -18,9 +18,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Settings from '@/components/Settings.vue';
-import {Windows} from '@/overwolf/scripts';
-import {constants} from '@/store';
+import Settings from '../../../components/Settings.vue';
+import {Windows} from '../../scripts';
+import {constants} from '../../../store';
 
 export default Vue.extend({
   components: {

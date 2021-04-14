@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Windows} from '@/overwolf/scripts';
+import {Windows} from '../../scripts';
 import {mapFields} from 'vuex-map-fields';
 import {mdiAccount} from '@mdi/js';
 

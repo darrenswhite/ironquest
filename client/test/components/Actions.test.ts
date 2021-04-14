@@ -1,11 +1,12 @@
-import Vue from 'vue';
 import {createLocalVue, shallowMount} from '@vue/test-utils';
-import Vuex, {Store} from 'vuex';
+import Vue from 'vue';
 import Vuetify from 'vuetify';
+import Vuex, {Store} from 'vuex';
 import {getField, updateField} from 'vuex-map-fields';
-import Actions from '@/components/Actions.vue';
-import {RootState} from '@/store';
-import {QuestAccessFilter, QuestTypeFilter} from '@/common/types';
+
+import {QuestAccessFilter, QuestTypeFilter} from '../../src/common/types';
+import Actions from '../../src/components/Actions.vue';
+import {RootState} from '../../src/store';
 
 Vue.use(Vuetify);
 

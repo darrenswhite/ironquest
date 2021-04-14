@@ -102,7 +102,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {PathFinderAlgorithm, Skill} from '@/common/types';
+import {PathFinderAlgorithm, Skill} from '../common/types';
 import {capitalize, map, startCase, toLower} from 'lodash';
 import {mapFields} from 'vuex-map-fields';
 import {
@@ -114,7 +114,7 @@ import {
   mdiStar,
 } from '@mdi/js';
 import QuestPriorities from './QuestPriorities.vue';
-import {ComputedMapper, RootState} from '@/store';
+import {ComputedMapper, RootState} from '../store';
 
 const SKILLS = [
   Skill.AGILITY,
