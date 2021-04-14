@@ -42,7 +42,7 @@ module.exports = merge.mergeWithCustomize({
     removeAvailableModules: true,
     removeEmptyChunks: true,
     runtimeChunk: 'single',
-    sideEffects: false,
+    // sideEffects: false,
     splitChunks: {
       chunks: 'all',
       maxInitialRequests: Infinity,
@@ -76,7 +76,6 @@ module.exports = merge.mergeWithCustomize({
     new MiniCssExtractPlugin({
       filename: 'css/[name].[chunkhash].css',
     }),
-    new webpack.optimize.ModuleConcatenationPlugin(),
     new CompressionPlugin({
       algorithm: 'gzip',
       filename: '[path][base].gz[query]',
