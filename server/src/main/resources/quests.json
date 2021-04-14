@@ -3004,7 +3004,7 @@
   },
   {
     "access": "MEMBERS",
-    "displayName": "Abyss",
+    "displayName": "Enter the Abyss",
     "id": 88,
     "requirements": {
       "quests": [
@@ -3021,7 +3021,7 @@
         "RUNECRAFTING": 1000.0
       }
     },
-    "title": "Abyss (miniquest)",
+    "title": "Enter the Abyss (miniquest)",
     "type": "MINIQUEST"
   },
   {
