@@ -32,7 +32,7 @@ jobs:
           run: |-
             docker build -t ${{ env.IMAGE_NAME }} client/
             docker push ${{ env.IMAGE_NAME }}
-          with:
+          env:
             API: ${{ secrets.CLIENT_ENV_API }}
         - name: Deploy to Cloud Run
           id: deploy
