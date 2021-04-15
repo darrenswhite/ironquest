@@ -34,7 +34,7 @@ class LampActionTest {
     void shouldReturnCorrectType() {
       Quest quest = new Quest.Builder().build();
       Player player = new Player.Builder().build();
-      LampReward lampReward = new LampReward.Builder().build();
+      LampReward lampReward = new LampReward.Builder(0).build();
       Set<Skill> skills = Collections.emptySet();
 
       LampAction lampAction = new LampAction(player, false, quest, lampReward, skills);
@@ -56,7 +56,7 @@ class LampActionTest {
           .of(Skill.DEFENCE, 50000d, Skill.MAGIC, 750000d, Skill.RANGED, 1000000d, Skill.THIEVING,
               5000000d, Skill.HERBLORE, 9000000d);
       Player player = new Player.Builder().withSkillXps(skillXps).build();
-      LampReward lampReward = new LampReward.Builder().withType(lampType).withXp(xp)
+      LampReward lampReward = new LampReward.Builder(0).withType(lampType).withXp(xp)
           .withMultiplier(multiplier).build();
 
       LampAction lampAction = new LampAction(player, future, quest, lampReward, skills);
@@ -112,7 +112,7 @@ class LampActionTest {
     void shouldAddXPForEachSkillToPlayer() {
       Quest quest = new Quest.Builder().build();
       Player player = new Player.Builder().build();
-      LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(1000).build();
+      LampReward lampReward = new LampReward.Builder(0).withType(LampType.XP).withXp(1000).build();
       Set<Skill> skills = Set.of(Skill.DEFENCE, Skill.STRENGTH);
 
       LampAction lampAction = new LampAction(player, false, quest, lampReward, skills);
@@ -132,7 +132,7 @@ class LampActionTest {
       String displayName = "displayName";
       Quest quest = new Quest.Builder().withDisplayName(displayName).build();
       Player player = new Player.Builder().build();
-      LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(500).build();
+      LampReward lampReward = new LampReward.Builder(0).withType(LampType.XP).withXp(500).build();
       Set<Skill> skills = Set.of(Skill.PRAYER);
 
       LampAction lampAction = new LampAction(player, false, quest, lampReward, skills);
@@ -156,7 +156,7 @@ class LampActionTest {
       Player player = new Player.Builder().withName("original").build();
       Player playerToCopy = new Player.Builder().withName("copy").build();
 
-      LampReward lampReward = new LampReward.Builder().build();
+      LampReward lampReward = new LampReward.Builder(0).build();
       Set<Skill> skills = Set.of(Skill.ATTACK);
 
       LampAction lampAction = new LampAction(player, false, quest, lampReward, skills);

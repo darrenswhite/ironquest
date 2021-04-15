@@ -107,6 +107,7 @@ public class LampReward {
     DEFAULT_REQUIREMENTS = Collections.unmodifiableMap(defaultRequirements);
   }
 
+  private final int id;
   @JsonSerialize(using = LampRequirementsSerializer.class)
   private final Map<Set<Skill>, Integer> requirements;
   private final double xp;
@@ -116,12 +117,17 @@ public class LampReward {
   private final double multiplier;
 
   LampReward(Builder builder) {
+    this.id = builder.id;
     this.requirements = builder.requirements;
     this.xp = builder.xp;
     this.exclusive = builder.exclusive;
     this.type = builder.type;
     this.singleChoice = builder.singleChoice;
     this.multiplier = builder.multiplier;
+  }
+
+  public int getId() {
+    return id;
   }
 
   public Map<Set<Skill>, Integer> getRequirements() {
@@ -160,7 +166,7 @@ public class LampReward {
       return false;
     }
     LampReward that = (LampReward) o;
-    return Double.compare(that.xp, xp) == 0 && exclusive == that.exclusive
+    return that.id == id && Double.compare(that.xp, xp) == 0 && exclusive == that.exclusive
         && singleChoice == that.singleChoice && Double.compare(that.multiplier, multiplier) == 0
         && Objects.equals(requirements, that.requirements) && type == that.type;
   }
@@ -170,7 +176,7 @@ public class LampReward {
    */
   @Override
   public final int hashCode() {
-    return Objects.hash(requirements, xp, exclusive, type, singleChoice, multiplier);
+    return Objects.hash(id, requirements, xp, exclusive, type, singleChoice, multiplier);
   }
 
   /**
@@ -270,6 +276,7 @@ public class LampReward {
 
   public static class Builder {
 
+    private int id;
     @JsonDeserialize(using = LampRequirementsDeserializer.class)
     private Map<Set<Skill>, Integer> requirements = DEFAULT_REQUIREMENTS;
     private double xp;
@@ -277,6 +284,18 @@ public class LampReward {
     private LampType type;
     private boolean singleChoice;
     private double multiplier = 1;
+
+    public Builder() {
+    }
+
+    public Builder(int id) {
+      this.id = id;
+    }
+
+    public Builder withId(int id) {
+      this.id = id;
+      return this;
+    }
 
     public Builder withRequirements(Map<Set<Skill>, Integer> requirements) {
       this.requirements = requirements;
@@ -368,7 +387,7 @@ public class LampReward {
           if (levels.size() > 1) {
             provider.reportBadDefinition(handledType(), String.format(
                 "Invalid skill requirements, levels must match for requirements of any skill: %s",
-                requirements.toString()));
+                requirements));
           } else {
             jgen.writeNumberField(ANY_SKILL, levels.get(0));
           }

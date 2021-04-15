@@ -29,7 +29,7 @@ class PathTest {
     void shouldCreateWithCorrectFields() {
       Quest quest = new Quest.Builder().build();
       Player player = new Player.Builder().build();
-      LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(500).build();
+      LampReward lampReward = new LampReward.Builder(0).withType(LampType.XP).withXp(500).build();
       Set<Skill> skills = Set.of(Skill.HERBLORE);
       LampAction lampAction = new LampAction(player, false, quest, lampReward, skills);
       QuestAction questAction = new QuestAction(player, quest);

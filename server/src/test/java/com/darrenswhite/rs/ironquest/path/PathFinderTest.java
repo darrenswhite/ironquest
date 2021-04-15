@@ -53,7 +53,7 @@ class PathFinderTest {
     void shouldProcessFutureActions() throws QuestNotFoundException {
       Quest questWithXpLampReward = new Quest.Builder().withId(0)
           .withDisplayName("questWithXpLampReward").withRewards(new QuestRewards.Builder()
-              .withLamps(Set.of(new LampReward.Builder().withType(LampType.XP).withXp(1000)
+              .withLamps(Set.of(new LampReward.Builder(0).withType(LampType.XP).withXp(1000)
                   .withRequirements(Map.of(Set.of(Skill.ATTACK), 2)).build())).build()).build();
       Quest questCompleted = new Quest.Builder().withId(1).withDisplayName("questCompleted")
           .build();
@@ -83,7 +83,7 @@ class PathFinderTest {
     void shouldAddFutureActions() throws QuestNotFoundException {
       Quest questWithXpLampReward = new Quest.Builder().withId(0)
           .withDisplayName("questWithXpLampReward").withRewards(new QuestRewards.Builder()
-              .withLamps(Set.of(new LampReward.Builder().withType(LampType.XP).withXp(1000)
+              .withLamps(Set.of(new LampReward.Builder(0).withType(LampType.XP).withXp(1000)
                   .withRequirements(Map.of(Set.of(Skill.ATTACK), 2)).build())).build()).build();
       Quest questCompleted = new Quest.Builder().withId(1).withDisplayName("questCompleted")
           .build();

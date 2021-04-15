@@ -125,7 +125,7 @@ public class PlayerTest {
 
     @Test
     void shouldThrowExceptionWhenRequirementsNotMet() {
-      LampReward lampReward = new LampReward.Builder()
+      LampReward lampReward = new LampReward.Builder(0)
           .withRequirements(Map.of(Set.of(Skill.CRAFTING), 99)).withXp(100).withType(LampType.XP)
           .build();
       Player player = new Player.Builder().build();

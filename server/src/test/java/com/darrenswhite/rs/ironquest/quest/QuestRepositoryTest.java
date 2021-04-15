@@ -107,10 +107,10 @@ class QuestRepositoryTest {
           .withRewards(new QuestRewards.Builder().withQuestPoints(2).build()).withTitle("Title 0")
           .withDisplayName("Display Name 0").withType(QuestType.SAGA).build();
       Quest questC = new Quest.Builder(1).withAccess(QuestAccess.MEMBERS).withRewards(
-          new QuestRewards.Builder().withLamps(Set.of(new LampReward.Builder().withExclusive(true)
+          new QuestRewards.Builder().withLamps(Set.of(new LampReward.Builder(0).withExclusive(true)
               .withRequirements(Map.of(Set.of(Skill.ATTACK, Skill.DEFENCE), 1,
                   Set.of(Skill.CONSTITUTION, Skill.STRENGTH), 1)).withType(LampType.XP)
-              .withXp(35000).build(), new LampReward.Builder().withExclusive(true).withRequirements(
+              .withXp(35000).build(), new LampReward.Builder(1).withExclusive(true).withRequirements(
               Map.of(Set.of(Skill.ATTACK, Skill.DEFENCE), 1,
                   Set.of(Skill.CONSTITUTION, Skill.STRENGTH), 1)).withType(LampType.XP)
               .withXp(20000).build())).withQuestPoints(5).withXp(Map.of(Skill.STRENGTH, 3000d))
@@ -125,14 +125,14 @@ class QuestRepositoryTest {
               Set.of(new SkillRequirement.Builder().withLevel(30).withSkill(Skill.HERBLORE).build(),
                   new SkillRequirement.Builder().withLevel(50).withSkill(Skill.RANGED).build()))
               .build()).withRewards(new QuestRewards.Builder().withLamps(
-          Set.of(new LampReward.Builder().withType(LampType.SMALL_XP).build(),
-              new LampReward.Builder()
+          Set.of(new LampReward.Builder(0).withType(LampType.SMALL_XP).build(),
+              new LampReward.Builder(1)
                   .withRequirements(Map.of(Set.of(Skill.MINING, Skill.SMITHING), 10))
                   .withSingleChoice(true).withType(LampType.XP).withXp(1000).build(),
-              new LampReward.Builder().withMultiplier(1.5)
+              new LampReward.Builder(2).withMultiplier(1.5)
                   .withRequirements(Map.of(Set.of(Skill.AGILITY), 1)).withType(LampType.MEDIUM_XP)
-                  .build(), new LampReward.Builder().withType(LampType.DRAGONKIN).build(),
-              new LampReward.Builder().withRequirements(
+                  .build(), new LampReward.Builder(3).withType(LampType.DRAGONKIN).build(),
+              new LampReward.Builder(4).withRequirements(
                   Map.ofEntries(Map.entry(Set.of(Skill.AGILITY), 20),
                       Map.entry(Set.of(Skill.ARCHAEOLOGY), 20), Map.entry(Set.of(Skill.ATTACK), 20),
                       Map.entry(Set.of(Skill.CONSTITUTION), 20),
@@ -151,7 +151,7 @@ class QuestRepositoryTest {
                       Map.entry(Set.of(Skill.STRENGTH), 20), Map.entry(Set.of(Skill.SUMMONING), 20),
                       Map.entry(Set.of(Skill.THIEVING), 20),
                       Map.entry(Set.of(Skill.WOODCUTTING), 20))).withType(LampType.XP).withXp(1000)
-                  .build(), new LampReward.Builder().withRequirements(Map.of(
+                  .build(), new LampReward.Builder(5).withRequirements(Map.of(
                   Set.of(Skill.AGILITY, Skill.ARCHAEOLOGY, Skill.ATTACK, Skill.CONSTITUTION,
                       Skill.CONSTRUCTION, Skill.COOKING, Skill.CRAFTING, Skill.DEFENCE,
                       Skill.DIVINATION, Skill.DUNGEONEERING, Skill.FARMING, Skill.FIREMAKING,
@@ -183,10 +183,10 @@ class QuestRepositoryTest {
           .withRewards(new QuestRewards.Builder().withQuestPoints(2).build()).withTitle("Title 0")
           .withDisplayName("Display Name 0").withType(QuestType.SAGA).build();
       Quest questC = new Quest.Builder(1).withAccess(QuestAccess.MEMBERS).withRewards(
-          new QuestRewards.Builder().withLamps(Set.of(new LampReward.Builder().withExclusive(true)
+          new QuestRewards.Builder().withLamps(Set.of(new LampReward.Builder(0).withExclusive(true)
               .withRequirements(Map.of(Set.of(Skill.ATTACK, Skill.DEFENCE), 1,
                   Set.of(Skill.CONSTITUTION, Skill.STRENGTH), 1)).withType(LampType.XP)
-              .withXp(35000).build(), new LampReward.Builder().withExclusive(true).withRequirements(
+              .withXp(35000).build(), new LampReward.Builder(1).withExclusive(true).withRequirements(
               Map.of(Set.of(Skill.ATTACK, Skill.DEFENCE), 1,
                   Set.of(Skill.CONSTITUTION, Skill.STRENGTH), 1)).withType(LampType.XP)
               .withXp(20000).build())).withQuestPoints(5).withXp(Map.of(Skill.STRENGTH, 3000d))

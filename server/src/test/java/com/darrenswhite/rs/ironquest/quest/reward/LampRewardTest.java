@@ -28,7 +28,7 @@ class LampRewardTest {
     void shouldReturnEachSkillRequirement() {
       Player player = new Player.Builder().build();
 
-      LampReward lampReward = new LampReward.Builder().withRequirements(
+      LampReward lampReward = new LampReward.Builder(0).withRequirements(
           Map.of(Set.of(Skill.ATTACK, Skill.DEFENCE), 1, Set.of(Skill.SUMMONING, Skill.PRAYER), 1))
           .build();
 
@@ -42,7 +42,7 @@ class LampRewardTest {
     void shouldExcludeChoicesWithMissingLevelRequirements() {
       Player player = new Player.Builder().build();
 
-      LampReward lampReward = new LampReward.Builder()
+      LampReward lampReward = new LampReward.Builder(0)
           .withRequirements(Map.of(Set.of(Skill.COOKING), 2, Set.of(Skill.MAGIC), 1)).build();
 
       Set<Set<Skill>> choices = lampReward.getChoices(player, Collections.emptySet());
@@ -54,7 +54,7 @@ class LampRewardTest {
     void shouldReturnEachSkillRequirementAsSingletonWhenSingleChoice() {
       Player player = new Player.Builder().build();
 
-      LampReward lampReward = new LampReward.Builder().withSingleChoice(true)
+      LampReward lampReward = new LampReward.Builder(0).withSingleChoice(true)
           .withRequirements(Map.of(Set.of(Skill.ATTACK, Skill.DEFENCE), 1)).build();
 
       Set<Set<Skill>> choices = lampReward.getChoices(player, Collections.emptySet());
@@ -66,7 +66,7 @@ class LampRewardTest {
     void shouldReturnEachSkillRequirementWhenExclusive() {
       Player player = new Player.Builder().build();
 
-      LampReward lampReward = new LampReward.Builder().withExclusive(true)
+      LampReward lampReward = new LampReward.Builder(0).withExclusive(true)
           .withRequirements(Map.of(Set.of(Skill.ATTACK, Skill.DEFENCE), 1)).build();
 
       Set<Set<Skill>> choices = lampReward.getChoices(player, Collections.emptySet());
@@ -78,7 +78,7 @@ class LampRewardTest {
     void shouldExcludePreviousChoicesWhenExclusive() {
       Player player = new Player.Builder().build();
 
-      LampReward lampReward = new LampReward.Builder().withExclusive(true).withRequirements(
+      LampReward lampReward = new LampReward.Builder(0).withExclusive(true).withRequirements(
           Map.of(Set.of(Skill.ATTACK, Skill.DEFENCE), 1, Set.of(Skill.STRENGTH, Skill.CONSTITUTION),
               1)).build();
 
@@ -97,7 +97,7 @@ class LampRewardTest {
     void shouldThrowExceptionForDynamicLampWithMultipleSkills() {
       Player player = new Player.Builder().build();
 
-      LampReward lampReward = new LampReward.Builder().withType(LampType.SMALL_XP)
+      LampReward lampReward = new LampReward.Builder(0).withType(LampType.SMALL_XP)
           .withRequirements(Map.of(Set.of(Skill.ATTACK, Skill.DEFENCE), 1)).build();
 
       assertThrows(DynamicLampRewardException.class,
@@ -111,7 +111,7 @@ class LampRewardTest {
       Player player = new Player.Builder()
           .withSkillXps(Map.of(Skill.DIVINATION, Skill.MAX_XP, Skill.RANGED, 0d)).build();
 
-      LampReward lampReward = new LampReward.Builder().withType(lampType).withXp(xp)
+      LampReward lampReward = new LampReward.Builder(0).withType(lampType).withXp(xp)
           .withMultiplier(multiplier).withRequirements(requirements).build();
 
       double actualXp = lampReward.getXpForSkills(player, skills);
@@ -159,7 +159,7 @@ class LampRewardTest {
     void shouldReturnTrueWhenNoRequirements() {
       Player player = new Player.Builder().build();
 
-      LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(100)
+      LampReward lampReward = new LampReward.Builder(0).withType(LampType.XP).withXp(100)
           .withRequirements(Collections.emptyMap()).build();
 
       assertThat(lampReward.meetsRequirements(player), is(true));
@@ -174,7 +174,7 @@ class LampRewardTest {
               Skill.DIVINATION.getXpAtLevel(divinationLevel), Skill.SMITHING,
               Skill.SMITHING.getXpAtLevel(smithingLevel), Skill.INVENTION, 0d)).build();
 
-      LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(100)
+      LampReward lampReward = new LampReward.Builder(0).withType(LampType.XP).withXp(100)
           .withRequirements(Map.of(Set.of(Skill.INVENTION), 1)).build();
 
       assertThat(lampReward.meetsRequirements(player), is(meetsRequirements));
@@ -193,7 +193,7 @@ class LampRewardTest {
       Player player = new Player.Builder()
           .withSkillXps(Map.of(Skill.HERBLORE, Skill.HERBLORE.getXpAtLevel(79))).build();
 
-      LampReward lampReward = new LampReward.Builder().withType(LampType.XP).withXp(100)
+      LampReward lampReward = new LampReward.Builder(0).withType(LampType.XP).withXp(100)
           .withRequirements(Map.of(Set.of(Skill.HERBLORE), 80)).build();
 
       assertThat(lampReward.meetsRequirements(player), is(false));
