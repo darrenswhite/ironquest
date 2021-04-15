@@ -12867,5 +12867,56 @@
     },
     "title": "Desperate Measures",
     "type": "QUEST"
+  },
+  {
+    "access": "FREE",
+    "displayName": "Violet is Blue Too",
+    "id": 294,
+    "requirements": {
+      "quests": [
+        {
+          "quest": 240,
+          "ironman": false,
+          "recommended": true
+        }
+      ]
+    },
+    "rewards": {
+      "lamps": [
+        {
+          "exclusive": false,
+          "multiplier": 1.0,
+          "requirements": {
+            "*": 1
+          },
+          "singleChoice": false,
+          "type": "XP",
+          "xp": 4000.0
+        },
+        {
+          "exclusive": false,
+          "multiplier": 1.0,
+          "requirements": {
+            "*": 1
+          },
+          "singleChoice": false,
+          "type": "XP",
+          "xp": 4000.0
+        },
+        {
+          "exclusive": false,
+          "multiplier": 1.0,
+          "requirements": {
+            "*": 1
+          },
+          "singleChoice": false,
+          "type": "XP",
+          "xp": 4000.0
+        }
+      ],
+      "questPoints": 1
+    },
+    "title": "Violet is Blue Too",
+    "type": "QUEST"
   }
 ]
