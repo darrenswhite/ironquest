@@ -12918,5 +12918,27 @@
     },
     "title": "Violet is Blue Too",
     "type": "QUEST"
+  },
+  {
+    "access": "FREE",
+    "displayName": "Heartstealer",
+    "id": 295,
+    "rewards": {
+      "lamps": [
+        {
+          "exclusive": false,
+          "multiplier": 1.0,
+          "requirements": {
+            "THIEVING": 20
+          },
+          "singleChoice": false,
+          "type": "XP",
+          "xp": 2500.0
+        }
+      ],
+      "questPoints": 1
+    },
+    "title": "Heartstealer",
+    "type": "QUEST"
   }
 ]
