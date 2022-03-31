@@ -171,7 +171,7 @@
     <org.hamcrest.version>2.2</org.hamcrest.version>
     <org.jacoco.version>0.8.6</org.jacoco.version>
     <org.junit.jupiter.version>5.6.1</org.junit.jupiter.version>
-    <org.springframework.boot.version>2.2.6.RELEASE</org.springframework.boot.version>
+    <org.springframework.boot.version>2.5.12</org.springframework.boot.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>
