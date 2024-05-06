@@ -8163,17 +8163,18 @@
     "requirements": {
       "quests": [
         {
-          "quest": 16,
-          "ironman": false,
-          "recommended": false
-        },
-        {
           "quest": 131,
           "ironman": false,
           "recommended": false
         }
       ],
       "skills": [
+        {
+          "ironman": false,
+          "level": 3,
+          "recommended": false,
+          "skill": "HERBLORE"
+        },
         {
           "ironman": false,
           "level": 67,
@@ -8190,7 +8191,7 @@
           "ironman": false,
           "level": 70,
           "recommended": false,
-          "skill": "FIREMAKING"
+          "skill": "FISHING"
         }
       ]
     },
